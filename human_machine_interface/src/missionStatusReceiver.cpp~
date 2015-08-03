@@ -1,0 +1,335 @@
+/*
+  collector
+  Launch a ROS node to subscribe topics.
+  @author  Yolanda de la Hoz Simón
+  @date    03-2015
+  @version 1.0
+*/
+
+/*****************************************************************************
+** Includes
+*****************************************************************************/
+
+#include <ros/ros.h>
+#include <ros/network.h>
+#include <string>
+#include <std_msgs/String.h>
+#include <sstream>
+#include "../include/human_machine_interface/odometryStateReceiver.h"
+
+
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
+
+odometryStateReceiver::odometryStateReceiver(){}
+
+
+void odometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
+    // Topic communications
+    SimulatedStateSubs = nodeHandle.subscribe("/Simulated_state", 1, &odometryStateReceiver::simulatedStateCallback,this);
+    PoseChangesSubs = nodeHandle.subscribe("/Pose_changes", 1, &odometryStateReceiver::poseChangesCallback,this);
+    PerceivedStateError1Subs = nodeHandle.subscribe("/Perceived_state_error1", 1, &odometryStateReceiver::perceivedStateError1Callback,this);
+    PerceivedStateError2Subs = nodeHandle.subscribe("/Perceived_state_error2", 1, &odometryStateReceiver::perceivedStateError2Callback,this);
+    PerceivedStateError3Subs = nodeHandle.subscribe("/Perceived_state_error3", 1, &odometryStateReceiver::perceivedStateError3Callback,this);
+    PerceivedStateError4Subs = nodeHandle.subscribe("/Perceived_state_error4", 1, &odometryStateReceiver::perceivedStateError4Callback,this);
+    flightControllerSubs=nodeHandle.subscribe("/Action_request", 1, &odometryStateReceiver::actionRequestCallback,this);
+    UAVStateSubs=nodeHandle.subscribe("/UAV_state", 1, &odometryStateReceiver::uavStateCallback,this);
+    errorInformerSubs=nodeHandle.subscribe("/drone_0/error_informer", 1, &odometryStateReceiver::supervisorCallback,this);
+    watchdogSubs=nodeHandle.subscribe("/drone_0/watchdog_topic", 1, &odometryStateReceiver::watchdogCallback,this);
+    //Commands
+    DronePitchRollCmdSubs=nodeHandle.subscribe("drone0/command/pitch_roll", 1, &odometryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
+    DroneDAltitudeCmdSubs=nodeHandle.subscribe("drone0/command/dAltitude", 1, &odometryStateReceiver::droneDAltitudeCmdCallback, this);//command/dAltitude
+    DroneDYawCmdSubs=nodeHandle.subscribe("drone0/command/dYaw", 1, &odometryStateReceiver::droneDYawCmdCallback, this);//command/dYaw
+   //IMU
+    ImuSubs=nodeHandle.subscribe("drone0/imu", 1, &odometryStateReceiver::imuCallback, this);
+    MagnetometerSubs=nodeHandle.subscribe("drone0/magnetometer", 1, &odometryStateReceiver::magnetometerCallback, this);
+    BatterySubs=nodeHandle.subscribe("drone0/battery", 1, &odometryStateReceiver::batteryCallback, this);
+    AltitudeSubs=nodeHandle.subscribe("drone0/altitude", 1, &odometryStateReceiver::altitudeCallback, this);
+    RotationAnglesSubs=nodeHandle.subscribe("drone0/rotation_angles", 1, &odometryStateReceiver::rotationAnglesCallback, this);
+    GroundSpeedSubs=nodeHandle.subscribe("drone0/ground_speed", 1, &odometryStateReceiver::groundSpeedCallback, this);
+
+    droneStatusSubs=nodeHandle.subscribe("drone0/status", 1, &odometryStateReceiver::droneStatusCallback, this);
+    dronePositionSubs=nodeHandle.subscribe("/drone0/SOEstimatedPose", 1, &odometryStateReceiver::dronePositionCallback, this);
+    start();
+//    real_time=ros;
+}
+
+odometryStateReceiver::~odometryStateReceiver() {
+    if(ros::isStarted()) {
+      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
+      ros::waitForShutdown();
+    }
+	wait();
+}
+
+
+
+void odometryStateReceiver::run() {
+    ros::spin();
+    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+}
+
+
+void odometryStateReceiver::watchdogCallback(const cvg_stack_msgs::error_message::ConstPtr& msg){
+
+     description=   msg->description.c_str();
+    node_name=  msg->node_name.c_str();
+    if(msg->error_type.value==msg->error_type.FrozenNode)
+      error_type="FrozenNode";
+    if(msg->error_type.value==msg->error_type.InvalidInputData)
+      error_type="InvalidInputData";
+    if(msg->error_type.value==msg->error_type.SafeguardRecoverableError)
+      error_type="SafeguardRecoverableError";
+    if(msg->error_type.value==msg->error_type.SafeguarFatalError)
+      error_type="SafeguarFatalError";
+    if(msg->error_type.value==msg->error_type.UnexpectedNodeStop)
+      error_type="UnexpectedNodeStop";
+
+    hostname= msg->hostname.c_str();
+    location = msg->location.c_str();
+    supervisorStateTime = ros::Time::now().toSec();
+    Q_EMIT supervisorStateReceived();
+
+
+    ROS_INFO("Received description from /drone_0/watchdog_topic: [%s]", msg->description.c_str());
+    ROS_INFO("Received node_name from /drone_0/watchdog_topic: [%s]", msg->node_name.c_str());
+    ROS_INFO("Received hostname from /drone_0/watchdog_topic: [%s]", msg->hostname.c_str());
+    ROS_INFO("Received location from /drone_0/watchdog_topic: [%s]",  msg->location.c_str());
+
+}
+
+void odometryStateReceiver::imuCallback(const sensor_msgs::Imu::ConstPtr& msg)
+{
+    ImuMsgs=*msg;
+    return;
+}
+
+void  odometryStateReceiver::magnetometerCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg)
+{
+    MagnetometerMsgs=*msg;
+    return;
+}
+
+void  odometryStateReceiver::batteryCallback(const droneMsgsROS::battery::ConstPtr& msg)
+{
+    BatteryMsgs=*msg;
+    return;
+}
+
+void  odometryStateReceiver::altitudeCallback(const droneMsgsROS::droneAltitude::ConstPtr& msg)
+{
+    AltitudeMsgs=*msg;
+    return;
+}
+
+void  odometryStateReceiver::droneStatusCallback(const droneMsgsROS::droneStatus::ConstPtr& msg)
+{
+    droneStatusMsgs=*msg;
+    return;
+}
+
+void  odometryStateReceiver::rotationAnglesCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg)
+{
+    RotationAnglesMsgs=*msg;
+    ROS_INFO("Received roll from drone0/rotation_angles: [%f]", msg->vector.x);
+    ROS_INFO("Received pitch from drone0/rotation_angles: [%f]", msg->vector.y);
+    ROS_INFO("Received yaw from drone0/rotation_angles: [%f]", msg->vector.z);
+    return;
+}
+
+void  odometryStateReceiver::dronePositionCallback(const droneMsgsROS::dronePose::ConstPtr& msg)
+{
+    DronePoseMsgs=*msg;
+    ROS_INFO("Received roll from drone0/rotation_angles: [%f]", msg->x);
+    ROS_INFO("Received pitch from drone0/rotation_angles: [%f]", msg->y);
+    ROS_INFO("Received yaw from drone0/rotation_angles: [%f]", msg->z);
+    return;
+}
+
+void  odometryStateReceiver::groundSpeedCallback(const droneMsgsROS::vector2Stamped::ConstPtr& msg)
+{
+    GroundSpeedMsgs=*msg;
+    ROS_INFO("Received x speed from drone0/ground_speed: [%f]", msg->vector.x);
+    ROS_INFO("Received y speed from drone0/ground_speed: [%f]", msg->vector.y);
+    return;
+}
+
+void odometryStateReceiver::dronePitchRollCmdCallback(const droneMsgsROS::dronePitchRollCmd::ConstPtr& msg)
+{
+    DronePitchRollCmdMsgs=*msg;
+    ROS_INFO("Received rollCmd from command/pitch_roll: [%f]", msg->rollCmd);
+    ROS_INFO("Received pitchCmd from command/pitch_roll: [%f]", msg->pitchCmd);
+    Q_EMIT updateStatus();
+    return;
+
+}
+
+void odometryStateReceiver::droneDAltitudeCmdCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg)
+{
+    DroneDAltitudeCmdMsgs=*msg;
+    ROS_INFO("Received description from command/dAltitude: [%f]", msg->dAltitudeCmd);
+    return;
+}
+
+void odometryStateReceiver::droneDYawCmdCallback(const droneMsgsROS::droneDYawCmd::ConstPtr& msg)
+{
+    DroneDYawCmdMsgs=*msg;
+    ROS_INFO("Received description from command/dYaw: [%f]", msg->dYawCmd);
+
+    return;
+}
+
+
+
+
+void odometryStateReceiver::supervisorCallback(const cvg_stack_msgs::error_message::ConstPtr& msg){
+
+     description=   msg->description.c_str();
+    node_name=  msg->node_name.c_str();
+    if(msg->error_type.value==msg->error_type.FrozenNode)
+      error_type="FrozenNode";
+    if(msg->error_type.value==msg->error_type.InvalidInputData)
+      error_type="InvalidInputData";
+    if(msg->error_type.value==msg->error_type.SafeguardRecoverableError)
+      error_type="SafeguardRecoverableError";
+    if(msg->error_type.value==msg->error_type.SafeguarFatalError)
+      error_type="SafeguarFatalError";
+    if(msg->error_type.value==msg->error_type.UnexpectedNodeStop)
+      error_type="UnexpectedNodeStop";
+
+    hostname= msg->hostname.c_str();
+    location = msg->location.c_str();
+    supervisorStateTime = ros::Time::now().toSec();
+    Q_EMIT supervisorStateReceived();
+
+
+    ROS_INFO("Received description from /drone_0/error_informer: [%s]", msg->description.c_str());
+    ROS_INFO("Received node_name from /drone_0/error_informer: [%s]", msg->node_name.c_str());
+    ROS_INFO("Received hostname from /drone_0/error_informer: [%s]", msg->hostname.c_str());
+    ROS_INFO("Received location from /drone_0/error_informer: [%s]",  msg->location.c_str());
+
+}
+
+
+
+void odometryStateReceiver::actionRequestCallback(const common::ActionRequest::ConstPtr& msg){
+
+    if(msg->type==msg->FIND)
+     action="FIND";
+    if(msg->type==msg->TOUCH)
+     action="TOUCH";
+    if(msg->type==msg->GET_CLOSE)
+     action="GET_CLOSE";
+    if(msg->type==msg->LAND_BACK)
+     action="LAND_BACK";
+    if(msg->type==msg->LAND_FRONT)
+     action="LAND_FRONT";
+    if(msg->type==msg->HOVER)
+     action="HOVER";
+    Q_EMIT updateStatus();
+}
+
+void odometryStateReceiver::uavStateCallback(const common::UAVState::ConstPtr& msg) {
+   yaw=   msg->yaw;
+   pitch= msg->pitch;
+   roll=  msg->roll;
+   ROS_INFO("Received yaw from Simulated State topic: [%f]", yaw);
+   ROS_INFO("Received pitch from Simulated State topic: [%f]", pitch);
+   ROS_INFO("Received roll from Simulated State topic: [%f]", roll);
+   //ROS_INFO("Received posy from Simulated State topic: [%f]", posy);
+   //ROS_INFO("Received posz from Simulated State topic: [%f]", posz);
+  Q_EMIT updateStatus();
+
+}
+void odometryStateReceiver::simulatedStateCallback(const common::SimulatedState::ConstPtr& msg) {
+   posx=  msg->uav.position.x;
+   posy=  msg->uav.position.y;
+   posz=  msg->uav.position.z;
+   time=  msg->time;
+   Q_EMIT parameterReceived();
+
+   ROS_INFO("Received posx from Simulated State topic: [%f]", time);
+   ROS_INFO("Received posy from Simulated State topic: [%f]", posy);
+   ROS_INFO("Received posz from Simulated State topic: [%f]", posz);
+}
+
+void odometryStateReceiver::poseChangesCallback(const common::PoseChanges::ConstPtr& msg) {
+   accelx=  msg->dx;
+   accely=  msg->dy;
+   accelz=  msg->dy;
+   ROS_INFO("Received accelx from Pose Changes topic: [%f]", accelx);
+   ROS_INFO("Received accely from Pose Changes topic: [%f]", accely);
+   ROS_INFO("Received accelz from Pose Changes topic: [%f]", accelz);
+}
+
+void odometryStateReceiver::perceivedStateError1Callback(const common::PerceivedState::ConstPtr& msg) {
+    e1posx=  msg->uav.position.x;
+    e1posy=  msg->uav.position.y;
+    e1posz=  msg->uav.position.z;
+    ROS_INFO("Received posx from Perceived State topic: [%f]", e1posx);
+    ROS_INFO("Received posy from Perceived State topic: [%f]", e1posy);
+    ROS_INFO("Received posz from Perceived State topic: [%f]", e1posz);
+}void odometryStateReceiver::perceivedStateError2Callback(const common::PerceivedState::ConstPtr& msg) {
+    e2posx=  msg->uav.position.x;
+    e2posy=  msg->uav.position.y;
+    e2posz=  msg->uav.position.z;
+    ROS_INFO("Received posx from Perceived State topic: [%f]", e2posx);
+    ROS_INFO("Received posy from Perceived State topic: [%f]", e2posy);
+    ROS_INFO("Received posz from Perceived State topic: [%f]", e2posz);
+}void odometryStateReceiver::perceivedStateError3Callback(const common::PerceivedState::ConstPtr& msg) {
+    e3posx=  msg->uav.position.x;
+    e3posy=  msg->uav.position.y;
+    e3posz=  msg->uav.position.z;
+    ROS_INFO("Received posx from Perceived State topic: [%f]", e3posx);
+    ROS_INFO("Received posy from Perceived State topic: [%f]", e3posy);
+    ROS_INFO("Received posz from Perceived State topic: [%f]", e3posz);
+}void odometryStateReceiver::perceivedStateError4Callback(const common::PerceivedState::ConstPtr& msg) {
+    e4posx=  msg->uav.position.x;
+    e4posy=  msg->uav.position.y;
+    e4posz=  msg->uav.position.z;
+    ROS_INFO("Received posx from Perceived State topic: [%f]", e4posx);
+    ROS_INFO("Received posy from Perceived State topic: [%f]", e4posy);
+    ROS_INFO("Received posz from Perceived State topic: [%f]", e4posz);
+}
+
+
+
+
+void odometryStateReceiver::log( const LogLevel &level, const std::string &msg) {
+	logging_model.insertRows(logging_model.rowCount(),1);
+	std::stringstream logging_model_msg;
+	switch ( level ) {
+		case(Debug) : {
+				ROS_DEBUG_STREAM(msg);
+				logging_model_msg << "[DEBUG] [" << ros::Time::now() << "]: " << msg;
+				break;
+		}
+		case(Info) : {
+				ROS_INFO_STREAM(msg);
+				logging_model_msg << "[INFO] [" << ros::Time::now() << "]: " << msg;
+				break;
+		}
+		case(Warn) : {
+				ROS_WARN_STREAM(msg);
+				logging_model_msg << "[INFO] [" << ros::Time::now() << "]: " << msg;
+				break;
+		}
+		case(Error) : {
+				ROS_ERROR_STREAM(msg);
+				logging_model_msg << "[ERROR] [" << ros::Time::now() << "]: " << msg;
+				break;
+		}
+		case(Fatal) : {
+				ROS_FATAL_STREAM(msg);
+				logging_model_msg << "[FATAL] [" << ros::Time::now() << "]: " << msg;
+				break;
+		}
+	}
+	QVariant new_row(QString(logging_model_msg.str().c_str()));
+	logging_model.setData(logging_model.index(logging_model.rowCount()-1),new_row);
+	Q_EMIT loggingUpdated(); // used to readjust the scrollbar
+}
+
+

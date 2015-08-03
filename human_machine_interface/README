@@ -1,0 +1,45 @@
+
+-------------Download code and libraries----------------------------------------------------------------------------------
+
+Code project: 
+git clone https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/groundcontrolsystem.git
+
+The Human Machine Interface depends on ROS, Qt and OpenSceneGraph.
+
+ROS framework: 
+http://wiki.ros.org/indigo/Installation/Ubuntu
+
+Qt IDE:
+http://www.qt.io/download/
+
+OpenSceneGraph 3.2.2. 
+installation tutorial: https://bhattigurjot.wordpress.com/2013/12/27/openscenegraph-on-linux/
+
+
+
+-----------Compile and run the project---------------------------------------------------------------------------------------
+
+It is recommended install Qt environment to develop the project.
+
+-----------Compile the project in shell.
+
+Delete CMakeCache.txt in the folder you executing cmake.
+Initialize the catkin workspace.
+Execute cmake and make.
+
+-----------Compile the project using Qt IDE----------------------------------------------------------------------------------
+
+Create and initialize a catkin workspace.
+Erase symlink of CMakeLists.txt and make a hard copy instead.
+Load CMakeLists and run build option with Qt IDE.
+
+
+cd ./hmi_cvg_stack/human_machine_interface
+rm CMakeLists.txt
+cp /opt/ros/indigo/share/catkin/cmake/toplevel.cmake CMakeLists.txt
+cd ..
+source devel/setup.bash
+qtcreator
+
+Note:
+Before upload changes to bitbucket execute make clean.
