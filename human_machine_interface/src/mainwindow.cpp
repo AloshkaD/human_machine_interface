@@ -54,23 +54,18 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
      osg_uav->resize(320, 350);
 
      QDesktopWidget desktop;
-
      int desktopHeight=desktop.geometry().height();
      int desktopWidth=desktop.geometry().width();
      qDebug() << desktopHeight;
      qDebug() << desktopWidth;
 
-     if(desktopHeight<1240){ // UI design 1
-       osg_uav->resize(320, 250);
+     if(desktopHeight<=1024){ // UI design 1
+       osg_uav->resize(320, 300);
        osg_sphere->resize(320, 250);
+       ui->tab_dynamicView->setMaximumSize(QSize(350, 240));
        delete ui->panel_vehicle; // destroy the default panels
-       delete ui->panel_vehicle;
-
-     }else{// UI design 2
-
-
+       delete ui->panel_sphere;
      }
-
 
 
     // Mostraremos un nuevo frame cada 1 ms.
