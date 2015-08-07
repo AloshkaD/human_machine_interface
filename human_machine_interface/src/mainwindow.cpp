@@ -17,6 +17,10 @@
 #include <iostream>
 #include <qt4/Qt/qlabel.h>
 #include <qt4/Qt/qfiledialog.h>
+#include <qt4/Qt/qpixmap.h>
+#include <qt4/Qt/qsize.h>
+#include <qt4/Qt/qapplication.h>
+#include <qt4/Qt/qdesktopwidget.h>
 using namespace std;
 
 MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
@@ -30,6 +34,10 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     batteryCount=0;
     batteryText=70;
     timerSecond=00;
+    ignore_resize=0;
+    resize=0;
+    num_of_auto_ops=2;
+    max_osg_frame=0;
     timerMinutes=0;
 
     connection = new Connection(this,argc,argv);
@@ -41,9 +49,29 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
 
     // Redimensionamos el QOSGWidget al tamaño de los frames que queremos renderizar.
      osg_sphere= new SphereView(ui->sphereScene->buddy(),connection->telemetryReceiver);
-     osg_sphere->resize(300, 350);
+     osg_sphere->resize(320, 350);
      osg_uav= new uavScene(ui->vehicleScene->buddy(),connection->telemetryReceiver);
-     osg_uav->resize(300, 350);
+     osg_uav->resize(320, 350);
+
+     QDesktopWidget desktop;
+
+     int desktopHeight=desktop.geometry().height();
+     int desktopWidth=desktop.geometry().width();
+     qDebug() << desktopHeight;
+     qDebug() << desktopWidth;
+
+     if(desktopHeight<1240){ // UI design 1
+       osg_uav->resize(320, 250);
+       osg_sphere->resize(320, 250);
+       delete ui->panel_vehicle; // destroy the default panels
+       delete ui->panel_vehicle;
+
+     }else{// UI design 2
+
+
+     }
+
+
 
     // Mostraremos un nuevo frame cada 1 ms.
     timer = new QTimer(this);
@@ -68,20 +96,67 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     //collector.init();
 
 
+   old_height=this->height();
+}
 
+
+// reconstruir interfaz para dispositivo portatil
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+
+  /* QMainWindow::resizeEvent(event);
+   if((ignore_resize % num_of_auto_ops) == 0&&old_height!=this->height()){
+       if(ui->sphereScene->size().height()>=ui->vehicleScene->size().height()){
+          osg_uav->resize(ui->sphereScene->size());
+          osg_sphere->resize(ui->sphereScene->size());
+       }
+       if(ui->sphereScene->size().height()<=ui->vehicleScene->size().height()){
+           osg_sphere->resize(ui->vehicleScene->size());
+            osg_sphere->resize(320, (int)(ui->sphereScene->size().height()-resize));
+            osg_uav->resize(320,(int)(ui->sphereScene->size().height()-resize));
+            qDebug()<<"isMinimized";
+           osg_uav->resize(ui->vehicleScene->size());
+       }
+    ignore_resize = 0;
+   }
+   if(old_height>this->height()){
+              resize++;
+   }
+
+   ignore_resize++;
+   old_height=this->height();*/
 }
 
 void MainWindow::show_frame()
 {
+  /*  if(this->isMaximized()&&max_osg_frame!=1){
+
+        qDebug()<<"MAX";
+        if(ui->sphereScene->size().height()>ui->vehicleScene->size().height()){
+            osg_uav->resize(ui->sphereScene->size());
+            osg_sphere->resize(ui->sphereScene->size());
+        }
+        if(ui->sphereScene->size().height()<ui->vehicleScene->size().height()){
+            osg_sphere->resize(ui->vehicleScene->size());
+            osg_uav->resize(ui->vehicleScene->size());
+        }
+    }
+
+    if(max_osg_frame==1)
+        max_osg_frame=0;
+    max_osg_frame++;*/
+
     // Get the frame and visualize with a pixmap in a QLabel.
-     ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,false));
-     ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
+     ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,true));
+     ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,true));
+
 }
 
 void MainWindow::show_vehicle()
 {
     // Get the frame and visualize with a pixmap in a QLabel.
    //  ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
+
 }
 void MainWindow::setTimerInterval(double ms)
 {
@@ -189,62 +264,62 @@ void MainWindow::updateStatusBar() {
    if (connection->connectStatus){
 
    if(timerSecond<10)
-    ui->label_FligthTime->setText(QString::number(timerMinutes) + ":0" + QString::number(timerSecond+2));
+    ui->value_FligthTime->setText(QString::number(timerMinutes) + ":0" + QString::number(timerSecond+2));
    else
-    ui->label_FligthTime->setText(QString::number(timerMinutes) + ":" + QString::number(timerSecond+2));
+    ui->value_FligthTime->setText(QString::number(timerMinutes) + ":" + QString::number(timerSecond+2));
 
    if(timerMinutes==1)
-   ui->label_Warnings->setText(QString::number(3));
+   ui->value_Warnings->setText(QString::number(3));
    if(timerSecond==50)
-   ui->label_Errors->setText(QString::number(1));
+   ui->value_Errors->setText(QString::number(1));
    }
 
    switch(connection->telemetryReceiver->droneStatusMsgs.status)
    {
                case droneMsgsROS::droneStatus::UNKNOWN:
-                   ui->label_CurrentGoal->setText("Unknown"); //refresh();
+                   ui->value_currentGoal->setText("Unknown"); //refresh();
                    break;
                case droneMsgsROS::droneStatus::INITED:
-                   ui->label_CurrentGoal->setText("Init"); //refresh();
+                   ui->value_currentGoal->setText("Init"); //refresh();
                    break;
                case droneMsgsROS::droneStatus::LANDED:
-                   ui->label_CurrentGoal->setText("Landed"); //refresh();
+                   ui->value_currentGoal->setText("Landed"); //refresh();
                    break;
                case droneMsgsROS::droneStatus::FLYING:
-                   ui->label_CurrentGoal->setText("Flying"); //refresh();
+                   ui->value_currentGoal->setText("Flying"); //refresh();
                    break;
                case droneMsgsROS::droneStatus::HOVERING:
-                   ui->label_CurrentGoal->setText("Hovering"); //refresh();
+                   ui->value_currentGoal->setText("Hovering"); //refresh();
                    break;
                case droneMsgsROS::droneStatus::TAKING_OFF:
-                   ui->label_CurrentGoal->setText("Taking off"); //refresh();
+                   ui->value_currentGoal->setText("Taking off"); //refresh();
                    break;
                case droneMsgsROS::droneStatus::LANDING:
-                   ui->label_CurrentGoal->setText("Landing"); //refresh();
+                   ui->value_currentGoal->setText("Landing"); //refresh();
                    break;
                case droneMsgsROS::droneStatus::LOOPING:
-                   ui->label_CurrentGoal->setText("Looping"); //refresh();
+                   ui->value_currentGoal->setText("Looping"); //refresh();
    }
 
 
-   ui->label_battery->setText(QString::number(((double)((int)(connection->telemetryReceiver->BatteryMsgs.batteryPercent*100))/100)) +  "%");
+   ui->value_battery->setText(QString::number(((double)((int)(connection->telemetryReceiver->BatteryMsgs.batteryPercent*100))/100)) +  "%");
 
-   ui->label_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
-   ui->label_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
-   ui->label_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
-   ui->label_Yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.z*100)))/100) + "  deg");
-   ui->label_Roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.x*100)))/100) + "  deg");
-   ui->label_Pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.y*100)))/100) + "  deg");
+   ui->valueSphere_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
+   ui->valueSphere_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
+   ui->valueSphere_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
+   ui->valueSphere_yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.z*100)))/100) + "  deg");
+   ui->valueSphere_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.x*100)))/100) + "  deg");
+   ui->valueSphere_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.y*100)))/100) + "  deg");
 
 
 // vehicle
 
-   ui->label_X_2->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
-   ui->label_Y_2->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
-   ui->label_Z_2->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
-   ui->label_Yaw_2->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.z*100)))/100) + "  deg");
-   ui->label_Roll_2->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.x*100)))/100) + "  deg");
-   ui->label_Pitch_2->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.y*100)))/100) + "  deg");
+   ui->valueVehicle_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
+   ui->valueVehicle_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
+   ui->valueVehicle_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
+   ui->valueSphere_yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.z*100)))/100) + "  deg");
+   ui->valueSphere_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.x*100)))/100) + "  deg");
+   ui->valueSphere_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.y*100)))/100) + "  deg");
 }
 
 
@@ -261,7 +336,7 @@ void MainWindow::testConnection() {
         showNoMasterMessage();
     }else{
         showConnectionEstablished();
-        ui->label_Connection->setText("Connected");
+        ui->value_wifi->setText("Connected");
         //Initialize threads
         timerSecond=(int)connection->telemetryReceiver->time%60;
         timerMinutes=(int)connection->telemetryReceiver->time/60;

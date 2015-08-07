@@ -36,6 +36,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(int argc, char** argv,QWidget *parent = 0);
     ~MainWindow();
+
     SphereView *osg_sphere;
     uavScene *osg_uav;
     QTimer *timer;
@@ -44,6 +45,11 @@ public:
     int timerSecond;
     int timerMinutes;
     QString file_name;
+    int ignore_resize;
+    int max_osg_frame;
+    int num_of_auto_ops;
+    int old_height;
+    int resize;
 
 
 
@@ -96,6 +102,7 @@ Q_SIGNALS:
 
 protected:
     virtual void timerEvent(QTimerEvent *e);
+    void resizeEvent(QResizeEvent* event);
 
 private:
     Ui::MainWindow *ui;

@@ -37,6 +37,7 @@ class SphereView: public QGLWidget
 
     public:
         explicit SphereView(QWidget *parent, telemetryStateReceiver *telemetryReceiver=0);
+    void onResize( int width, int height );
 
     private:
         void initializeGL();

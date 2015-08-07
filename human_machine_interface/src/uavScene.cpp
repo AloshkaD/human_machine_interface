@@ -30,12 +30,23 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
     if(loadedModel.get()==NULL)
       qDebug()<<"NULL";
 
+    // Set camera
+    osg::Vec3d eye( 20.0, -20.0, 20.0 );
+    osg::Vec3d center( 0.0, 0.0, 0.0 );
+    osg::Vec3d up( 0.0, 0.0, 1.0 );
+
+
+    viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
+
+
    // Set the 3D mode as child of the transformation.
    auxTransformation->addChild(loadedModel.get());
 
    auxTransformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
    
    transformation->addChild(auxTransformation);
+
+
 
     // Rotation angle
     cow_rot = 0;
@@ -60,6 +71,7 @@ void uavScene::resizeGL(int width, int height)
         window->resized(window->getTraits()->x, window->getTraits()->y, width, height);
         window->getEventQueue()->windowResize(window->getTraits()->x, window->getTraits()->y, width, height);
     }
+
 }
 
 

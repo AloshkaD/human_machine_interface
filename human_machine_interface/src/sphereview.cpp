@@ -90,6 +90,7 @@ void SphereView::resizeGL(int width, int height)
         // TODO yolanda: send a signal to resize the widget to call this function.
         window->resized(window->getTraits()->x, window->getTraits()->y, width, height);
         window->getEventQueue()->windowResize(window->getTraits()->x, window->getTraits()->y, width, height);
+
     }
 }
 
@@ -103,9 +104,6 @@ void SphereView::paintGL()
     float yawAngle=osg::DegreesToRadians(telemReceiver->RotationAnglesMsgs.vector.z);
     float rollAngle=osg::DegreesToRadians(telemReceiver->RotationAnglesMsgs.vector.x);
 
-    qDebug()<<telemReceiver->RotationAnglesMsgs.vector.x;
-    qDebug()<<telemReceiver->RotationAnglesMsgs.vector.y;
-    qDebug()<<telemReceiver->RotationAnglesMsgs.vector.z;
 
     osg::Matrix pitchMatrix = osg::Matrix::rotate( pitchAngle, 1, 0, 0 );
     osg::Matrix yawMatrix = osg::Matrix::rotate( yawAngle, 0, 1, 0 );
