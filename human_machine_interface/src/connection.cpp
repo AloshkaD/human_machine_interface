@@ -16,6 +16,7 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
 {
     telemetryReceiver= new telemetryStateReceiver();
     odometryReceiver= new odometryStateReceiver();
+    imgReceiver = new imagesReceiver();
     usercommander= new UserCommander();
     ui->setupUi(this);
     connectStatus=false;
@@ -76,6 +77,7 @@ bool Connection::init(){
     telemetryReceiver->openGeneralSubscriptions(n);
     odometryReceiver->openGeneralSubscriptions(n);
     odometryReceiver->openSubscriptionsController(n);
+    imgReceiver->openSubscriptions(n);
     // Start command threads
     usercommander->openPublications(n);
     return true;

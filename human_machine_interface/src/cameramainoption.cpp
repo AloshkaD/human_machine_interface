@@ -1,8 +1,10 @@
 #include "../include/human_machine_interface/cameramainoption.h"
 #include "../../human_machine_interface-build/ui_cameramainoption.h"
 #include <QDebug>
+#include <qt4/Qt/qpushbutton.h>
+#include <qt4/Qt/qtextdocument.h>
 
-cameramainoption::cameramainoption(QWidget *parent) :
+cameramainoption::cameramainoption(QWidget *parent, imagesReceiver *imgReceiver) :
     QWidget(parent),
     ui(new Ui::cameramainoption)
 {
@@ -17,7 +19,27 @@ cameramainoption::cameramainoption(QWidget *parent) :
     connect(ui->imageCamera5, SIGNAL(clicked()), this, SLOT(changeCamera5()));
     connect(ui->imageCamera6, SIGNAL(clicked()), this, SLOT(changeCamera6()));
 
+    createPixmapsButton();
+
 }
+
+
+
+void cameramainoption::createPixmapsButton(){
+    QPixmap pixmap;
+    QIcon ButtonIcon(pixmap);
+    ui->imageCamera1->setIcon(ButtonIcon);
+    ui->imageCamera1->setIconSize(ui->imageCamera1->sizeHint());
+
+}
+
+
+void cameramainoption::receiveImages(){
+
+
+
+}
+
 
 void cameramainoption::swapWidgets(QPushButton* imageToSwap, QString titleToSwap){
 

@@ -38,6 +38,8 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
 
     viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
 
+    //viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.15f));
+
 
    // Set the 3D mode as child of the transformation.
    auxTransformation->addChild(loadedModel.get());
@@ -45,6 +47,10 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
    auxTransformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
    
    transformation->addChild(auxTransformation);
+
+
+
+
 
 
 

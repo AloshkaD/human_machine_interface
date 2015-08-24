@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "telemetryStateReceiver.h"
+#include "imagesreceiver.h"
 #include "usercommander.h"
 #include "perceptionview.h"
 #include "dinamicsview.h"
@@ -28,6 +29,7 @@ public:
 
         telemetryStateReceiver* telemetryReceiver;
         odometryStateReceiver* odometryReceiver;
+        imagesReceiver* imgReceiver;
 
         UserCommander* usercommander;
 

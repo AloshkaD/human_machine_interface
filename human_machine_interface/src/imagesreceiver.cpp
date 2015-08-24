@@ -20,7 +20,8 @@ imagesReceiver::imagesReceiver(){}
 void imagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
     // Topic communications
     image_transport::ImageTransport it_(nodeHandle);
-    image_sub_ = it_.subscribe("/openni2_camera/rgb/image_raw", 1,&imagesReceiver::imagesReceptionCallback, this);
+    image_bottom_sub_ = it_.subscribe("drone0/" + DRONE_CONSOLE_INTERFACE_SENSOR_BOTTOM_CAMERA, 1,&imagesReceiver::imagesBottomReceptionCallback, this);
+    image_front_sub_ = it_.subscribe("drone0/" + DRONE_CONSOLE_INTERFACE_SENSOR_FRONT_CAMERA, 1,&imagesReceiver::imagesFrontReceptionCallback, this);
     start();
 //    real_time=ros;
 }
@@ -58,13 +59,13 @@ void imagesReceiver::run() {
 }
 
 
-void imagesReceiver::imagesReceptionCallback(const sensor_msgs::ImageConstPtr& msg){
+void imagesReceiver::imagesBottomReceptionCallback(const sensor_msgs::ImageConstPtr& msg){
     //(const std_msgs::String::ConstPtr &msg) {
     //	ROS_INFO("I heard: [%s]", msg->data.c_str());
-        cv_bridge::CvImagePtr cv_ptr;
+        cv_bridge::CvImagePtr cv_bottom_image;
           try
             {
-              cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+              cv_bottom_image = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
 
             }
             catch (cv_bridge::Exception& e)
@@ -72,7 +73,40 @@ void imagesReceiver::imagesReceptionCallback(const sensor_msgs::ImageConstPtr& m
               ROS_ERROR("cv_bridge exception: %s", e.what());
               return;
             }
-            px = QPixmap::fromImage(cvtCvMat2QImage(cv_ptr->image));
+            px = QPixmap::fromImage(cvtCvMat2QImage(cv_bottom_image->image));
+
+
+        //cv::imshow("Bottom Image",cv_bottom_image->image);
+        //cv::waitKey(1);
+
+        logging_model.insertRows(0,1);
+        std::stringstream logging_msg;
+        logging_msg << "[ INFO] [" << ros::Time::now() << "]: I heard: " << "camera";
+        QVariant new_row(QString(logging_msg.str().c_str()));
+        logging_model.setData(logging_model.index(0),new_row);
+        Q_EMIT Update_Image(&px);
+}
+
+void imagesReceiver::imagesFrontReceptionCallback(const sensor_msgs::ImageConstPtr& msg){
+    //(const std_msgs::String::ConstPtr &msg) {
+    //	ROS_INFO("I heard: [%s]", msg->data.c_str());
+        cv_bridge::CvImagePtr cv_front_image;
+          try
+            {
+              cv_front_image = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+
+            }
+            catch (cv_bridge::Exception& e)
+            {
+              ROS_ERROR("cv_bridge exception: %s", e.what());
+              return;
+            }
+            px = QPixmap::fromImage(cvtCvMat2QImage(cv_front_image->image));
+
+
+       // cv::imshow("Front Image",cv_front_image->image);
+       // cv::waitKey(1);
+
         logging_model.insertRows(0,1);
         std::stringstream logging_msg;
         logging_msg << "[ INFO] [" << ros::Time::now() << "]: I heard: " << "camera";

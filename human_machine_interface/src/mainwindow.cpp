@@ -49,9 +49,9 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
 
     // Redimensionamos el QOSGWidget al tamaño de los frames que queremos renderizar.
      osg_sphere= new SphereView(ui->sphereScene->buddy(),connection->telemetryReceiver);
-     osg_sphere->resize(320, 350);
+     osg_sphere->resize(320, 450);
      osg_uav= new uavScene(ui->vehicleScene->buddy(),connection->telemetryReceiver);
-     osg_uav->resize(320, 350);
+     osg_uav->resize(320, 450);
 
      QDesktopWidget desktop;
      int desktopHeight=desktop.geometry().height();
@@ -73,8 +73,6 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
     timer->start(1);
 
-    oneoption= new cameraoneoption(this);
-    ui->gridCamera->addWidget(oneoption,0,0);
 
 
     QWidget* widget = new QWidget();
@@ -92,6 +90,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
 
 
    old_height=this->height();
+   initializeCameraView();
 }
 
 
@@ -199,13 +198,23 @@ void MainWindow::setSignalHandlers()
 
 }
 
+void MainWindow::initializeCameraView(){
+    QWidget* widget = new QWidget();
+    widget->setAutoFillBackground(false);
+    widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+
+    ui->gridCamera->addWidget(widget,0,0);
+    oneoption= new cameraoneoption(this,connection->imgReceiver);
+    ui->gridCamera->addWidget(oneoption,0,0);
+}
+
 void MainWindow::displayOneCamera(){
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
     ui->gridCamera->addWidget(widget,0,0);
-    oneoption= new cameraoneoption(this);
+    oneoption= new cameraoneoption(this,connection->imgReceiver);
     ui->gridCamera->addWidget(oneoption,0,0);
 }
 void MainWindow::displayMainGridCamera(){

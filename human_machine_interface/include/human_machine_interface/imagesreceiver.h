@@ -14,6 +14,7 @@
 #include <sstream>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+#include "communication_definition.h"
 #include <sensor_msgs/image_encodings.h>
 
 class imagesReceiver : public QThread {
@@ -50,8 +51,10 @@ Q_SIGNALS:
 
 private:
         QPixmap px;
-        image_transport::Subscriber image_sub_;
-        void imagesReceptionCallback(const sensor_msgs::ImageConstPtr& msg);
+        image_transport::Subscriber image_bottom_sub_;
+        image_transport::Subscriber image_front_sub_;
+        void imagesBottomReceptionCallback(const sensor_msgs::ImageConstPtr& msg);
+        void imagesFrontReceptionCallback(const sensor_msgs::ImageConstPtr& msg);
         QImage cvtCvMat2QImage(const cv::Mat & image);
         QStringListModel logging_model;
 };
