@@ -58,7 +58,7 @@ SphereView::SphereView(QWidget *parent, telemetryStateReceiver *telemetryReceive
 
     viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
 
-   // viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.15f));
+    //viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.15f));
 
 
 

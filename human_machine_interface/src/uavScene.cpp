@@ -24,9 +24,13 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
     transformation = new osg::MatrixTransform;
     auxTransformation = new osg::MatrixTransform;
 
+
+
+   // viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.0f));
+
     
     // Load the 3D model, Geodo
-    loadedModel = osgDB::readNodeFile("../../../../human_machine_interface/data/pelican.stl");
+    loadedModel = osgDB::readNodeFile("../../../../human_machine_interface/data/pelican2.3ds");
     if(loadedModel.get()==NULL)
       qDebug()<<"NULL";
 
@@ -37,8 +41,6 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
 
 
     viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
-
-    //viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.15f));
 
 
    // Set the 3D mode as child of the transformation.
@@ -96,7 +98,7 @@ void uavScene::paintGL()
     osg::Matrix yawMatrix = osg::Matrix::rotate( yawAngle, 0, 1, 0 );
     osg::Matrix rollMatrix = osg::Matrix::rotate( rollAngle, 0, 1, 0 );
 
-    transformation->setMatrix(pitchMatrix*yawMatrix*rollMatrix);
+    transformation->setMatrix(pitchMatrix*rollMatrix);
 //    transformation->setMatrix(osg::Matrix::rotate(cow_rot, 0, 0, 1));
 
     // Set the root node inside the scene

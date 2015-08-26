@@ -27,8 +27,7 @@ odometryStateReceiver::odometryStateReceiver(){}
 
 void odometryStateReceiver::openGeneralSubscriptions(ros::NodeHandle nodeHandle){
 
-    // Topic communications
-    // TODO Society pose
+    readParams();
 
     DroneGMREstimatedPoseSubs=nodeHandle.subscribe("drone0/" + DRONE_TRAJECTORY_CONTROLLER_POSE_SUBSCRIPTION_GMR, 1, &odometryStateReceiver::droneGMREstimatedPoseCallback, this); //EstimatedPose_droneGMR_wrt_GFF
     DroneGMREstimatedSpeedSubs=nodeHandle.subscribe("drone0/" +  DRONE_TRAJECTORY_CONTROLLER_SPEEDS_SUBSCRIPTION_GMR, 1, &odometryStateReceiver::droneGMREstimatedSpeedCallback, this);//EstimatedSpeed_droneGMR_wrt_GFF
@@ -42,6 +41,25 @@ void odometryStateReceiver::openGeneralSubscriptions(ros::NodeHandle nodeHandle)
 
 //    real_time=ros;
 }
+
+
+
+void odometryStateReceiver::readParams(){
+    if (!n.getParam("alive_signal_topic", alive_signal_topic))
+        alive_signal_topic = "process_alive_signal";
+
+     if (!n.getParam("error_topic", error_topic))
+        error_topic = "self_detected_process_error";
+
+     if (!n.getParam("error_notification_topic", error_notification_topic))
+        error_notification_topic = "error_notification_topic";
+
+     if (!n.getParam("processes_performance_topic", processes_performance_topic))
+        processes_performance_topic = "processes_performance";
+
+}
+
+
 void odometryStateReceiver::openSubscriptionsArucoSlam(ros::NodeHandle nodeHandle){
 
     // Topic communications droneArucoEye

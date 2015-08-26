@@ -15,10 +15,26 @@ cameraoneoption::cameraoneoption(QWidget *parent,imagesReceiver* imgReceiver) :
 
 void cameraoneoption::updateImage(const QPixmap* image)
 {
-    ui->mainImage->setPixmap(*image);
+    pix = *image;
+
+    ui->mainImage->setPixmap(pix);
+    ui->mainImage->setScaledContents( true );
+
+}
+
+int cameraoneoption::heightForWidth( int width ) const
+{
+    return ((qreal)pix.height()*width)/pix.width();
+}
+
+QSize cameraoneoption::sizeHint() const
+{
+    int w = this->width();
+    return QSize( w, heightForWidth(w) );
 }
 
 
+// TODO:: si hay mas de una cámara añadir botón para pasar imagen.
 cameraoneoption::~cameraoneoption()
 {
     delete ui;

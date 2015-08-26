@@ -73,7 +73,7 @@ public:
         void openGeneralSubscriptions(ros::NodeHandle nodeHandle);
         void openSubscriptionsArucoSlam(ros::NodeHandle nodeHandle);
         void openSubscriptionsController(ros::NodeHandle nodeHandle);
-
+        void readParams();
 
 Q_SIGNALS:
 	void loggingUpdated();
