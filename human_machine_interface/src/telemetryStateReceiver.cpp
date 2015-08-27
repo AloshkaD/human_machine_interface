@@ -246,11 +246,10 @@ void telemetryStateReceiver::errorInformerCallback(const droneMsgsROS::ProcessEr
 
 }
 
-void telemetryStateReceiver::processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg){
-
+void telemetryStateReceiver::processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg)
+{
 
     listProcessState=*msg;
-    qDebug() << "ASDADSJADANDFALKSDNKLSN";
 
 
     for(unsigned int i = 0; i < msg->process_list.size(); i = i + 1)

@@ -40,6 +40,7 @@ public:
     SphereView *osg_sphere;
     uavScene *osg_uav;
     QTimer *timer;
+    QTime *current_time;
     int batteryCount;
     int batteryText;
     int timerSecond;
@@ -72,7 +73,6 @@ public Q_SLOTS:
     void displayMainGridCamera();
     void displayFourGridCamera();
     void displaySixGridCamera();
-    void displayGridCamera();
     void setTimerInterval(double ms);
     void on_actionOpen_perception_configuration_triggered();
     void show_vehicle();
@@ -83,13 +83,8 @@ public Q_SLOTS:
     void onEmergencyStopButton();
     void keyPressEvent(QKeyEvent *e); 
     void initializeCameraView();
-  /*  void onControlModeChange();
-    void onHoverButton();
+    void flightTime();
 
-
-    void onYawZeroButton();
-    void onResetCommandButton();
-  */
 
     void close();
 

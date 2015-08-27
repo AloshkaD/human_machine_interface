@@ -45,17 +45,17 @@ void odometryStateReceiver::openGeneralSubscriptions(ros::NodeHandle nodeHandle)
 
 
 void odometryStateReceiver::readParams(){
-    if (!n.getParam("alive_signal_topic", alive_signal_topic))
-        alive_signal_topic = "process_alive_signal";
+    //if (!n.getParam("alive_signal_topic", alive_signal_topic))
+        //alive_signal_topic = "process_alive_signal";
 
-     if (!n.getParam("error_topic", error_topic))
-        error_topic = "self_detected_process_error";
+     //if (!n.getParam("error_topic", error_topic))
+       // error_topic = "self_detected_process_error";
 
-     if (!n.getParam("error_notification_topic", error_notification_topic))
-        error_notification_topic = "error_notification_topic";
+    // if (!n.getParam("error_notification_topic", error_notification_topic))
+        //error_notification_topic = "error_notification_topic";
 
-     if (!n.getParam("processes_performance_topic", processes_performance_topic))
-        processes_performance_topic = "processes_performance";
+     //if (!n.getParam("processes_performance_topic", processes_performance_topic))
+       // processes_performance_topic = "processes_performance";
 
 }
 

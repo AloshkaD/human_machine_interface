@@ -106,7 +106,7 @@ void SphereView::paintGL()
 
 
     osg::Matrix pitchMatrix = osg::Matrix::rotate( pitchAngle, 1, 0, 0 );
-    osg::Matrix yawMatrix = osg::Matrix::rotate( yawAngle, 0, 1, 0 );
+    osg::Matrix yawMatrix = osg::Matrix::rotate( yawAngle, 0, 0, 1 );
     osg::Matrix rollMatrix = osg::Matrix::rotate( rollAngle, 0, 1, 0 );
 
     mainXtrans->setMatrix(pitchMatrix*yawMatrix*rollMatrix);

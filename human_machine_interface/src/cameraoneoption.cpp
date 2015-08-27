@@ -17,8 +17,10 @@ void cameraoneoption::updateImage(const QPixmap* image)
 {
     pix = *image;
 
+    if(!image->isNull()){
     ui->mainImage->setPixmap(pix);
     ui->mainImage->setScaledContents( true );
+    }
 
 }
 

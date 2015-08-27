@@ -70,15 +70,6 @@ DataPlot::DataPlot(QWidget *parent, telemetryStateReceiver* collector, odometryS
     parameterList = setCurveLabels(*list);
 
 
-
-    qDebug() << parameterList.at(10).c_str();
-    qDebug() << parameterList.at(22).c_str();
-
-
-
-
-
-
     // LeftButton for the zooming
     // MidButton for the panning
     // RightButton: zoom out by 1
@@ -253,40 +244,32 @@ void DataPlot::clickToPlot(QTreeWidgetItem* item, int colum)
 {
     if(colum==0){ // handle only signals in colum 0
         QString text = item->text(colum);
-        qDebug() << text; // the item is checked, insert in checked items.
         QString id;
-        if(item->parent()!=NULL){
+        if(item->parent()!=NULL)
             id = item->parent()->text(0) + "/" + text;
-            qDebug()<< id;
-        }else
+        else
             id=item->text(colum);
-        if(!selectedItems.contains(id)){ // if item is not in checked items.
-            qDebug()<< "insert";
+        if(!selectedItems.contains(id))// if item is not in checked items.
+        {
             selectedItems << id;
-            qDebug()<< selectedItems;
             items.insert(id,item);
             iconChange.insert(id,1);
             assignColorIcon(id,item);
-            // if(curves[id]==NULL){
-            //}
-        }else{// if item is in list checked items. detach plot and icon white.
+        }
+        else // if item is in list checked items. detach plot and icon white.
+        {
             if(iconChange[id]==NULL){ //notChange.
-                qDebug()<< "remove";
                 eraseColorIcon(id,item);
-                if(curves[id]!=NULL){
-                qDebug()<< "detach curve";
-                qDebug()<< id;
-                curves[id]->setVisible(false);
-                selectedItems.removeAll(id);
-                items[id]->setText(1,"");
-
+                if(curves[id]!=NULL)
+                {
+                    curves[id]->setVisible(false);
+                    selectedItems.removeAll(id);
+                    items[id]->setText(1,"");
                 }
             }
-        }
-        //Restore flags
+        }//Restore flags
         iconChange[id]=NULL;
     }
-
 }
 
 
@@ -327,27 +310,6 @@ void DataPlot::setTimerInterval(double ms)
 
 
 
-/*  QVariant var;
-
-  param6[0] =node->DronePoseMsgs.x;// save in buffer the last value
-
-
-QString param;
- QMapIterator<QString,QStringList> i(*parameterList);
- while (i.hasNext()) {
-     i.next();
-     qDebug() << i.key();
-     for(int v =0;v<i.value().size();++v){
-       param = i.key() + "/" +  i.value().at(v);
-     msgs.insert(param,&param6[0]);
-     if(selectedItems.contains(param)&&items[param]!=NULL){
-         curves[param]->setPen(QPen(colors[param]));
-         curves[param]->setRawSamples(d_x,msgs[param],dataCount);
-         curves[param]->attach(this);
-         curves[param]->setVisible(true);
-      }
-   }
- }*/
 
 // Read incoming connections
 // frecuency < topic rate. 1FPS

@@ -50,14 +50,6 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
    
    transformation->addChild(auxTransformation);
 
-
-
-
-
-
-
-    // Rotation angle
-    cow_rot = 0;
 }
 
 void uavScene::initializeGL()
@@ -83,7 +75,6 @@ void uavScene::resizeGL(int width, int height)
 }
 
 
-
 void uavScene::paintGL()
 {
 
@@ -91,21 +82,16 @@ void uavScene::paintGL()
 
 
     float pitchAngle=osg::DegreesToRadians(telemReceiver->RotationAnglesMsgs.vector.y);
-    float yawAngle=osg::DegreesToRadians(telemReceiver->RotationAnglesMsgs.vector.z);
     float rollAngle=osg::DegreesToRadians(telemReceiver->RotationAnglesMsgs.vector.x);
 
     osg::Matrix pitchMatrix = osg::Matrix::rotate( pitchAngle, 1, 0, 0 );
-    osg::Matrix yawMatrix = osg::Matrix::rotate( yawAngle, 0, 1, 0 );
     osg::Matrix rollMatrix = osg::Matrix::rotate( rollAngle, 0, 1, 0 );
 
     transformation->setMatrix(pitchMatrix*rollMatrix);
-//    transformation->setMatrix(osg::Matrix::rotate(cow_rot, 0, 0, 1));
 
     // Set the root node inside the scene
     viewer->setSceneData(transformation.get());
 
-    // Increase the roation angle
-    cow_rot += 2.06;
 
     // Render the frame
     if (viewer.valid())

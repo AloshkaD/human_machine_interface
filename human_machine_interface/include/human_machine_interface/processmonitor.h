@@ -23,7 +23,6 @@ class processMonitor : public QWidget
     Q_OBJECT
 
     int row;
-    int pid=2000;
     bool initializedTable;
 
 public:

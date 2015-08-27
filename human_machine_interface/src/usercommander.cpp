@@ -48,7 +48,8 @@
 
 
 void  UserCommander::publish_takeoff() {
-       if(order==droneMsgsROS::droneCommand::TAKE_OFF){
+       if(order==droneMsgsROS::droneCommand::TAKE_OFF)
+       {
        DroneCommandMsgs.command = droneMsgsROS::droneCommand::TAKE_OFF;
        DroneCommandPubl.publish(DroneCommandMsgs);
        log(Info,std::string("Human Machine Interface sent: ")+"take_off");
@@ -57,7 +58,8 @@ void  UserCommander::publish_takeoff() {
 }
 
 void  UserCommander::publish_land() {
-       if(order==droneMsgsROS::droneCommand::LAND){
+       if(order==droneMsgsROS::droneCommand::LAND)
+       {
        DroneCommandMsgs.command = droneMsgsROS::droneCommand::LAND;
        DroneCommandPubl.publish(DroneCommandMsgs);
        log(Info,std::string("Human Machine Interface sent: ")+"land");
@@ -66,7 +68,8 @@ void  UserCommander::publish_land() {
 }
 
 void  UserCommander::publish_reset() {
-       if(order==droneMsgsROS::droneCommand::RESET){
+       if(order==droneMsgsROS::droneCommand::RESET)
+       {
        DroneCommandMsgs.command = droneMsgsROS::droneCommand::RESET;
        DroneCommandPubl.publish(DroneCommandMsgs);
        log(Info,std::string("Human Machine Interface sent: ")+"reset");
@@ -75,7 +78,8 @@ void  UserCommander::publish_reset() {
 }
 
 void  UserCommander::publish_hover() {
-       if(order==droneMsgsROS::droneCommand::HOVER){
+       if(order==droneMsgsROS::droneCommand::HOVER)
+       {
        DroneCommandMsgs.command = droneMsgsROS::droneCommand::HOVER;
        DroneCommandPubl.publish(DroneCommandMsgs);
        log(Info,std::string("Human Machine Interface sent: ")+"hover");
@@ -84,7 +88,8 @@ void  UserCommander::publish_hover() {
 }
 
 void  UserCommander::publish_emergencyStop() {
-       if(order==droneMsgsROS::droneCommand::EMERGENCY_STOP){
+       if(order==droneMsgsROS::droneCommand::EMERGENCY_STOP)
+       {
        DroneCommandMsgs.command = droneMsgsROS::droneCommand::EMERGENCY_STOP;
        DroneCommandPubl.publish(DroneCommandMsgs);
        log(Info,std::string("Human Machine Interface sent: ")+"emergency stop");

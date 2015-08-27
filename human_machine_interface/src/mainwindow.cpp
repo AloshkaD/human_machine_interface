@@ -40,6 +40,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     max_osg_frame=0;
     timerMinutes=0;
 
+    current_time->setHMS(0, 0, 0);
     connection = new Connection(this,argc,argv);
     processView = new processMonitor(this,connection->telemetryReceiver);
     ui->gridPerformance->addWidget(processView,0,0);
@@ -66,6 +67,10 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
        delete ui->panel_vehicle; // destroy the default panels
        delete ui->panel_sphere;
      }
+
+     QTimer *flightTimer = new QTimer(this);
+     connect(flightTimer, SIGNAL(timeout()), this, SLOT(flightTime()));
+     flightTimer->start(1000);
 
 
     // Mostraremos un nuevo frame cada 1 ms.
@@ -194,7 +199,7 @@ void MainWindow::setSignalHandlers()
     connect(ui->mainCameraButton, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
     connect(ui->fourCameraButton, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
     connect(ui->sixCameraButton, SIGNAL(clicked()), this, SLOT(displaySixGridCamera()));
-    connect(ui->gridCameraButton, SIGNAL(clicked()), this, SLOT(displayGridCamera()));
+
 
 }
 
@@ -244,15 +249,6 @@ void MainWindow::displaySixGridCamera(){
     sixCamera= new sixCameraOption(this);
     ui->gridCamera->addWidget(sixCamera,0,0);
 }
-void MainWindow::displayGridCamera(){
-    QWidget* widget = new QWidget();
-    widget->setAutoFillBackground(false);
-    widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
-
-    ui->gridCamera->addWidget(widget,0,0);
-    gridCamera= new gridCameraOption(this);
-    ui->gridCamera->addWidget(gridCamera,0,0);
-}
 
 void MainWindow::close()
 {
@@ -264,19 +260,17 @@ void MainWindow::showNoMasterMessage() {
     msgBox.exec();
 }
 
+
+void MainWindow::flightTime() {
+    QTime time= current_time->addSecs(2);
+    QString text = time.toString();
+    ui->value_FligthTime->setText(text);
+}
+
 void MainWindow::updateStatusBar() {
    if (connection->connectStatus){
 
-   if(timerSecond<10)
-    ui->value_FligthTime->setText(QString::number(timerMinutes) + ":0" + QString::number(timerSecond+2));
-   else
-    ui->value_FligthTime->setText(QString::number(timerMinutes) + ":" + QString::number(timerSecond+2));
 
-   if(timerMinutes==1)
-   ui->value_Warnings->setText(QString::number(3));
-   if(timerSecond==50)
-   ui->value_Errors->setText(QString::number(1));
-   }
 
    switch(connection->telemetryReceiver->droneStatusMsgs.status)
    {
@@ -306,6 +300,12 @@ void MainWindow::updateStatusBar() {
    }
 
 
+   if(connection->telemetryReceiver->BatteryMsgs.batteryPercent<=25.0){
+    QPalette* palette = new QPalette();
+    palette->setColor(QPalette::WindowText,Qt::red);
+    ui->value_battery->setPalette(*palette);
+   }
+
    ui->value_battery->setText(QString::number(((double)((int)(connection->telemetryReceiver->BatteryMsgs.batteryPercent*100))/100)) +  "%");
 
    ui->valueSphere_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
@@ -324,6 +324,8 @@ void MainWindow::updateStatusBar() {
    ui->valueSphere_yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.z*100)))/100) + "  deg");
    ui->valueSphere_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.x*100)))/100) + "  deg");
    ui->valueSphere_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.y*100)))/100) + "  deg");
+
+   }
 }
 
 
