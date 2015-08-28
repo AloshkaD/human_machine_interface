@@ -84,7 +84,7 @@ void imagesReceiver::imagesBottomReceptionCallback(const sensor_msgs::ImageConst
         logging_msg << "[ INFO] [" << ros::Time::now() << "]: I heard: " << "camera";
         QVariant new_row(QString(logging_msg.str().c_str()));
         logging_model.setData(logging_model.index(0),new_row);
-        Q_EMIT Update_Image(&px);
+        Q_EMIT Update_Image2(&px);
 }
 
 void imagesReceiver::imagesFrontReceptionCallback(const sensor_msgs::ImageConstPtr& msg){
@@ -112,7 +112,7 @@ void imagesReceiver::imagesFrontReceptionCallback(const sensor_msgs::ImageConstP
         logging_msg << "[ INFO] [" << ros::Time::now() << "]: I heard: " << "camera";
         QVariant new_row(QString(logging_msg.str().c_str()));
         logging_model.setData(logging_model.index(0),new_row);
-        Q_EMIT Update_Image(&px);
+        Q_EMIT Update_Image1(&px);
 }
 
 

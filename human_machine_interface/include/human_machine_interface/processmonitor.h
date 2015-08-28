@@ -11,7 +11,6 @@
 #include "droneMsgsROS/ProcessError.h"
 #include "droneMsgsROS/ProcessDescriptor.h"
 #include "droneMsgsROS/ProcessDescriptorList.h"
-#include "supervisor.h"
 #include "telemetryStateReceiver.h"
 
 namespace Ui {
@@ -55,7 +54,6 @@ private:
     QStringList listProcess;
 
 
-    supervisor *supervisorNode;
     telemetryStateReceiver* node;
 };
 

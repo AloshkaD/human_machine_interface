@@ -1,8 +1,8 @@
 /*
   qoswidget
   Show the vehicle 3D model.
-  @author  Angel Luis González López, Yolanda de la Hoz Simón.
-  @date    03-2015
+  @author  Yolanda de la Hoz Simón.
+  @date    06-2015
   @version 1.0
 */
 
@@ -32,8 +32,7 @@
 
 #include <math.h>
 
-// TODO yolanda: communicate the collector with class to read the rotation angles.
-// TODO angel: sphere and uav design.
+
 SphereView::SphereView(QWidget *parent, telemetryStateReceiver *telemetryReceiver): QGLWidget(parent)
 {
 
@@ -60,13 +59,7 @@ SphereView::SphereView(QWidget *parent, telemetryStateReceiver *telemetryReceive
 
     //viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.15f));
 
-
-
-
     root->addChild(faxisXtrans);
-
-
-
     root->addChild(mainXtrans);
 
    // root->addChild(labelXtrans);
@@ -114,9 +107,6 @@ void SphereView::paintGL()
 
     viewer->setSceneData(root);
     // Increase the roation angle
-
-    // Increase the roation angle
-    cow_rot += 2.06;
 
 
     // Render the frame

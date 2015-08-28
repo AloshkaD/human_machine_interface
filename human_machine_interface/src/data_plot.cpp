@@ -50,7 +50,10 @@ private:
     QTime baseTime;
 };
 
-DataPlot::DataPlot(QWidget *parent, telemetryStateReceiver* collector, odometryStateReceiver* odometryReceiver,QMap<QString, QStringList> *list):QwtPlot(parent),d_interval(0),d_timerId(-1)
+DataPlot::DataPlot(QWidget *parent, telemetryStateReceiver* collector, odometryStateReceiver* odometryReceiver,QMap<QString, QStringList> *list) :
+    QwtPlot(parent),
+    d_interval(0),
+    d_timerId(-1)
 {
     node=collector;
     odomReceiver=odometryReceiver;
@@ -102,7 +105,6 @@ DataPlot::DataPlot(QWidget *parent, telemetryStateReceiver* collector, odometryS
     zoomer->setTrackerPen(c);
 
     setGridPlot();
-
     initTimeData();
 
 #if 0
@@ -114,16 +116,12 @@ DataPlot::DataPlot(QWidget *parent, telemetryStateReceiver* collector, odometryS
     mY->attach(this);
 #endif
 
-
     initAxisX();
-
     initAxisY();
-
     initCurves();
-
-
     setTimerInterval(1000);// 1 second = 1000
 }
+
 
 std::vector<std::string> DataPlot::setCurveLabels(QMap<QString, QStringList> list)
 {
@@ -152,6 +150,7 @@ void DataPlot::setGridPlot()
     grid->attach(this);
 }
 
+
 void DataPlot::initTimeData()
 {
     //  Initialize data
@@ -177,6 +176,7 @@ void DataPlot::initAxisX()
     scaleWidget->setMinBorderDist(0, fmh / 2);
 }
 
+
 // Init Y axis.
 void DataPlot::initAxisY()
 {
@@ -186,6 +186,7 @@ void DataPlot::initAxisY()
     setAxisScale(QwtPlot::yLeft, -20, 20);
 }
 
+
 void DataPlot::initCurves()
 {
     for(unsigned int i = 0; i < parameterList.size(); i = i + 1)
@@ -194,6 +195,7 @@ void DataPlot::initCurves()
     }
 
 }
+
 
 QTime DataPlot::upTime() const
 {
@@ -209,6 +211,7 @@ QTime DataPlot::upTime() const
     t = t.addSecs(time);
     return t;
 }
+
 
 // Params: item identifier and treeWidgetItem structure
 // assign the color to the Hash structure
@@ -226,6 +229,7 @@ void DataPlot::assignColorIcon(QString id,QTreeWidgetItem* item)
     item->setIcon(0, icon);
 }
 
+
 // Params: item identifier and treeWidgetItem structure
 // erase the color to the Hash structure
 void DataPlot::eraseColorIcon(QString id,QTreeWidgetItem* item)
@@ -236,6 +240,7 @@ void DataPlot::eraseColorIcon(QString id,QTreeWidgetItem* item)
     iconChange.insert(id,2);
     item->setIcon(0, whiteIcon);
 }
+
 
 // Hash colors -> text, color.
 // Hash curves -> text, curves.
@@ -294,6 +299,7 @@ void DataPlot::alignScales()
     }
 }
 
+
 // Set Timer interval to receive incoming connections
 void DataPlot::setTimerInterval(double ms)
 {
@@ -307,8 +313,6 @@ void DataPlot::setTimerInterval(double ms)
     if (d_interval >= 0 )
         d_timerId = startTimer(d_interval);
 }
-
-
 
 
 // Read incoming connections
@@ -432,8 +436,8 @@ void DataPlot::timerEvent(QTimerEvent *e)
       if(!stopPressed)
           replot();// Update the plot 1fps
 
-
 }
+
 
 // Read incoming connections
 // Change the text. frecuency = topic rate
@@ -444,6 +448,7 @@ void DataPlot::onParameterReceived()
 
 
 }
+
 
 // TODO> Checking if is NULL when user select
 void DataPlot::setDataCurve(double param[], QString curve_id, double data_msg)
@@ -459,16 +464,20 @@ void DataPlot::setDataCurve(double param[], QString curve_id, double data_msg)
     }
 }
 
+
 void DataPlot::resizeAxisXScale(int ms)
 {
     setAxisScale(QwtPlot::xBottom, 0, ms);
     replot();
 }
+
+
 void DataPlot::resizeAxisYScale(int ms)
 {
     setAxisScale(QwtPlot::yLeft, -20,ms);
     replot();
 }
+
 
 // Get canvas and print in the output file
 void DataPlot::saveAsSVG()

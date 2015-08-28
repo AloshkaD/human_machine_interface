@@ -1,8 +1,8 @@
 /*
   qoswidget
   Show the vehicle 3D model.
-  @author  Angel Luis González López, Yolanda de la Hoz Simón.
-  @date    03-2015
+  @author  Yolanda de la Hoz Simón.
+  @date    06-2015
   @version 1.0
 */
 
@@ -12,7 +12,6 @@
 #include "osgDB/ReadFile"
 #include <math.h>
 
-// TODO yolanda: communicate the collector with class to read the rotation angles.
 
 uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): QGLWidget(parent)
 {
@@ -23,8 +22,6 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
     // Create the transformation matrix to show the 3D model, this is the root node.
     transformation = new osg::MatrixTransform;
     auxTransformation = new osg::MatrixTransform;
-
-
 
    // viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.0f));
 
@@ -45,9 +42,7 @@ uavScene::uavScene(QWidget *parent, telemetryStateReceiver *telemetryReceiver): 
 
    // Set the 3D mode as child of the transformation.
    auxTransformation->addChild(loadedModel.get());
-
    auxTransformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
-   
    transformation->addChild(auxTransformation);
 
 }
@@ -62,12 +57,12 @@ void uavScene::initializeGL()
     viewer->setCameraManipulator(new osgGA::TrackballManipulator);
 }
 
+
 void uavScene::resizeGL(int width, int height)
 {
     if (window.valid())
     {
         // Adjust the dimensions of the OSG if the widgets change the size
-        // TODO yolanda: send a signal to resize the widget to call this function.
         window->resized(window->getTraits()->x, window->getTraits()->y, width, height);
         window->getEventQueue()->windowResize(window->getTraits()->x, window->getTraits()->y, width, height);
     }
@@ -79,8 +74,6 @@ void uavScene::paintGL()
 {
 
     // Set a rotation matrix transforamtion to turn the model
-
-
     float pitchAngle=osg::DegreesToRadians(telemReceiver->RotationAnglesMsgs.vector.y);
     float rollAngle=osg::DegreesToRadians(telemReceiver->RotationAnglesMsgs.vector.x);
 
@@ -91,7 +84,6 @@ void uavScene::paintGL()
 
     // Set the root node inside the scene
     viewer->setSceneData(transformation.get());
-
 
     // Render the frame
     if (viewer.valid())

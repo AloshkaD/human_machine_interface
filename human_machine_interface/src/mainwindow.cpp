@@ -15,6 +15,7 @@
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <iostream>
+#include <qt4/Qt/qpointer.h>
 #include <qt4/Qt/qlabel.h>
 #include <qt4/Qt/qfiledialog.h>
 #include <qt4/Qt/qpixmap.h>
@@ -40,7 +41,8 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     max_osg_frame=0;
     timerMinutes=0;
 
-    current_time->setHMS(0, 0, 0);
+    ui->tabManager->setCurrentIndex(0); // ensure the first tab is showing - qt-designer should have this already hardwired, but often loses it (settings?).
+    //current_time->setHMS(0, 0, 0);
     connection = new Connection(this,argc,argv);
     processView = new processMonitor(this,connection->telemetryReceiver);
     ui->gridPerformance->addWidget(processView,0,0);
@@ -68,9 +70,9 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
        delete ui->panel_sphere;
      }
 
-     QTimer *flightTimer = new QTimer(this);
+   /*  QTimer *flightTimer = new QTimer(this);
      connect(flightTimer, SIGNAL(timeout()), this, SLOT(flightTime()));
-     flightTimer->start(1000);
+     flightTimer->start(1000);*/
 
 
     // Mostraremos un nuevo frame cada 1 ms.
@@ -198,12 +200,19 @@ void MainWindow::setSignalHandlers()
     connect(ui->oneCameraButton, SIGNAL(clicked()), this, SLOT(displayOneCamera()));
     connect(ui->mainCameraButton, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
     connect(ui->fourCameraButton, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
-    connect(ui->sixCameraButton, SIGNAL(clicked()), this, SLOT(displaySixGridCamera()));
+    connect(ui->saveImageButton, SIGNAL(clicked()), this, SLOT(saveCurrentCameraView()));
 
 
+}
+
+void MainWindow::saveCurrentCameraView(){
+  disconnect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
+  Q_EMIT saveImage(camera_view_manager);
+  connect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
 }
 
 void MainWindow::initializeCameraView(){
+    camera_view_manager=0;
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
@@ -211,27 +220,36 @@ void MainWindow::initializeCameraView(){
     ui->gridCamera->addWidget(widget,0,0);
     oneoption= new cameraoneoption(this,connection->imgReceiver);
     ui->gridCamera->addWidget(oneoption,0,0);
+
 }
 
-void MainWindow::displayOneCamera(){
-    QWidget* widget = new QWidget();
-    widget->setAutoFillBackground(false);
-    widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+void MainWindow::displayOneCamera()
+{
+        camera_view_manager=0;
+        QWidget* widget = new QWidget();
+        widget->setAutoFillBackground(false);
+        widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
-    ui->gridCamera->addWidget(widget,0,0);
-    oneoption= new cameraoneoption(this,connection->imgReceiver);
-    ui->gridCamera->addWidget(oneoption,0,0);
+        ui->gridCamera->addWidget(widget,0,0);
+         if(!isOpen_oneCameraView) oneoption= new cameraoneoption(this,connection->imgReceiver);
+        ui->gridCamera->addWidget(oneoption,0,0);
+        isOpen_oneCameraView=true;
 }
 void MainWindow::displayMainGridCamera(){
-    QWidget* widget = new QWidget();
-    widget->setAutoFillBackground(false);
-    widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
-
-    ui->gridCamera->addWidget(widget,0,0);
-    mainoption= new cameramainoption(this);
-    ui->gridCamera->addWidget(mainoption,0,0);
+        camera_view_manager=1;
+        QWidget* widget = new QWidget();
+        widget->setAutoFillBackground(false);
+        widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+        ui->gridCamera->addWidget(widget,0,0);
+        if(!isOpen_mainCameraView)
+            mainoption= new cameradisplayoption(this,connection->imgReceiver);
+        ui->gridCamera->addWidget(mainoption,0,0);
+        isOpen_mainCameraView=true;
 }
+
 void MainWindow::displayFourGridCamera(){
+  if(!isOpen_fourCameraView){
+    camera_view_manager=3;
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
@@ -239,16 +257,10 @@ void MainWindow::displayFourGridCamera(){
     ui->gridCamera->addWidget(widget,0,0);
     fourCamera= new fourCameraOption(this);
     ui->gridCamera->addWidget(fourCamera,0,0);
+    isOpen_fourCameraView=true;
+  }
 }
-void MainWindow::displaySixGridCamera(){
-    QWidget* widget = new QWidget();
-    widget->setAutoFillBackground(false);
-    widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
-    ui->gridCamera->addWidget(widget,0,0);
-    sixCamera= new sixCameraOption(this);
-    ui->gridCamera->addWidget(sixCamera,0,0);
-}
 
 void MainWindow::close()
 {
@@ -321,9 +333,9 @@ void MainWindow::updateStatusBar() {
    ui->valueVehicle_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
    ui->valueVehicle_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
    ui->valueVehicle_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
-   ui->valueSphere_yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.z*100)))/100) + "  deg");
-   ui->valueSphere_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.x*100)))/100) + "  deg");
-   ui->valueSphere_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.y*100)))/100) + "  deg");
+   ui->valueVehicle_Yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.z*100)))/100) + "  deg");
+   ui->valueVehicle_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.x*100)))/100) + "  deg");
+   ui->valueVehicle_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->RotationAnglesMsgs.vector.y*100)))/100) + "  deg");
 
    }
 }
@@ -352,21 +364,29 @@ void MainWindow::testConnection() {
 
 
 void MainWindow::on_actionAbout_Ground_Control_System_triggered() {
-    QMessageBox::about(this, tr("About ..."),tr("<h2>Ground Control System</h2><p>Universidad Politecnica de Madrid</p><p>blablabla aplication description</p>"));
+    QMessageBox::about(this, tr("About ..."),tr("<h2>Human Machine Interface</h2><p>Universidad Politecnica de Madrid</p><p>blablabla aplication description</p>"));
 }
 
 void MainWindow::on_actionContents_triggered() {
-    QMessageBox::about(this, tr("Contents ..."),tr("<h2>Ground Control System</h2><p>Universidad Politecnica de Madrid</p><p>blablabla aplication description</p>"));
+    QMessageBox::about(this, tr("Contents ..."),tr("<h2>Human Machine Interface</h2><p>Universidad Politecnica de Madrid</p><p>blablabla aplication description</p>"));
 }
 
 void MainWindow::on_actionUser_Commands_Manual_triggered() {
-    QMessageBox::about(this, tr("Manual Control Guided ..."),tr("<h2>Ground Control System</h2><p>Keyboard Bindings List</p><p>TAKE_OFF = t</p><p>LAND = y</p><p>EMERGENCY_STOP = space</p><p>HOVER = h</p><p>MOVE = m</p><p>RESET_COMMANDS= s</p><p>MOVE_UPWARDS = q</p><p>MOVE_DOWNWARDS = a</p><p>TURN_COUNTER_CLOCKWISE = z</p><p>TURN_CLOCKWISE = x</p><p>SET_YAW_REFERENCE_TO_0 = backslash</p><p>MOVE_FORWARD = up </p><p>MOVE_BACK = down</p><p>MOVE_RIGHT = right</p><p>MOVE_LEFT = left</p>"));
+    QMessageBox::about(this, tr("Manual Control Guided ..."),tr("<h2>Human Machine Interface</h2><p>Keyboard Bindings List</p><p>TAKE_OFF = t</p><p>LAND = y</p><p>EMERGENCY_STOP = space</p><p>HOVER = h</p><p>MOVE = m</p><p>RESET_COMMANDS= s</p><p>MOVE_UPWARDS = q</p><p>MOVE_DOWNWARDS = a</p><p>TURN_COUNTER_CLOCKWISE = z</p><p>TURN_CLOCKWISE = x</p><p>SET_YAW_REFERENCE_TO_0 = backslash</p><p>MOVE_FORWARD = up </p><p>MOVE_BACK = down</p><p>MOVE_RIGHT = right</p><p>MOVE_LEFT = left</p>"));
+}
+
+void MainWindow::on_actionCommunication_Console_triggered() {
+    consoleView = new CommunicationConsole(this,connection->imgReceiver,connection->telemetryReceiver);
+    consoleView->setWindowTitle("Communicaton Console");
+    consoleView->show();
 }
 
 
 void MainWindow::on_actionOpen_perception_configuration_triggered() {
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
     file_name = QFileDialog::getOpenFileName(this,tr("Open File"), "/home", tr("All files (*.*)"));
     QMessageBox::information(this,tr("File Name"),file_name);
+    connect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
 }
 
 void MainWindow::on_actionNew_connection_triggered()
@@ -376,14 +396,6 @@ void MainWindow::on_actionNew_connection_triggered()
     connection->show();
 }
 
-
-void MainWindow::on_action3D_Perception_View_triggered()
-{
-    percept = new PerceptionView(this,&file_name);
-    percept->setWindowTitle("Perception View");
-    percept->show();
-
-}
 
 void MainWindow::on_actionParameter_Temporal_Series_triggered()
 {
@@ -417,6 +429,14 @@ void MainWindow::onLandButton(){ // LAND
     connection->usercommander->order = 3;
     connection->usercommander->publish_land();
 
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    //connection->odometryReceiver->shutdown();
+    //connection->telemetryReceiver->shutdown();
+    //writeSettings();
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::onResetCommandButton(){ // RESET COMMANDS

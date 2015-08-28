@@ -28,7 +28,6 @@
 
  void UserCommander::openPublications(ros::NodeHandle nodeHandle){
      // Topic communications
-     //gcs_publisher = nodeHandle.advertise<common::UserCommands>("/User_Commands", 1000);
      DronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_PITCH_ROLL_PUBLICATION,1, true);
      DroneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_DALTITUDE_PUBLICATION,1, true);
      DroneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_DYAW_PUBLICATION,1, true);

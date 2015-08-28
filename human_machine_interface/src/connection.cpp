@@ -28,8 +28,8 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
  * These triggers whenever the button is clicked, regardless of whether it
  * is already checked or not.
  */
-
-void Connection::onButton_connect_clicked(bool check) {
+void Connection::onButton_connect_clicked(bool check)
+{
     std::string master;
     std::string host;
     if ( ui->checkbox_use_environment->isChecked() ) {
@@ -55,7 +55,8 @@ void Connection::onButton_connect_clicked(bool check) {
 }
 
 
-void Connection::on_checkbox_use_environment_stateChanged(int state) {
+void Connection::on_checkbox_use_environment_stateChanged(int state)
+{
     bool enabled;
     if ( state == 0 )
         enabled = true;
@@ -66,7 +67,9 @@ void Connection::on_checkbox_use_environment_stateChanged(int state) {
     ui->line_edit_host->setEnabled(enabled);
 }
 
-bool Connection::init(){
+
+bool Connection::init()
+{
     ros::init(init_argc,init_argv,"HMI");// ros node started.
     if ( ! ros::master::check() ) // Check if roscore has been initialized.
       return false;
@@ -83,7 +86,9 @@ bool Connection::init(){
     return true;
 }
 
-bool Connection::init(const std::string &master_url, const std::string &host_url) {
+
+bool Connection::init(const std::string &master_url, const std::string &host_url)
+{
     std::map<std::string,std::string> remappings;
     remappings["__master"] = master_url;
     remappings["__hostname"] = host_url;
@@ -101,10 +106,46 @@ bool Connection::init(const std::string &master_url, const std::string &host_url
     return true;
 }
 
+
+void Connection::ReadSettings()
+{
+  /*  QSettings settings("Qt-Ros Package", qnode->nodeName().c_str());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("windowState").toByteArray());
+    QString master_url = settings.value("master_url",QString("http://192.168.1.2:11311/")).toString();
+    QString host_url = settings.value("host_url", QString("192.168.1.3")).toString();
+    QString topic_name = settings.value("topic_name", QString("/chatter")).toString();
+    ui->line_edit_master->setText(master_url);
+    ui->line_edit_host->setText(host_url);
+    bool remember = settings.value("remember_settings", false).toBool();
+    ui->checkbox_remember_settings->setChecked(remember);
+    bool checked = settings.value("use_environment_variables", false).toBool();
+    ui->checkbox_use_environment->setChecked(checked);
+    if ( checked ) {
+        ui->line_edit_master->setEnabled(false);
+        ui->line_edit_host->setEnabled(false);
+    }*/
+}
+
+
+void Connection::WriteSettings()
+{
+   /* QSettings settings("Qt-Ros Package", qnode->nodeName().c_str());
+    settings->setValue("geometry", geometry());
+    settings->setValue("master_url",ui.line_edit_master->text());
+    settings->setValue("host_url",ui.line_edit_host->text());
+    settings->setValue("use_environment_variables",QVariant(ui.checkbox_use_environment->isChecked()));
+    settings->setValue("windowState", saveState());
+    settings->setValue("remember_settings",QVariant(ui.checkbox_remember_settings->isChecked()));*/
+}
+
+
 void Connection::close()
 {
     this->~Connection();
 }
+
+
 Connection::~Connection()
 {
     delete ui;

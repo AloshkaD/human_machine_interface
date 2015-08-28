@@ -3,10 +3,9 @@
 
 #include <QDialog>
 #include "telemetryStateReceiver.h"
+#include "odometryStateReceiver.h"
 #include "imagesreceiver.h"
 #include "usercommander.h"
-#include "perceptionview.h"
-#include "dinamicsview.h"
 #include "sphereview.h"
 
 namespace Ui {
@@ -53,9 +52,6 @@ private:
     Ui::connection *ui;
     int init_argc;
     char** init_argv;
-    PerceptionView *percept;
-    dinamicsView *dinamic;
-
 
 };
 

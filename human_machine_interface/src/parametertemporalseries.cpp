@@ -58,16 +58,13 @@ parameterTemporalSeries::parameterTemporalSeries(QWidget *parent, telemetryState
     plot->setCanvasBackground(QBrush(Qt::white));
 
     this->initTree(parameters,ui->treeWidget);
-    //this->initParameterList(paramsTelemetry,ui->treeWidget);
-
-    // this->initTree(sensorData,ui->treeWidget);
 
     setSignalHandlers();
 
     updateParametersValue();
 
-
 }
+
 
 void parameterTemporalSeries::setSignalHandlers()
 {
@@ -81,10 +78,12 @@ void parameterTemporalSeries::setSignalHandlers()
     connect(ui->pushButton_2,SIGNAL(clicked()),this, SLOT(onStopButton()));
 }
 
+
 void parameterTemporalSeries::resizeEvent(QResizeEvent * event)
 {
     plot->resize(ui->plotWidget->size());
 }
+
 
 void parameterTemporalSeries::initParameterList(QStringList list, QTreeWidget *tree){
 
@@ -111,6 +110,8 @@ void parameterTemporalSeries::initTree(QMap<QString,QStringList> algorithmsList,
         this->addRootTree(i.key(),i.value(), tree);
     }
 }
+
+
 void parameterTemporalSeries::addRootTree(QString name, QStringList list, QTreeWidget *tree){
     QTreeWidgetItem  *itm = new QTreeWidgetItem(tree);
     itm->setText(0,name);
@@ -119,6 +120,8 @@ void parameterTemporalSeries::addRootTree(QString name, QStringList list, QTreeW
     addChildTree(itm,list,"");
 
 }
+
+
 void parameterTemporalSeries::addChildTree(QTreeWidgetItem *parent,  QStringList list, QString description){
     for(int i =0;i<list.size();++i){
         QTreeWidgetItem *itm = new QTreeWidgetItem();
@@ -133,6 +136,7 @@ void parameterTemporalSeries::addChildTree(QTreeWidgetItem *parent,  QStringList
         parent->addChild(itm);
     }
 }
+
 
 void parameterTemporalSeries::onTextFilterChange(const QString &arg1){
     QRegExp regExp(arg1, Qt::CaseInsensitive, QRegExp::Wildcard);
@@ -149,6 +153,7 @@ void parameterTemporalSeries::onTextFilterChange(const QString &arg1){
     //ui->treeWidget->blockSignals(false);
     qDebug() << "connect";
 }
+
 
 void parameterTemporalSeries::onShowUnits(bool click){
     QStringList headers;
@@ -180,12 +185,14 @@ void parameterTemporalSeries::onShowUnits(bool click){
     ui->treeWidget->setHeaderLabels(headers);
 }
 
+
 void parameterTemporalSeries::onStopButton(){
     if(plot->stopPressed)
       plot->stopPressed = false;
     else
       plot->stopPressed = true;
 }
+
 
 void parameterTemporalSeries::updateParametersValue(){
     QTreeWidgetItem * EKF = ui->treeWidget->topLevelItem(1);
@@ -246,6 +253,7 @@ void parameterTemporalSeries::updateParametersValue(){
 
 
 }
+
 
 parameterTemporalSeries::~parameterTemporalSeries()
 {

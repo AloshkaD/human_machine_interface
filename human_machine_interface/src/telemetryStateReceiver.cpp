@@ -12,8 +12,8 @@
 
 #include <ros/ros.h>
 #include <ros/network.h>
-#include <string>
 #include <std_msgs/String.h>
+#include <string>
 #include <sstream>
 #include "../include/human_machine_interface/telemetryStateReceiver.h"
 
@@ -95,6 +95,7 @@ void telemetryStateReceiver::dronePitchRollCmdCallback(const droneMsgsROS::drone
 {
     DronePitchRollCmdMsgs=*msg;
     Q_EMIT parameterReceived();
+    this->log(Info,std::string("Received rollCmd from command/pitch_roll: ")+ boost::lexical_cast<std::string>(msg->rollCmd) );
     ROS_INFO("Received rollCmd from command/pitch_roll: [%f]", msg->rollCmd);
     ROS_INFO("Received pitchCmd from command/pitch_roll: [%f]", msg->pitchCmd);
     Q_EMIT updateStatus();
@@ -138,6 +139,9 @@ void telemetryStateReceiver::imuCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
     ImuMsgs=*msg;
     Q_EMIT parameterReceived();
+    this->log(Info,std::string("Received description from IMU angular velocity x:  ")+ boost::lexical_cast<std::string>(msg->angular_velocity.x) );
+    this->log(Info,std::string("Received description from IMU angular velocity y:   ")+ boost::lexical_cast<std::string>(msg->angular_velocity.y) );
+    this->log(Info,std::string("Received description from IMU angular velocity z:  ")+ boost::lexical_cast<std::string>(msg->angular_velocity.z) );
     ROS_INFO("Received description from IMU angular velocity x: [%f]", msg->angular_velocity.x);
     ROS_INFO("Received description from IMU angular velocity y: [%f]", msg->angular_velocity.y);
     ROS_INFO("Received description from IMU angular velocity z: [%f]", msg->angular_velocity.z);
@@ -266,14 +270,22 @@ void telemetryStateReceiver::processPerformanceListCallback(const droneMsgsROS::
 
 
 
-void telemetryStateReceiver::temperatureCallback(const  droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg)
+void telemetryStateReceiver::temperatureCallback(const  sensor_msgs::Temperature::ConstPtr& msg)
 {
+    temperature=*msg;
+    ROS_INFO("Received temperature from drone0/pressure: [%f]",msg->temperature);
+    ROS_INFO("Received variance from drone0/pressure: [%f]",  msg->variance);
 }
 
 
-void telemetryStateReceiver::pressureCallback(const  droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg)
+void telemetryStateReceiver::pressureCallback(const sensor_msgs::FluidPressure::ConstPtr& msg)
 {
+    fluidPressure=*msg;
+    ROS_INFO("Received fluid_pressure from drone0/pressure: [%f]",msg->fluid_pressure);
+    ROS_INFO("Received variance from drone0/pressure: [%f]",  msg->variance);
+
 }
+
 
 void telemetryStateReceiver::statusSensorCallback(const  droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg)
 {

@@ -34,6 +34,8 @@
 #include "droneMsgsROS/ProcessDescriptorList.h"
 #include "communication_definition.h"
 #include "sensor_msgs/Imu.h"
+#include "sensor_msgs/FluidPressure.h"
+#include "sensor_msgs/Temperature.h"
 //Magnetometer and RotationAngles
 #include "geometry_msgs/Vector3Stamped.h"
 
@@ -94,6 +96,8 @@ public:
         sensor_msgs::Imu ImuMsgs;
         droneMsgsROS::droneStatus droneStatusMsgs;
         droneMsgsROS::droneCommand DroneCommandMsgs;
+        sensor_msgs::FluidPressure fluidPressure;
+        sensor_msgs::Temperature temperature;
 
         float time;
         double supervisorStateTime;
@@ -175,7 +179,7 @@ private:
         void  oktoCommandsCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);
 
         ros::Subscriber PressureSubs;
-        void  pressureCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);
+        void  pressureCallback(const sensor_msgs::FluidPressure::ConstPtr& msg);
 
         ros::Subscriber DroneStatusSubs;
         void  statusSensorCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);

@@ -11,7 +11,6 @@ processMonitor::processMonitor(QWidget *parent, telemetryStateReceiver *collecto
     ui(new Ui::processMonitor)
 {
     ui->setupUi(this);
-    supervisorNode =new supervisor(this);
     node=collector;
     QObject::connect( node, SIGNAL( supervisorStateReceived( )), this, SLOT( initProcessViewerTable( )));
      QObject::connect( node, SIGNAL( errorInformerReceived( )), this, SLOT( onSupervisorStateReceived( )));
@@ -36,10 +35,15 @@ processMonitor::processMonitor(QWidget *parent, telemetryStateReceiver *collecto
     initializedTable=false;
     row=0;
 
-
-
 }
-
+/*
+QToolButton *b = new QToolButton(this);
+QIcon *ico = new QIcon();
+ico->addPixmap(QPixmap("on.jpg"),QIcon::Normal,QIcon::On);
+ico->addPixmap(QPixmap("off.jpg"),QIcon::Normal,QIcon::Off);
+b->setIcon(*ico);
+b->setCheckable(true);
+*/
 
 /*void processMonitor::setSignalHandlers()
 {
@@ -138,10 +142,6 @@ void processMonitor::initProcessViewerTable()
      rowProcessViewer++;
      }
 
-
-
-
-
      initializedTable=true;
 }
 
@@ -159,8 +159,6 @@ void processMonitor::onSupervisorStateReceived()
     QTableWidgetItem *itemErrorType = new QTableWidgetItem(node->error_type);
     QTableWidgetItem *itemSeverity= new QTableWidgetItem("Fatal");
 
-
-
     ui->tableWidget->setItem(row,0,itemMessage);
     ui->tableWidget->setItem(row,1,itemErrorLocation);
     ui->tableWidget->setItem(row,2,itemErrorType);
@@ -168,8 +166,6 @@ void processMonitor::onSupervisorStateReceived()
     ui->tableWidget->setItem(row,4,itemHostname);
     ui->tableWidget->setItem(row,5,itemSeverity);
     row++;
-
-
 }
 
 /*
