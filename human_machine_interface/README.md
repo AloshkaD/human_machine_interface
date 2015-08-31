@@ -12,8 +12,8 @@ The Human Machine Interface allows operators or users of the system to bi-direct
 
 ## Table of Contents
 
-- [User's Guide](##User's Guide)
-- [Developer’s Guide](##Developer’s Guide)
++ [User's Guide](##User's Guide)
++ [Developer's Guide](##Developer's Guide)
 	- [Obtaining source code and libraries](###Obtaining source code and libraries)
     - [Installation](###Installation)
 	- [Project organization](###Project organization)
@@ -25,7 +25,7 @@ The Human Machine Interface allows operators or users of the system to bi-direct
 
 This user guide covers a general description of the application. This user guide could be found in: ```./Documentation/UserGuide```
 
-## Developer’s Guide
+## Developer's Guide
 
 ###Obtaining source code and libraries
 * Source code project:
