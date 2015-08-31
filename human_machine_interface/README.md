@@ -14,11 +14,11 @@ The Human Machine Interface allows operators or users of the system to bi-direct
 
 - [User's Guide](##User's Guide)
 - [Developer’s Guide](##Developer’s Guide)
-	- [Obtaining source code and libraries](##Obtaining source code and libraries)
-    - [Installation](##Installation)
-	- [Project organization](##Project organization)
-    - [Recommended IDEs](##Recommended IDEs)
-	- [Project contribution](##Project contribution)
+	- [Obtaining source code and libraries](###Obtaining source code and libraries)
+    - [Installation](###Installation)
+	- [Project organization](###Project organization)
+    - [Recommended IDEs](###Recommended IDEs)
+	- [Project contribution](###Project contribution)
   
 
 ## User's Guide
@@ -81,7 +81,7 @@ MyProject /
 
 ###Recommended IDEs
 
-* QtCreator
+####Qt Creator
 Qt Creator is a cross-platform C++, JavaScript and QML integrated development environment which is part of the SDK for the Qt GUI Application development framework.
 
 Qt IDE: <http://www.qt.io/download/>
