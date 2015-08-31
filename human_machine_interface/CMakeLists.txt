@@ -3,30 +3,36 @@
 ##############################################################################
 
 cmake_minimum_required(VERSION 2.8.3)
-project(human_machine_interface)
+set(PROJECT_NAME human_machine_interface)
+project(${PROJECT_NAME})
 
+add_definitions(-std=c++11)
 ##############################################################################
 # Catkin
 ##############################################################################
+set(HUMANMACHINEINTERFACE_SOURCE_DIR
+        src/controller/source)
 
-find_package(catkin REQUIRED COMPONENTS rviz roscpp image_transport droneMsgsROS cv_bridge std_msgs geometry_msgs)
-catkin_package(CATKIN_DEPENDS)
+set(HUMANMACHINEINTERFACE_INCLUDE_DIR
+        src/controller/include)
+
+set(HUMANMACHINEINTERFACE_HEADER_FILES
+        ${HUMANMACHINEINTERFACE_INCLUDE_DIR}/*.h
+)
+
+set(HUMANMACHINEINTERFACE_SOURCE_FILES
+        ${HUMANMACHINEINTERFACE_SOURCE_DIR}/*.cpp
+
+)
+
+
+
+find_package(catkin REQUIRED COMPONENTS rviz roscpp image_transport  cv_bridge std_msgs geometry_msgs)
+catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_INCLUDE_DIR} CATKIN_DEPENDS)
+
+include_directories(${HUMANMACHINEINTERFACE_INCLUDE_DIR})
 include_directories(${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
-
-
-######################################
-# Qt Environment
-##############################################################################
-
-# included via the dependency call in package.xml
-find_package(Qt4 COMPONENTS QtCore QtGui QtSvg QtOpenGL REQUIRED)
-include(${QT_USE_FILE})
-
-## to avoid conflict with boost signals it is needed to define QT_NO_KEYWORDS.
-add_definitions(-DQT_NO_KEYWORDS)
-ADD_DEFINITIONS(${QT_DEFINITIONS})
-
 ##############################################################################
 # OpenSceneGraph
 ##############################################################################
@@ -147,7 +153,7 @@ find_package(OpenGL REQUIRED)
 
 find_package(OpenSceneGraph 3.2.2 REQUIRED osg osgAnimation osgDB osgFX osgGA osgManipulator osgParticle osgShadow osgSim osgTerrain osgText osgUtil osgViewer osgVolume osgWidget)
 
-INCLUDE_DIRECTORIES(${OPENSCENEGRAPH_INCLUDE_DIRS})
+include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
 
 ##############################################################################
 # Qwt library
@@ -187,12 +193,24 @@ include_directories(${QWT_INCLUDE_DIR})
 link_directories(${QWT_LIBRARY})
 
 ##############################################################################
+# Qt Environment
+##############################################################################
+
+# included via the dependency call in package.xml
+find_package(Qt4 COMPONENTS QtCore QtGui QtSvg QtOpenGL REQUIRED)
+include(${QT_USE_FILE})
+
+## to avoid conflict with boost signals it is needed to define QT_NO_KEYWORDS.
+add_definitions(-DQT_NO_KEYWORDS)
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+
+##############################################################################
 # Sections
 ##############################################################################
 
-file(GLOB QT_FORMS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ui/*.ui)
-file(GLOB QT_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ui/resources/*.qrc)
-file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS include/human_machine_interface/*.h)
+file(GLOB QT_FORMS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/view/ui/*.ui)
+file(GLOB QT_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/view/resources/*.qrc)
+file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS  src/controller/include/*.h)
 
 QT4_ADD_RESOURCES(QT_RESOURCES_CPP ${QT_RESOURCES})
 QT4_WRAP_UI(QT_FORMS_HPP ${QT_FORMS})
@@ -202,13 +220,15 @@ QT4_WRAP_CPP(QT_MOC_HPP ${QT_MOC})
 # Sources
 ##############################################################################
 
-file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp)
+file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/controller/source/*.cpp)
+
+
 ##############################################################################
 # Binaries
 ##############################################################################
 
 
 MESSAGE(STATUS "Found Qt:  ${QT_LIBRARIES} ")
-add_executable(human_machine_interface ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_FORMS_HPP} ${QT_MOC_HPP} ${QWT_LIBRARY} )
+add_executable(human_machine_interface ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_FORMS_HPP} ${QT_MOC_HPP} )
 target_link_libraries(human_machine_interface ${OPENSCENEGRAPH_LIBRARIES}   ${QWT_LIBRARY} ${QT_LIBRARIES} ${catkin_LIBRARIES}  )
 install(TARGETS human_machine_interface RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
