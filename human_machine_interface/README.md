@@ -10,17 +10,6 @@ The Human Machine Interface allows operators or users of the system to bi-direct
 * The communication from the operator to the robotic agent is needed if a non-rigid behavior is needed to accomplish the goal, making it possible to redefine the mission and also to start, stop and abort the mission.
 
 
-## Table of Contents
-
-+ [User's Guide](##User's Guide)
-+ [Developer's Guide](##Developer's Guide)
-	- [Obtaining source code and libraries](###Obtaining source code and libraries)
-    - [Installation](###Installation)
-	- [Project organization](###Project organization)
-    - [Recommended IDEs](###Recommended IDEs)
-	- [Project contribution](###Project contribution)
-  
-
 ## User's Guide
 
 This user guide covers a general description of the application. This user guide could be found in: ```./Documentation/UserGuide```
