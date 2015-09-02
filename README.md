@@ -25,23 +25,29 @@ The Human Machine Interface depends on ROS, Qt and OpenSceneGraph.
 * ROS framework: 
 <http://wiki.ros.org/indigo/Installation/Ubuntu>
 
-* Qt IDE:
+* Qt 4.8.6:
 <http://download.qt.io/official_releases/qt/4.8/4.8.6/>
 
-* OpenSceneGraph 3.2.2. 
+* OpenSceneGraph 3.2.2:
 Installation tutorial in Ubuntu 14.04: 
 <https://bhattigurjot.wordpress.com/2013/12/27/openscenegraph-on-linux/>
 
 ###Installation
 
-
+```
+cd worskspace/src
+catkin_init_workspace
+git clone https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git
+cd ..
+catkin_make
+```
 
 ###Project organization
 
 The project organization use a model/view architecture that manages the relationship between data and the way it is presented to the user.
 
 ```
-MyProject /
+Project /
     CMakeList.txt
     package.xml
     README.md
@@ -90,4 +96,3 @@ source devel/setup.bash
 
 
 ###Project contribution
-
