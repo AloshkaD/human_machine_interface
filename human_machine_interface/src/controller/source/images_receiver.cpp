@@ -1,13 +1,15 @@
 /*
   imagesReceiver
-  Launch a ROS node to subscribe images sent by image_transport topic.
+  Launchs a ROS node to subscribe and process images.
   @author  Yolanda de la Hoz Simón
   @date    03-2015
   @version 1.0
 */
 
 
-
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/images_receiver.h"
 
 /*****************************************************************************
@@ -24,6 +26,13 @@ void ImagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
     image_front_sub_ = it_.subscribe("drone0/" + DRONE_CONSOLE_INTERFACE_SENSOR_FRONT_CAMERA, 1,&ImagesReceiver::imagesFrontReceptionCallback, this);
     start();
 //    real_time=ros;
+}
+
+
+void ImagesReceiver::run() {
+    ros::spin();
+    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+    Q_EMIT rosShutdown();
 }
 
 
@@ -44,18 +53,9 @@ QImage ImagesReceiver::cvtCvMat2QImage(const cv::Mat & image){
         }
         else if(!image.empty() && image.depth() != CV_8U)
         {
-            printf("Wrong image format, must be 8_bits\n");
+            printf("The image format must be 8_bits\n");
         }
         return qtemp;
-}
-
-
-
-
-void ImagesReceiver::run() {
-    ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown();
 }
 
 

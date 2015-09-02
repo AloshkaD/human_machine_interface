@@ -4,19 +4,19 @@
 #include <QWidget>
 
 namespace Ui {
-class fourCameraButton;
+class CameraGridOption;
 }
 
-class fourCameraOption : public QWidget
+class CameraGridOption : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit fourCameraOption(QWidget *parent = 0);
-    ~fourCameraOption();
+    explicit CameraGridOption(QWidget *parent = 0);
+    ~CameraGridOption();
 
 private:
-    Ui::fourCameraButton *ui;
+    Ui::CameraGridOption *ui;
 };
 
-#endif // FOURCAMERABUTTON_HPP
+#endif 

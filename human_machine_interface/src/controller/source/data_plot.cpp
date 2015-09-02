@@ -1,3 +1,13 @@
+/*
+  Reads data to draw curves in parameter view canvas
+  @author  Yolanda de la Hoz Simón
+  @date    04-2015
+  @version 2.0
+*/
+
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include <stdlib.h>
 #include <ctime>
 #include <qt4/QtGui/QPrintDialog>
@@ -21,6 +31,9 @@
 #include <vector>
 #include <sstream>
 #include "../include/data_plot.h"
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 class MyZoomer: public QwtPlotZoomer
 {
@@ -49,6 +62,9 @@ public:
 private:
     QTime baseTime;
 };
+
+
+
 
 DataPlot::DataPlot(QWidget *parent, TelemetryStateReceiver* collector, OdometryStateReceiver* odometryReceiver,QMap<QString, QStringList> *list) :
     QwtPlot(parent),

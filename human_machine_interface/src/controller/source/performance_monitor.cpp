@@ -1,3 +1,6 @@
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/process_monitor.h"
 #include "../../../../human_machine_interface-build/ui_processmonitor.h"
 #include <QDebug>
@@ -5,6 +8,9 @@
 #include <string>
 #include <sstream>
 #include <QMenu>
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 ProcessMonitor::ProcessMonitor(QWidget *parent, RosGraphReceiver *collector) :
     QWidget(parent),

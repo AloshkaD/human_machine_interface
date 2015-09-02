@@ -6,7 +6,9 @@
   @version 1.0
 */
 
-
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/sphere_view.h"
 #include "qt4/QtCore/QDebug"
 #include "osgDB/ReadFile"
@@ -31,7 +33,9 @@
 #include "osg/MatrixTransform"
 
 #include <math.h>
-
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 SphereView::SphereView(QWidget *parent, TelemetryStateReceiver *telemetryReceiver): QGLWidget(parent)
 {

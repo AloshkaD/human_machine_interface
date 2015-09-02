@@ -1,14 +1,18 @@
 /*
-  communicationconsole
+  Communication Console - Debug console to receive ROS info messages about the state of incoming connections 
   @author  Yolanda de la Hoz Simón
-  @date    03-2015
+  @date    04-2015
   @version 1.0
 */
 
-
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/communication_console.h"
 #include "../../../../human_machine_interface-build/ui_communicationconsole.h"
-
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 CommunicationConsole::CommunicationConsole(QWidget *parent,ImagesReceiver* imgReceiver,TelemetryStateReceiver* telemReceiver):
     QDialog(parent),

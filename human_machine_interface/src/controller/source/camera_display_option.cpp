@@ -1,3 +1,13 @@
+/*
+  Camera view - displays multiple cameras
+  @author  Yolanda de la Hoz Simón
+  @date    06-2015
+  @version 1.0
+*/
+  
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/camera_display_option.h"
 #include "../.././../../human_machine_interface-build/ui_cameradisplayoption.h"
 #include <QDebug>
@@ -6,7 +16,9 @@
 #include <qt4/Qt/qpixmap.h>
 #include <qt4/Qt/qbuffer.h>
 #include <qt4/Qt/qfiledialog.h>
-
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 
 CameraDisplayOption::CameraDisplayOption(QWidget *parent, ImagesReceiver *imgReceiver) :

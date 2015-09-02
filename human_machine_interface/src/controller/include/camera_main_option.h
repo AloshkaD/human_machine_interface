@@ -1,24 +1,24 @@
 #ifndef CAMERAMAINOPTION_H
 #define CAMERAMAINOPTION_H
 
+
 #include <QWidget>
 #include "images_receiver.h"
 
-
 namespace Ui {
-class cameraMainOption;
+class CameraMainOption;
 }
 
-class CameraOneOption : public QWidget
+class CameraMainOption : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CameraOneOption(QWidget *parent = 0,ImagesReceiver* imgReceiver=0);
+    explicit CameraMainOption(QWidget *parent = 0,ImagesReceiver* imgReceiver=0);
     virtual int heightForWidth( int width ) const;
     virtual QSize sizeHint() const;
     int current_image;
-    ~CameraOneOption();
+    ~CameraMainOption();
 
 
 public Q_SLOTS:
@@ -34,7 +34,7 @@ public Q_SLOTS:
     void saveCameraImages(const int camera_view_manager);
 
 private:
-    Ui::cameraMainOption *ui;
+    Ui::CameraMainOption *ui;
     ImagesReceiver* imageReceiver;
     QPixmap pix;
 };

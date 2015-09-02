@@ -1,12 +1,18 @@
 /*
-  connection
+  Connection - Intializes ROS threads to send and receive packages 
   @author  Yolanda de la Hoz Simón
-  @date    03-2015
-  @version 1.0
+  @date    05-2015
+  @version 2.0
 */
 
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/connection.h"
 #include "../../../../human_machine_interface-build/ui_connection.h"
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 Connection::Connection(QWidget *parent,int argc, char** argv):
     init_argc(argc),
@@ -14,12 +20,14 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
     QDialog(parent),
     ui(new Ui::connection)
 {
+	ui->setupUi(this);
+
     telemetryReceiver= new TelemetryStateReceiver();
     odometryReceiver= new OdometryStateReceiver();
     imgReceiver = new ImagesReceiver();
     usercommander= new UserCommander();
     graphReceiver= new RosGraphReceiver();
-    ui->setupUi(this);
+   
     connectStatus=false;
     connect(ui->connectButton,SIGNAL(clicked(bool)),this, SLOT(onButton_connect_clicked(bool)));
 }

@@ -1,5 +1,5 @@
 /*
-  collector
+  OdometryStateReceiver
   Launch a ROS node to subscribe topics.
   @author  Yolanda de la Hoz Simón
   @date    03-2015

@@ -5,13 +5,17 @@
   @date    06-2015
   @version 1.0
 */
-
-
+  
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/vehicle_view.h"
 #include "qt4/QtCore/QDebug"
 #include "osgDB/ReadFile"
 #include <math.h>
-
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryReceiver): QGLWidget(parent)
 {

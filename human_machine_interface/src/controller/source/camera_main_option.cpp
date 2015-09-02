@@ -1,11 +1,24 @@
+/*
+  Camera view - Shows the camera views displayed in full screen 
+  @author  Yolanda de la Hoz Simón
+  @date    06-2015
+  @version 1.0
+*/
+  
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/camera_main_option.h"
 #include "../../../../human_machine_interface-build/ui_cameramainoption.h"
 #include <qt4/Qt/qframe.h>
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qbuffer.h>
 #include <qt4/Qt/qfiledialog.h>
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
-CameraOneOption::CameraOneOption(QWidget *parent,ImagesReceiver* imgReceiver) :
+CameraMainOption::CameraMainOption(QWidget *parent,ImagesReceiver* imgReceiver) :
     QWidget(parent),
     ui(new Ui::cameraMainOption)
 {
@@ -20,7 +33,7 @@ CameraOneOption::CameraOneOption(QWidget *parent,ImagesReceiver* imgReceiver) :
    connect(parent, SIGNAL(saveImage(const int)), this, SLOT(saveCameraImages(const int)));
 }
 
-void CameraOneOption::saveCameraImages(const int camera_view_manager){
+void CameraMainOption::saveCameraImages(const int camera_view_manager){
     if(camera_view_manager==0){
        QImage imageObject = pix.toImage();
        QByteArray bytes;
@@ -38,7 +51,7 @@ void CameraOneOption::saveCameraImages(const int camera_view_manager){
     }
 }
 
-void CameraOneOption::changeRightImage() //TODO:Change label title
+void CameraMainOption::changeRightImage() //TODO:Change label title
 {
   current_image++;
   switch(current_image)
@@ -117,7 +130,7 @@ void CameraOneOption::changeLeftImage()
 }
 
 
-void CameraOneOption::updateImage1(const QPixmap* image)
+void CameraMainOption::updateImage1(const QPixmap* image)
 {
     pix = *image;
 
@@ -129,7 +142,7 @@ void CameraOneOption::updateImage1(const QPixmap* image)
 }
 
 
-void CameraOneOption::updateImage2(const QPixmap* image)
+void CameraMainOption::updateImage2(const QPixmap* image)
 {
     pix = *image;
 
@@ -140,7 +153,7 @@ void CameraOneOption::updateImage2(const QPixmap* image)
 
 }
 
-void CameraOneOption::updateImage3(const QPixmap* image)
+void CameraMainOption::updateImage3(const QPixmap* image)
 {
     pix = *image;
 
@@ -151,7 +164,7 @@ void CameraOneOption::updateImage3(const QPixmap* image)
 
 }
 
-void CameraOneOption::updateImage4(const QPixmap* image)
+void CameraMainOption::updateImage4(const QPixmap* image)
 {
     pix = *image;
 
@@ -162,7 +175,7 @@ void CameraOneOption::updateImage4(const QPixmap* image)
 
 }
 
-void CameraOneOption::updateImage5(const QPixmap* image)
+void CameraMainOption::updateImage5(const QPixmap* image)
 {
     pix = *image;
 
@@ -173,7 +186,7 @@ void CameraOneOption::updateImage5(const QPixmap* image)
 
 }
 
-void CameraOneOption::updateImage6(const QPixmap* image)
+void CameraMainOption::updateImage6(const QPixmap* image)
 {
     pix = *image;
 
@@ -184,20 +197,20 @@ void CameraOneOption::updateImage6(const QPixmap* image)
 
 }
 
-int CameraOneOption::heightForWidth( int width ) const
+int CameraMainOption::heightForWidth( int width ) const
 {
     return ((qreal)pix.height()*width)/pix.width();
 }
 
 
-QSize CameraOneOption::sizeHint() const
+QSize CameraMainOption::sizeHint() const
 {
     int w = this->width();
     return QSize( w, heightForWidth(w) );
 }
 
 
-CameraOneOption::~CameraOneOption()
+CameraMainOption::~CameraMainOption()
 {
     delete ui;
 }

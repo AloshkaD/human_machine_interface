@@ -6,6 +6,9 @@
   @version 1.0
 */
 
+/*****************************************************************************
+** Includes
+*****************************************************************************/
 #include "../include/main_window.h"
 #include "../../../../human_machine_interface-build/ui_mainwindow.h"
 #include <qwt/qwt.h>
@@ -23,6 +26,9 @@
 #include <qt4/Qt/qapplication.h>
 #include <qt4/Qt/qdesktopwidget.h>
 using namespace std;
+/*****************************************************************************
+** Implementation
+*****************************************************************************/
 
 MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     QMainWindow(parent),
