@@ -1,0 +1,41 @@
+<!-- Launches: ardrone_autonomy driver; front and bottom camera rectification and visualization; -->
+<launch>
+	<!-- master tag is only obeyed in the top-level file (not in includes) 
+	<master>
+	</master>-->
+	<arg name="drone_id_namespace" default="drone0" />
+	<group ns="$(arg drone_id_namespace)">
+		<!-- Ardrone driver node -->
+		<node name="human_machine_interface" pkg="human_machine_interface" type="human_machine_interface" />
+
+		<!-- Topic Name ROS Params  -->
+			<!-- Commands -->
+				<param name="drone_driver_command_drone_command_pitch_roll" value="command/pitch_roll" />
+				<param name="drone_driver_command_drone_command_daltitude" value="command/dAltitude" />
+				<param name="drone_driver_command_drone_command_dyaw" value="command/dYaw" />
+				<param name="drone_driver_command_drone_hl_command" value="command/high_level" />
+				<param name="drone_okto_like_simulator_okto_commands_subscriber" value="okto_commands" />
+
+				<param name="drone_console_interface_command_drone_command_pitch_roll_publication" value="command/pitch_roll" />
+				<param name="drone_console_interface_command_drone_command_daltitude_publication" value="command/dAltitude" />
+
+			<!-- Sensor -->
+				<param name="drone_driver_sensor_imu" value="imu" />
+				<param name="drone_driver_sensor_temperature" value="temperature" />
+				<param name="drone_driver_sensor_magnetometer" value="magnetometer" />
+				<param name="drone_driver_sensor_battery" value="battery" />
+				<param name="drone_driver_sensor_altitude" value="altitude" />
+				<param name="drone_driver_sensor_rotation_angles" value="rotation_angles" />
+				<param name="drone_driver_sensor_ground_speed" value="ground_speed" />
+				<param name="drone_driver_sensor_pressure" value="pressure" />
+				<param name="drone_driver_sensor_status" value="status" />
+
+				<param name="drone_okto_like_simulator_ground_speed_sensor_publisher" value="px4flow/opt_flow" />
+
+
+			<!-- supervisor -->
+				<param name="supervisor_process_error_unified_notification" value="process_error_unified_notification" />
+				<param name="supervisor_processes_performance" value="processes_performance" />
+		
+	</group>
+</launch>
