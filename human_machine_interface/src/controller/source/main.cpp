@@ -7,7 +7,7 @@
 */
 
 #include <ros/ros.h>
-#include "../include/mainwindow.h"
+#include "../include/main_window.h"
 #include <QApplication>
 
 

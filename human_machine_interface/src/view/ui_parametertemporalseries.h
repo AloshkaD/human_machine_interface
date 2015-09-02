@@ -20,12 +20,12 @@ class Ui_parameterTemporalSeries
 public:
     QGridLayout *gridLayout_2;
     QTreeWidget *treeWidget;
+    QWidget *plotWidget;
     QGridLayout *gridLayout;
     QLabel *label;
     QSpinBox *spinBox_2;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
-    QWidget *plotWidget;
 
     void setupUi(QWidget *parameterTemporalSeries)
     {
@@ -48,9 +48,20 @@ public:
         treeWidget->setSizePolicy(sizePolicy1);
         treeWidget->setMaximumSize(QSize(340, 16777215));
         treeWidget->setFocusPolicy(Qt::NoFocus);
-        treeWidget->header()->setDefaultSectionSize(180);
+        treeWidget->header()->setDefaultSectionSize(190);
 
         gridLayout_2->addWidget(treeWidget, 0, 0, 1, 1);
+
+        plotWidget = new QWidget(parameterTemporalSeries);
+        plotWidget->setObjectName(QString::fromUtf8("plotWidget"));
+        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(plotWidget->sizePolicy().hasHeightForWidth());
+        plotWidget->setSizePolicy(sizePolicy2);
+        plotWidget->setMaximumSize(QSize(1200, 16777215));
+
+        gridLayout_2->addWidget(plotWidget, 0, 1, 2, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
@@ -95,17 +106,6 @@ public:
 
         gridLayout_2->addLayout(gridLayout, 1, 0, 1, 1);
 
-        plotWidget = new QWidget(parameterTemporalSeries);
-        plotWidget->setObjectName(QString::fromUtf8("plotWidget"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(plotWidget->sizePolicy().hasHeightForWidth());
-        plotWidget->setSizePolicy(sizePolicy2);
-        plotWidget->setMaximumSize(QSize(1200, 16777215));
-
-        gridLayout_2->addWidget(plotWidget, 0, 1, 2, 1);
-
 
         retranslateUi(parameterTemporalSeries);
 
@@ -115,6 +115,7 @@ public:
     void retranslateUi(QWidget *parameterTemporalSeries)
     {
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
+        ___qtreewidgetitem->setText(2, QApplication::translate("parameterTemporalSeries", "Units", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem->setText(1, QApplication::translate("parameterTemporalSeries", "Value", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem->setText(0, QApplication::translate("parameterTemporalSeries", "Parameter", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("parameterTemporalSeries", " Max Vertical Axis", 0, QApplication::UnicodeUTF8));

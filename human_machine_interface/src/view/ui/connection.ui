@@ -17,6 +17,9 @@
    <iconset>
     <normaloff>:/images/icon.png</normaloff>:/images/icon.png</iconset>
   </property>
+  <property name="statusTip">
+   <string>Allow the user to communicate the HMI with the master machine</string>
+  </property>
   <property name="locale">
    <locale language="English" country="Australia"/>
   </property>

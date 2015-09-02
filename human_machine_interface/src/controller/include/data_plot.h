@@ -9,8 +9,8 @@
 #include <QHashIterator>
 #include <QList>
 #include <QTime>
-#include "telemetryStateReceiver.h"
-#include "odometryStateReceiver.h"
+#include "telemetry_state_receiver.h"
+#include "odometry_state_receiver.h"
 
 const int PLOT_SIZE =  60;      // 0 to 200
 const int BUFFER_SIZE =  120;      // 0 to 200
@@ -22,7 +22,7 @@ class DataPlot : public QwtPlot
     Q_OBJECT
 
 public:
-    DataPlot(QWidget* = NULL, telemetryStateReceiver *collector=0, odometryStateReceiver* odometryReceiver=0, QMap<QString, QStringList>  *list=0);
+    DataPlot(QWidget* = NULL, TelemetryStateReceiver *collector=0, OdometryStateReceiver* odometryReceiver=0, QMap<QString, QStringList>  *list=0);
     void alignScales();
 
     bool connectStatus;
@@ -115,8 +115,8 @@ private:
     double hrateBuff4[HIGHRATE_SIZE];
     double hrateBuff5[HIGHRATE_SIZE];
     double hrateBuff6[HIGHRATE_SIZE];
-    telemetryStateReceiver* node;
-    odometryStateReceiver* odomReceiver;
+    TelemetryStateReceiver* node;
+    OdometryStateReceiver* odomReceiver;
 
     int posicionBuffer;
     int d_interval; // timer in ms

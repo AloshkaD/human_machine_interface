@@ -13,69 +13,72 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="statusTip">
+   <string>Shows the incoming messages of monitored processes</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout_5">
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="odometry">
+     <widget class="QWidget" name="tab1">
       <attribute name="title">
        <string>telemetry</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QListView" name="odometryListView"/>
+        <widget class="QListView" name="ListView_tab1"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="tab3">
       <attribute name="title">
        <string>odometry</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="QListView" name="listView_2"/>
+        <widget class="QListView" name="ListView_tab3"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="tab4">
       <attribute name="title">
        <string>supervisor</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QListView" name="listView_3"/>
+        <widget class="QListView" name="ListView_tab4"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5">
+     <widget class="QWidget" name="tab5">
       <attribute name="title">
        <string>cameras</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
-        <widget class="QListView" name="listView_4"/>
+        <widget class="QListView" name="ListView_tab6"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab7">
       <attribute name="title">
        <string>mission planner</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_7">
        <item row="0" column="0">
-        <widget class="QListView" name="listView_5"/>
+        <widget class="QListView" name="ListView_tab8"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4">
+     <widget class="QWidget" name="tab9">
       <attribute name="title">
        <string>user commands</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QListView" name="listView_6"/>
+        <widget class="QListView" name="listView_tab9"/>
        </item>
       </layout>
      </widget>

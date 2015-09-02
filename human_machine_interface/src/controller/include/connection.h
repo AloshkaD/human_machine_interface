@@ -2,11 +2,12 @@
 #define CONNECTION_H
 
 #include <QDialog>
-#include "telemetryStateReceiver.h"
-#include "odometryStateReceiver.h"
-#include "imagesreceiver.h"
-#include "usercommander.h"
-#include "sphereview.h"
+#include "telemetry_state_receiver.h"
+#include "odometry_state_receiver.h"
+#include "images_receiver.h"
+#include "user_commander.h"
+#include "sphere_view.h"
+#include "ros_graph_receiver.h"
 
 namespace Ui {
 class connection;
@@ -26,10 +27,10 @@ public:
         void close();
         bool connectStatus;
 
-        telemetryStateReceiver* telemetryReceiver;
-        odometryStateReceiver* odometryReceiver;
-        imagesReceiver* imgReceiver;
-
+        TelemetryStateReceiver* telemetryReceiver;
+        OdometryStateReceiver* odometryReceiver;
+        ImagesReceiver* imgReceiver;
+        RosGraphReceiver* graphReceiver;
         UserCommander* usercommander;
 
 public Q_SLOTS:

@@ -14,10 +14,11 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
     QDialog(parent),
     ui(new Ui::connection)
 {
-    telemetryReceiver= new telemetryStateReceiver();
-    odometryReceiver= new odometryStateReceiver();
-    imgReceiver = new imagesReceiver();
+    telemetryReceiver= new TelemetryStateReceiver();
+    odometryReceiver= new OdometryStateReceiver();
+    imgReceiver = new ImagesReceiver();
     usercommander= new UserCommander();
+    graphReceiver= new RosGraphReceiver();
     ui->setupUi(this);
     connectStatus=false;
     connect(ui->connectButton,SIGNAL(clicked(bool)),this, SLOT(onButton_connect_clicked(bool)));
@@ -81,6 +82,7 @@ bool Connection::init()
     odometryReceiver->openGeneralSubscriptions(n);
     odometryReceiver->openSubscriptionsController(n);
     imgReceiver->openSubscriptions(n);
+    graphReceiver->openSubscriptions(n);
     // Start command threads
     usercommander->openPublications(n);
     return true;

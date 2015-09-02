@@ -32,9 +32,9 @@ public:
     QVBoxLayout *verticalLayout_3;
     QGroupBox *groupBox;
     QGridLayout *gridLayout;
-    QLabel *label;
+    QLabel *labelRosMaster;
     QCheckBox *checkbox_remember_settings;
-    QLabel *label_2;
+    QLabel *labelIP;
     QLineEdit *line_edit_master;
     QSpacerItem *verticalSpacer;
     QLineEdit *line_edit_host;
@@ -77,12 +77,12 @@ public:
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         gridLayout = new QGridLayout(groupBox);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        label = new QLabel(groupBox);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setFrameShape(QFrame::StyledPanel);
-        label->setFrameShadow(QFrame::Raised);
+        labelRosMaster = new QLabel(groupBox);
+        labelRosMaster->setObjectName(QString::fromUtf8("labelRosMaster"));
+        labelRosMaster->setFrameShape(QFrame::StyledPanel);
+        labelRosMaster->setFrameShadow(QFrame::Raised);
 
-        gridLayout->addWidget(label, 0, 0, 1, 1);
+        gridLayout->addWidget(labelRosMaster, 0, 0, 1, 1);
 
         checkbox_remember_settings = new QCheckBox(groupBox);
         checkbox_remember_settings->setObjectName(QString::fromUtf8("checkbox_remember_settings"));
@@ -90,12 +90,12 @@ public:
 
         gridLayout->addWidget(checkbox_remember_settings, 6, 0, 1, 1);
 
-        label_2 = new QLabel(groupBox);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setFrameShape(QFrame::StyledPanel);
-        label_2->setFrameShadow(QFrame::Raised);
+        labelIP = new QLabel(groupBox);
+        labelIP->setObjectName(QString::fromUtf8("labelIP"));
+        labelIP->setFrameShape(QFrame::StyledPanel);
+        labelIP->setFrameShadow(QFrame::Raised);
 
-        gridLayout->addWidget(label_2, 2, 0, 1, 1);
+        gridLayout->addWidget(labelIP, 2, 0, 1, 1);
 
         line_edit_master = new QLineEdit(groupBox);
         line_edit_master->setObjectName(QString::fromUtf8("line_edit_master"));
@@ -147,9 +147,9 @@ public:
         actionAbout->setText(QApplication::translate("connection", "&About", 0, QApplication::UnicodeUTF8));
         actionAbout_Qt->setText(QApplication::translate("connection", "About &Qt", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QApplication::translate("connection", "Ros Master", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("connection", "Ros Master Url", 0, QApplication::UnicodeUTF8));
+        labelRosMaster->setText(QApplication::translate("connection", "Ros Master Url", 0, QApplication::UnicodeUTF8));
         checkbox_remember_settings->setText(QApplication::translate("connection", "Remember settings on startup", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("connection", "Ros IP", 0, QApplication::UnicodeUTF8));
+        labelIP->setText(QApplication::translate("connection", "Ros IP", 0, QApplication::UnicodeUTF8));
         line_edit_master->setText(QApplication::translate("connection", "http://192.168.1.2:11311/", 0, QApplication::UnicodeUTF8));
         line_edit_host->setText(QApplication::translate("connection", "192.168.1.67", 0, QApplication::UnicodeUTF8));
         checkbox_use_environment->setText(QApplication::translate("connection", "Use environment variables", 0, QApplication::UnicodeUTF8));

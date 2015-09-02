@@ -14,7 +14,6 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QTableWidget>
-#include <QtGui/QTreeWidget>
 #include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -46,8 +45,8 @@ public:
     QPushButton *pushButton_4;
     QSpacerItem *horizontalSpacer_4;
     QSpacerItem *verticalSpacer;
-    QTreeWidget *treeWidget;
     QTableWidget *tableWidget;
+    QTableWidget *tableProcessViewer;
 
     void setupUi(QWidget *processMonitor)
     {
@@ -187,14 +186,6 @@ public:
 
         gridLayout->addItem(verticalSpacer, 3, 0, 1, 1);
 
-        treeWidget = new QTreeWidget(processMonitor);
-        treeWidget->setObjectName(QString::fromUtf8("treeWidget"));
-        treeWidget->setFocusPolicy(Qt::WheelFocus);
-        treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-        treeWidget->header()->setDefaultSectionSize(260);
-
-        gridLayout->addWidget(treeWidget, 1, 0, 1, 1);
-
         tableWidget = new QTableWidget(processMonitor);
         if (tableWidget->columnCount() < 6)
             tableWidget->setColumnCount(6);
@@ -219,6 +210,32 @@ public:
         tableWidget->verticalHeader()->setMinimumSectionSize(220);
 
         gridLayout->addWidget(tableWidget, 5, 0, 1, 1);
+
+        tableProcessViewer = new QTableWidget(processMonitor);
+        if (tableProcessViewer->columnCount() < 8)
+            tableProcessViewer->setColumnCount(8);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(0, __qtablewidgetitem6);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(1, __qtablewidgetitem7);
+        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(2, __qtablewidgetitem8);
+        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(3, __qtablewidgetitem9);
+        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(4, __qtablewidgetitem10);
+        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(5, __qtablewidgetitem11);
+        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(6, __qtablewidgetitem12);
+        QTableWidgetItem *__qtablewidgetitem13 = new QTableWidgetItem();
+        tableProcessViewer->setHorizontalHeaderItem(7, __qtablewidgetitem13);
+        tableProcessViewer->setObjectName(QString::fromUtf8("tableProcessViewer"));
+        tableProcessViewer->setFocusPolicy(Qt::WheelFocus);
+        tableProcessViewer->setContextMenuPolicy(Qt::CustomContextMenu);
+        tableProcessViewer->horizontalHeader()->setDefaultSectionSize(300);
+
+        gridLayout->addWidget(tableProcessViewer, 1, 0, 1, 1);
 
 
         retranslateUi(processMonitor);
@@ -245,16 +262,6 @@ public:
         checkBox_4->setText(QApplication::translate("processMonitor", "Fatal", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("processMonitor", "Record Process Activity", 0, QApplication::UnicodeUTF8));
         pushButton_4->setText(QApplication::translate("processMonitor", "Save Current State", 0, QApplication::UnicodeUTF8));
-        QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
-        ___qtreewidgetitem->setText(8, QApplication::translate("processMonitor", "Localization", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(7, QApplication::translate("processMonitor", "Threads", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(6, QApplication::translate("processMonitor", "Memory%", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(5, QApplication::translate("processMonitor", "CPU%", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(4, QApplication::translate("processMonitor", "End Time", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(3, QApplication::translate("processMonitor", "Start Time", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(2, QApplication::translate("processMonitor", "Process ID", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(1, QApplication::translate("processMonitor", "State", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(0, QApplication::translate("processMonitor", "Process", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("processMonitor", "Message", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
@@ -267,6 +274,22 @@ public:
         ___qtablewidgetitem4->setText(QApplication::translate("processMonitor", "Hostname", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidget->horizontalHeaderItem(5);
         ___qtablewidgetitem5->setText(QApplication::translate("processMonitor", "Severity", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem6 = tableProcessViewer->horizontalHeaderItem(0);
+        ___qtablewidgetitem6->setText(QApplication::translate("processMonitor", "Process", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem7 = tableProcessViewer->horizontalHeaderItem(1);
+        ___qtablewidgetitem7->setText(QApplication::translate("processMonitor", "State", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem8 = tableProcessViewer->horizontalHeaderItem(2);
+        ___qtablewidgetitem8->setText(QApplication::translate("processMonitor", "Localization", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem9 = tableProcessViewer->horizontalHeaderItem(3);
+        ___qtablewidgetitem9->setText(QApplication::translate("processMonitor", "ProcessID", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem10 = tableProcessViewer->horizontalHeaderItem(4);
+        ___qtablewidgetitem10->setText(QApplication::translate("processMonitor", "StartTime", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem11 = tableProcessViewer->horizontalHeaderItem(5);
+        ___qtablewidgetitem11->setText(QApplication::translate("processMonitor", "EndTime", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem12 = tableProcessViewer->horizontalHeaderItem(6);
+        ___qtablewidgetitem12->setText(QApplication::translate("processMonitor", "CPU%", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem13 = tableProcessViewer->horizontalHeaderItem(7);
+        ___qtablewidgetitem13->setText(QApplication::translate("processMonitor", "Threads", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

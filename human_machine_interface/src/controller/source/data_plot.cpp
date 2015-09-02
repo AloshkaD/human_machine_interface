@@ -50,7 +50,7 @@ private:
     QTime baseTime;
 };
 
-DataPlot::DataPlot(QWidget *parent, telemetryStateReceiver* collector, odometryStateReceiver* odometryReceiver,QMap<QString, QStringList> *list) :
+DataPlot::DataPlot(QWidget *parent, TelemetryStateReceiver* collector, OdometryStateReceiver* odometryReceiver,QMap<QString, QStringList> *list) :
     QwtPlot(parent),
     d_interval(0),
     d_timerId(-1)
@@ -401,26 +401,26 @@ void DataPlot::timerEvent(QTimerEvent *e)
 
       /* Telemetry*/
 
-      this->setDataCurve(param23,parameterList.at(22).c_str(),node->RotationAnglesMsgs.vector.z);
-      this->setDataCurve(param24,parameterList.at(23).c_str(),node->RotationAnglesMsgs.vector.y);
-      this->setDataCurve(param25,parameterList.at(24).c_str(),node->RotationAnglesMsgs.vector.x);
-      this->setDataCurve(param26,parameterList.at(25).c_str(),node->ImuMsgs.angular_velocity.x);
-      this->setDataCurve(param27,parameterList.at(26).c_str(),node->ImuMsgs.angular_velocity.y);
-      this->setDataCurve(param28,parameterList.at(27).c_str(),node->ImuMsgs.angular_velocity.z);
-      this->setDataCurve(param29,parameterList.at(28).c_str(),node->ImuMsgs.linear_acceleration.x);
-      this->setDataCurve(param30,parameterList.at(29).c_str(),node->ImuMsgs.linear_acceleration.y);
-      this->setDataCurve(param31,parameterList.at(30).c_str(),node->ImuMsgs.linear_acceleration.z);
-      this->setDataCurve(param32,parameterList.at(31).c_str(),node->ImuMsgs.orientation.x);
-      this->setDataCurve(param33,parameterList.at(32).c_str(),node->ImuMsgs.orientation.y);
-      this->setDataCurve(param34,parameterList.at(33).c_str(),node->ImuMsgs.orientation.z);
-      this->setDataCurve(param35,parameterList.at(34).c_str(),node->ImuMsgs.orientation.w);
-      this->setDataCurve(param36,parameterList.at(35).c_str(),node->AltitudeMsgs.altitude);
-      this->setDataCurve(param37,parameterList.at(36).c_str(),node->AltitudeMsgs.altitude_speed);
-      this->setDataCurve(param38,parameterList.at(37).c_str(),node->MagnetometerMsgs.vector.x);
-      this->setDataCurve(param39,parameterList.at(38).c_str(),node->MagnetometerMsgs.vector.y);
-      this->setDataCurve(param40,parameterList.at(39).c_str(),node->MagnetometerMsgs.vector.z);
-      this->setDataCurve(param41,parameterList.at(40).c_str(),node->GroundSpeedMsgs.vector.x);
-      this->setDataCurve(param42,parameterList.at(41).c_str(),node->GroundSpeedMsgs.vector.y);
+      this->setDataCurve(param23,parameterList.at(22).c_str(),node->rotationAnglesMsgs.vector.z);
+      this->setDataCurve(param24,parameterList.at(23).c_str(),node->rotationAnglesMsgs.vector.y);
+      this->setDataCurve(param25,parameterList.at(24).c_str(),node->rotationAnglesMsgs.vector.x);
+      this->setDataCurve(param26,parameterList.at(25).c_str(),node->imuMsgs.angular_velocity.x);
+      this->setDataCurve(param27,parameterList.at(26).c_str(),node->imuMsgs.angular_velocity.y);
+      this->setDataCurve(param28,parameterList.at(27).c_str(),node->imuMsgs.angular_velocity.z);
+      this->setDataCurve(param29,parameterList.at(28).c_str(),node->imuMsgs.linear_acceleration.x);
+      this->setDataCurve(param30,parameterList.at(29).c_str(),node->imuMsgs.linear_acceleration.y);
+      this->setDataCurve(param31,parameterList.at(30).c_str(),node->imuMsgs.linear_acceleration.z);
+      this->setDataCurve(param32,parameterList.at(31).c_str(),node->imuMsgs.orientation.x);
+      this->setDataCurve(param33,parameterList.at(32).c_str(),node->imuMsgs.orientation.y);
+      this->setDataCurve(param34,parameterList.at(33).c_str(),node->imuMsgs.orientation.z);
+      this->setDataCurve(param35,parameterList.at(34).c_str(),node->imuMsgs.orientation.w);
+      this->setDataCurve(param36,parameterList.at(35).c_str(),node->altitudeMsgs.altitude);
+      this->setDataCurve(param37,parameterList.at(36).c_str(),node->altitudeMsgs.altitude_speed);
+      this->setDataCurve(param38,parameterList.at(37).c_str(),node->magnetometerMsgs.vector.x);
+      this->setDataCurve(param39,parameterList.at(38).c_str(),node->magnetometerMsgs.vector.y);
+      this->setDataCurve(param40,parameterList.at(39).c_str(),node->magnetometerMsgs.vector.z);
+      this->setDataCurve(param41,parameterList.at(40).c_str(),node->groundSpeedMsgs.vector.x);
+      this->setDataCurve(param42,parameterList.at(41).c_str(),node->groundSpeedMsgs.vector.y);
 
 
      }

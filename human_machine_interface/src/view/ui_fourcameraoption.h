@@ -21,7 +21,7 @@ public:
     QLabel *label;
     QFrame *frame_2;
     QLabel *label_2;
-    QWidget *widget;
+    QWidget *widget_1;
     QWidget *widget_2;
     QFrame *frame_4;
     QLabel *label_3;
@@ -66,11 +66,11 @@ public:
 
         gridLayout->addWidget(frame_2, 0, 1, 1, 1);
 
-        widget = new QWidget(fourCameraButton);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
+        widget_1 = new QWidget(fourCameraButton);
+        widget_1->setObjectName(QString::fromUtf8("widget_1"));
+        widget_1->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
 
-        gridLayout->addWidget(widget, 1, 0, 1, 1);
+        gridLayout->addWidget(widget_1, 1, 0, 1, 1);
 
         widget_2 = new QWidget(fourCameraButton);
         widget_2->setObjectName(QString::fromUtf8("widget_2"));
