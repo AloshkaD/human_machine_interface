@@ -70,7 +70,7 @@ MyProject /
 
 ###Recommended IDEs
 
-* QtCreator
+####Qt Creator
 Qt Creator is a cross-platform C++, JavaScript and QML integrated development environment which is part of the SDK for the Qt GUI Application development framework.
 
 Qt IDE: <http://www.qt.io/download/>
