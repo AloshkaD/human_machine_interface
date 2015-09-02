@@ -48,6 +48,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     ui->gridParameters->addWidget(paramPlot,0,0);
 
 
+
     // Redimensionamos el QOSGWidget al tamaño de los frames que queremos renderizar.
      osg_sphere= new SphereView(ui->sphereScene->buddy(),connection->telemetryReceiver);
      osg_sphere->resize(320, 450);
@@ -92,6 +93,8 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     //usercommander.init();
     //collector.init();
 
+    flightTimer = new QTimer(this);
+    flightTimer->start(1000);
 
    old_height=this->height();
    initializeCameraView();
@@ -150,12 +153,7 @@ void MainWindow::show_frame()
 
 }
 
-void MainWindow::show_vehicle()
-{
-    // Get the frame and visualize with a pixmap in a QLabel.
-   //  ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
 
-}
 void MainWindow::setTimerInterval(double ms)
 {
     d_interval = qRound(ms);
@@ -273,15 +271,14 @@ void MainWindow::flightTime()
 void MainWindow::incrementErrorsCounter()
 {
     errorCounter++;
+    ui->value_Errors->setText(QString::number(errorCounter));
 }
 
 void MainWindow::updateStatusBar()
 {
 
    if (connection->connectStatus){
-   QTimer *flightTimer = new QTimer(this);
-   connect(flightTimer, SIGNAL(timeout()), this, SLOT(flightTime()));
-   flightTimer->start(1000);
+
 
 
    switch(connection->telemetryReceiver->droneStatusMsgs.status)
@@ -318,7 +315,7 @@ void MainWindow::updateStatusBar()
     ui->value_battery->setPalette(*palette);
    }
 
-   ui->value_battery->setText(QString::number(((double)((int)(connection->telemetryReceiver->batteryMsgs.batteryPercent*100))/100)) +  "%");
+   ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
 
    ui->valueSphere_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
    ui->valueSphere_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
@@ -353,10 +350,10 @@ void MainWindow::testConnection() {
         cout << "roscore node could have not been initialized" << '\n';
         showNoMasterMessage();
     }else{
-        showConnectionEstablished();
+        //showConnectionEstablished();
         ui->value_wifi->setText("Connected");
 
-
+        connect(flightTimer, SIGNAL(timeout()), this, SLOT(flightTime()));
     }
 }
 

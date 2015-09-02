@@ -51,6 +51,7 @@ public:
     bool isOpen_mainCameraView;
     bool isOpen_oneCameraView;
     bool isOpen_fourCameraView;
+    QTimer *flightTimer;
 
 
 
@@ -74,7 +75,6 @@ public Q_SLOTS:
     void displayFourGridCamera();
     void setTimerInterval(double ms);
     void on_actionOpen_perception_configuration_triggered();
-    void show_vehicle();
     void onStartButton();
     void onLandButton();
     void onResetCommandButton();

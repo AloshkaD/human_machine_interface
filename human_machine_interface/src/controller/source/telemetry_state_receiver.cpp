@@ -250,8 +250,8 @@ void TelemetryStateReceiver::groundSpeedCallback(const droneMsgsROS::vector2Stam
 void TelemetryStateReceiver::temperatureCallback(const  sensor_msgs::Temperature::ConstPtr& msg)
 {
     temperature=*msg;
-    ROS_INFO("Received temperature from drone0/pressure: [%f]",msg->temperature);
-    ROS_INFO("Received variance from drone0/pressure: [%f]",  msg->variance);
+    ROS_INFO("Received temperature from drone0/temperature: [%f]",msg->temperature);
+    ROS_INFO("Received variance from drone0/temperature: [%f]",  msg->variance);
 }
 
 

@@ -55,7 +55,7 @@ QImage ImagesReceiver::cvtCvMat2QImage(const cv::Mat & image){
 void ImagesReceiver::run() {
     ros::spin();
     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+    Q_EMIT rosShutdown();
 }
 
 
@@ -75,11 +75,8 @@ void ImagesReceiver::imagesBottomReceptionCallback(const sensor_msgs::ImageConst
             px = QPixmap::fromImage(cvtCvMat2QImage(cv_bottom_image->image));
 
 
-        logging_model.insertRows(0,1);
-        std::stringstream logging_msg;
-        logging_msg << "[ INFO] [" << ros::Time::now() << "]: I heard: " << "camera";
-        QVariant new_row(QString(logging_msg.str().c_str()));
-        logging_model.setData(logging_model.index(0),new_row);
+
+        log(Info,std::string("Received bottom camera images"));
         Q_EMIT Update_Image2(&px);
 }
 
@@ -98,11 +95,7 @@ void ImagesReceiver::imagesFrontReceptionCallback(const sensor_msgs::ImageConstP
             }
             px = QPixmap::fromImage(cvtCvMat2QImage(cv_front_image->image));
 
-        logging_model.insertRows(0,1);
-        std::stringstream logging_msg;
-        logging_msg << "[ INFO] [" << ros::Time::now() << "]: I heard: " << "camera";
-        QVariant new_row(QString(logging_msg.str().c_str()));
-        logging_model.setData(logging_model.index(0),new_row);
+        log(Info,std::string("Received front camera images"));
         Q_EMIT Update_Image1(&px);
 }
 
