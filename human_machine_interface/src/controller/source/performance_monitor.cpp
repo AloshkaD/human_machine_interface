@@ -2,7 +2,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/process_monitor.h"
-#include "../../view/ui_processmonitor.h"
+#include "../../../../human_machine_interface-build/ui_processmonitor.h"
 #include <QDebug>
 #include <QScrollBar>
 #include <string>

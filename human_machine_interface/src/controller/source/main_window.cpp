@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../../view/ui_mainwindow.h"
+#include "../../../../human_machine_interface-build/ui_mainwindow.h"
 #include <qwt/qwt.h>
 #include <qwt/qwt_plot.h>
 #include <qwt/qwt_plot_curve.h>
@@ -412,7 +412,13 @@ void MainWindow::on_actionParameter_Temporal_Series_triggered()
     paramPlot->show();
 
 }
-
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    //connection->odometryReceiver->shutdown();
+    //connection->telemetryReceiver->shutdown();
+    //writeSettings();
+    QMainWindow::closeEvent(event);
+}
 // Control Mode
 /*
 void MainWindow::onControlModeChange(){
@@ -438,19 +444,6 @@ void MainWindow::onLandButton(){ // LAND
 
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    //connection->odometryReceiver->shutdown();
-    //connection->telemetryReceiver->shutdown();
-    //writeSettings();
-    QMainWindow::closeEvent(event);
-}
-
-void MainWindow::onResetCommandButton(){ // RESET COMMANDS
-    qDebug()<<"RESET PRESS BUTTON";
-    connection->usercommander->order = 5;
-    connection->usercommander->publish_reset();
-}
 
 void MainWindow::onHoverButton(){ // HOVER
 
@@ -460,6 +453,16 @@ void MainWindow::onHoverButton(){ // HOVER
 
 }
 
+
+/*
+void MainWindow::onResetCommandButton(){ // RESET COMMANDS
+    qDebug()<<"RESET PRESS BUTTON";
+    connection->usercommander->order = 5;
+    connection->usercommander->publish_reset();
+}
+
+
+
 void MainWindow::onEmergencyStopButton(){ // EMERGENCY STOP
 
     qDebug()<<"EMERGENCY STOP PRESS BUTTON";
@@ -467,21 +470,9 @@ void MainWindow::onEmergencyStopButton(){ // EMERGENCY STOP
     connection->usercommander->publish_emergencyStop();
 
 }
-/*
-void MainWindow::onHoverButton(){ // HOVER
-    std::stringstream key;
-    key << "h";
-    usercommander.msg.type  = key.str();
-    usercommander.publish();
 
-}
-void MainWindow::onEmergencyStopButton(){ // EMERGENCY STOP
-    std::stringstream key;
-    key << "del";
-    usercommander.msg.type  = key.str();
-    usercommander.publish();
 
-}
+
 void MainWindow::onLandButton(){ // LAND
     std::stringstream key;
     key << "y";
@@ -503,7 +494,7 @@ void MainWindow::onResetCommandButton(){ // RESET COMMANDS
     usercommander.publish();
 
 }
- */
+
 // User commands in the keyboard
 void MainWindow::keyPressEvent(QKeyEvent *e){
  /*   std::stringstream key;
@@ -584,9 +575,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
       default:
        usercommander.msg.type  = "";
        usercommander.publish();
-       MainWindow::keyPressEvent(e);*/
+       MainWindow::keyPressEvent(e);
 
     }
 
-
+ */
 

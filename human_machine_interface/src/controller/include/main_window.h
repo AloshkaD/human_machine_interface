@@ -77,10 +77,10 @@ public Q_SLOTS:
     void on_actionOpen_perception_configuration_triggered();
     void onStartButton();
     void onLandButton();
-    void onResetCommandButton();
+    //void onResetCommandButton();
     void onHoverButton();
-    void onEmergencyStopButton();
-    void keyPressEvent(QKeyEvent *e); 
+   // void onEmergencyStopButton();
+   // void keyPressEvent(QKeyEvent *e);
     void initializeCameraView();
     void closeEvent(QCloseEvent *event);
     void flightTime();

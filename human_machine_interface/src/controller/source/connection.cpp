@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/connection.h"
-#include "../../view/ui_connection.h"
+#include "../../../../human_machine_interface-build/ui_connection.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
@@ -79,7 +79,7 @@ void Connection::on_checkbox_use_environment_stateChanged(int state)
 
 bool Connection::init()
 {
-    ros::init(init_argc,init_argv,"HMI");// ros node started.
+    ros::init(init_argc,init_argv,ros::this_node::getName());// ros node started.
     if ( ! ros::master::check() ) // Check if roscore has been initialized.
       return false;
 

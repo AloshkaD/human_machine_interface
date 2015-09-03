@@ -7,7 +7,7 @@
 */
 
 #include "../include/parameter_temporal_series.h"
-#include "../../view/ui_parametertemporalseries.h"
+#include "../../../../human_machine_interface-build/ui_parametertemporalseries.h"
 
 
 #include <qwt/qwt.h>
@@ -41,7 +41,7 @@ ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryState
 
 
     // ESTRUCTURA DE VISUALIZACIÓN
-    telemetry << "yaw" << "pitch" << "roll"  << "IMU.angular.vel.x"  << "IMU.angular.vel.y"  << "IMU.angular.vel.z"  << "IMU.accel.x"  << "IMU.accel.y"   << "IMU.accel.z" << "IMU.roll" << "IMU.pitch" << "IMU.yaw" << "IMU.yawPitch" << "altitude" << "altitudeSpeed" <<  "mag.X"<< "mag.Y"<< "mag.Z" << "groundSpeed.X"<< "groundSpeed.Y";
+    telemetry << "yaw" << "pitch" << "roll"  << "IMU.angular.vel.x"  << "IMU.angular.vel.y"  << "IMU.angular.vel.z"  << "IMU.accel.x"  << "IMU.accel.y"   << "IMU.accel.z" << "IMU.roll" << "IMU.pitch" << "IMU.yaw" << "IMU.yawPitch" << "altitude" << "altitudeSpeed" <<  "mag.X"<< "mag.Y"<< "mag.Z" << "groundSpeed.X"<< "groundSpeed.Y"<<"temperature"<<"pressure";
     controller << "xci" << "yci" << "zci" << "yawci" << "pitchci" << "rollci" << "vxfi" << "vyfi"<< "vzfi" << "dyawfi";
     ekf << "pos.x" << "pos.y" << "pos.z" << "yaw" << "pitch" << "roll" << "dx" << "dy" << "dz" << "dyaw" << "dpitch" << "droll";
 
@@ -245,11 +245,8 @@ void ParameterTemporalSeries::updateParametersValue(){
     telemetryItem->child(17)->setText(1,QString::number(((double)((int)(telemReceiver->magnetometerMsgs.vector.z*100)))/100));//mag.Z
     telemetryItem->child(18)->setText(1,QString::number(((double)((int)(telemReceiver->groundSpeedMsgs.vector.x*100)))/100) + "  m/s");//groundSpeed.x
     telemetryItem->child(19)->setText(1,QString::number(((double)((int)(telemReceiver->groundSpeedMsgs.vector.y*100)))/100) + "  m/s");//groundSpeed.y
-
-   //telemetryItem->child(21)->setText(1,QString::number(((double)((int)(telemReceiver->t)))/100));//temperature
-   // telemetryItem->child(21)->setText(1,QString::number(((double)((int)(telemReceiver->RotationAnglesMsgs.vector.z)))/100));//press.Abs
-   // telemetryItem->child(21)->setText(1,QString::number(((double)((int)(telemReceiver->RotationAnglesMsgs.vector.z)))/100));//press.Diff
-  // telemetryItem->child(21)->setText(1,QString::number(((double)((int)(telemReceiver->RotationAnglesMsgs.vector.z)))/100));//battery*/
+    telemetryItem->child(20)->setText(1,QString::number(((double)((int)(telemReceiver->temperature.temperature*100)))/100)+ " deg");//temperature
+    telemetryItem->child(21)->setText(1,QString::number(((double)((int)(telemReceiver->fluidPressure.fluid_pressure*100)))/100) + " Pa");//fluidPressure
 
 
 }

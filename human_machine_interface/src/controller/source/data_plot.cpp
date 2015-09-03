@@ -381,6 +381,8 @@ void DataPlot::timerEvent(QTimerEvent *e)
           param40[i] = param40[i-1];
           param41[i] = param41[i-1];
           param42[i] = param42[i-1];
+          param43[i] = param43[i-1];
+          param44[i] = param44[i-1];
 
 
       }
@@ -437,6 +439,8 @@ void DataPlot::timerEvent(QTimerEvent *e)
       this->setDataCurve(param40,parameterList.at(39).c_str(),node->magnetometerMsgs.vector.z);
       this->setDataCurve(param41,parameterList.at(40).c_str(),node->groundSpeedMsgs.vector.x);
       this->setDataCurve(param42,parameterList.at(41).c_str(),node->groundSpeedMsgs.vector.y);
+      this->setDataCurve(param43,parameterList.at(42).c_str(),node->temperature.temperature);
+      this->setDataCurve(param44,parameterList.at(43).c_str(),node->fluidPressure.fluid_pressure);
 
 
      }

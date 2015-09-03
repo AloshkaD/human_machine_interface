@@ -20,7 +20,7 @@
 #include <ros/ros.h>
 #include <string>
 #include <std_msgs/String.h>
-#include "droneMsgsROS/droneCommand.h"
+#include "droneMsgsROS/droneMissionPlannerCommand.h"
 #include "droneMsgsROS/dronePitchRollCmd.h"
 #include "droneMsgsROS/droneDYawCmd.h"
 #include "droneMsgsROS/droneDAltitudeCmd.h"
@@ -46,17 +46,18 @@ public:
         droneMsgsROS::dronePitchRollCmd DronePitchRollCmdMsgs;
         droneMsgsROS::droneDAltitudeCmd DroneDAltitudeCmdMsgs;
         droneMsgsROS::droneDYawCmd DroneDYawCmdMsgs;
-        droneMsgsROS::droneCommand DroneCommandMsgs;
+        droneMsgsROS::droneMissionPlannerCommand droneCommandMsgs;
 
 
 
 
         void publish_takeoff();
         void publish_land();
-        void publish_reset();
         void publish_hover();
+
+        /*void publish_reset();
         void publish_emergencyStop();
-        void publish_LLCommand();
+        void publish_LLCommand();*/
 
 
 	enum LogLevel {
@@ -76,12 +77,17 @@ Q_SIGNALS:
         void rosShutdown();
 
 private:
-        ros::MultiThreadedSpinner threadSpin;
-	ros::Publisher gcs_publisher;
+        std::vector<std::string> modules_names;
+
+        std::string pitchroll_topic;
+        std::string daltitude_topic;
+        std::string dyawcmd_topic;
+        std::string command_publish_topic;
+
         ros::Publisher DronePitchRollCmdPubl;
         ros::Publisher DroneDAltitudeCmdPubl;
         ros::Publisher DroneDYawCmdPubl;
-        ros::Publisher DroneCommandPubl;
+        ros::Publisher droneCommandPubl;
         QStringListModel logging_model;
 };
 

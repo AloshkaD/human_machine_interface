@@ -21,18 +21,30 @@
 ** Implementation
 *****************************************************************************/
 
- UserCommander:: UserCommander()
- {
-
- }
+ UserCommander:: UserCommander(){}
 
  void UserCommander::openPublications(ros::NodeHandle nodeHandle){
 
+      //Set params
+      if (!nodeHandle.getParam("pitchroll_publish_topic", pitchroll_topic))
+        pitchroll_topic = "command/pitch_roll";
+
+      if (!nodeHandle.getParam("daltitude_publish_topic", daltitude_topic))
+        daltitude_topic = "command/dAltitude";
+
+      if (!nodeHandle.getParam("dyawcmd_publish_topic", dyawcmd_topic))
+        dyawcmd_topic = "command/dYaw";
+
+      if (!nodeHandle.getParam("command_publish_topic", command_publish_topic))
+        command_publish_topic = "command/high_level";
+
+
+
      // Topic communications
-     DronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_PITCH_ROLL_PUBLICATION,1, true);
-     DroneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_DALTITUDE_PUBLICATION,1, true);
-     DroneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_DYAW_PUBLICATION,1, true);
-     DroneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneCommand>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_HL_COMMAND_PUBLICATION,1, true);
+     DronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(ros::this_node::getNamespace() + "/" + pitchroll_topic ,1, true);
+     DroneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>(ros::this_node::getNamespace() + "/" + daltitude_topic,1, true);
+     DroneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>(ros::this_node::getNamespace() + "/" + dyawcmd_topic,1, true);
+     droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(ros::this_node::getNamespace() + "/" + command_publish_topic,1, true);
 
      start();
  }
@@ -54,24 +66,43 @@
 
 
 void  UserCommander::publish_takeoff() {
-       if(order==droneMsgsROS::droneCommand::TAKE_OFF)
+       if(order==droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF)
        {
-       DroneCommandMsgs.command = droneMsgsROS::droneCommand::TAKE_OFF;
-       DroneCommandPubl.publish(DroneCommandMsgs);
-       log(Info,std::string("Human Machine Interface sent: ")+"take_off");
+           droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF;
+
+           modules_names.push_back("droneOdometryStateEstimator");
+           modules_names.push_back("droneTrajectoryController");
+           modules_names.push_back("droneArucoEyeROSModule");
+           modules_names.push_back("droneLocalizer");
+
+           droneCommandMsgs.drone_modules_names = modules_names;
+           droneCommandPubl.publish(droneCommandMsgs);
+           log(Info,std::string("Human Machine Interface sent: ")+"take_off");
        }
        order=100; //clear command
 }
 
+
 void  UserCommander::publish_land() {
-       if(order==droneMsgsROS::droneCommand::LAND)
+       if(order==droneMsgsROS::droneMissionPlannerCommand::LAND)
        {
-       DroneCommandMsgs.command = droneMsgsROS::droneCommand::LAND;
-       DroneCommandPubl.publish(DroneCommandMsgs);
-       log(Info,std::string("Human Machine Interface sent: ")+"land");
+           droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
+           droneCommandPubl.publish(droneCommandMsgs);
+           log(Info,std::string("Human Machine Interface sent: ")+"land");
        }
        order=100; //clear command
 }
+
+void  UserCommander::publish_hover() {
+       if(order==droneMsgsROS::droneMissionPlannerCommand::HOVER)
+       {
+           droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
+           droneCommandPubl.publish(droneCommandMsgs);
+           log(Info,std::string("Human Machine Interface sent: ")+"hover");
+       }
+       order=100; //clear command
+}
+/*
 
 void  UserCommander::publish_reset() {
        if(order==droneMsgsROS::droneCommand::RESET)
@@ -83,15 +114,6 @@ void  UserCommander::publish_reset() {
        order=100; //clear command
 }
 
-void  UserCommander::publish_hover() {
-       if(order==droneMsgsROS::droneCommand::HOVER)
-       {
-       DroneCommandMsgs.command = droneMsgsROS::droneCommand::HOVER;
-       DroneCommandPubl.publish(DroneCommandMsgs);
-       log(Info,std::string("Human Machine Interface sent: ")+"hover");
-       }
-       order=100; //clear command
-}
 
 void  UserCommander::publish_emergencyStop() {
        if(order==droneMsgsROS::droneCommand::EMERGENCY_STOP)
@@ -110,10 +132,10 @@ void  UserCommander::publish_LLCommand() {
        DroneCommandPubl.publish(DroneCommandMsgs);
        log(Info,std::string("Human Machine Interface sent: ")+"emergency stop");
        }
-       order=100; //clear command*/
+       order=100; //clear command
 }
 
-
+*/
 void  UserCommander::log( const LogLevel &level, const std::string &msg) {
     logging_model.insertRows(logging_model.rowCount(),1);
     std::stringstream logging_model_msg;

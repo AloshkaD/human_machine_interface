@@ -109,6 +109,8 @@ private:
     double param40[BUFFER_SIZE];
     double param41[BUFFER_SIZE];
     double param42[BUFFER_SIZE];
+    double param43[BUFFER_SIZE];
+    double param44[BUFFER_SIZE];
     double hrateBuff1[HIGHRATE_SIZE];
     double hrateBuff2[HIGHRATE_SIZE];
     double hrateBuff3[HIGHRATE_SIZE];

@@ -122,10 +122,27 @@ Q_SIGNALS:
 
 
 private:
-        ros::MultiThreadedSpinner trheadSpin;
-	int init_argc;
+        int init_argc;
         int real_time;
-	char** init_argv;
+        char** init_argv;
+
+        std::string drone_driver_command_drone_command_pitch_roll;
+        std::string drone_driver_command_drone_command_daltitude;
+        std::string drone_driver_command_drone_command_dyaw;
+        std::string drone_driver_command_drone_hl_command;
+        std::string drone_driver_sensor_imu;
+        std::string drone_driver_sensor_temperature;
+        std::string drone_driver_sensor_magnetometer;
+        std::string drone_driver_sensor_battery;
+        std::string drone_driver_sensor_altitude;
+        std::string drone_driver_sensor_rotation_angles;
+        std::string drone_driver_sensor_ground_speed;
+        std::string drone_driver_sensor_pressure;
+        std::string drone_driver_sensor_status;
+        std::string supervisor_process_error_unified_notification;
+        std::string supervisor_processes_performance;
+        std::string drone_pelican_like_simulator_control_input_subscriber;
+        std::string drone_okto_like_simulator_okto_commands_subscriber;
 
 
         ros::Subscriber droneStatusSubs;
@@ -194,8 +211,6 @@ private:
         ros::Subscriber DronePelicanRCDataSubs;
 
         ros::Subscriber DronePelicanControlInputSubs;
-
-
 
         QStringListModel logging_model;
 };
