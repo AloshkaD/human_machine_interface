@@ -1,0 +1,7 @@
+# Temporal files
+*~
+
+# Build folder
+build/
+build-*
+*-build
