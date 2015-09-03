@@ -35,13 +35,28 @@ Installation tutorial in Ubuntu 14.04:
 You should add this line at the end of your ~/.bashrc or write it each time that you want to use the HMI:
 export OSG_DIR="/home/<my_account>/<my_OpenSceneGraph_Dir>/"
 
-###Installation
+
+###Simple Installation 
 
 ```
-cd worskspace/ros
+cd ~/worskspace
+mkdir hmi_cvg_stack
+git clone https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git ./src
+cd src
 catkin_init_workspace
-git clone https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git
+./installation/set_environmental_variables.sh
 cd ..
+catkin_make
+```
+
+###Installation in a catkin previous project
+
+```
+cd <my_worskspace>/src/<workspace_path>     => Example: cd ~/workspace/ros/quadrotor_stack_catkin/src/quadrotor_stack/stack
+git clone https://bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git 
+cd hmi_cvg_stack
+./installation/set_environmental_variables.sh
+cd ~/<my_workspace>
 catkin_make
 ```
 

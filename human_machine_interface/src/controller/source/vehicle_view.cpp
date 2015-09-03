@@ -31,7 +31,7 @@ VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryRecei
 
     
     // Load the 3D model, Geodo
-    loadedModel = osgDB::readNodeFile("../../../../human_machine_interface/src/view/resources/osg_dataset/pelican2.3ds");
+    loadedModel = osgDB::readNodeFile("pelican2.3ds");
     if(loadedModel.get()==NULL)
       qDebug()<<"NULL";
 
