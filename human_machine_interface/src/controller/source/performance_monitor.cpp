@@ -1,7 +1,7 @@
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
-#include "../include/process_monitor.h"
+#include "../include/performance_monitor.h"
 #include "../../../../human_machine_interface-build/ui_processmonitor.h"
 #include <QDebug>
 #include <QScrollBar>
@@ -18,6 +18,9 @@ ProcessMonitor::ProcessMonitor(QWidget *parent, RosGraphReceiver *collector) :
 {
     ui->setupUi(this);
     node=collector;
+
+    errorCounter=0;
+
     QObject::connect( node, SIGNAL( supervisorStateReceived( )), this, SLOT( initProcessViewerTable( )));
      QObject::connect( node, SIGNAL( errorInformerReceived( )), this, SLOT( onSupervisorStateReceived( )));
     // ESTRUCTURA DE VISUALIZACIÓN
@@ -62,23 +65,23 @@ void processMonitor::updateTableInfo()
 {
 
 }
-void processMonitor::onCustomContextMenuRequested(const QPoint& pos) {
-    QTreeWidgetItem* item = ui->treeWidget->itemAt(pos);
+*/
+void ProcessMonitor::onCustomContextMenuRequested(const QPoint& pos) {
+ /*   QTreeWidgetItem* item = ui->treeWidget->itemAt(pos);
     qDebug() << item->text(0);
     if (item) {
-        // Note: We must map the point to global from the viewport to
-        // account for the header.
+        // Map the point to global from the viewport to account for the header.
         showContextMenu(item, ui->treeWidget->viewport()->mapToGlobal(pos));
-    }
+    }*/
 }
 
-void processMonitor::showContextMenu(QTreeWidgetItem* item, const QPoint& globalPos) {
+void ProcessMonitor::showContextMenu(QTreeWidgetItem* item, const QPoint& globalPos) {
     QMenu menu;
     menu.addAction("Stop");
     menu.addAction("Start");
     menu.addAction("Record");
     menu.exec(globalPos);
-}*/
+}
 
 void ProcessMonitor::initProcessViewerTable()
 {
@@ -88,67 +91,78 @@ void ProcessMonitor::initProcessViewerTable()
 
     for(unsigned int i = 0; i < node->listProcessState.process_list.size(); i = i + 1)
     {
-     node_container= node->listProcessState.process_list.at(i);
+        node_container= node->listProcessState.process_list.at(i);
 
 
-     if(!initializedTable){
-     if (ui->tableProcessViewer->rowCount() < rowProcessViewer)
-        ui->tableProcessViewer->setRowCount(rowProcessViewer);
-     ui->tableProcessViewer->insertRow(rowProcessViewer);
-     }
-     ui->tableProcessViewer->setItem(rowProcessViewer,0,new QTableWidgetItem(QString(node_container.name.c_str())));
-     if(1==node_container.current_state.state){
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing - Dead"));
-     }
+        if(!initializedTable){
+            if (ui->tableProcessViewer->rowCount() < rowProcessViewer)
+                ui->tableProcessViewer->setRowCount(rowProcessViewer);
+            ui->tableProcessViewer->insertRow(rowProcessViewer);
+        }
+        ui->tableProcessViewer->setItem(rowProcessViewer,0,new QTableWidgetItem(QString(node_container.name.c_str())));
 
-     if(8==node_container.current_state.state){
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started - Dead"));
-     }
+        switch(node_container.current_state.state)
+        {
+        case droneMsgsROS::ProcessState::Initializing:
+            std::cout<<"Process Status: Initializing"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing - Dead"));
+            break;
 
-     if(6==node_container.current_state.state){
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering - Dead"));
-     }
+        case droneMsgsROS::ProcessState::NotStarted:
+            std::cout<<"Process Status: NotStarted"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started - Dead"));
+            break;
 
-     if(3==node_container.current_state.state){
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering - Dead"));
-     }
+        case droneMsgsROS::ProcessState::Recovering:
+            std::cout<<"Process Status: Recovering"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering - Dead"));
+            break;
 
-     if(2==node_container.current_state.state){
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running - Dead"));
-     }
+        case droneMsgsROS::ProcessState::Running:
+            std::cout<<"Process Status: Running"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running - Dead"));
+            break;
 
-     if(7==node_container.current_state.state){
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started - Dead"));
-     }
+        case droneMsgsROS::ProcessState::Sleeping:
+            std::cout<<"Process Status: Sleeping"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping - Dead"));
+            break;
 
-     if(5==node_container.current_state.state){
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping - Dead"));
-     }
+        case droneMsgsROS::ProcessState::Started:
+            std::cout<<"Process Status: Started"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started - Dead"));
+            break;
 
-     if(4==node_container.current_state.state){
-      ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting"));
-     if(!node_container.is_alive)
-     ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting - Dead"));
-     }
+        case droneMsgsROS::ProcessState::Stopping:
+            std::cout<<"Process Status: Stopping"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping - Dead"));
+            break;
 
-     rowProcessViewer++;
-     }
+        case droneMsgsROS::ProcessState::Waiting:
+            std::cout<<"Process Status: Waiting"<<std::endl;
+            ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting"));
+            if(!node_container.is_alive)
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting - Dead"));
+            break;
+        }
+        rowProcessViewer++;
+    }
 
-     initializedTable=true;
+    initializedTable=true;
 }
 
 void ProcessMonitor::onSupervisorStateReceived()
@@ -156,7 +170,8 @@ void ProcessMonitor::onSupervisorStateReceived()
     ui->tableWidget->verticalScrollBar()->setSliderPosition( ui->tableWidget->verticalScrollBar()->maximum());
 
     if (ui->tableWidget->rowCount() < row)
-     ui->tableWidget->setRowCount(row);
+        ui->tableWidget->setRowCount(row);
+
     ui->tableWidget->insertRow(row);
     QTableWidgetItem *itemMessage = new QTableWidgetItem(node->description);
     QTableWidgetItem *itemProcess = new QTableWidgetItem(node->node_name);
@@ -172,15 +187,34 @@ void ProcessMonitor::onSupervisorStateReceived()
     ui->tableWidget->setItem(row,4,itemHostname);
     ui->tableWidget->setItem(row,5,itemSeverity);
     row++;
+
+    errorCounter++;
+}
+
+void ProcessMonitor::onTextFilterChange(const QString &arg1){
+    /*QRegExp regExp(arg1, Qt::CaseInsensitive, QRegExp::Wildcard);
+    ui->treeWidget->blockSignals(true);
+    ui->treeWidget->clear();
+
+    QMapIterator<QString,QStringList> i(processList);
+    while (i.hasNext()) {
+        i.next();
+         qDebug() << ui->treeWidget->isFirstItemColumnSpanned(ui->treeWidget->itemAt(0,0));
+        this->addRootTree(i.key(),i.value().filter(regExp), ui->treeWidget);
+        qDebug() << "filter data" << i.value().filter(regExp);
+    }
+    //ui->treeWidget->blockSignals(false);
+    qDebug() << "connect";*/
+}
+
+
+
+ProcessMonitor::~ProcessMonitor()
+{
+    delete ui;
 }
 
 /*
-//TODO
-void processMonitor::filterTableInfo()
-{
-
-}
-
 void processMonitor::initTree(QMap<QString,QStringList> algorithmsList, QTreeWidget *tree){
     QMapIterator<QString,QStringList> i(algorithmsList);
     while (i.hasNext()) {
@@ -224,24 +258,4 @@ void processMonitor::addChildTree(QTreeWidgetItem *parent,  QStringList list, QS
         pid=pid+23;
     }
 }
-
-void processMonitor::onTextFilterChange(const QString &arg1){
-    QRegExp regExp(arg1, Qt::CaseInsensitive, QRegExp::Wildcard);
-    ui->treeWidget->blockSignals(true);
-    ui->treeWidget->clear();
-
-    QMapIterator<QString,QStringList> i(processList);
-    while (i.hasNext()) {
-        i.next();
-         qDebug() << ui->treeWidget->isFirstItemColumnSpanned(ui->treeWidget->itemAt(0,0));
-        this->addRootTree(i.key(),i.value().filter(regExp), ui->treeWidget);
-        qDebug() << "filter data" << i.value().filter(regExp);
-    }
-    //ui->treeWidget->blockSignals(false);
-    qDebug() << "connect";
-}*/
-
-ProcessMonitor::~ProcessMonitor()
-{
-    delete ui;
-}
+*/

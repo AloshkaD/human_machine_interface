@@ -11,7 +11,7 @@
 #include "odometry_state_receiver.h"
 #include "user_commander.h"
 #include "parameter_temporal_series.h"
-#include "process_monitor.h"
+#include "performance_monitor.h"
 #include "sphere_view.h"
 #include "camera_display_option.h"
 #include "camera_main_option.h"
@@ -101,7 +101,7 @@ Q_SIGNALS:
         void saveImage(const int);
 
 protected:
-    void resizeEvent(QResizeEvent* event);
+    void resizeEventDynamicView(QResizeEvent* event);
 
 private:
     Ui::MainWindow *ui;

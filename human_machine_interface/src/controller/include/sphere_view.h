@@ -45,9 +45,7 @@ class SphereView: public QGLWidget
         void paintGL();
         void shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransform* faxisXtrans);
         void axisGenerator(osg::Geometry* axis, bool fixed);
-        void BuildWall(osg::MatrixTransform* root);
-        void createMap(osg::MatrixTransform* root);
-        void mainLines(osg::Geometry* line);
+
 
     public Q_SLOTS:
     private:
@@ -60,7 +58,7 @@ class SphereView: public QGLWidget
         osg::ref_ptr<osgViewer::Viewer> viewer;
         osg::observer_ptr<osgViewer::GraphicsWindowEmbedded> window;
         osg::ref_ptr<osg::MatrixTransform> mainXtrans;
-         osg::ref_ptr<osg::MatrixTransform> labelXtrans;
+        osg::ref_ptr<osg::MatrixTransform> labelXtrans;
         osg::ref_ptr<osg::MatrixTransform> root;
 };
 

@@ -1636,7 +1636,7 @@
      <string>Help</string>
     </property>
     <addaction name="actionContents"/>
-    <addaction name="on_actionAbout_Human_Machine_Interface"/>
+    <addaction name="actionAbout_Human_Machine_Interface"/>
     <addaction name="actionUser_Commands_Manual"/>
    </widget>
    <addaction name="menuFile"/>
@@ -1685,7 +1685,7 @@
     <string>Contents</string>
    </property>
   </action>
-  <action name="on_actionAbout_Human_Machine_Interface">
+  <action name="actionAbout_Human_Machine_Interface">
    <property name="text">
     <string>About Human Machine Interface</string>
    </property>

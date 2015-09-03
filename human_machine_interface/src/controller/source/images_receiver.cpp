@@ -45,24 +45,24 @@ ImagesReceiver::~ImagesReceiver() {
 
 QImage ImagesReceiver::cvtCvMat2QImage(const cv::Mat & image){
     QImage qtemp;
-        if(!image.empty() && image.depth() == CV_8U)
+    if(!image.empty() && image.depth() == CV_8U)
+    {
+        const unsigned char * data = image.data;
+        qtemp = QImage(image.cols, image.rows, QImage::Format_RGB32);
+        for(int y = 0; y < image.rows; ++y, data += image.cols*image.elemSize())
         {
-            const unsigned char * data = image.data;
-            qtemp = QImage(image.cols, image.rows, QImage::Format_RGB32);
-            for(int y = 0; y < image.rows; ++y, data += image.cols*image.elemSize())
+            for(int x = 0; x < image.cols; ++x)
             {
-                for(int x = 0; x < image.cols; ++x)
-                {
-                    QRgb * p = ((QRgb*)qtemp.scanLine (y)) + x;
-                    *p = qRgb(data[x * image.channels()+2], data[x * image.channels()+1], data[x * image.channels()]);
-                }
+                QRgb * p = ((QRgb*)qtemp.scanLine (y)) + x;
+                *p = qRgb(data[x * image.channels()+2], data[x * image.channels()+1], data[x * image.channels()]);
             }
         }
-        else if(!image.empty() && image.depth() != CV_8U)
-        {
-            printf("The image format must be 8_bits\n");
-        }
-        return qtemp;
+    }
+    else if(!image.empty() && image.depth() != CV_8U)
+    {
+        printf("The image format must be 8_bits\n");
+    }
+    return qtemp;
 }
 
 

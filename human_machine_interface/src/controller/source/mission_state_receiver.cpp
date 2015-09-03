@@ -32,6 +32,14 @@ void MissionStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
 //    real_time=ros;
 }
 
+
+void MissionStateReceiver::run() {
+    //ros::spin();
+    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+}
+
+
 MissionStateReceiver::~MissionStateReceiver() {
     if(ros::isStarted()) {
       ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
@@ -130,12 +138,6 @@ std::string DroneLoggerROSModule::obstaclesTwoDimCallback(const droneMsgsROS::ob
     return result_ss.str();
 }
 */
-
-void MissionStateReceiver::run() {
-    //ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
-}
 
 
 void MissionStateReceiver::log( const LogLevel &level, const std::string &msg) {

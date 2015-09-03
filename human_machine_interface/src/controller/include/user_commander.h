@@ -23,7 +23,11 @@
 #include "droneMsgsROS/droneMissionPlannerCommand.h"
 #include "droneMsgsROS/dronePitchRollCmd.h"
 #include "droneMsgsROS/droneDYawCmd.h"
+#include "droneMsgsROS/droneManagerStatus.h"
 #include "droneMsgsROS/droneDAltitudeCmd.h"
+#include "droneMsgsROS/dronePose.h"
+#include "droneMsgsROS/dronePositionRefCommandStamped.h"
+#include "droneMsgsROS/droneYawRefCommand.h"
 #include <QThread>
 #include "communication_definition.h"
 #include <QStringListModel>
@@ -47,9 +51,17 @@ public:
         droneMsgsROS::droneDAltitudeCmd DroneDAltitudeCmdMsgs;
         droneMsgsROS::droneDYawCmd DroneDYawCmdMsgs;
         droneMsgsROS::droneMissionPlannerCommand droneCommandMsgs;
+        droneMsgsROS::droneManagerStatus droneManagerStatus;
+        droneMsgsROS::droneManagerStatus lastDroneManagerStatusMsg;
+        droneMsgsROS::dronePose currentDronePositionReference;
+        droneMsgsROS::droneYawRefCommand droneYawReference;
+        droneMsgsROS::dronePositionRefCommandStamped  dronePositionReference;
 
 
+        droneMsgsROS::droneManagerStatus getDroneManagerStatus(){return lastDroneManagerStatusMsg;}
 
+        void sendCommandInPositionControlMode(double controller_step_command_x, double controller_step_command_y, double controller_step_command_z);
+        void sendYawCommandInPositionControlMode(double controller_step_command_yaw);
 
         void publish_takeoff();
         void publish_land();
@@ -88,6 +100,13 @@ private:
         ros::Publisher DroneDAltitudeCmdPubl;
         ros::Publisher DroneDYawCmdPubl;
         ros::Publisher droneCommandPubl;
+        ros::Publisher dronePositionReferencePublisher;
+        ros::Publisher droneYawReferencePublisher;
+
+        ros::Subscriber droneManagerStatusSubs;
+
+        void droneCurrentManagerStatusSubCallback(const droneMsgsROS::droneManagerStatus::ConstPtr &msg);
+
         QStringListModel logging_model;
 };
 

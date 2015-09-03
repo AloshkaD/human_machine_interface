@@ -43,10 +43,9 @@ void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
 
     // Topic communications controller
     // Controller references (rebroadcasts): control mode and position, speed and trajectory references
-    //DroneTrajectoryControlSubs=nodeHandle.subscribe("drone0/" + MODULE_NAME_TRAJECTORY_CONTROLLER +"/controlMode", 1, &odometryStateReceiver::droneTrajectoryControllerControlModeCallback, this);
     DroneTrajectoryPositionSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_POSITION_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::dronePoseCallback, this);
     DroneTrajectorySpeedsSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_SPEED_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::droneSpeedsCallback, this);
-    DroneTrajectoryTjReferenceSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_TRAJECTORY_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::dronePositionTrajectoryRefCommandCallback, this);
+
     start();
 //    real_time=ros;
 }
@@ -81,14 +80,15 @@ void OdometryStateReceiver::readParams(){
 
 }
 
-
-
-
-
 void OdometryStateReceiver::droneArucoEstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg)
 {
     DronePoseMsgs=*msg;
-
+    log(Info,std::string("Received pitch from ArucoSlam_EstimatedPose: ")+ boost::lexical_cast<std::string>(msg->pitch));
+    log(Info,std::string("Received roll from ArucoSlam_EstimatedPose: ")+ boost::lexical_cast<std::string>(msg->roll));
+    log(Info,std::string("Received yaw from ArucoSlam_EstimatedPose: ")+ boost::lexical_cast<std::string>(msg->yaw));
+    log(Info,std::string("Received yaw from ArucoSlam_EstimatedPose: ")+ boost::lexical_cast<std::string>(msg->x));
+    log(Info,std::string("Received pos.y from ArucoSlam_EstimatedPose: ")+ boost::lexical_cast<std::string>(msg->y));
+    log(Info,std::string("Received pos.z from ArucoSlam_EstimatedPose: ")+ boost::lexical_cast<std::string>(msg->z));
     ROS_INFO("Received pitch from ArucoSlam_EstimatedPose: [%f]", msg->pitch);
     ROS_INFO("Received roll from ArucoSlam_EstimatedPose: [%f]", msg->roll);
     ROS_INFO("Received yaw from ArucoSlam_EstimatedPose: [%f]", msg->yaw);
@@ -105,7 +105,12 @@ void OdometryStateReceiver::droneArucoEstimatedPoseCallback(const droneMsgsROS::
 void OdometryStateReceiver::droneArucoEstimatedSpeedCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg)
 {
     DroneSpeedsMsgs=*msg;
-
+    log(Info,std::string("Received dx from ArucoSlam_EstimatedSpeeds: [%")+ boost::lexical_cast<std::string>(msg->dx));
+    log(Info,std::string("Received dy from ArucoSlam_EstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dy));
+    log(Info,std::string("Received dz from ArucoSlam_EstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dz));
+    log(Info,std::string("Received dyaw from ArucoSlam_EstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dyaw));
+    log(Info,std::string("Received dpitch from ArucoSlam_EstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dpitch));
+    log(Info,std::string("Received droll from ArucoSlam_EstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->droll));
     ROS_INFO("Received dx from ArucoSlam_EstimatedSpeeds: [%f]", msg->dx);
     ROS_INFO("Received dy from ArucoSlam_EstimatedSpeeds: [%f]", msg->dy);
     ROS_INFO("Received dz from ArucoSlam_EstimatedSpeeds: [%f]", msg->dz);
@@ -120,18 +125,17 @@ void OdometryStateReceiver::droneArucoEstimatedSpeedCallback(const droneMsgsROS:
 }
 
 
-void OdometryStateReceiver::droneArucoEyeObservationCallback(const droneMsgsROS::obsVector::ConstPtr &msg)
-{
 
-    // TODO
-    return;
-
-}
 
 void OdometryStateReceiver::droneGMREstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg)
 {
     DronePoseMsgs=*msg;
-
+    log(Info,std::string("Received dx from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>(msg->pitch));
+    log(Info,std::string("Received dy from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>(msg->roll));
+    log(Info,std::string("Received dz from EstimatedSpeed_droneGMR_wrt_GFF:")+ boost::lexical_cast<std::string>(msg->yaw));
+    log(Info,std::string("Received dyaw from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>(msg->x));
+    log(Info,std::string("Received dpitch from EstimatedSpeed_droneGMR_wrt_GFF:  ")+ boost::lexical_cast<std::string>(msg->y));
+    log(Info,std::string("Received droll from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>(msg->z));
     ROS_INFO("Received pitch from EstimatedPose_droneGMR_wrt_GFF: [%f]", msg->pitch);
     ROS_INFO("Received roll from EstimatedPose_droneGMR_wrt_GFF: [%f]", msg->roll);
     ROS_INFO("Received yaw from EstimatedPose_droneGMR_wrt_GFF: [%f]", msg->yaw);
@@ -148,7 +152,12 @@ void OdometryStateReceiver::droneGMREstimatedPoseCallback(const droneMsgsROS::dr
 void OdometryStateReceiver::droneGMREstimatedSpeedCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg)
 {
     DroneSpeedsMsgs=*msg;
-
+    log(Info,std::string("Received dx from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>(msg->dx));
+    log(Info,std::string("Received dy from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>(msg->dy));
+    log(Info,std::string("Received dz from EstimatedSpeed_droneGMR_wrt_GFF:")+ boost::lexical_cast<std::string>(msg->dz));
+    log(Info,std::string("Received dyaw from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>( msg->dyaw));
+    log(Info,std::string("Received dpitch from EstimatedSpeed_droneGMR_wrt_GFF:  ")+ boost::lexical_cast<std::string>(msg->dpitch));
+    log(Info,std::string("Received droll from EstimatedSpeed_droneGMR_wrt_GFF: ")+ boost::lexical_cast<std::string>(msg->droll));
     ROS_INFO("Received dx from EstimatedSpeed_droneGMR_wrt_GFF: [%f]", msg->dx);
     ROS_INFO("Received dy from EstimatedSpeed_droneGMR_wrt_GFF: [%f]", msg->dy);
     ROS_INFO("Received dz from EstimatedSpeed_droneGMR_wrt_GFF: [%f]", msg->dz);
@@ -165,7 +174,12 @@ void OdometryStateReceiver::droneGMREstimatedSpeedCallback(const droneMsgsROS::d
 void OdometryStateReceiver::droneSOEstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg)
 {
     DronePoseMsgs=*msg;
-
+    log(Info,std::string("Received pitch from SOEstimatedPose: ")+ boost::lexical_cast<std::string>(msg->pitch));
+    log(Info,std::string("Received roll from SOEstimatedPose: ")+ boost::lexical_cast<std::string>(msg->roll));
+    log(Info,std::string("Received yaw from SOEstimatedPose:")+ boost::lexical_cast<std::string>(msg->yaw));
+    log(Info,std::string("Received pos.x from SOEstimatedPose: ")+ boost::lexical_cast<std::string>(msg->x));
+    log(Info,std::string("Received pos.y from SOEstimatedPose:")+ boost::lexical_cast<std::string>(msg->y));
+    log(Info,std::string("Received pos.z from SOEstimatedPose: ")+ boost::lexical_cast<std::string>(msg->z));
     ROS_INFO("Received pitch from SOEstimatedPose: [%f]", msg->pitch);
     ROS_INFO("Received roll from SOEstimatedPose: [%f]", msg->roll);
     ROS_INFO("Received yaw from SOEstimatedPose: [%f]", msg->yaw);
@@ -182,7 +196,12 @@ void OdometryStateReceiver::droneSOEstimatedPoseCallback(const droneMsgsROS::dro
 void OdometryStateReceiver::droneSOEstimatedSpeedsCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg)
 {
     DroneSpeedsMsgs=*msg;
-
+    log(Info,std::string("Received dx from SOEstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dx));
+    log(Info,std::string("Received dy from SOEstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dy));
+    log(Info,std::string("Received dz from SOEstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dz));
+    log(Info,std::string("Received dyaw from SOEstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dyaw));
+    log(Info,std::string("Received dpitch from SOEstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->dpitch));
+    log(Info,std::string("Received droll from SOEstimatedSpeeds: ")+ boost::lexical_cast<std::string>(msg->droll));
     ROS_INFO("Received dx from SOEstimatedSpeeds: [%f]", msg->dx);
     ROS_INFO("Received dy from SOEstimatedSpeeds: [%f]", msg->dy);
     ROS_INFO("Received dz from SOEstimatedSpeeds: [%f]", msg->dz);
@@ -203,6 +222,12 @@ void OdometryStateReceiver::dronePoseCallback(const droneMsgsROS::dronePose::Con
 {
     DroneControllerPoseMsgs=*msg;
 
+    log(Info,std::string("Received pitch from Controller:  ")+ boost::lexical_cast<std::string>(msg->pitch));
+    log(Info,std::string("Received roll from Controller: ")+ boost::lexical_cast<std::string>(msg->roll));
+    log(Info,std::string("Received yaw from Controller: ")+ boost::lexical_cast<std::string>(msg->yaw));
+    log(Info,std::string("Received pos.x from Controller: ")+ boost::lexical_cast<std::string>(msg->x));
+    log(Info,std::string("Received pos.y from Controller: ")+ boost::lexical_cast<std::string>(msg->y));
+    log(Info,std::string("Received pos.z from Controller: ")+ boost::lexical_cast<std::string>( msg->z));
     ROS_INFO("Received pitch from Controller: [%f]", msg->pitch);
     ROS_INFO("Received roll from Controller: [%f]", msg->roll);
     ROS_INFO("Received yaw from Controller: [%f]", msg->yaw);
@@ -218,7 +243,12 @@ void OdometryStateReceiver::dronePoseCallback(const droneMsgsROS::dronePose::Con
 void OdometryStateReceiver::droneSpeedsCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg)
 {
      DroneControllerSpeedsMsgs=*msg;
-
+     log(Info,std::string("Received dx from Controller:  ")+ boost::lexical_cast<std::string>(msg->dx) );
+     log(Info,std::string("Received dy from Controller: ")+ boost::lexical_cast<std::string>(msg->dy) );
+     log(Info,std::string("Received dz from Controller: ")+ boost::lexical_cast<std::string>(msg->dz) );
+     log(Info,std::string("Received dyaw from Controller: ")+ boost::lexical_cast<std::string>(msg->dyaw) );
+     log(Info,std::string("Received dpitch from Controller: ")+ boost::lexical_cast<std::string>(msg->dpitch) );
+     log(Info,std::string("Received droll from Controller: ")+ boost::lexical_cast<std::string>(msg->droll) );
      ROS_INFO("Received dx from Controller: [%f]", msg->dx);
      ROS_INFO("Received dy from Controller: [%f]", msg->dy);
      ROS_INFO("Received dz from Controller: [%f]", msg->dz);
@@ -231,75 +261,13 @@ void OdometryStateReceiver::droneSpeedsCallback(const droneMsgsROS::droneSpeeds:
      return;
 }
 
-void OdometryStateReceiver::droneTrajectoryControllerControlModeCallback(const droneMsgsROS::droneTrajectoryControllerControlMode::ConstPtr &msg)
+void OdometryStateReceiver::droneArucoEyeObservationCallback(const droneMsgsROS::obsVector::ConstPtr &msg)
 {
-   /* std::stringstream result_ss;
-    switch (msg->command) {
-    case droneMsgsROS::droneTrajectoryControllerControlMode::SPEED_CONTROL:
-        result_ss << "command:" << "SPEED";
-        break;
-    case droneMsgsROS::droneTrajectoryControllerControlMode::POSITION_CONTROL:
-        result_ss << "command:" << "POSITION";
-        break;
-    case droneMsgsROS::droneTrajectoryControllerControlMode::TRAJECTORY_CONTROL:
-        result_ss << "command:" << "TRAJECTORY";
-        break;
-    case droneMsgsROS::droneTrajectoryControllerControlMode::UNKNOWN_CONTROL_MODE:
-        result_ss << "command:" << "UNKNOWN";
-    default:
-        break;
-    }
-    return result_ss.str();*/
+
+    // TODO
+    return;
+
 }
-
-void OdometryStateReceiver::dronePositionTrajectoryRefCommandCallback(const droneMsgsROS::dronePositionTrajectoryRefCommand::ConstPtr &msg)
-{
-   /* std::ostringstream xmat_trajectoryLogMsgStrm; xmat_trajectoryLogMsgStrm.str(std::string());
-    std::ostringstream ymat_trajectoryLogMsgStrm; ymat_trajectoryLogMsgStrm.str(std::string());
-    std::ostringstream zmat_trajectoryLogMsgStrm; zmat_trajectoryLogMsgStrm.str(std::string());
-    int num_checkpoints = msg->droneTrajectory.size();
-
-    if ( num_checkpoints == 0) {
-        xmat_trajectoryLogMsgStrm << "[]";
-        ymat_trajectoryLogMsgStrm << "[]";
-        zmat_trajectoryLogMsgStrm << "[]";
-    } else {
-        xmat_trajectoryLogMsgStrm << "[";
-        ymat_trajectoryLogMsgStrm << "[";
-        zmat_trajectoryLogMsgStrm << "[";
-
-        for (int i=0; i<num_checkpoints; i++ ) {
-            xmat_trajectoryLogMsgStrm << msg->droneTrajectory[i].x;
-            ymat_trajectoryLogMsgStrm << msg->droneTrajectory[i].y;
-            zmat_trajectoryLogMsgStrm << msg->droneTrajectory[i].z;
-            if (i < num_checkpoints-1) {
-                xmat_trajectoryLogMsgStrm << ";";
-                ymat_trajectoryLogMsgStrm << ";";
-                zmat_trajectoryLogMsgStrm << ";";
-            } else {
-                xmat_trajectoryLogMsgStrm << "]";
-                ymat_trajectoryLogMsgStrm << "]";
-                zmat_trajectoryLogMsgStrm << "]";
-            }
-        }
-    }
-
-    std::stringstream result_ss;
-    result_ss <<  "x:" << xmat_trajectoryLogMsgStrm.str()
-              << " y:" << ymat_trajectoryLogMsgStrm.str()
-              << " z:" << zmat_trajectoryLogMsgStrm.str();
-    result_ss << " is_periodic:" << (int)msg->is_periodic
-              << " initial_checkpoint:" << msg->initial_checkpoint;
-    return result_ss.str();*/
-}
-
-
-
-
-
-
-
-
 
 void OdometryStateReceiver::log( const LogLevel &level, const std::string &msg) {
 	logging_model.insertRows(logging_model.rowCount(),1);

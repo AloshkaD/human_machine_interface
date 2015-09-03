@@ -13,9 +13,6 @@
 #include <qwt/qwt.h>
 #include <qwt/qwt_plot.h>
 #include <qwt/qwt_plot_curve.h>
-#include <qwt/qwt_text.h>
-#include <qwt/qwt_plot_magnifier.h>
-#include <qwt/qwt_counter.h>
 #include <cmath>
 
 #include <QLabel>
@@ -72,8 +69,8 @@ void ParameterTemporalSeries::setSignalHandlers()
     connect(ui->spinBox_2, SIGNAL(valueChanged(int)),plot, SLOT(resizeAxisYScale(int)) );
     connect(ui->pushButton, SIGNAL(clicked()),plot, SLOT(saveAsSVG()) );
     connect(telemReceiver, SIGNAL( parameterReceived( )), this, SLOT(updateParametersValue( )));
-  //  connect(ui->lineEdit,SIGNAL(textChanged(QString)),
-   //         this, SLOT(onTextFilterChange(QString)));
+    //  connect(ui->lineEdit,SIGNAL(textChanged(QString)),
+    //         this, SLOT(onTextFilterChange(QString)));
     //connect(ui->checkBox_4,SIGNAL(clicked(bool)),this, SLOT(onShowUnits(bool)));
     connect(ui->pushButton_2,SIGNAL(clicked()),this, SLOT(onStopButton()));
 }
@@ -146,7 +143,7 @@ void ParameterTemporalSeries::onTextFilterChange(const QString &arg1){
     QMapIterator<QString,QStringList> i(parameters);
     while (i.hasNext()) {
         i.next();
-         qDebug() << ui->treeWidget->isFirstItemColumnSpanned(ui->treeWidget->itemAt(0,0));
+        qDebug() << ui->treeWidget->isFirstItemColumnSpanned(ui->treeWidget->itemAt(0,0));
         this->addRootTree(i.key(),i.value().filter(regExp), ui->treeWidget);
         qDebug() << "filter data" << i.value().filter(regExp);
     }
@@ -167,14 +164,10 @@ void ParameterTemporalSeries::onShowUnits(bool click){
             QString itemName;
             for(int j =0;j<list.size();++j){
                 itemName=i.key() + "/" + list.at(j);
-                qDebug()<<"Item Name";
-                qDebug()<<itemName;
                 if(plot->selectedItems.contains(itemName)){
-                    qDebug()<<"Containsss";
-                    qDebug()<<itemName;
-                  QTreeWidgetItem* itemList = plot->items[itemName];
-                  itemList->setText(2,"float");
-               }
+                    QTreeWidgetItem* itemList = plot->items[itemName];
+                    itemList->setText(2,"float");
+                }
             }
         }
         ui->treeWidget->setColumnCount(3);
@@ -188,9 +181,9 @@ void ParameterTemporalSeries::onShowUnits(bool click){
 
 void ParameterTemporalSeries::onStopButton(){
     if(plot->stopPressed)
-      plot->stopPressed = false;
+        plot->stopPressed = false;
     else
-      plot->stopPressed = true;
+        plot->stopPressed = true;
 }
 
 

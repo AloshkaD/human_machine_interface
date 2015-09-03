@@ -107,7 +107,8 @@ private:
         ros::Subscriber errorInformerSubs;
         void errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg);
 
-
+        std::string supervisor_process_error_unified_notification;
+        std::string supervisor_processes_performance;
 
         QStringListModel logging_model;
 };
