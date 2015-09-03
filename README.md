@@ -35,7 +35,7 @@ Installation tutorial in Ubuntu 14.04:
 ###Installation
 
 ```
-cd worskspace/src
+cd worskspace/ros
 catkin_init_workspace
 git clone https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git
 cd ..
