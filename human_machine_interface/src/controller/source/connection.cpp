@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/connection.h"
-#include "../../../../human_machine_interface-build/ui_connection.h"
+#include "../../view/ui_connection.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
@@ -86,15 +86,15 @@ bool Connection::init()
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
 
-    ros::MultiThreadedSpinner spinner(4);// Start threads to receive and send packages
-
     // Start query threads
-    telemetryReceiver->openSubscriptions(n,spinner);
-    odometryReceiver->openSubscriptions(n,spinner);
+    telemetryReceiver->openSubscriptions(n);
+    odometryReceiver->openSubscriptions(n);
     imgReceiver->openSubscriptions(n);
     graphReceiver->openSubscriptions(n);
     // Start command threads
     usercommander->openPublications(n);
+
+
     return true;
 }
 

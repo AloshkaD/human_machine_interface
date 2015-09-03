@@ -10,25 +10,33 @@ add_definitions(-std=c++11)
 ##############################################################################
 # Catkin
 ##############################################################################
-set(HUMANMACHINEINTERFACE_SOURCE_DIR
+set(HUMANMACHINEINTERFACE_CONTROLLER_SOURCE_DIR
         src/controller/source)
 
-set(HUMANMACHINEINTERFACE_INCLUDE_DIR
+set(HUMANMACHINEINTERFACE_CONTROLLER_INCLUDE_DIR
         src/controller/include)
 
+set(HUMANMACHINEINTERFACE_VIEW_INCLUDE_DIR
+        src/view)
+
+
 set(HUMANMACHINEINTERFACE_HEADER_FILES
-        ${HUMANMACHINEINTERFACE_INCLUDE_DIR}/*.h
+        ${HUMANMACHINEINTERFACE_CONTROLLER_INCLUDE_DIR}/*.h
 )
 
 set(HUMANMACHINEINTERFACE_SOURCE_FILES
-        ${HUMANMACHINEINTERFACE_SOURCE_DIR}/*.cpp
+        ${HUMANMACHINEINTERFACE_CONTROLLER_SOURCE_DIR}/*.cpp
 
+)
+
+set(HUMANMACHINEINTERFACE_HEADER_FILES
+        ${HUMANMACHINEINTERFACE_VIEW_INCLUDE_DIR}/*.h
 )
 
 
 
 find_package(catkin REQUIRED COMPONENTS rviz roscpp image_transport  cv_bridge std_msgs geometry_msgs)
-catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_INCLUDE_DIR} CATKIN_DEPENDS)
+catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_INCLUDE_DIR} ${HUMANMACHINEINTERFACE_INCLUDE_DIR} CATKIN_DEPENDS)
 
 include_directories(${HUMANMACHINEINTERFACE_INCLUDE_DIR})
 include_directories(${catkin_INCLUDE_DIRS})

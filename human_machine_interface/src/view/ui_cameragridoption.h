@@ -13,7 +13,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_fourCameraButton
+class Ui_CameraGridOption
 {
 public:
     QGridLayout *gridLayout;
@@ -30,14 +30,14 @@ public:
     QWidget *widget_5;
     QWidget *widget_4;
 
-    void setupUi(QWidget *fourCameraButton)
+    void setupUi(QWidget *CameraGridOption)
     {
-        if (fourCameraButton->objectName().isEmpty())
-            fourCameraButton->setObjectName(QString::fromUtf8("fourCameraButton"));
-        fourCameraButton->resize(681, 601);
-        gridLayout = new QGridLayout(fourCameraButton);
+        if (CameraGridOption->objectName().isEmpty())
+            CameraGridOption->setObjectName(QString::fromUtf8("CameraGridOption"));
+        CameraGridOption->resize(681, 601);
+        gridLayout = new QGridLayout(CameraGridOption);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        frame = new QFrame(fourCameraButton);
+        frame = new QFrame(CameraGridOption);
         frame->setObjectName(QString::fromUtf8("frame"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
@@ -53,7 +53,7 @@ public:
 
         gridLayout->addWidget(frame, 0, 0, 1, 1);
 
-        frame_2 = new QFrame(fourCameraButton);
+        frame_2 = new QFrame(CameraGridOption);
         frame_2->setObjectName(QString::fromUtf8("frame_2"));
         sizePolicy.setHeightForWidth(frame_2->sizePolicy().hasHeightForWidth());
         frame_2->setSizePolicy(sizePolicy);
@@ -66,19 +66,19 @@ public:
 
         gridLayout->addWidget(frame_2, 0, 1, 1, 1);
 
-        widget_1 = new QWidget(fourCameraButton);
+        widget_1 = new QWidget(CameraGridOption);
         widget_1->setObjectName(QString::fromUtf8("widget_1"));
         widget_1->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
 
         gridLayout->addWidget(widget_1, 1, 0, 1, 1);
 
-        widget_2 = new QWidget(fourCameraButton);
+        widget_2 = new QWidget(CameraGridOption);
         widget_2->setObjectName(QString::fromUtf8("widget_2"));
         widget_2->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
 
         gridLayout->addWidget(widget_2, 1, 1, 1, 1);
 
-        frame_4 = new QFrame(fourCameraButton);
+        frame_4 = new QFrame(CameraGridOption);
         frame_4->setObjectName(QString::fromUtf8("frame_4"));
         sizePolicy.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
         frame_4->setSizePolicy(sizePolicy);
@@ -91,7 +91,7 @@ public:
 
         gridLayout->addWidget(frame_4, 2, 0, 1, 1);
 
-        frame_3 = new QFrame(fourCameraButton);
+        frame_3 = new QFrame(CameraGridOption);
         frame_3->setObjectName(QString::fromUtf8("frame_3"));
         sizePolicy.setHeightForWidth(frame_3->sizePolicy().hasHeightForWidth());
         frame_3->setSizePolicy(sizePolicy);
@@ -104,37 +104,40 @@ public:
 
         gridLayout->addWidget(frame_3, 2, 1, 1, 1);
 
-        widget_5 = new QWidget(fourCameraButton);
+        widget_5 = new QWidget(CameraGridOption);
         widget_5->setObjectName(QString::fromUtf8("widget_5"));
         widget_5->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
 
         gridLayout->addWidget(widget_5, 3, 0, 1, 1);
 
-        widget_4 = new QWidget(fourCameraButton);
+        widget_4 = new QWidget(CameraGridOption);
         widget_4->setObjectName(QString::fromUtf8("widget_4"));
         widget_4->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
 
         gridLayout->addWidget(widget_4, 3, 1, 1, 1);
 
 
-        retranslateUi(fourCameraButton);
+        retranslateUi(CameraGridOption);
 
-        QMetaObject::connectSlotsByName(fourCameraButton);
+        QMetaObject::connectSlotsByName(CameraGridOption);
     } // setupUi
 
-    void retranslateUi(QWidget *fourCameraButton)
+    void retranslateUi(QWidget *CameraGridOption)
     {
-        fourCameraButton->setWindowTitle(QApplication::translate("fourCameraButton", "Form", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("fourCameraButton", "Camera 1", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("fourCameraButton", "Camera 2", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("fourCameraButton", "Camera 3", 0, QApplication::UnicodeUTF8));
-        label_4->setText(QApplication::translate("fourCameraButton", "Camera 4", 0, QApplication::UnicodeUTF8));
+        CameraGridOption->setWindowTitle(QApplication::translate("CameraGridOption", "Form", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("CameraGridOption", "Camera 1", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("CameraGridOption", "Camera 2", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_STATUSTIP
+        widget_1->setStatusTip(QApplication::translate("CameraGridOption", "Show the camera views ordered in a grid", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_STATUSTIP
+        label_3->setText(QApplication::translate("CameraGridOption", "Camera 3", 0, QApplication::UnicodeUTF8));
+        label_4->setText(QApplication::translate("CameraGridOption", "Camera 4", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class fourCameraButton: public Ui_fourCameraButton {};
+    class CameraGridOption: public Ui_CameraGridOption {};
 } // namespace Ui
 
 QT_END_NAMESPACE

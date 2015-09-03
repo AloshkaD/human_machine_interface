@@ -122,6 +122,9 @@ public:
     void retranslateUi(QDialog *CommunicationConsole)
     {
         CommunicationConsole->setWindowTitle(QApplication::translate("CommunicationConsole", "Dialog", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_STATUSTIP
+        CommunicationConsole->setStatusTip(QApplication::translate("CommunicationConsole", "Shows the incoming messages of monitored processes", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_STATUSTIP
         tabWidget->setTabText(tabWidget->indexOf(tab1), QApplication::translate("CommunicationConsole", "telemetry", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab3), QApplication::translate("CommunicationConsole", "odometry", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab4), QApplication::translate("CommunicationConsole", "supervisor", 0, QApplication::UnicodeUTF8));

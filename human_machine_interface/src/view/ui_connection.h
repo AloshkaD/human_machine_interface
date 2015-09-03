@@ -141,6 +141,9 @@ public:
     void retranslateUi(QDialog *connection)
     {
         connection->setWindowTitle(QApplication::translate("connection", "QRosApp", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_STATUSTIP
+        connection->setStatusTip(QApplication::translate("connection", "Allow the user to communicate the HMI with the master machine", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_STATUSTIP
         action_Quit->setText(QApplication::translate("connection", "&Quit", 0, QApplication::UnicodeUTF8));
         action_Quit->setShortcut(QApplication::translate("connection", "Ctrl+Q", 0, QApplication::UnicodeUTF8));
         action_Preferences->setText(QApplication::translate("connection", "&Preferences", 0, QApplication::UnicodeUTF8));

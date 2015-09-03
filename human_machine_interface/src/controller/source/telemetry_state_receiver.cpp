@@ -28,9 +28,7 @@ TelemetryStateReceiver::TelemetryStateReceiver(){
 }
 
 
-void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle,ros::MultiThreadedSpinner spinner ){
-
-    trheadSpin = spinner;
+void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
 
     //Commands
     DronePitchRollCmdSubs=nodeHandle.subscribe("drone0/" + DRONE_DRIVER_COMMAND_DRONE_COMMAND_PITCH_ROLL, 1, &TelemetryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
@@ -81,7 +79,7 @@ TelemetryStateReceiver::~TelemetryStateReceiver() {
 
 
 void TelemetryStateReceiver::run() {
-    trheadSpin.spin();
+    ros::spin();
     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
     Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
 }

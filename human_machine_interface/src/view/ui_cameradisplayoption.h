@@ -209,6 +209,9 @@ public:
     void retranslateUi(QWidget *cameraDisplayOption)
     {
         cameraDisplayOption->setWindowTitle(QApplication::translate("cameraDisplayOption", "Form", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_STATUSTIP
+        cameraDisplayOption->setStatusTip(QApplication::translate("cameraDisplayOption", "Allows the user to monitorize different cameras and select the main camera.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_STATUSTIP
         titleCamera1->setText(QApplication::translate("cameraDisplayOption", "Camera 1", 0, QApplication::UnicodeUTF8));
         titleCamera2->setText(QApplication::translate("cameraDisplayOption", "Camera 2", 0, QApplication::UnicodeUTF8));
         imageCamera1->setText(QString());

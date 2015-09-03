@@ -35,6 +35,13 @@ void ImagesReceiver::run() {
     Q_EMIT rosShutdown();
 }
 
+ImagesReceiver::~ImagesReceiver() {
+    if(ros::isStarted()) {
+      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
+      ros::waitForShutdown();
+    }
+    wait();
+}
 
 QImage ImagesReceiver::cvtCvMat2QImage(const cv::Mat & image){
     QImage qtemp;
@@ -136,11 +143,5 @@ void ImagesReceiver::log( const LogLevel &level, const std::string &msg) {
 }
 
 
-ImagesReceiver::~ImagesReceiver() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-    wait();
-}
+
 

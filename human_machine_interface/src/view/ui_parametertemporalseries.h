@@ -114,6 +114,9 @@ public:
 
     void retranslateUi(QWidget *parameterTemporalSeries)
     {
+#ifndef QT_NO_STATUSTIP
+        parameterTemporalSeries->setStatusTip(QApplication::translate("parameterTemporalSeries", "Shows the parameters list. Allows the user to display plots of selected parameters.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_STATUSTIP
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
         ___qtreewidgetitem->setText(2, QApplication::translate("parameterTemporalSeries", "Units", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem->setText(1, QApplication::translate("parameterTemporalSeries", "Value", 0, QApplication::UnicodeUTF8));
@@ -121,7 +124,6 @@ public:
         label->setText(QApplication::translate("parameterTemporalSeries", " Max Vertical Axis", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("parameterTemporalSeries", "Save Plot ", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("parameterTemporalSeries", "Stop", 0, QApplication::UnicodeUTF8));
-        Q_UNUSED(parameterTemporalSeries);
     } // retranslateUi
 
 };

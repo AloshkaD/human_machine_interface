@@ -27,6 +27,7 @@
  }
 
  void UserCommander::openPublications(ros::NodeHandle nodeHandle){
+
      // Topic communications
      DronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_PITCH_ROLL_PUBLICATION,1, true);
      DroneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_COMMAND_DALTITUDE_PUBLICATION,1, true);
@@ -34,6 +35,12 @@
      DroneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneCommand>("drone0/" + DRONE_CONSOLE_INTERFACE_COMMAND_DRONE_HL_COMMAND_PUBLICATION,1, true);
 
      start();
+ }
+
+ void UserCommander::run() {
+     ros::spin();
+     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+     Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
  }
 
  UserCommander::~ UserCommander() {

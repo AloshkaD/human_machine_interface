@@ -111,7 +111,7 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
-    void openSubscriptions(ros::NodeHandle nodeHandle,ros::MultiThreadedSpinner spinner);
+    void openSubscriptions(ros::NodeHandle nodeHandle);
 
 Q_SIGNALS:
 	void loggingUpdated();

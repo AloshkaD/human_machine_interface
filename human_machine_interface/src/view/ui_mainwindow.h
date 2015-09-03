@@ -1,11 +1,3 @@
-/********************************************************************************
-** Form generated from reading UI file 'mainwindow.ui'
-**
-** Created by: Qt User Interface Compiler version 4.8.6
-**
-** WARNING! All changes made in this file will be lost when recompiling UI file!
-********************************************************************************/
-
 #ifndef UI_MAINWINDOW_H
 #define UI_MAINWINDOW_H
 
@@ -41,7 +33,7 @@ public:
     QAction *actionSystem_Status;
     QAction *action3D_Perception_View;
     QAction *actionContents;
-    QAction *actionAbout_Ground_Control_System;
+    QAction *on_actionAbout_Human_Machine_Interface;
     QAction *actionUser_Commands_Manual;
     QAction *actionCommunication_Console;
     QWidget *centralWidget;
@@ -175,8 +167,8 @@ public:
         action3D_Perception_View->setObjectName(QString::fromUtf8("action3D_Perception_View"));
         actionContents = new QAction(MainWindow);
         actionContents->setObjectName(QString::fromUtf8("actionContents"));
-        actionAbout_Ground_Control_System = new QAction(MainWindow);
-        actionAbout_Ground_Control_System->setObjectName(QString::fromUtf8("actionAbout_Ground_Control_System"));
+        on_actionAbout_Human_Machine_Interface = new QAction(MainWindow);
+        on_actionAbout_Human_Machine_Interface->setObjectName(QString::fromUtf8("on_actionAbout_Human_Machine_Interface"));
         actionUser_Commands_Manual = new QAction(MainWindow);
         actionUser_Commands_Manual->setObjectName(QString::fromUtf8("actionUser_Commands_Manual"));
         actionCommunication_Console = new QAction(MainWindow);
@@ -943,12 +935,12 @@ public:
         menuSettings->addAction(actionNew_connection);
         menuSettings->addAction(actionCommunication_Console);
         menuHelp->addAction(actionContents);
-        menuHelp->addAction(actionAbout_Ground_Control_System);
+        menuHelp->addAction(on_actionAbout_Human_Machine_Interface);
         menuHelp->addAction(actionUser_Commands_Manual);
 
         retranslateUi(MainWindow);
 
-        tabManager->setCurrentIndex(2);
+        tabManager->setCurrentIndex(1);
         tab_controlPanel->setCurrentIndex(0);
         tab_dynamicView->setCurrentIndex(0);
 
@@ -967,7 +959,7 @@ public:
         actionSystem_Status->setText(QApplication::translate("MainWindow", "System Status", 0, QApplication::UnicodeUTF8));
         action3D_Perception_View->setText(QApplication::translate("MainWindow", "3D Perception View", 0, QApplication::UnicodeUTF8));
         actionContents->setText(QApplication::translate("MainWindow", "Contents", 0, QApplication::UnicodeUTF8));
-        actionAbout_Ground_Control_System->setText(QApplication::translate("MainWindow", "About Ground Control System", 0, QApplication::UnicodeUTF8));
+        on_actionAbout_Human_Machine_Interface->setText(QApplication::translate("MainWindow", "About Human Machine Interface", 0, QApplication::UnicodeUTF8));
         actionUser_Commands_Manual->setText(QApplication::translate("MainWindow", "User Commands Manual", 0, QApplication::UnicodeUTF8));
         actionCommunication_Console->setText(QApplication::translate("MainWindow", "Communication Console", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_STATUSTIP
@@ -985,7 +977,7 @@ public:
         tab_controlPanel->setToolTip(QApplication::translate("MainWindow", "Panel Control", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        tab_controlPanel->setStatusTip(QApplication::translate("MainWindow", "Shows the current state of the UAV and the basic control actions", 0, QApplication::UnicodeUTF8));
+        tab_controlPanel->setStatusTip(QApplication::translate("MainWindow", "Shows the current state of the vehicle and basic control commands", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_STATUSTIP
         label_flyingTime->setText(QApplication::translate("MainWindow", "Flying Time :", 0, QApplication::UnicodeUTF8));
         value_Warnings->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));

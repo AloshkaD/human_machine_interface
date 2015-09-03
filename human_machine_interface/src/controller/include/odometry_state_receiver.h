@@ -70,7 +70,7 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
-        void openSubscriptions(ros::NodeHandle nodeHandle,ros::MultiThreadedSpinner spinner);
+        void openSubscriptions(ros::NodeHandle nodeHandle);
         void readParams();
 
 Q_SIGNALS:
@@ -86,8 +86,6 @@ private:
 	int init_argc;
         int real_time;
         char** init_argv;
-
-        ros::MultiThreadedSpinner threadSpin;
 
         ros::Subscriber DroneGMREstimatedPoseSubs;
         void droneGMREstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg);
@@ -123,8 +121,6 @@ private:
         ros::Subscriber DroneTrajectoryTjReferenceSubs;
         void dronePositionTrajectoryRefCommandCallback(const droneMsgsROS::dronePositionTrajectoryRefCommand::ConstPtr &msg);
 
-       //void errorInformerCallback(const droneMsgsROS::error_message::ConstPtr& msg);
-         /*void watchdogCallback(const droneMsgsROS::error_message::ConstPtr& msg);*/
 
         void processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg);
 

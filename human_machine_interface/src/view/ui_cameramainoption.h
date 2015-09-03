@@ -94,6 +94,9 @@ public:
     void retranslateUi(QWidget *cameraMainOption)
     {
         cameraMainOption->setWindowTitle(QApplication::translate("cameraMainOption", "Form", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_STATUSTIP
+        cameraMainOption->setStatusTip(QApplication::translate("cameraMainOption", "Show the camera images in full screen ", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_STATUSTIP
         labelTitle->setText(QApplication::translate("cameraMainOption", "Camera 1", 0, QApplication::UnicodeUTF8));
         mainImage->setText(QString());
         leftButton->setText(QString());

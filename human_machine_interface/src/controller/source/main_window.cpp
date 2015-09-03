@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../../../../human_machine_interface-build/ui_mainwindow.h"
+#include "../../view/ui_mainwindow.h"
 #include <qwt/qwt.h>
 #include <qwt/qwt_plot.h>
 #include <qwt/qwt_plot_curve.h>
@@ -356,7 +356,7 @@ void MainWindow::testConnection() {
         cout << "roscore node could have not been initialized" << '\n';
         showNoMasterMessage();
     }else{
-        //showConnectionEstablished();
+        showConnectionEstablished();
         ui->value_wifi->setText("Connected");
 
         connect(flightTimer, SIGNAL(timeout()), this, SLOT(flightTime()));

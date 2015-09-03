@@ -25,9 +25,8 @@
 OdometryStateReceiver::OdometryStateReceiver(){}
 
 
-void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, ros::MultiThreadedSpinner spinner){
+void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
 
-    threadSpin=spinner;
     readParams();
 
     DroneGMREstimatedPoseSubs=nodeHandle.subscribe("drone0/" + DRONE_TRAJECTORY_CONTROLLER_POSE_SUBSCRIPTION_GMR, 1, &OdometryStateReceiver::droneGMREstimatedPoseCallback, this); //EstimatedPose_droneGMR_wrt_GFF
@@ -53,7 +52,7 @@ void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, ros::M
 }
 
 void OdometryStateReceiver::run() {
-    threadSpin.spin();
+    ros::spin();
     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
     Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
 }

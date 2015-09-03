@@ -39,7 +39,9 @@ public:
         UserCommander();
 	virtual ~UserCommander();
         int order;
+        void run();
         void  openPublications(ros::NodeHandle nodeHandle);
+
 
         droneMsgsROS::dronePitchRollCmd DronePitchRollCmdMsgs;
         droneMsgsROS::droneDAltitudeCmd DroneDAltitudeCmdMsgs;
@@ -56,9 +58,7 @@ public:
         void publish_emergencyStop();
         void publish_LLCommand();
 
-	/*********************
-	** Logging
-	**********************/
+
 	enum LogLevel {
 	         Debug,
 	         Info,
@@ -68,15 +68,15 @@ public:
 	 };
 
 	QStringListModel* loggingModel() { return &logging_model; }
-
 	void log( const LogLevel &level, const std::string &msg);
+
 
 Q_SIGNALS:
 	void loggingUpdated();
         void rosShutdown();
 
 private:
-
+        ros::MultiThreadedSpinner threadSpin;
 	ros::Publisher gcs_publisher;
         ros::Publisher DronePitchRollCmdPubl;
         ros::Publisher DroneDAltitudeCmdPubl;

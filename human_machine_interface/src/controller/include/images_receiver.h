@@ -26,9 +26,7 @@ public:
 
     void run();
 
-        /*********************
-        ** Logging
-        **********************/
+
         enum LogLevel {
                  Debug,
                  Info,
@@ -52,6 +50,7 @@ Q_SIGNALS:
 
 private:
         QPixmap px;
+        ros::MultiThreadedSpinner threadSpin;
         image_transport::Subscriber image_bottom_sub_;
         image_transport::Subscriber image_front_sub_;
         void imagesBottomReceptionCallback(const sensor_msgs::ImageConstPtr& msg);
