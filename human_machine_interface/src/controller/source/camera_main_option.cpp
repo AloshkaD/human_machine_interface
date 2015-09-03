@@ -91,7 +91,7 @@ void CameraMainOption::changeRightImage() //TODO:Change label title
 }
 
 
-void CameraOneOption::changeLeftImage()
+void CameraMainOption::changeLeftImage()
 {
     current_image--;
     switch(current_image)

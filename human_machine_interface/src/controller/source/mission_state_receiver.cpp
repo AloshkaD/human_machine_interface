@@ -131,6 +131,12 @@ std::string DroneLoggerROSModule::obstaclesTwoDimCallback(const droneMsgsROS::ob
 }
 */
 
+void MissionStateReceiver::run() {
+    ros::spin();
+    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+}
+
 
 void MissionStateReceiver::log( const LogLevel &level, const std::string &msg) {
 	logging_model.insertRows(logging_model.rowCount(),1);

@@ -6,7 +6,7 @@
 #include "images_receiver.h"
 
 namespace Ui {
-class CameraMainOption;
+class cameraMainOption;
 }
 
 class CameraMainOption : public QWidget
@@ -34,7 +34,7 @@ public Q_SLOTS:
     void saveCameraImages(const int camera_view_manager);
 
 private:
-    Ui::CameraMainOption *ui;
+    Ui::cameraMainOption *ui;
     ImagesReceiver* imageReceiver;
     QPixmap pix;
 };

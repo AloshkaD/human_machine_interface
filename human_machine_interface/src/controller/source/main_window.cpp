@@ -211,7 +211,7 @@ void MainWindow::initializeCameraView(){
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
     ui->gridCamera->addWidget(widget,0,0);
-    oneoption= new CameraOneOption(this,connection->imgReceiver);
+    oneoption= new CameraMainOption(this,connection->imgReceiver);
     ui->gridCamera->addWidget(oneoption,0,0);
 
 }
@@ -224,7 +224,7 @@ void MainWindow::displayOneCamera()
         widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
         ui->gridCamera->addWidget(widget,0,0);
-         if(!isOpen_oneCameraView) oneoption= new CameraOneOption(this,connection->imgReceiver);
+         if(!isOpen_oneCameraView) oneoption= new CameraMainOption(this,connection->imgReceiver);
         ui->gridCamera->addWidget(oneoption,0,0);
         isOpen_oneCameraView=true;
 }
@@ -248,7 +248,7 @@ void MainWindow::displayFourGridCamera(){
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
     ui->gridCamera->addWidget(widget,0,0);
-    fourCamera= new fourCameraOption(this);
+    fourCamera= new CameraGridOption(this);
     ui->gridCamera->addWidget(fourCamera,0,0);
     isOpen_fourCameraView=true;
   }

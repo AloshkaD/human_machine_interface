@@ -16,7 +16,7 @@
 
 CameraGridOption::CameraGridOption(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::fourCameraButton)
+    ui(new Ui::CameraGridOption)
 {
     ui->setupUi(this);
 }

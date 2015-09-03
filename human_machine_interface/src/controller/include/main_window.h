@@ -107,8 +107,8 @@ private:
     Ui::MainWindow *ui;
     Connection *connection;
     CameraDisplayOption *mainoption;
-    CameraOneOption *oneoption;
-    fourCameraOption *fourCamera;
+    CameraMainOption *oneoption;
+    CameraGridOption *fourCamera;
     ProcessMonitor *processView;
     ParameterTemporalSeries *paramPlot;
     CommunicationConsole *consoleView;
