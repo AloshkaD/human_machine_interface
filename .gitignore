@@ -5,3 +5,6 @@
 build/
 build-*
 *-build
+
+# User files
+*.user

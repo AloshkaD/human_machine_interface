@@ -32,10 +32,13 @@ The Human Machine Interface depends on ROS, Qt and OpenSceneGraph.
 Installation tutorial in Ubuntu 14.04: 
 <https://bhattigurjot.wordpress.com/2013/12/27/openscenegraph-on-linux/>
 
+You should add this line at the end of your ~/.bashrc or write it each time that you want to use the HMI:
+export OSG_DIR="/home/<my_account>/<my_OpenSceneGraph_Dir>/"
+
 ###Installation
 
 ```
-cd worskspace/src
+cd worskspace/ros
 catkin_init_workspace
 git clone https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git
 cd ..
@@ -96,6 +99,14 @@ cp /opt/ros/indigo/share/catkin/cmake/toplevel.cmake CMakeLists.txt
 cd ..
 source devel/setup.bash
 ```
+####Netbeans
+Netbeans is a software development platform written in Java. The NetBeans Platform allows applications to be developed from a set of modular software components called modules. 
+
+This IDE presents more functionalities for software development and project organization. It is recommended use it only if you are already familiar with it.
+
+For more information:
+<http://wiki.ros.org/IDEs>
 
 
-###Project contribution
+
+
