@@ -96,6 +96,14 @@ cp /opt/ros/indigo/share/catkin/cmake/toplevel.cmake CMakeLists.txt
 cd ..
 source devel/setup.bash
 ```
+####Netbeans
+Netbeans is a software development platform written in Java. The NetBeans Platform allows applications to be developed from a set of modular software components called modules. 
+
+This IDE presents more functionalities for software development and project organization. It is recommended use it only if you are already familiar with it.
+
+For more information:
+<http://wiki.ros.org/IDEs>
 
 
-###Project contribution
+
+
