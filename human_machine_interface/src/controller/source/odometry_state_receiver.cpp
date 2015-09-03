@@ -25,18 +25,46 @@
 OdometryStateReceiver::OdometryStateReceiver(){}
 
 
-void OdometryStateReceiver::openGeneralSubscriptions(ros::NodeHandle nodeHandle){
+void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, ros::MultiThreadedSpinner spinner){
 
+    threadSpin=spinner;
     readParams();
 
     DroneGMREstimatedPoseSubs=nodeHandle.subscribe("drone0/" + DRONE_TRAJECTORY_CONTROLLER_POSE_SUBSCRIPTION_GMR, 1, &OdometryStateReceiver::droneGMREstimatedPoseCallback, this); //EstimatedPose_droneGMR_wrt_GFF
     DroneGMREstimatedSpeedSubs=nodeHandle.subscribe("drone0/" +  DRONE_TRAJECTORY_CONTROLLER_SPEEDS_SUBSCRIPTION_GMR, 1, &OdometryStateReceiver::droneGMREstimatedSpeedCallback, this);//EstimatedSpeed_droneGMR_wrt_GFF
     DroneSOEstimatedPoseSubs=nodeHandle.subscribe("drone0/" + DRONE_STATE_ESTIMATOR_INTERFACE_POSE_SUBSCRIPTION_LMrT, 1, &OdometryStateReceiver::droneSOEstimatedPoseCallback, this); //SOEstimatedPose
     DroneSOEstimatedSpeedsSubs=nodeHandle.subscribe("drone0/" +  DRONE_STATE_ESTIMATOR_INTERFACE_SPEEDS_SUBSCRIPTION_LMrT, 1, &OdometryStateReceiver::droneSOEstimatedSpeedsCallback, this);//SOEstimatedSpeeds
+
+
+    // Topic communications droneArucoEye
+    DroneArucoEstimatedPoseSubs=nodeHandle.subscribe("drone0/" + DRONE_TRAJECTORY_PLANNER_POSE_SUBSCRIPTION, 1, &OdometryStateReceiver::droneArucoEstimatedPoseCallback, this); //ArucoSlam_EstimatedPose
+    DroneArucoEstimatedSpeedSubs=nodeHandle.subscribe("drone0/" +  DRONE_TRAJECTORY_CONTROLLER_SPEEDS_SUBSCRIPTION_GMR, 1, &OdometryStateReceiver::droneArucoEstimatedSpeedCallback, this);//ArucoSlam_EstimatedSpeeds
+    DroneArucoEyeObservationSubs=nodeHandle.subscribe("drone0/" +  DRONE_LOGGER_ARUCO_EYE_OBSERVATIONVEC_LIST, 1, &OdometryStateReceiver::droneArucoEyeObservationCallback, this);
+
+
+    // Topic communications controller
+    // Controller references (rebroadcasts): control mode and position, speed and trajectory references
+    //DroneTrajectoryControlSubs=nodeHandle.subscribe("drone0/" + MODULE_NAME_TRAJECTORY_CONTROLLER +"/controlMode", 1, &odometryStateReceiver::droneTrajectoryControllerControlModeCallback, this);
+    DroneTrajectoryPositionSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_POSITION_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::dronePoseCallback, this);
+    DroneTrajectorySpeedsSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_SPEED_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::droneSpeedsCallback, this);
+    DroneTrajectoryTjReferenceSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_TRAJECTORY_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::dronePositionTrajectoryRefCommandCallback, this);
     start();
 //    real_time=ros;
 }
 
+void OdometryStateReceiver::run() {
+    threadSpin.spin();
+    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+}
+
+OdometryStateReceiver::~OdometryStateReceiver() {
+    if(ros::isStarted()) {
+      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
+      ros::waitForShutdown();
+    }
+    wait();
+}
 
 
 void OdometryStateReceiver::readParams(){
@@ -55,24 +83,7 @@ void OdometryStateReceiver::readParams(){
 }
 
 
-void OdometryStateReceiver::openSubscriptionsArucoSlam(ros::NodeHandle nodeHandle){
 
-    // Topic communications droneArucoEye
-    DroneArucoEstimatedPoseSubs=nodeHandle.subscribe("drone0/" + DRONE_TRAJECTORY_PLANNER_POSE_SUBSCRIPTION, 1, &OdometryStateReceiver::droneArucoEstimatedPoseCallback, this); //ArucoSlam_EstimatedPose
-    DroneArucoEstimatedSpeedSubs=nodeHandle.subscribe("drone0/" +  DRONE_TRAJECTORY_CONTROLLER_SPEEDS_SUBSCRIPTION_GMR, 1, &OdometryStateReceiver::droneArucoEstimatedSpeedCallback, this);//ArucoSlam_EstimatedSpeeds
-    DroneArucoEyeObservationSubs=nodeHandle.subscribe("drone0/" +  DRONE_LOGGER_ARUCO_EYE_OBSERVATIONVEC_LIST, 1, &OdometryStateReceiver::droneArucoEyeObservationCallback, this);
-}
-
-void OdometryStateReceiver::openSubscriptionsController(ros::NodeHandle nodeHandle){
-
-    // Topic communications controller
-    // Controller references (rebroadcasts): control mode and position, speed and trajectory references
-    //DroneTrajectoryControlSubs=nodeHandle.subscribe("drone0/" + MODULE_NAME_TRAJECTORY_CONTROLLER +"/controlMode", 1, &odometryStateReceiver::droneTrajectoryControllerControlModeCallback, this);
-    DroneTrajectoryPositionSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_POSITION_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::dronePoseCallback, this);
-    DroneTrajectorySpeedsSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_SPEED_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::droneSpeedsCallback, this);
-    DroneTrajectoryTjReferenceSubs=nodeHandle.subscribe("drone0/" + DRONE_LOGGER_TRAJECTORY_REF_REBROADCAST_SUBSCRIPTION, 1, &OdometryStateReceiver::dronePositionTrajectoryRefCommandCallback, this);
-
-}
 
 
 void OdometryStateReceiver::droneArucoEstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg)
@@ -285,21 +296,9 @@ void OdometryStateReceiver::dronePositionTrajectoryRefCommandCallback(const dron
 
 
 
-OdometryStateReceiver::~OdometryStateReceiver() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-	wait();
-}
 
 
 
-void OdometryStateReceiver::run() {
-    ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
-}
 
 
 

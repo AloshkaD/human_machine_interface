@@ -22,10 +22,15 @@
 ** Implementation
 *****************************************************************************/
 
-TelemetryStateReceiver::TelemetryStateReceiver(){}
+TelemetryStateReceiver::TelemetryStateReceiver(){
 
 
-void TelemetryStateReceiver::openGeneralSubscriptions(ros::NodeHandle nodeHandle){
+}
+
+
+void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle,ros::MultiThreadedSpinner spinner ){
+
+    trheadSpin = spinner;
 
     //Commands
     DronePitchRollCmdSubs=nodeHandle.subscribe("drone0/" + DRONE_DRIVER_COMMAND_DRONE_COMMAND_PITCH_ROLL, 1, &TelemetryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
@@ -46,27 +51,22 @@ void TelemetryStateReceiver::openGeneralSubscriptions(ros::NodeHandle nodeHandle
     DroneStatusSubs=nodeHandle.subscribe("drone0/" + DRONE_DRIVER_SENSOR_STATUS, 1, &TelemetryStateReceiver::droneStatusSensorCallback, this);
 
 
-
-    start();
-//    real_time=ros;
-}
-
-void TelemetryStateReceiver::openSubscriptions_driverPelican(ros::NodeHandle nodeHandle){
-    //Commands
-
     // Asctec Autopilot/Pelican Low-Level Telemetry
    // DronePelicanLLStatusSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_LLSTATUS_SUBSCRIBER, 1, &telemetryStateReceiver::pelicanLLStatusCallback, this);
    // DronePelicanIMUCalcSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_IMUCALCDATA_SUBSCRIBER, 1, &telemetryStateReceiver::pelicanIMUCalcDataCallback, this);
    // DronePelicanRCDataSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_RCDATA_SUBSCRIBER, 1, &telemetryStateReceiver::droneRCDataPelicanCallback, this);//command/low_level
     //DronePelicanControlInputSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LIKE_SIMULATOR_CONTROL_INPUT_SUBSCRIBER, 1, &TelemetryStateReceiver::droneInputPelicanCallback, this);//command/low_level
-}
 
 
-void TelemetryStateReceiver::openSubscriptions_driverOkto(ros::NodeHandle nodeHandle){
     //Sensor
-  //  optFlowSubs=nodeHandle.subscribe("drone0/" + DRONE_OKTO_LIKE_SIMULATOR_GROUND_SPEED_SENSOR_PUBLISHER, 1, &telemetryStateReceiver::optFlowCallback, this);
+    // optFlowSubs=nodeHandle.subscribe("drone0/" + DRONE_OKTO_LIKE_SIMULATOR_GROUND_SPEED_SENSOR_PUBLISHER, 1, &telemetryStateReceiver::optFlowCallback, this);
     //Commands
     //oktoCommandsSubs=nodeHandle.subscribe("drone0/" + DRONE_OKTO_LIKE_SIMULATOR_OKTO_COMMANDS_SUBSCRIBER, 1, &TelemetryStateReceiver::oktoCommandsCallback, this);
+
+    start();
+    // real_time=ros;
+
+
 }
 
 
@@ -81,9 +81,9 @@ TelemetryStateReceiver::~TelemetryStateReceiver() {
 
 
 void TelemetryStateReceiver::run() {
-    ros::spin();
+    trheadSpin.spin();
     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
 }
 
 

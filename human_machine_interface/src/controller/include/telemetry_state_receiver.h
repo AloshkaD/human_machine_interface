@@ -111,10 +111,7 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
-    void openGeneralSubscriptions(ros::NodeHandle nodeHandle);
-    void openSubscriptions_driverPelican(ros::NodeHandle nodeHandle);
-    void openSubscriptions_driverOkto(ros::NodeHandle nodeHandle);
-
+    void openSubscriptions(ros::NodeHandle nodeHandle,ros::MultiThreadedSpinner spinner);
 
 Q_SIGNALS:
 	void loggingUpdated();
@@ -125,7 +122,7 @@ Q_SIGNALS:
 
 
 private:
-
+        ros::MultiThreadedSpinner trheadSpin;
 	int init_argc;
         int real_time;
 	char** init_argv;

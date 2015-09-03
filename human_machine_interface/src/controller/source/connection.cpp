@@ -85,10 +85,12 @@ bool Connection::init()
 
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
+
+    ros::MultiThreadedSpinner spinner(4);// Start threads to receive and send packages
+
     // Start query threads
-    telemetryReceiver->openGeneralSubscriptions(n);
-    odometryReceiver->openGeneralSubscriptions(n);
-    odometryReceiver->openSubscriptionsController(n);
+    telemetryReceiver->openSubscriptions(n,spinner);
+    odometryReceiver->openSubscriptions(n,spinner);
     imgReceiver->openSubscriptions(n);
     graphReceiver->openSubscriptions(n);
     // Start command threads
@@ -109,7 +111,7 @@ bool Connection::init(const std::string &master_url, const std::string &host_url
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
     // Start query threads
-    telemetryReceiver->openGeneralSubscriptions(n);
+    //telemetryReceiver->openGeneralSubscriptions(n);
 
 
     // Start command threads
