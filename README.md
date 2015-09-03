@@ -42,6 +42,9 @@ cd ..
 catkin_make
 ```
 
+This software has been tested on: Ubuntu 14.04 and open source drivers.
+
+
 ###Project organization
 
 The project organization use a model/view architecture that manages the relationship between data and the way it is presented to the user.
