@@ -38,6 +38,7 @@ public:
         QStringListModel* loggingModel() { return &logging_model; }
         void log( const LogLevel &level, const std::string &msg);
         void openSubscriptions(ros::NodeHandle nodeHandle);
+        void onControlModeChange(QString key);
 
 
 Q_SIGNALS:

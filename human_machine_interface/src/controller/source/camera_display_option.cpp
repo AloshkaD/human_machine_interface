@@ -51,6 +51,18 @@ CameraDisplayOption::CameraDisplayOption(QWidget *parent, ImagesReceiver *imgRec
 
 }
 
+int CameraDisplayOption::heightForWidth( int width ) const
+{
+    return ((qreal)pix.height()*width)/pix.width();
+}
+
+
+QSize CameraDisplayOption::sizeHint() const
+{
+    int w = this->width();
+    return QSize( w, heightForWidth(w) );
+}
+
 void CameraDisplayOption::saveCameraImages(const int camera_view_manager){
     if(camera_view_manager==0){
        QImage imageObject = pix.toImage();
@@ -280,17 +292,7 @@ void CameraDisplayOption::changeCamera6()
     mainCamera=6;
 }
 
-int CameraDisplayOption::heightForWidth( int width ) const
-{
-    return ((qreal)pix.height()*width)/pix.width();
-}
 
-
-QSize CameraDisplayOption::sizeHint() const
-{
-    int w = this->width();
-    return QSize( w, heightForWidth(w) );
-}
 
 CameraDisplayOption::~CameraDisplayOption()
 {

@@ -736,12 +736,17 @@
              </item>
              <item>
               <property name="text">
-               <string>Automatic</string>
+               <string>Manual Position</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Manual</string>
+               <string>Manual Altitude</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Manual Speed</string>
               </property>
              </item>
             </widget>

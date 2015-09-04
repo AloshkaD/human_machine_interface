@@ -69,52 +69,42 @@
     wait();
 }
 
+ void UserCommander::sendCommandInMovingManualAltitudMode(double cte_command_pitch, double cte_command_roll, double cte_command_height, double cte_command_yaw)
+ {
+     std::cout<<"Command move() sent"<<std::endl;
 
+     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
+     droneCommandPubl.publish(droneCommandMsgs);
 
- void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::droneManagerStatus::ConstPtr &msg) {
+     if(cte_command_pitch != 0.0)
+     {
+         dronePitchRollCmdMsgs.pitchCmd = cte_command_pitch;
+         dronePitchRollCmdPubl.publish(dronePitchRollCmdMsgs);
+     }
 
-     lastDroneManagerStatusMsg = (*msg);
+     if(cte_command_roll != 0.0)
+     {
+         dronePitchRollCmdMsgs.rollCmd = cte_command_roll;
+         dronePitchRollCmdPubl.publish(dronePitchRollCmdMsgs);
+     }
 
-         switch(lastDroneManagerStatusMsg.status)
-         {
-             case droneMsgsROS::droneManagerStatus::HOVERING:
-                 std::cout<<"Manager Status: HOVERING"<<std::endl;
-                 break;
-
-             case droneMsgsROS::droneManagerStatus::LANDING:
-                 std::cout<<"Manager Status: LANDING"<<std::endl;
-                 break;
-
-             case droneMsgsROS::droneManagerStatus::LANDED:
-                 std::cout<<"Manager Status: LANDED"<<std::endl;
-                 break;
-
-             case droneMsgsROS::droneManagerStatus::TAKINGOFF:
-                 std::cout<<"Manager Status: TAKINGOFF"<<std::endl;
-                 break;
-
-             case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD:
-                 std::cout<<"Manager Status: MOVING MANUAL ALTITUD"<<std::endl;
-                 break;
-
-             case droneMsgsROS::droneManagerStatus::MOVING_POSITION:
-                 std::cout<<"Manager Status: MOVING POSITION"<<std::endl;
-                 break;
-
-             case droneMsgsROS::droneManagerStatus::MOVING_SPEED:
-                 std::cout<<"Manager Status: MOVING SPEED"<<std::endl;
-                 break;
-
-             case droneMsgsROS::droneManagerStatus::MOVING_TRAJECTORY:
-                 std::cout<<"Manager Status: MOVING TRAJECTORY"<<std::endl;
-                 break;
-         }
+     if(cte_command_height != 0.0)
+     {
+         droneDAltitudeCmdMsgs.dAltitudeCmd = cte_command_height;
+         droneDAltitudeCmdPubl.publish(droneDAltitudeCmdMsgs);
+     }
+     if(cte_command_yaw != 0.0)
+     {
+         droneDYawCmdMsgs.dYawCmd = cte_command_yaw;
+         droneDYawCmdPubl.publish(droneDYawCmdMsgs);
+     }
 
  }
 
  void UserCommander::sendCommandInPositionControlMode(double controller_step_command_x, double controller_step_command_y, double controller_step_command_z)
  {
      std::cout<<"comand move() IN POSITION sent"<<std::endl;
+
      droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
      droneCommandPubl.publish(droneCommandMsgs);
 
@@ -160,7 +150,7 @@
 
 
 void  UserCommander::publish_takeoff() {
-       if(order==droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF)
+       if(command==userCommands::TakeOff)
        {
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF;
 
@@ -173,29 +163,73 @@ void  UserCommander::publish_takeoff() {
            droneCommandPubl.publish(droneCommandMsgs);
            log(Info,std::string("Human Machine Interface sent: ")+"take_off");
        }
-       order=100; //clear command
+       command=100; //clear command
+}
+
+void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::droneManagerStatus::ConstPtr &msg) {
+
+    lastDroneManagerStatusMsg = (*msg);
+
+        switch(lastDroneManagerStatusMsg.status)
+        {
+            case droneMsgsROS::droneManagerStatus::HOVERING:
+                std::cout<<"Manager Status: HOVERING"<<std::endl;
+                break;
+
+            case droneMsgsROS::droneManagerStatus::LANDING:
+                std::cout<<"Manager Status: LANDING"<<std::endl;
+                break;
+
+            case droneMsgsROS::droneManagerStatus::LANDED:
+                std::cout<<"Manager Status: LANDED"<<std::endl;
+                break;
+
+            case droneMsgsROS::droneManagerStatus::TAKINGOFF:
+                std::cout<<"Manager Status: TAKINGOFF"<<std::endl;
+                break;
+
+            case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD:
+                std::cout<<"Manager Status: MOVING MANUAL ALTITUD"<<std::endl;
+                break;
+
+            case droneMsgsROS::droneManagerStatus::MOVING_POSITION:
+                std::cout<<"Manager Status: MOVING POSITION"<<std::endl;
+                break;
+
+            case droneMsgsROS::droneManagerStatus::MOVING_SPEED:
+                std::cout<<"Manager Status: MOVING SPEED"<<std::endl;
+                break;
+
+            case droneMsgsROS::droneManagerStatus::MOVING_TRAJECTORY:
+                std::cout<<"Manager Status: MOVING TRAJECTORY"<<std::endl;
+                break;
+        }
+
 }
 
 
 void  UserCommander::publish_land() {
-       if(order==droneMsgsROS::droneMissionPlannerCommand::LAND)
+       if(command==userCommands::Land)
        {
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
            droneCommandPubl.publish(droneCommandMsgs);
            log(Info,std::string("Human Machine Interface sent: ")+"land");
        }
-       order=100; //clear command
+       command=100; //clear command
 }
 
 void  UserCommander::publish_hover() {
-       if(order==droneMsgsROS::droneMissionPlannerCommand::HOVER)
+       if(command==userCommands::Hover)
        {
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
            droneCommandPubl.publish(droneCommandMsgs);
            log(Info,std::string("Human Machine Interface sent: ")+"hover");
        }
-       order=100; //clear command
+       command=100; //clear command
 }
+
+
+
 /*
 
 void  UserCommander::publish_reset() {

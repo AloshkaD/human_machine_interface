@@ -33,6 +33,18 @@ CameraMainOption::CameraMainOption(QWidget *parent,ImagesReceiver* imgReceiver) 
    connect(parent, SIGNAL(saveImage(const int)), this, SLOT(saveCameraImages(const int)));
 }
 
+int CameraMainOption::heightForWidth( int width ) const
+{
+    return ((qreal)pix.height()*width)/pix.width();
+}
+
+
+QSize CameraMainOption::sizeHint() const
+{
+    int w = this->width();
+    return QSize( w, heightForWidth(w) );
+}
+
 void CameraMainOption::saveCameraImages(const int camera_view_manager){
     if(camera_view_manager==0){
        QImage imageObject = pix.toImage();
@@ -195,18 +207,6 @@ void CameraMainOption::updateImage6(const QPixmap* image)
     ui->mainImage->setScaledContents( true );
     }
 
-}
-
-int CameraMainOption::heightForWidth( int width ) const
-{
-    return ((qreal)pix.height()*width)/pix.width();
-}
-
-
-QSize CameraMainOption::sizeHint() const
-{
-    int w = this->width();
-    return QSize( w, heightForWidth(w) );
 }
 
 

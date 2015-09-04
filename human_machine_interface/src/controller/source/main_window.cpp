@@ -25,6 +25,21 @@
 #include <qt4/Qt/qsize.h>
 #include <qt4/Qt/qapplication.h>
 #include <qt4/Qt/qdesktopwidget.h>
+
+//Define step commands
+#define CTE_COMMAND_YAW    0.40
+#define CTE_COMMAND_PITCH  0.33
+#define CTE_COMMAND_ROLL   0.33
+#define CTE_COMMAND_HEIGHT 0.50
+
+
+// Define controller commands define constants
+#define CONTROLLER_CTE_COMMAND_SPEED        ( 1.00 )
+#define CONTROLLER_STEP_COMMAND_POSITTION   ( 0.25 )
+#define CONTROLLER_STEP_COMMAND_ALTITUDE    ( 0.25 )
+#define CONTROLLER_STEP_COMMAND_YAW         ( 10.0 * (M_PI/180.0) )
+
+
 using namespace std;
 /*****************************************************************************
 ** Implementation
@@ -173,6 +188,7 @@ void MainWindow::setSignalHandlers()
     connect(ui->mainCameraButton, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
     connect(ui->fourCameraButton, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
     connect(ui->saveImageButton, SIGNAL(clicked()), this, SLOT(saveCurrentCameraView()));
+    connect(ui->tab_controlPanel, SIGNAL(currentTextChanged(QString)), this, SLOT(onControlModeChange(QString)));
     connect(connection->graphReceiver, SIGNAL( errorInformerReceived( )), this, SLOT( incrementErrorsCounter( )));
 
 }
@@ -257,17 +273,16 @@ void MainWindow::flightTime()
 
 void MainWindow::incrementErrorsCounter()
 {
-    errorCounter++;
-    ui->value_Errors->setText(QString::number(errorCounter));
+    if (connection->connectStatus){
+        errorCounter++;
+        ui->value_Errors->setText(QString::number(errorCounter));
+    }
 }
 
 void MainWindow::updateStatusBar()
 {
 
     if (connection->connectStatus){
-
-
-
         switch(connection->telemetryReceiver->droneStatusMsgs.status)
         {
         case droneMsgsROS::droneStatus::UNKNOWN:
@@ -324,15 +339,6 @@ void MainWindow::updateStatusBar()
     }
 }
 
-
-void MainWindow::showConnectionEstablished()
-{
-    QMessageBox msgBox;
-    msgBox.setText("The connection has been established succesfully.");
-    msgBox.exec();
-}
-
-
 void MainWindow::testConnection()
 {
     if (!connection->connectStatus){
@@ -346,16 +352,27 @@ void MainWindow::testConnection()
     }
 }
 
+// Pop-up windows///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::showConnectionEstablished()
+{
+    QMessageBox msgBox;
+    msgBox.setText("The connection has been established succesfully.");
+    msgBox.exec();
+}
+
 
 void MainWindow::on_actionAbout_Human_Machine_Interface_triggered()
 {
     QMessageBox::about(this, tr("About ..."),tr("<h2>Human Machine Interface</h2><p>Universidad Politecnica de Madrid</p><p>The Human Machine Interface allows operators or users of the system to bi-directionally communicate with each aerial robotic agent.</p>"));
 }
 
+
 void MainWindow::on_actionContents_triggered()
 {
     QMessageBox::about(this, tr("Contents ..."),tr("<h2>Human Machine Interface</h2><p>Universidad Politecnica de Madrid</p><p>...</p>"));
 }
+
 
 void MainWindow::on_actionUser_Commands_Manual_triggered()
 {
@@ -395,6 +412,8 @@ void MainWindow::on_actionParameter_Temporal_Series_triggered()
     paramPlot->show();
 
 }
+
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     //connection->odometryReceiver->shutdown();
@@ -402,173 +421,179 @@ void MainWindow::closeEvent(QCloseEvent *event)
     //writeSettings();
     QMainWindow::closeEvent(event);
 }
+
+// User commands in GUI//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // Control Mode
-/*
-void MainWindow::onControlModeChange(){
-   std::stringstream key;
-   key << "tab";
-   usercommander.msg.type = key.str();
-   usercommander.publish();
+void MainWindow::onControlModeChange(QString key){
+    if (connection->connectStatus){
+
+        if(key=="Altitude"){
+            std::cout<<"Changing to Control Mode Altitude"<<std::endl;
+            connection->usercommander->command =connection->usercommander->userCommands::ControlModeAltitude;
+            connection->usercommander->sendCommandInMovingManualAltitudMode(0.0,0.0,0.0,,0.0);
+        }
+
+        if(key=="Manual Speed")
+            std::cout<<"Changing to Control Mode Speed"<<std::endl;
+        connection->usercommander->command =connection->usercommander->userCommands::ControlModeSpeed;
+        connection->usercommander->sendCommandInSpeedControlMode(0.0, 0.0);
+
+        if(key=="Manual Position"){
+            std::cout<<"Changing to Control Mode Position"<<std::endl;
+            connection->usercommander->command =connection->usercommander->userCommands::ControlModePosition;
+            connection->usercommander->sendCommandInPositionControlMode(0.0, 0.0, 0.0);
+        }
+
+    }
 }
 
-// User commands in GUI
-*/
 
-void MainWindow::onStartButton(){ // TAKE OFF
-    qDebug()<<"TAKE OFF PRESS BUTTON";
-    connection->usercommander->order = 1;
-    connection->usercommander->publish_takeoff();
 
-}
-void MainWindow::onLandButton(){ // LAND
-    qDebug()<<"LAND PRESS BUTTON";
-    connection->usercommander->order = 3;
-    connection->usercommander->publish_land();
+void MainWindow::onStartButton(){
+    std::cout<<"Take Off pressed buttom"<<std::endl;
+    if (connection->connectStatus){
+        connection->usercommander->command =connection->usercommander->userCommands::TakeOff;
+        connection->usercommander->publish_takeoff();
+    }
 
 }
 
 
-void MainWindow::onHoverButton(){ // HOVER
-
-    qDebug()<<"HOVER PRESS BUTTON";
-    connection->usercommander->order = 2;
-    connection->usercommander->publish_hover();
+void MainWindow::onLandButton(){
+    std::cout<<"Land pressed buttom"<<std::endl;
+    if (connection->connectStatus){
+        connection->usercommander->command = connection->usercommander->userCommands::Land;
+        connection->usercommander->publish_land();
+    }
 
 }
+
+
+void MainWindow::onHoverButton(){
+    std::cout<<"Hover pressed buttom"<<std::endl;
+    if (connection->connectStatus){
+        connection->usercommander->command = connection->usercommander->userCommands::Hover;
+        connection->usercommander->publish_hover();
+    }
+
+}
+
+
+// User commands in Keyboard///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void MainWindow::keyPressEvent(QKeyEvent *e){
+    std::stringstream key;
+    switch(e->key())
+    {
+    case Qt::Key_8:
+        std::cout<<"Right pressed buttom"<<std::endl;
+        if(  connection->usercommander->getDroneManagerStatus().status == connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+            connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, CTE_COMMAND_ROLL, 0.0, 0.0);
+        else
+            connection->usercommander->sendCommandInPositionControlMode(0.0, CONTROLLER_STEP_COMMAND_POSITTION, 0.0);
+        break;
+
+    case Qt::Key_4:
+        std::cout<<"Left pressed buttom"<<std::endl;
+        if(  connection->usercommander->getDroneManagerStatus().status ==connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+            connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, -CTE_COMMAND_ROLL, 0.0, 0.0);
+        else
+            connection->usercommander->sendCommandInPositionControlMode(0.0, -CONTROLLER_STEP_COMMAND_POSITTION, 0.0);
+        break;
+
+    case Qt::Key_2:
+        std::cout<<"Down pressed buttom"<<std::endl;
+        if(connection->usercommander->getDroneManagerStatus().status == connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+            connection->usercommander->sendCommandInMovingManualAltitudMode(-CTE_COMMAND_PITCH, 0.0, 0.0, 0.0);
+        else
+            connection->usercommander->sendCommandInPositionControlMode(-CONTROLLER_STEP_COMMAND_POSITTION, 0.0, 0.0);
+        break;
+
+    case Qt::Key_6:
+        std::cout<<"Up pressed buttom"<<std::endl;
+        if(connection->usercommander->getDroneManagerStatus().status == connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+            connection->usercommander->sendCommandInMovingManualAltitudMode(CTE_COMMAND_PITCH, 0.0, 0.0, 0.0);
+        else
+            connection->usercommander->sendCommandInPositionControlMode(CONTROLLER_STEP_COMMAND_POSITTION, 0.0, 0.0);
+        break;
+
+    case Qt::Key_J:
+        std::cout<<"Up x speed  pressed buttom"<<std::endl;
+        connection->usercommander->sendCommandInSpeedControlMode(CONTROLLER_CTE_COMMAND_SPEED, 0.0);
+        break;
+
+    case Qt::Key_N:
+        std::cout<<"Down x speed  pressed buttom"<<std::endl;
+        connection->usercommander->sendCommandInSpeedControlMode(-CONTROLLER_CTE_COMMAND_SPEED, 0.0);
+        break;
+
+    case Qt::Key_B:
+        std::cout<<"Up y speed  pressed buttom"<<std::endl;
+        connection->usercommander->sendCommandInSpeedControlMode(0.0, -CONTROLLER_CTE_COMMAND_SPEED);
+        break;
+
+    case Qt::Key_M:
+        std::cout<<"Up y speed  pressed buttom"<<std::endl;
+        connection->usercommander->sendCommandInSpeedControlMode(0.0, CONTROLLER_CTE_COMMAND_SPEED);
+        break;
+
+
+    case Qt::Key_Q:
+        std::cout<<"Height + pressed buttom"<<std::endl;
+        if(connection->usercommander->getDroneManagerStatus().status == connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+            connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, 0.0, CTE_COMMAND_HEIGHT, 0.0);
+        else
+            connection->usercommander->sendCommandInPositionControlMode(0.0, 0.0, CONTROLLER_STEP_COMMAND_ALTITUDE);
+        break;
+
+
+    case Qt::Key_A:
+        std::cout<<"Height -  pressed buttom"<<std::endl;
+        if(connection->usercommander->getDroneManagerStatus().status == connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+             connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, 0.0, -CTE_COMMAND_HEIGHT, 0.0);
+        else
+             connection->usercommander->sendCommandInPositionControlMode(0.0, 0.0, -CONTROLLER_STEP_COMMAND_ALTITUDE);
+        break;
+
+    case Qt::Key_Z:
+        std::cout<<"Yaw counter-clockwise pressed buttom"<<std::endl;
+        if(connection->usercommander->getDroneManagerStatus().status == connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+            connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, 0.0, 0.0, CTE_COMMAND_YAW);
+        else
+            connection->usercommander->sendYawCommandInPositionControlMode(CONTROLLER_STEP_COMMAND_YAW);
+        break;
+
+
+    case Qt::Key_X:
+        std::cout<<"Yaw clockwise pressed buttom"<<std::endl;
+        if(connection->usercommander->getDroneManagerStatus().status == connection->usercommander->droneManagerStatus::MOVING_MANUAL_ALTITUD)
+            connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, 0.0, 0.0, -CTE_COMMAND_YAW);
+        else
+            connection->usercommander->sendYawCommandInPositionControlMode(-CONTROLLER_STEP_COMMAND_YAW);
+        break;
+
+    default:
+        MainWindow::keyPressEvent(e);
+
+    }
+}
+
+
 void MainWindow::close()
 {
     this->~MainWindow();
 }
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
 
 }
-/*
-void MainWindow::onResetCommandButton(){ // RESET COMMANDS
-    qDebug()<<"RESET PRESS BUTTON";
-    connection->usercommander->order = 5;
-    connection->usercommander->publish_reset();
-}
 
 
 
-void MainWindow::onEmergencyStopButton(){ // EMERGENCY STOP
-
-    qDebug()<<"EMERGENCY STOP PRESS BUTTON";
-    connection->usercommander->order = 5;
-    connection->usercommander->publish_emergencyStop();
-
-}
-
-
-
-void MainWindow::onLandButton(){ // LAND
-    std::stringstream key;
-    key << "y";
-    usercommander.msg.type  = key.str();
-    usercommander.publish();
-
-}
-void MainWindow::onYawZeroButton(){ // YAW ZERO
-    std::stringstream key;
-    key << "z";
-    usercommander.msg.type  = key.str();
-    usercommander.publish();
-
-}
-void MainWindow::onResetCommandButton(){ // RESET COMMANDS
-    std::stringstream key;
-    key << "x";
-    usercommander.msg.type  = key.str();
-    usercommander.publish();
-
-}
-
-// User commands in the keyboard
-void MainWindow::keyPressEvent(QKeyEvent *e){
- /*   std::stringstream key;
-    switch(e->key())
-    {
-      case Qt::Key_8:
-        qDebug()<<"RIGHT PRESS BUTTON";
-        connection->usercommander->order = 7;
-        connection->usercommander->publish_LLCommand();
-      break;
-
-      case Qt::Key_4:
-      key << "left";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-      case Qt::Key_2:
-      key << "down";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-      case Qt::Key_6:
-      key << "right";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-    default:
-     MainWindow::keyPressEvent(e);
-
-      case Qt::Key_W:
-      key << "w";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-      case Qt::Key_S:
-      key << "s";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-      case Qt::Key_A:
-      key << "a";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-      case Qt::Key_D:
-      key << "d";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-
-      case Qt::Key_Q:
-      key << "q";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-
-      case Qt::Key_E:
-      key << "e";
-      usercommander.msg.type  = key.str();
-      break;
-
-
-      case Qt::Key_H: //hover
-      key << "h";
-      usercommander.msg.type  = key.str();
-      usercommander.publish();
-      break;
-
-
-      default:
-       usercommander.msg.type  = "";
-       usercommander.publish();
-       MainWindow::keyPressEvent(e);
-
-    }
-
- */
 

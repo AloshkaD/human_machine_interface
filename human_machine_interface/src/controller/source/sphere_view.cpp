@@ -49,7 +49,6 @@ SphereView::SphereView(QWidget *parent, TelemetryStateReceiver *telemetryReceive
     mainXtrans = new osg::MatrixTransform;
     labelXtrans = new osg::MatrixTransform;
     osg::MatrixTransform* faxisXtrans = new osg::MatrixTransform;
-    // createMap(root);
     // Draw shapes
     shapeDrawer(mainXtrans, faxisXtrans);
 

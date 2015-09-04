@@ -42,7 +42,7 @@ class UserCommander : public QThread {
 public:
         UserCommander();
 	virtual ~UserCommander();
-        int order;
+        int command;
         void run();
         void  openPublications(ros::NodeHandle nodeHandle);
 
@@ -62,8 +62,10 @@ public:
 
         void sendCommandInPositionControlMode(double controller_step_command_x, double controller_step_command_y, double controller_step_command_z);
         void sendYawCommandInPositionControlMode(double controller_step_command_yaw);
+        void sendCommandInMovingManualAltitudMode(double cte_command_pitch, double cte_command_roll, double cte_command_height, double cte_command_yaw);
 
         void publish_takeoff();
+        void processCommmand(int command);
         void publish_land();
         void publish_hover();
 
@@ -79,6 +81,15 @@ public:
 	         Error,
 	         Fatal
 	 };
+
+        enum userCommands {
+            TakeOff,
+            Hover,
+            Land,
+            ControlModeAltitude,
+            ControlModeSpeed,
+            ControlModePosition
+        };
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
