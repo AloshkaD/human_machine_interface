@@ -106,6 +106,9 @@ private:
         std::string daltitude_topic;
         std::string dyawcmd_topic;
         std::string command_publish_topic;
+        std::string drone_position_refs;
+        std::string drone_controller_yaw_ref_command;
+        std::string drone_manager_status;
 
         ros::Publisher DronePitchRollCmdPubl;
         ros::Publisher DroneDAltitudeCmdPubl;

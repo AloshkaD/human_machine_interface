@@ -1,41 +1,65 @@
 <!-- Launches: ardrone_autonomy driver; front and bottom camera rectification and visualization; -->
 <launch>
-	<!-- master tag is only obeyed in the top-level file (not in includes) 
-	<master>
-	</master>-->
-	<arg name="drone_id_namespace" default="drone0" />
-	<group ns="$(arg drone_id_namespace)">
-		<!-- Ardrone driver node -->
-		<node name="human_machine_interface" pkg="human_machine_interface" type="human_machine_interface" />
+    <!-- master tag is only obeyed in the top-level file (not in includes) 
+    <master>
+    </master>-->
+    <arg name="drone_id_namespace" default="drone0" />
+    <group ns="$(arg drone_id_namespace)">
+        <!-- Ardrone driver node -->
+        <node name="human_machine_interface" pkg="human_machine_interface" type="human_machine_interface" />
 
-		<!-- Topic Name ROS Params  -->
-			<!-- Commands -->
-				<param name="drone_driver_command_drone_command_pitch_roll" value="command/pitch_roll" />
-				<param name="drone_driver_command_drone_command_daltitude" value="command/dAltitude" />
-				<param name="drone_driver_command_drone_command_dyaw" value="command/dYaw" />
-				<param name="drone_driver_command_drone_hl_command" value="command/high_level" />
-				<param name="drone_okto_like_simulator_okto_commands_subscriber" value="okto_commands" />
+        <!-- Topic Name ROS Params  -->
+            <!-- Commands - telemetry_state_receiver -->
+                <param name="drone_driver_command_drone_command_pitch_roll" value="command/pitch_roll" />
+                <param name="drone_driver_command_drone_command_daltitude" value="command/dAltitude" />
+                <param name="drone_driver_command_drone_command_dyaw" value="command/dYaw" />
+                <param name="drone_driver_command_drone_hl_command" value="command/high_level" />
+                <param name="drone_okto_like_simulator_okto_commands_subscriber" value="okto_commands" />
 
-				<param name="drone_console_interface_command_drone_command_pitch_roll_publication" value="command/pitch_roll" />
-				<param name="drone_console_interface_command_drone_command_daltitude_publication" value="command/dAltitude" />
+                <param name="drone_console_interface_command_drone_command_pitch_roll_publication" value="command/pitch_roll" />
+                <param name="drone_console_interface_command_drone_command_daltitude_publication" value="command/dAltitude" />
 
-			<!-- Sensor -->
-				<param name="drone_driver_sensor_imu" value="imu" />
-				<param name="drone_driver_sensor_temperature" value="temperature" />
-				<param name="drone_driver_sensor_magnetometer" value="magnetometer" />
-				<param name="drone_driver_sensor_battery" value="battery" />
-				<param name="drone_driver_sensor_altitude" value="altitude" />
-				<param name="drone_driver_sensor_rotation_angles" value="rotation_angles" />
-				<param name="drone_driver_sensor_ground_speed" value="ground_speed" />
-				<param name="drone_driver_sensor_pressure" value="pressure" />
-				<param name="drone_driver_sensor_status" value="status" />
+            <!-- Sensor - telemetry_state_receiver -->
+                <param name="drone_driver_sensor_imu" value="imu" />
+                <param name="drone_driver_sensor_temperature" value="temperature" />
+                <param name="drone_driver_sensor_magnetometer" value="magnetometer" />
+                <param name="drone_driver_sensor_battery" value="battery" />
+                <param name="drone_driver_sensor_altitude" value="altitude" />
+                <param name="drone_driver_sensor_rotation_angles" value="rotation_angles" />
+                <param name="drone_driver_sensor_ground_speed" value="ground_speed" />
+                <param name="drone_driver_sensor_pressure" value="pressure" />
+                <param name="drone_driver_sensor_status" value="status" />
 
-				<param name="drone_okto_like_simulator_ground_speed_sensor_publisher" value="px4flow/opt_flow" />
+                <param name="drone_okto_like_simulator_ground_speed_sensor_publisher" value="px4flow/opt_flow" />
 
 
-			<!-- supervisor -->
-				<param name="supervisor_process_error_unified_notification" value="process_error_unified_notification" />
-				<param name="supervisor_processes_performance" value="processes_performance" />
-		
-	</group>
+            <!-- supervisor - ros_graph_receiver-->
+                <param name="supervisor_process_error_unified_notification" value="process_error_unified_notification" />
+                <param name="supervisor_processes_performance" value="processes_performance" />
+
+            <!-- commands - user_commander -->
+                <param name="pitchroll_topic " value="command/pitch_roll" />
+                <param name="daltitude_topic " value="command/dAltitude" />
+                <param name="dyawcmd_topic " value="command/dYaw" />
+                <param name="command_publish_topic " value="command/high_level" />
+                <param name="drone_position_refs " value="dronePositionRefs" />
+                <param name="drone_controller_yaw_ref_command " value="droneControllerYawRefCommand" />
+                <param name="drone_manager_status " value="droneManagerStatus" />
+
+            <!-- camera - images_receiver -->
+                <param name="drone_console_interface_sensor_bottom_camera " value="camera/bottom/image_raw" />
+                <param name="drone_console_interface_sensor_front_camera " value="camera/front/image_raw" />
+
+            <!-- odometry_state_receiver -->
+                <param name="drone_trajectory_controller_pose_subscription_gmr " value="ArucoSlam_EstimatedPose" />
+                <param name="drone_trajectory_controller_speeds_subscription_gmr " value="EstimatedSpeed_droneGMR_wrt_GFF" />
+                <param name="drone_state_estimator_interface_pose_subscription_lmrt " value="SOEstimatedPose" />
+                <param name="drone_state_estimator_interface_speeds_subscription_lmrt " value="SOEstimatedSpeeds" />
+                <param name="drone_trajectory_planner_pose_subscription " value="ArucoSlam_EstimatedPose" />
+                <param name="drone_trajectory_controller_speeds_subscription_gmr_aruco " value="ArucoSlam_EstimatedSpeeds" />
+                <param name="drone_logger_aruco_eye_observationvec_list " value="arucoObservation" />
+                <param name="drone_logger_position_ref_rebroadcast_subscription " value="trajectoryControllerPositionReferencesRebroadcast" />
+                <param name="drone_logger_speed_ref_rebroadcast_subscription " value="trajectoryControllerSpeedReferencesRebroadcast" />
+        
+    </group>
 </launch>
