@@ -18,7 +18,7 @@ class ParameterTemporalSeries : public QWidget
 {
     Q_OBJECT
 
-    void initTree(QMap<QString, QStringList> algorithmsList, QTreeWidget *tree);
+    void initTree(QMap<QString, QStringList> topicList, QTreeWidget *tree);
     void initParameterList(QStringList list, QTreeWidget *tree);
     void addRootTree(QString name, QStringList list, QTreeWidget *tree);
     void addChildTree(QTreeWidgetItem *parent, QStringList list, QString description);

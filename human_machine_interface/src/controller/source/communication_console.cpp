@@ -19,14 +19,19 @@ CommunicationConsole::CommunicationConsole(QWidget *parent,ImagesReceiver* imgRe
     ui(new Ui::CommunicationConsole)
 {
     telemetryReceiver=telemReceiver;
+    imagesReceiver=imgReceiver;
     ui->setupUi(this);
-    QObject::connect(telemetryReceiver, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
+    connect(telemetryReceiver, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
+    connect(imagesReceiver, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
+
     ui->ListView_tab1->setModel(telemetryReceiver->loggingModel());
+    ui->ListView_tab2->setModel(imagesReceiver->loggingModel());
 }
 
 void CommunicationConsole::updateLoggingView()
 {
         ui->ListView_tab1->scrollToBottom();
+        ui->ListView_tab2->scrollToBottom();
 }
 
 void CommunicationConsole::close()

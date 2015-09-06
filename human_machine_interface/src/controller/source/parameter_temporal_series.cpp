@@ -99,8 +99,8 @@ void ParameterTemporalSeries::initParameterList(QStringList list, QTreeWidget *t
 }
 
 
-void ParameterTemporalSeries::initTree(QMap<QString,QStringList> algorithmsList, QTreeWidget *tree){
-    QMapIterator<QString,QStringList> i(algorithmsList);
+void ParameterTemporalSeries::initTree(QMap<QString,QStringList> topicList, QTreeWidget *tree){
+    QMapIterator<QString,QStringList> i(topicList);
     while (i.hasNext()) {
         i.next();
         qDebug() << i.key();

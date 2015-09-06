@@ -42,7 +42,7 @@ private:
     Ui::CommunicationConsole *ui;
     TelemetryStateReceiver* telemetryReceiver;
     OdometryStateReceiver* odometryReceiver;
-    ImagesReceiver* imgReceiver;
+    ImagesReceiver* imagesReceiver;
     RosGraphReceiver* graphReceiver;
 
 };

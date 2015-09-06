@@ -43,12 +43,14 @@
 
 
      // Topic communications
-     DronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(ros::this_node::getNamespace() + "/" + pitchroll_topic ,1, true);
-     DroneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>(ros::this_node::getNamespace() + "/" + daltitude_topic,1, true);
-     DroneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>(ros::this_node::getNamespace() + "/" + dyawcmd_topic,1, true);
+     dronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(ros::this_node::getNamespace() + "/" + pitchroll_topic ,1, true);
+     droneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>(ros::this_node::getNamespace() + "/" + daltitude_topic,1, true);
+     droneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>(ros::this_node::getNamespace() + "/" + dyawcmd_topic,1, true);
      droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(ros::this_node::getNamespace() + "/" + command_publish_topic,1, true);
      dronePositionReferencePublisher = nodeHandle.advertise<droneMsgsROS::dronePositionRefCommandStamped>("dronePositionRefs", 1);
      droneYawReferencePublisher = nodeHandle.advertise<droneMsgsROS::droneYawRefCommand>("droneControllerYawRefCommand", 1);
+     drone_speeds_reference_publisher     = nodeHandle.advertise<droneMsgsROS::droneSpeeds>("droneSpeedsRefs", 1);
+     drone_rel_trajectory_reference_publisher = nodeHandle.advertise<droneMsgsROS::dronePositionTrajectoryRefCommand>("droneTrajectoryRefCommand", 1);
 
      droneManagerStatusSubs  = nodeHandle.subscribe("droneManagerStatus", 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
 
@@ -68,6 +70,40 @@
     }
     wait();
 }
+
+ void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)
+ {
+     std::cout<<"comand move() IN SPEED sent"<<std::endl;
+     droneCommandMsgs.mpCommand =droneMsgsROS::droneMissionPlannerCommand::MOVE_SPEED;
+     droneCommandPubl.publish(droneCommandMsgs);
+
+
+ //    drone_speed_reference.target_frame = "drone_GMR";
+ //    drone_speed_reference.reference_frame = "GFF";
+ //    drone_speed_reference.YPR_system = "wYvPuR";
+
+     if(vxfi !=0 || vyfi != 0)
+     {
+         double current_vxfi, current_vyfi;
+         current_vxfi = current_drone_speed_reference.dx;
+         current_vyfi = current_drone_speed_reference.dy;
+
+         if(vxfi == 0.0)
+             vxfi = current_vxfi;
+         if(vyfi == 0.0)
+             vyfi = current_vyfi;
+
+         drone_speed_reference.time = ros::Time::now().toSec();
+         drone_speed_reference.dx = vxfi;
+         drone_speed_reference.dy = vyfi;
+         drone_speed_reference.dz     = 0.0;
+         drone_speed_reference.dyaw   = 0.0;
+         drone_speed_reference.dpitch = 0.0;
+         drone_speed_reference.droll  = 0.0;
+
+         drone_speeds_reference_publisher.publish(drone_speed_reference);
+     }
+ }
 
  void UserCommander::sendCommandInMovingManualAltitudMode(double cte_command_pitch, double cte_command_roll, double cte_command_height, double cte_command_yaw)
  {
@@ -117,9 +153,9 @@
      if(controller_step_command_x !=0 || controller_step_command_y != 0 || controller_step_command_z != 0)
      {
          double current_xs, current_ys, current_zs;
-         current_xs = currentDronePositionReference.x;
-         current_ys = currentDronePositionReference.y;
-         current_zs = currentDronePositionReference.z;
+         current_xs = current_drone_position_reference.x;
+         current_ys = current_drone_position_reference.y;
+         current_zs = current_drone_position_reference.z;
 
 
          dronePositionReference.header.stamp  = ros::Time::now();
@@ -140,7 +176,7 @@
      droneCommandPubl.publish(droneCommandMsgs);
 
 
-     double current_yaws = currentDronePositionReference.yaw;
+     double current_yaws = current_drone_position_reference.yaw;
      droneYawReference.header.stamp = ros::Time::now();
      droneYawReference.yaw = current_yaws + controller_step_command_yaw;
 
@@ -150,8 +186,8 @@
 
 
 void  UserCommander::publish_takeoff() {
-       if(command==userCommands::TakeOff)
-       {
+           std::cout<<"Command takeoff sent"<<std::endl;
+           clearCmd();//clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF;
 
            modules_names.push_back("droneOdometryStateEstimator");
@@ -162,8 +198,7 @@ void  UserCommander::publish_takeoff() {
            droneCommandMsgs.drone_modules_names = modules_names;
            droneCommandPubl.publish(droneCommandMsgs);
            log(Info,std::string("Human Machine Interface sent: ")+"take_off");
-       }
-       command=100; //clear command
+
 }
 
 void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::droneManagerStatus::ConstPtr &msg) {
@@ -209,25 +244,29 @@ void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::dr
 
 
 void  UserCommander::publish_land() {
-       if(command==userCommands::Land)
-       {
+           std::cout<<"Command land() sent"<<std::endl;
+           clearCmd(); //clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
            droneCommandPubl.publish(droneCommandMsgs);
-           log(Info,std::string("Human Machine Interface sent: ")+"land");
-       }
-       command=100; //clear command
+           log(Info,std::string("Human Machine Interface sent: ")+"land");     
 }
 
 void  UserCommander::publish_hover() {
-       if(command==userCommands::Hover)
-       {
+           std::cout<<"Command hover() sent"<<std::endl;
+           clearCmd();//clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
            droneCommandPubl.publish(droneCommandMsgs);
            log(Info,std::string("Human Machine Interface sent: ")+"hover");
-       }
-       command=100; //clear command
+
 }
 
+void UserCommander::clearCmd()
+{
+    dronePitchRollCmdMsgs.pitchCmd=0.0;
+    dronePitchRollCmdMsgs.rollCmd=0.0;
+    droneDAltitudeCmdMsgs.dAltitudeCmd=0.0;
+    droneDYawCmdMsgs.dYawCmd=0.0;
+}
 
 
 /*

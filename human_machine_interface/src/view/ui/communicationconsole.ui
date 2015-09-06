@@ -20,7 +20,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="tab1">
       <attribute name="title">
@@ -32,11 +32,21 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab3">
+     <widget class="QWidget" name="tab2">
       <attribute name="title">
        <string>odometry</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QListView" name="ListView_tab2"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab3">
+      <attribute name="title">
+       <string>supervisor</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
         <widget class="QListView" name="ListView_tab3"/>
        </item>
@@ -44,9 +54,9 @@
      </widget>
      <widget class="QWidget" name="tab4">
       <attribute name="title">
-       <string>supervisor</string>
+       <string>cameras</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
+      <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
         <widget class="QListView" name="ListView_tab4"/>
        </item>
@@ -54,31 +64,21 @@
      </widget>
      <widget class="QWidget" name="tab5">
       <attribute name="title">
-       <string>cameras</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_6">
-       <item row="0" column="0">
-        <widget class="QListView" name="ListView_tab6"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab7">
-      <attribute name="title">
        <string>mission planner</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_7">
        <item row="0" column="0">
-        <widget class="QListView" name="ListView_tab8"/>
+        <widget class="QListView" name="ListView_tab5"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab9">
+     <widget class="QWidget" name="tab6">
       <attribute name="title">
        <string>user commands</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QListView" name="listView_tab9"/>
+        <widget class="QListView" name="listView_tab6"/>
        </item>
       </layout>
      </widget>

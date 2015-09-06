@@ -40,6 +40,7 @@
 SphereView::SphereView(QWidget *parent, TelemetryStateReceiver *telemetryReceiver): QGLWidget(parent)
 {
 
+
     telemReceiver=telemetryReceiver;
     // Create a view to show the scene with OSG.
     viewer = new osgViewer::Viewer;

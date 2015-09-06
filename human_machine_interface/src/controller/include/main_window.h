@@ -19,6 +19,8 @@
 #include "sphere_view.h"
 #include "vehicle_view.h"
 #include "string"
+#include "droneMsgsROS/droneManagerStatus.h"
+#include "droneMsgsROS/droneStatus.h"
 
 
 namespace Ui {
@@ -86,6 +88,8 @@ public Q_SLOTS:
     void flightTime();
     void incrementErrorsCounter();
     void saveCurrentCameraView();
+    void onControlModeChange(QString key);
+    void keyPressEvent(QKeyEvent *e);
 
 
 
@@ -109,7 +113,7 @@ private:
     CameraDisplayOption *mainoption;
     CameraMainOption *oneoption;
     CameraGridOption *fourCamera;
-    ProcessMonitor *processView;
+    PerformanceMonitor *processView;
     ParameterTemporalSeries *paramPlot;
     CommunicationConsole *consoleView;
     int d_interval; // timer in ms

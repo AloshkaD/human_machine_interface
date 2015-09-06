@@ -26,8 +26,12 @@
 #include "droneMsgsROS/droneManagerStatus.h"
 #include "droneMsgsROS/droneDAltitudeCmd.h"
 #include "droneMsgsROS/dronePose.h"
+#include "droneMsgsROS/droneStatus.h"
 #include "droneMsgsROS/dronePositionRefCommandStamped.h"
 #include "droneMsgsROS/droneYawRefCommand.h"
+#include "droneMsgsROS/dronePitchRollCmd.h"
+#include "droneMsgsROS/dronePositionTrajectoryRefCommand.h"
+#include "droneMsgsROS/droneSpeeds.h"
 #include <QThread>
 #include "communication_definition.h"
 #include <QStringListModel>
@@ -42,20 +46,23 @@ class UserCommander : public QThread {
 public:
         UserCommander();
 	virtual ~UserCommander();
-        int command;
+
         void run();
         void  openPublications(ros::NodeHandle nodeHandle);
 
 
-        droneMsgsROS::dronePitchRollCmd DronePitchRollCmdMsgs;
-        droneMsgsROS::droneDAltitudeCmd DroneDAltitudeCmdMsgs;
-        droneMsgsROS::droneDYawCmd DroneDYawCmdMsgs;
+        droneMsgsROS::dronePitchRollCmd dronePitchRollCmdMsgs;
+        droneMsgsROS::droneDAltitudeCmd droneDAltitudeCmdMsgs;
+        droneMsgsROS::droneDYawCmd droneDYawCmdMsgs;
         droneMsgsROS::droneMissionPlannerCommand droneCommandMsgs;
         droneMsgsROS::droneManagerStatus droneManagerStatus;
         droneMsgsROS::droneManagerStatus lastDroneManagerStatusMsg;
-        droneMsgsROS::dronePose currentDronePositionReference;
         droneMsgsROS::droneYawRefCommand droneYawReference;
         droneMsgsROS::dronePositionRefCommandStamped  dronePositionReference;
+        droneMsgsROS::dronePositionTrajectoryRefCommand drone_trajectory_reference;
+        droneMsgsROS::droneSpeeds drone_speed_reference;
+        droneMsgsROS::dronePose   current_drone_position_reference;
+         droneMsgsROS::droneSpeeds current_drone_speed_reference;
 
 
         droneMsgsROS::droneManagerStatus getDroneManagerStatus(){return lastDroneManagerStatusMsg;}
@@ -63,9 +70,10 @@ public:
         void sendCommandInPositionControlMode(double controller_step_command_x, double controller_step_command_y, double controller_step_command_z);
         void sendYawCommandInPositionControlMode(double controller_step_command_yaw);
         void sendCommandInMovingManualAltitudMode(double cte_command_pitch, double cte_command_roll, double cte_command_height, double cte_command_yaw);
+        void sendCommandInSpeedControlMode(double vxfi, double vyfi);
+        void clearCmd();
 
         void publish_takeoff();
-        void processCommmand(int command);
         void publish_land();
         void publish_hover();
 
@@ -85,10 +93,7 @@ public:
         enum userCommands {
             TakeOff,
             Hover,
-            Land,
-            ControlModeAltitude,
-            ControlModeSpeed,
-            ControlModePosition
+            Land
         };
 
 	QStringListModel* loggingModel() { return &logging_model; }
@@ -107,12 +112,15 @@ private:
         std::string dyawcmd_topic;
         std::string command_publish_topic;
 
-        ros::Publisher DronePitchRollCmdPubl;
-        ros::Publisher DroneDAltitudeCmdPubl;
-        ros::Publisher DroneDYawCmdPubl;
+        ros::Publisher dronePitchRollCmdPubl;
+        ros::Publisher droneDAltitudeCmdPubl;
+        ros::Publisher droneDYawCmdPubl;
         ros::Publisher droneCommandPubl;
         ros::Publisher dronePositionReferencePublisher;
         ros::Publisher droneYawReferencePublisher;
+        ros::Publisher drone_position_reference_publisher;
+        ros::Publisher drone_speeds_reference_publisher;
+        ros::Publisher drone_rel_trajectory_reference_publisher;
 
         ros::Subscriber droneManagerStatusSubs;
 

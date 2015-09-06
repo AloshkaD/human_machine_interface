@@ -12,9 +12,9 @@
 ** Implementation
 *****************************************************************************/
 
-ProcessMonitor::ProcessMonitor(QWidget *parent, RosGraphReceiver *collector) :
+PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collector) :
     QWidget(parent),
-    ui(new Ui::processMonitor)
+    ui(new Ui::performanceMonitor)
 {
     ui->setupUi(this);
     node=collector;
@@ -66,7 +66,7 @@ void processMonitor::updateTableInfo()
 
 }
 */
-void ProcessMonitor::onCustomContextMenuRequested(const QPoint& pos) {
+void PerformanceMonitor::onCustomContextMenuRequested(const QPoint& pos) {
  /*   QTreeWidgetItem* item = ui->treeWidget->itemAt(pos);
     qDebug() << item->text(0);
     if (item) {
@@ -75,7 +75,7 @@ void ProcessMonitor::onCustomContextMenuRequested(const QPoint& pos) {
     }*/
 }
 
-void ProcessMonitor::showContextMenu(QTreeWidgetItem* item, const QPoint& globalPos) {
+void PerformanceMonitor::showContextMenu(QTreeWidgetItem* item, const QPoint& globalPos) {
     QMenu menu;
     menu.addAction("Stop");
     menu.addAction("Start");
@@ -83,12 +83,11 @@ void ProcessMonitor::showContextMenu(QTreeWidgetItem* item, const QPoint& global
     menu.exec(globalPos);
 }
 
-void ProcessMonitor::initProcessViewerTable()
+void PerformanceMonitor::initProcessViewerTable()
 {
     int rowProcessViewer=0;
 
-    // Recorrer la lista para crear los items de la tabla
-
+    // Loop the list to create table items
     for(unsigned int i = 0; i < node->listProcessState.process_list.size(); i = i + 1)
     {
         node_container= node->listProcessState.process_list.at(i);
@@ -165,7 +164,7 @@ void ProcessMonitor::initProcessViewerTable()
     initializedTable=true;
 }
 
-void ProcessMonitor::onSupervisorStateReceived()
+void PerformanceMonitor::onSupervisorStateReceived()
 {
     ui->tableWidget->verticalScrollBar()->setSliderPosition( ui->tableWidget->verticalScrollBar()->maximum());
 
@@ -191,7 +190,7 @@ void ProcessMonitor::onSupervisorStateReceived()
     errorCounter++;
 }
 
-void ProcessMonitor::onTextFilterChange(const QString &arg1){
+void PerformanceMonitor::onTextFilterChange(const QString &arg1){
     /*QRegExp regExp(arg1, Qt::CaseInsensitive, QRegExp::Wildcard);
     ui->treeWidget->blockSignals(true);
     ui->treeWidget->clear();
@@ -209,7 +208,7 @@ void ProcessMonitor::onTextFilterChange(const QString &arg1){
 
 
 
-ProcessMonitor::~ProcessMonitor()
+PerformanceMonitor::~PerformanceMonitor()
 {
     delete ui;
 }
