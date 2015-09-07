@@ -20,12 +20,19 @@ ImagesReceiver::ImagesReceiver(){}
 
 
 void ImagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
+    
+    if (!nodeHandle.getParam("drone_console_interface_sensor_bottom_camera", drone_console_interface_sensor_bottom_camera))
+      drone_console_interface_sensor_bottom_camera = "camera/bottom/image_raw";
+
+    if (!nodeHandle.getParam("drone_console_interface_sensor_front_camera", drone_console_interface_sensor_front_camera))
+      drone_console_interface_sensor_front_camera = "camera/front/image_raw";
+
     // Topic communications
     image_transport::ImageTransport it_(nodeHandle);
-    image_bottom_sub_ = it_.subscribe("drone0/" + DRONE_CONSOLE_INTERFACE_SENSOR_BOTTOM_CAMERA, 1,&ImagesReceiver::imagesBottomReceptionCallback, this);
-    image_front_sub_ = it_.subscribe("drone0/" + DRONE_CONSOLE_INTERFACE_SENSOR_FRONT_CAMERA, 1,&ImagesReceiver::imagesFrontReceptionCallback, this);
+    image_bottom_sub_ = it_.subscribe(ros::this_node::getNamespace() + "/" + drone_console_interface_sensor_bottom_camera, 1,&ImagesReceiver::imagesBottomReceptionCallback, this);
+    image_front_sub_ = it_.subscribe(ros::this_node::getNamespace() + "/" +  drone_console_interface_sensor_front_camera, 1,&ImagesReceiver::imagesFrontReceptionCallback, this);
     start();
-//    real_time=ros;
+    //    real_time=ros;
 }
 
 

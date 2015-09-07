@@ -71,7 +71,7 @@ public:
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
         void openSubscriptions(ros::NodeHandle nodeHandle);
-        void readParams();
+        void readParams(ros::NodeHandle nodeHandle);
 
 Q_SIGNALS:
 	void loggingUpdated();
@@ -82,6 +82,17 @@ Q_SIGNALS:
 
 
 private:
+
+        std::string drone_trajectory_controller_pose_subscription_gmr;
+        std::string drone_trajectory_controller_speeds_subscription_gmr;
+        std::string drone_state_estimator_interface_pose_subscription_lmrt;
+        std::string drone_state_estimator_interface_speeds_subscription_lmrt;
+        std::string drone_trajectory_planner_pose_subscription;
+        std::string drone_trajectory_controller_speeds_subscription_gmr_aruco;
+        std::string drone_logger_aruco_eye_observationvec_list;
+        std::string drone_logger_position_ref_rebroadcast_subscription;
+        std::string drone_logger_speed_ref_rebroadcast_subscription;
+
 
 	int init_argc;
         int real_time;

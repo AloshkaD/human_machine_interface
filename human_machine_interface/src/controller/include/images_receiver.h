@@ -50,6 +50,10 @@ Q_SIGNALS:
 
 
 private:
+
+        std::string drone_console_interface_sensor_bottom_camera;
+        std::string drone_console_interface_sensor_front_camera;
+        
         QPixmap px;
         ros::MultiThreadedSpinner threadSpin;
         image_transport::Subscriber image_bottom_sub_;
