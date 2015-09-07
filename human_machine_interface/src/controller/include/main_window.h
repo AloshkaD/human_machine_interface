@@ -55,8 +55,6 @@ public:
     bool isOpen_fourCameraView;
     QTimer *flightTimer;
 
-
-
 private Q_SLOTS:
    void show_frame();
 
@@ -88,7 +86,7 @@ public Q_SLOTS:
     void flightTime();
     void incrementErrorsCounter();
     void saveCurrentCameraView();
-    void onControlModeChange(QString key);
+    void onControlModeChange(int key);
     void keyPressEvent(QKeyEvent *e);
 
 

@@ -27,7 +27,7 @@ VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryRecei
     transformation = new osg::MatrixTransform;
     auxTransformation = new osg::MatrixTransform;
 
-     viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.3f));
+   viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.3f));
 
     
     // Load the 3D model, Geodo
