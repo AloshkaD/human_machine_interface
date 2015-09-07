@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/communication_console.h"
-#include "../../../../human_machine_interface-build/ui_communicationconsole.h"
+#include "../.././../../../src-build/human_machine_interface/ui_communicationconsole.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/

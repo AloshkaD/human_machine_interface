@@ -1,4 +1,4 @@
-/*
+ /*
   Connection - Intializes ROS threads to send and receive packages 
   @author  Yolanda de la Hoz Simón
   @date    05-2015
@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/connection.h"
-#include "../../../../human_machine_interface-build/ui_connection.h"
+#include "../.././../../../src-build/human_machine_interface/ui_connection.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/

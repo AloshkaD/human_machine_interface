@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../../../../human_machine_interface-build/ui_mainwindow.h"
+#include "../.././../../../src-build/human_machine_interface/ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <iostream>
@@ -405,12 +405,14 @@ void MainWindow::on_actionNew_connection_triggered()
 
 
 void MainWindow::on_actionParameter_Temporal_Series_triggered()
-{
+{/*
     paramPlot = new ParameterTemporalSeries(this,connection->telemetryReceiver,connection->odometryReceiver);
     paramPlot->setWindowTitle("Parameter Temporal Series");
-    paramPlot->show();
-    paramPlot->raise();
-    paramPlot->activateWindow();
+
+    QDialog* secondWindow = new QDialog(paramPlot);
+    secondWindow->show();
+    secondWindow->raise();
+    secondWindow->activateWindow();*/
 }
 
 
