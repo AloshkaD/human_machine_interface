@@ -56,6 +56,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     num_of_auto_ops=2;
     max_osg_frame=0;
     errorCounter=0;// counter error for performance_monitor
+    designLaptop=false;
 
     ui->tabManager->setCurrentIndex(0); // ensure the first tab is showing
 
@@ -90,6 +91,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     qDebug() << desktopWidth;
 
     if(desktopHeight<=1024){
+        designLaptop=true;
         osg_uav->resize(320, 300);
         osg_sphere->resize(320, 250);
         ui->tab_dynamicView->setMaximumSize(QSize(350, 280));
@@ -319,23 +321,25 @@ void MainWindow::updateStatusBar()
 
         ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
 
-        ui->valueSphere_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
-        ui->valueSphere_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
-        ui->valueSphere_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
-        ui->valueSphere_yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.z*100)))/100) + "  deg");
-        ui->valueSphere_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.x*100)))/100) + "  deg");
-        ui->valueSphere_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.y*100)))/100) + "  deg");
+        if(!designLaptop){
+
+            // sphere
+            ui->valueSphere_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
+            ui->valueSphere_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
+            ui->valueSphere_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
+            ui->valueSphere_yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.z*100)))/100) + "  deg");
+            ui->valueSphere_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.x*100)))/100) + "  deg");
+            ui->valueSphere_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.y*100)))/100) + "  deg");
 
 
-        // vehicle
-
-        ui->valueVehicle_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
-        ui->valueVehicle_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
-        ui->valueVehicle_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
-        ui->valueVehicle_Yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.z*100)))/100) + "  deg");
-        ui->valueVehicle_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.x*100)))/100) + "  deg");
-        ui->valueVehicle_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.y*100)))/100) + "  deg");
-
+            // vehicle
+            ui->valueVehicle_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
+            ui->valueVehicle_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
+            ui->valueVehicle_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
+            ui->valueVehicle_Yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.z*100)))/100) + "  deg");
+            ui->valueVehicle_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.x*100)))/100) + "  deg");
+            ui->valueVehicle_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.y*100)))/100) + "  deg");
+        }
     }
 }
 

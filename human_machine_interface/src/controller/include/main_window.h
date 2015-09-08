@@ -53,6 +53,7 @@ public:
     bool isOpen_mainCameraView;
     bool isOpen_oneCameraView;
     bool isOpen_fourCameraView;
+    bool designLaptop;
     QTimer *flightTimer;
 
 private Q_SLOTS:
