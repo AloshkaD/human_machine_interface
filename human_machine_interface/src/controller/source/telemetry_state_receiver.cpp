@@ -26,87 +26,94 @@ TelemetryStateReceiver::TelemetryStateReceiver(){}
 
 
 void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
+    if (!nodeHandle.getParam("drone_driver_command_drone_command_pitch_roll", drone_driver_command_drone_command_pitch_roll))
+     drone_driver_command_drone_command_pitch_roll = "command/pitch_roll";
 
-     if (!nodeHandle.getParam("drone_driver_command_drone_command_pitch_roll", drone_driver_command_drone_command_pitch_roll))
-      drone_driver_command_drone_command_pitch_roll = "command/pitch_roll";
+   if (!nodeHandle.getParam("drone_driver_command_drone_command_daltitude", drone_driver_command_drone_command_daltitude))
+     drone_driver_command_drone_command_daltitude ="command/dAltitude";
 
-    if (!nodeHandle.getParam("drone_driver_command_drone_command_daltitude", drone_driver_command_drone_command_daltitude))
-      drone_driver_command_drone_command_daltitude = "command/dAltitude";
+   if (!nodeHandle.getParam("drone_driver_command_drone_command_dyaw", drone_driver_command_drone_command_dyaw))
+     drone_driver_command_drone_command_dyaw = "command/dYaw";
 
-    if (!nodeHandle.getParam("drone_driver_command_drone_command_dyaw", drone_driver_command_drone_command_dyaw))
-      drone_driver_command_drone_command_dyaw = "command/dYaw";
+   if (!nodeHandle.getParam("drone_driver_command_drone_hl_command", drone_driver_command_drone_hl_command))
+     drone_driver_command_drone_hl_command = "command/high_level";
 
-    if (!nodeHandle.getParam("drone_driver_command_drone_hl_command", drone_driver_command_drone_hl_command))
-      drone_driver_command_drone_hl_command = "command/high_level";
+   if (!nodeHandle.getParam("drone_driver_sensor_imu", drone_driver_sensor_imu))
+     drone_driver_sensor_imu = "imu";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_imu", drone_driver_sensor_imu))
-      drone_driver_sensor_imu = "imu";
+   if (!nodeHandle.getParam("drone_driver_sensor_temperature", drone_driver_sensor_temperature))
+     drone_driver_sensor_temperature = "temperature";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_temperature", drone_driver_sensor_temperature))
-      drone_driver_sensor_temperature = "temperature";
+   if (!nodeHandle.getParam("drone_driver_sensor_magnetometer", drone_driver_sensor_magnetometer))
+     drone_driver_sensor_magnetometer = "magnetometer";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_magnetometer", drone_driver_sensor_magnetometer))
-      drone_driver_sensor_magnetometer = "magnetometer";
+   if (!nodeHandle.getParam("drone_driver_sensor_battery", drone_driver_sensor_battery))
+     drone_driver_sensor_battery = "battery";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_battery", drone_driver_sensor_battery))
-      drone_driver_sensor_battery = "battery";
+   if (!nodeHandle.getParam("drone_driver_sensor_altitude", drone_driver_sensor_altitude))
+     drone_driver_sensor_altitude = "altitude";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_altitude", drone_driver_sensor_altitude))
-      drone_driver_sensor_altitude = "altitude";
+   if (!nodeHandle.getParam("drone_driver_sensor_rotation_angles", drone_driver_sensor_rotation_angles))
+     drone_driver_sensor_rotation_angles = "rotation_angles";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_rotation_angles", drone_driver_sensor_rotation_angles))
-      drone_driver_sensor_rotation_angles = "rotation_angles";
+   if (!nodeHandle.getParam("drone_driver_sensor_ground_speed", drone_driver_sensor_ground_speed))
+     drone_driver_sensor_ground_speed = "ground_speed";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_ground_speed", drone_driver_sensor_ground_speed))
-      drone_driver_sensor_ground_speed = "ground_speed";
+   if (!nodeHandle.getParam("drone_driver_sensor_pressure", drone_driver_sensor_pressure))
+     drone_driver_sensor_pressure = "pressure";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_pressure", drone_driver_sensor_pressure))
-      drone_driver_sensor_pressure = "pressure";
+   if (!nodeHandle.getParam("drone_driver_sensor_status", drone_driver_sensor_status))
+     drone_driver_sensor_status = "status";
 
-    if (!nodeHandle.getParam("drone_driver_sensor_status", drone_driver_sensor_status))
-      drone_driver_sensor_status = "status";
+   if (!nodeHandle.getParam("drone_pelican_like_simulator_control_input_subscriber", drone_pelican_like_simulator_control_input_subscriber))
+     drone_pelican_like_simulator_control_input_subscriber = "drone_pelican_like_simulator_control_input_subscriber";
 
-    if (!nodeHandle.getParam("drone_pelican_like_simulator_control_input_subscriber", drone_pelican_like_simulator_control_input_subscriber))
-      drone_pelican_like_simulator_control_input_subscriber = "drone_pelican_like_simulator_control_input_subscriber";
-
-    if (!nodeHandle.getParam("drone_okto_like_simulator_okto_commands_subscriber", drone_okto_like_simulator_okto_commands_subscriber))
-      drone_okto_like_simulator_okto_commands_subscriber = "drone_okto_like_simulator_okto_commands_subscriber";
-
-    std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace();
-    std::cout << "\n";
-
-    //Commands
-    DronePitchRollCmdSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_command_drone_command_pitch_roll, 1, &TelemetryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
-    DroneDAltitudeCmdSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_command_drone_command_daltitude, 1, &TelemetryStateReceiver::droneDAltitudeCmdCallback, this);//command/dAltitude
-    DroneDYawCmdSubs=nodeHandle.subscribe(/*ros::this_node::getNamespace() + "/" + */drone_driver_command_drone_command_dyaw, 1, &TelemetryStateReceiver::droneDYawCmdCallback, this);//command/dYaw
-    DroneHLCmdSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_command_drone_hl_command, 1, &TelemetryStateReceiver::droneHLCallback, this);//command/high_level
-    //DroneLLCmdSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_command_drone_ll_autopilot_command, 1, &telemetryStateReceiver::droneLLCallback, this);//command/low_level
-
-    //Sensor
-    ImuSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_imu, 1, &TelemetryStateReceiver::imuCallback, this);
-    TemperatureSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_temperature, 1, &TelemetryStateReceiver::temperatureCallback, this);
-    MagnetometerSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_magnetometer, 1, &TelemetryStateReceiver::magnetometerCallback, this);
-    BatterySubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_battery, 1, &TelemetryStateReceiver::batteryCallback, this);
-    AltitudeSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_altitude, 1, &TelemetryStateReceiver::altitudeCallback, this);
-    RotationAnglesSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_rotation_angles, 1, &TelemetryStateReceiver::rotationAnglesCallback, this);
-    GroundSpeedSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_ground_speed, 1, &TelemetryStateReceiver::groundSpeedCallback, this);
-    PressureSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_pressure, 1, &TelemetryStateReceiver::pressureCallback, this);
-    DroneStatusSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_sensor_status, 1, &TelemetryStateReceiver::droneStatusSensorCallback, this);
+   if (!nodeHandle.getParam("drone_okto_like_simulator_okto_commands_subscriber", drone_okto_like_simulator_okto_commands_subscriber))
+     drone_okto_like_simulator_okto_commands_subscriber = "drone_okto_like_simulator_okto_commands_subscriber";
 
 
-    // Asctec Autopilot/Pelican Low-Level Telemetry
-   // DronePelicanLLStatusSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_LLSTATUS_SUBSCRIBER, 1, &telemetryStateReceiver::pelicanLLStatusCallback, this);
-   // DronePelicanIMUCalcSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_IMUCALCDATA_SUBSCRIBER, 1, &telemetryStateReceiver::pelicanIMUCalcDataCallback, this);
-   // DronePelicanRCDataSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_RCDATA_SUBSCRIBER, 1, &telemetryStateReceiver::droneRCDataPelicanCallback, this);//command/low_level
-   // DronePelicanControlInputSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_pelican_like_simulator_control_input_subscriber, 1, &telemetryStateReceiver::droneInputPelicanCallback, this);//command/low_level
+
+   std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
+   if(ros::this_node::getNamespace().compare(" /")){
+      rosnamespace.append("/drone0");
+   }
+   else
+      rosnamespace.append(ros::this_node::getNamespace());
 
 
-    //Sensor
-    // optFlowSubs=nodeHandle.subscribe("drone0/" + DRONE_OKTO_LIKE_SIMULATOR_GROUND_SPEED_SENSOR_PUBLISHER, 1, &telemetryStateReceiver::optFlowCallback, this);
-    //Commands
-    // oktoCommandsSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_okto_like_simulator_okto_commands_subscriber, 1, &telemetryStateReceiver::oktoCommandsCallback, this);
-    start();
-    // real_time=ros;
+
+   //Commands
+   DronePitchRollCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_pitch_roll, 1, &TelemetryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
+   DroneDAltitudeCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_daltitude, 1, &TelemetryStateReceiver::droneDAltitudeCmdCallback, this);//command/dAltitude
+   DroneDYawCmdSubs=nodeHandle.subscribe(/*rosnamespace + "/" + */drone_driver_command_drone_command_dyaw, 1, &TelemetryStateReceiver::droneDYawCmdCallback, this);//command/dYaw
+   DroneHLCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_hl_command, 1, &TelemetryStateReceiver::droneHLCallback, this);//command/high_level
+   //DroneLLCmdSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_command_drone_ll_autopilot_command, 1, &telemetryStateReceiver::droneLLCallback, this);//command/low_level
+
+   //Sensor
+   ImuSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_imu, 1, &TelemetryStateReceiver::imuCallback, this);
+   TemperatureSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_temperature, 1, &TelemetryStateReceiver::temperatureCallback, this);
+   MagnetometerSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_magnetometer, 1, &TelemetryStateReceiver::magnetometerCallback, this);
+   BatterySubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_battery, 1, &TelemetryStateReceiver::batteryCallback, this);
+   AltitudeSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_altitude, 1, &TelemetryStateReceiver::altitudeCallback, this);
+   RotationAnglesSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_rotation_angles, 1, &TelemetryStateReceiver::rotationAnglesCallback, this);
+   GroundSpeedSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_ground_speed, 1, &TelemetryStateReceiver::groundSpeedCallback, this);
+   PressureSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_pressure, 1, &TelemetryStateReceiver::pressureCallback, this);
+   DroneStatusSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_status, 1, &TelemetryStateReceiver::droneStatusSensorCallback, this);
+
+
+   // Asctec Autopilot/Pelican Low-Level Telemetry
+  // DronePelicanLLStatusSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_LLSTATUS_SUBSCRIBER, 1, &telemetryStateReceiver::pelicanLLStatusCallback, this);
+  // DronePelicanIMUCalcSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_IMUCALCDATA_SUBSCRIBER, 1, &telemetryStateReceiver::pelicanIMUCalcDataCallback, this);
+  // DronePelicanRCDataSubs=nodeHandle.subscribe("drone0/" + DRONE_PELICAN_LOGGER_RCDATA_SUBSCRIBER, 1, &telemetryStateReceiver::droneRCDataPelicanCallback, this);//command/low_level
+  // DronePelicanControlInputSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_pelican_like_simulator_control_input_subscriber, 1, &telemetryStateReceiver::droneInputPelicanCallback, this);//command/low_level
+
+
+   //Sensor
+   // optFlowSubs=nodeHandle.subscribe("drone0/" + DRONE_OKTO_LIKE_SIMULATOR_GROUND_SPEED_SENSOR_PUBLISHER, 1, &telemetryStateReceiver::optFlowCallback, this);
+   //Commands
+   // oktoCommandsSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_okto_like_simulator_okto_commands_subscriber, 1, &telemetryStateReceiver::oktoCommandsCallback, this);
+   start();
+   // real_time=ros;
 }
 
 
