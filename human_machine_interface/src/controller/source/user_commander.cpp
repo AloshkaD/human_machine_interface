@@ -44,23 +44,30 @@
       if (!nodeHandle.getParam("drone_controller_yaw_ref_command", drone_controller_yaw_ref_command))
         drone_controller_yaw_ref_command = "droneControllerYawRefCommand";
 
+      if (!nodeHandle.getParam("drone_speed_refs_topic", drone_speed_refs_topic))
+        drone_speed_refs_topic = "droneSpeedsRefs";
+
       if (!nodeHandle.getParam("drone_manager_status", drone_manager_status))
         drone_manager_status = "droneManagerStatus";
 
+      std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
+      if(ros::this_node::getNamespace().compare(" /")){
+         rosnamespace.append("/drone0");//default namespace
+      }
+      else
+         rosnamespace.append(ros::this_node::getNamespace());
 
      // Topic communications
-     dronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(ros::this_node::getNamespace() + "/" + pitchroll_topic ,1, true);
-     droneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>(ros::this_node::getNamespace() + "/" + daltitude_topic,1, true);
-     droneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>(ros::this_node::getNamespace() + "/" + dyawcmd_topic,1, true);
-     droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(ros::this_node::getNamespace() + "/" + command_publish_topic,1, true);
+     dronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(rosnamespace + "/" + pitchroll_topic ,1, true);
+     droneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>(rosnamespace + "/" + daltitude_topic,1, true);
+     droneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>(rosnamespace + "/" + dyawcmd_topic,1, true);
+     droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(rosnamespace + "/" + command_publish_topic,1, true);
 
-     dronePositionReferencePublisher = nodeHandle.advertise<droneMsgsROS::dronePositionRefCommandStamped>("dronePositionRefs", 1);
-     droneYawReferencePublisher = nodeHandle.advertise<droneMsgsROS::droneYawRefCommand>("droneControllerYawRefCommand", 1);
-     drone_speeds_reference_publisher     = nodeHandle.advertise<droneMsgsROS::droneSpeeds>("droneSpeedsRefs", 1);
-     drone_rel_trajectory_reference_publisher = nodeHandle.advertise<droneMsgsROS::dronePositionTrajectoryRefCommand>("droneTrajectoryRefCommand", 1);
+     dronePositionReferencePublisher = nodeHandle.advertise<droneMsgsROS::dronePositionRefCommandStamped>(rosnamespace + "/" + drone_position_refs, 1);
+     droneYawReferencePublisher = nodeHandle.advertise<droneMsgsROS::droneYawRefCommand>(rosnamespace + "/" + drone_controller_yaw_ref_command, 1);
+     drone_speeds_reference_publisher     = nodeHandle.advertise<droneMsgsROS::droneSpeeds>(rosnamespace + "/" + drone_speed_refs_topic, 1);
 
-
-     droneManagerStatusSubs  = nodeHandle.subscribe(drone_manager_status, 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
+     droneManagerStatusSubs  = nodeHandle.subscribe(rosnamespace + "/" + drone_manager_status, 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
 
      start();
  }

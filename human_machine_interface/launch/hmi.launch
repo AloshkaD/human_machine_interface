@@ -44,6 +44,7 @@
                 <param name="command_publish_topic " value="command/high_level" />
                 <param name="drone_position_refs " value="dronePositionRefs" />
                 <param name="drone_controller_yaw_ref_command " value="droneControllerYawRefCommand" />
+                <param name="drone_speed_reference_topic" value="droneSpeedsRefs" />
                 <param name="drone_manager_status " value="droneManagerStatus" />
 
             <!-- camera - images_receiver -->

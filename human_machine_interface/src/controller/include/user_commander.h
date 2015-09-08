@@ -62,7 +62,8 @@ public:
         droneMsgsROS::dronePositionTrajectoryRefCommand drone_trajectory_reference;
         droneMsgsROS::droneSpeeds drone_speed_reference;
         droneMsgsROS::dronePose   current_drone_position_reference;
-         droneMsgsROS::droneSpeeds current_drone_speed_reference;
+        droneMsgsROS::droneSpeeds current_drone_speed_reference;
+        std::string rosnamespace;
 
 
         droneMsgsROS::droneManagerStatus getDroneManagerStatus(){return lastDroneManagerStatusMsg;}
@@ -112,6 +113,7 @@ private:
         std::string dyawcmd_topic;
         std::string command_publish_topic;
         std::string drone_position_refs;
+        std::string drone_speed_refs_topic;
         std::string drone_controller_yaw_ref_command;
         std::string drone_manager_status;
 

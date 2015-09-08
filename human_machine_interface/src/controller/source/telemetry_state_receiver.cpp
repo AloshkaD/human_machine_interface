@@ -75,7 +75,7 @@ void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
 
    std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
    if(ros::this_node::getNamespace().compare(" /")){
-      rosnamespace.append("/drone0");
+      rosnamespace.append("/drone0");//default namespace
    }
    else
       rosnamespace.append(ros::this_node::getNamespace());
@@ -85,7 +85,7 @@ void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
    //Commands
    DronePitchRollCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_pitch_roll, 1, &TelemetryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
    DroneDAltitudeCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_daltitude, 1, &TelemetryStateReceiver::droneDAltitudeCmdCallback, this);//command/dAltitude
-   DroneDYawCmdSubs=nodeHandle.subscribe(/*rosnamespace + "/" + */drone_driver_command_drone_command_dyaw, 1, &TelemetryStateReceiver::droneDYawCmdCallback, this);//command/dYaw
+   DroneDYawCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_dyaw, 1, &TelemetryStateReceiver::droneDYawCmdCallback, this);//command/dYaw
    DroneHLCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_hl_command, 1, &TelemetryStateReceiver::droneHLCallback, this);//command/high_level
    //DroneLLCmdSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_command_drone_ll_autopilot_command, 1, &telemetryStateReceiver::droneLLCallback, this);//command/low_level
 
