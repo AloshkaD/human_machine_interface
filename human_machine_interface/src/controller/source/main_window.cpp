@@ -153,8 +153,8 @@ void MainWindow::show_frame()
     max_osg_frame++;*/
 
     // Get the frame and visualize with a pixmap in a QLabel.
-    ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,false));
-    ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
+  //  ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,false));
+   // ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
 
 }
 
@@ -267,9 +267,9 @@ void MainWindow::showNoMasterMessage()
 
 void MainWindow::flightTime()
 {
-    /*this->current_time->setHMS(this->current_time->addSecs(+1).hour(),this->current_time->addSecs(+1).minute(),this->current_time->addSecs(+1).second());
+    this->current_time->setHMS(this->current_time->addSecs(+1).hour(),this->current_time->addSecs(+1).minute(),this->current_time->addSecs(+1).second());
     QString text = this->current_time->toString();
-    ui->value_FligthTime->setText(text);*/
+    ui->value_FligthTime->setText(text);
 }
 
 
