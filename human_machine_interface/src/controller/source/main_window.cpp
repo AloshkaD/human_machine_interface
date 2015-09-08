@@ -55,7 +55,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     resize=0;
     num_of_auto_ops=2;
     max_osg_frame=0;
-    errorCounter=0;// counter error from performance_monitor
+    errorCounter=0;// counter error for performance_monitor
 
     ui->tabManager->setCurrentIndex(0); // ensure the first tab is showing
 

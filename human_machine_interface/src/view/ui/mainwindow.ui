@@ -747,6 +747,64 @@
             <property name="bottomMargin">
              <number>0</number>
             </property>
+            <item row="2" column="3" colspan="3">
+             <widget class="QLabel" name="value_FligthTime">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>0:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="3" colspan="3">
+             <widget class="QComboBox" name="selection_vehicle">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>185</width>
+                <height>370</height>
+               </size>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="insertPolicy">
+               <enum>QComboBox::InsertAtTop</enum>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>UAV_1</string>
+               </property>
+              </item>
+             </widget>
+            </item>
             <item row="4" column="0" colspan="2">
              <widget class="QLabel" name="label_errors">
               <property name="sizePolicy">
@@ -766,17 +824,32 @@
               </property>
              </widget>
             </item>
-            <item row="6" column="0" colspan="6">
-             <widget class="Line" name="line">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="11" column="0" colspan="6">
+             <widget class="QPushButton" name="emergencyStop_Button">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-             </widget>
-            </item>
-            <item row="9" column="0" colspan="6">
-             <widget class="Line" name="line_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="text">
+               <string>Emergency Stop</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../resources/images.qrc">
+                <normaloff>:/images/images/stop.png</normaloff>:/images/images/stop.png</iconset>
+              </property>
+              <property name="autoRepeat">
+               <bool>true</bool>
+              </property>
+              <property name="autoDefault">
+               <bool>true</bool>
+              </property>
+              <property name="default">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -839,73 +912,50 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="3" colspan="3">
-             <widget class="QLabel" name="value_currentGoal">
+            <item row="10" column="2" colspan="2">
+             <widget class="QToolButton" name="yawzeroButton">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>100</width>
+                <width>60</width>
                 <height>0</height>
                </size>
               </property>
-              <property name="text">
-               <string>-</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0" colspan="2">
-             <widget class="QLabel" name="label_controlMode">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
+              <property name="maximumSize">
                <size>
-                <width>120</width>
-                <height>0</height>
+                <width>60</width>
+                <height>16777215</height>
                </size>
               </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
               <property name="text">
-               <string>Control Mode :</string>
+               <string>Yaw Zero</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../resources/images.qrc">
+                <normaloff>:/images/images/arrow-up.png</normaloff>:/images/images/arrow-up.png</iconset>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextUnderIcon</enum>
               </property>
              </widget>
             </item>
-            <item row="2" column="0" colspan="2">
-             <widget class="QLabel" name="label_flyingTime">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Flying Time :</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0" colspan="3">
-             <widget class="QLabel" name="label_warnings">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>140</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Detected Warnings :</string>
+            <item row="9" column="0" colspan="6">
+             <widget class="Line" name="line_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
              </widget>
             </item>
@@ -962,76 +1012,6 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0" colspan="2">
-             <widget class="QLabel" name="label_battery_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Battery Charge :</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" colspan="2">
-             <widget class="QLabel" name="label_currentGoal">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>120</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Current Goal :</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="3" colspan="3">
-             <widget class="QLabel" name="value_Warnings">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="3" colspan="3">
-             <widget class="QLabel" name="value_Errors">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-             </widget>
-            </item>
             <item row="10" column="5">
              <widget class="QToolButton" name="resetButton">
               <property name="sizePolicy">
@@ -1078,32 +1058,118 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="0" colspan="6">
-             <widget class="QPushButton" name="emergencyStop_Button">
+            <item row="2" column="0" colspan="2">
+             <widget class="QLabel" name="label_flyingTime">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="focusPolicy">
-               <enum>Qt::NoFocus</enum>
+              <property name="text">
+               <string>Flying Time :</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0" colspan="2">
+             <widget class="QLabel" name="label_controlMode">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>0</height>
+               </size>
               </property>
               <property name="text">
-               <string>Emergency Stop</string>
+               <string>Control Mode :</string>
               </property>
-              <property name="icon">
-               <iconset resource="../resources/images.qrc">
-                <normaloff>:/images/images/stop.png</normaloff>:/images/images/stop.png</iconset>
+             </widget>
+            </item>
+            <item row="4" column="3" colspan="3">
+             <widget class="QLabel" name="value_Errors">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="autoRepeat">
-               <bool>true</bool>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
               </property>
-              <property name="autoDefault">
-               <bool>true</bool>
+              <property name="text">
+               <string>0</string>
               </property>
-              <property name="default">
-               <bool>true</bool>
+             </widget>
+            </item>
+            <item row="6" column="0" colspan="6">
+             <widget class="Line" name="line">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0" colspan="3">
+             <widget class="QLabel" name="label_warnings">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>140</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Detected Warnings :</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="3" colspan="3">
+             <widget class="QLabel" name="value_Warnings">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3" colspan="3">
+             <widget class="QLabel" name="value_currentGoal">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-</string>
               </property>
              </widget>
             </item>
@@ -1126,8 +1192,21 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="3" colspan="3">
-             <widget class="QLabel" name="value_FligthTime">
+            <item row="1" column="0" colspan="2">
+             <widget class="QLabel" name="label_battery_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Battery Charge :</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3" colspan="3">
+             <widget class="QLabel" name="value_wifi">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1141,51 +1220,31 @@
                </size>
               </property>
               <property name="text">
-               <string>0:00</string>
+               <string>Disconnected</string>
               </property>
              </widget>
             </item>
-            <item row="7" column="2" colspan="4">
-             <widget class="QComboBox" name="selection_vehicle">
+            <item row="3" column="0" colspan="2">
+             <widget class="QLabel" name="label_currentGoal">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>0</width>
-                <height>25</height>
+                <width>120</width>
+                <height>0</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>185</width>
-                <height>370</height>
-               </size>
+              <property name="text">
+               <string>Current Goal :</string>
               </property>
-              <property name="focusPolicy">
-               <enum>Qt::NoFocus</enum>
-              </property>
-              <property name="layoutDirection">
-               <enum>Qt::LeftToRight</enum>
-              </property>
-              <property name="insertPolicy">
-               <enum>QComboBox::InsertAtTop</enum>
-              </property>
-              <property name="frame">
-               <bool>true</bool>
-              </property>
-              <item>
-               <property name="text">
-                <string>UAV_1</string>
-               </property>
-              </item>
              </widget>
             </item>
-            <item row="10" column="2" colspan="2">
-             <widget class="QToolButton" name="yawzeroButton">
+            <item row="10" column="1">
+             <widget class="QToolButton" name="landButton">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -1213,18 +1272,18 @@
                <enum>Qt::NoFocus</enum>
               </property>
               <property name="text">
-               <string>Yaw Zero</string>
+               <string>Land</string>
               </property>
               <property name="icon">
                <iconset resource="../resources/images.qrc">
-                <normaloff>:/images/images/arrow-up.png</normaloff>:/images/images/arrow-up.png</iconset>
+                <normaloff>:/images/images/airplane-landing.png</normaloff>:/images/images/airplane-landing.png</iconset>
               </property>
               <property name="toolButtonStyle">
                <enum>Qt::ToolButtonTextUnderIcon</enum>
               </property>
              </widget>
             </item>
-            <item row="8" column="2" colspan="4">
+            <item row="8" column="3" colspan="3">
              <widget class="QComboBox" name="selection_mode">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
@@ -1269,64 +1328,37 @@
               </item>
              </widget>
             </item>
-            <item row="0" column="3" colspan="3">
-             <widget class="QLabel" name="value_wifi">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+            <item row="7" column="2">
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
-              <property name="minimumSize">
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
                <size>
-                <width>100</width>
-                <height>0</height>
+                <width>15</width>
+                <height>20</height>
                </size>
               </property>
-              <property name="text">
-               <string>Disconnected</string>
-              </property>
-             </widget>
+             </spacer>
             </item>
-            <item row="10" column="1">
-             <widget class="QToolButton" name="landButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+            <item row="8" column="2">
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
-              <property name="minimumSize">
+              <property name="sizeType">
+               <enum>QSizePolicy::Maximum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
                <size>
-                <width>60</width>
-                <height>0</height>
+                <width>15</width>
+                <height>20</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>60</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>10</pointsize>
-               </font>
-              </property>
-              <property name="focusPolicy">
-               <enum>Qt::NoFocus</enum>
-              </property>
-              <property name="text">
-               <string>Land</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources/images.qrc">
-                <normaloff>:/images/images/airplane-landing.png</normaloff>:/images/images/airplane-landing.png</iconset>
-              </property>
-              <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonTextUnderIcon</enum>
-              </property>
-             </widget>
+             </spacer>
             </item>
            </layout>
            <zorder>label_wifi</zorder>
@@ -1353,6 +1385,8 @@
            <zorder>hoverButton</zorder>
            <zorder>resetButton</zorder>
            <zorder>emergencyStop_Button</zorder>
+           <zorder>horizontalSpacer_2</zorder>
+           <zorder>horizontalSpacer_3</zorder>
           </widget>
          </widget>
         </item>
