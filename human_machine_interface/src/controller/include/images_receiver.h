@@ -39,6 +39,7 @@ public:
         void log( const LogLevel &level, const std::string &msg);
         void openSubscriptions(ros::NodeHandle nodeHandle);
         void onControlModeChange(QString key);
+        std::string rosnamespace;
 
 
 Q_SIGNALS:

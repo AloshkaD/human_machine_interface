@@ -92,11 +92,6 @@
      droneCommandMsgs.mpCommand =droneMsgsROS::droneMissionPlannerCommand::MOVE_SPEED;
      droneCommandPubl.publish(droneCommandMsgs);
 
-
- //    drone_speed_reference.target_frame = "drone_GMR";
- //    drone_speed_reference.reference_frame = "GFF";
- //    drone_speed_reference.YPR_system = "wYvPuR";
-
      if(vxfi !=0 || vyfi != 0)
      {
          double current_vxfi, current_vyfi;
@@ -159,12 +154,6 @@
      droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
      droneCommandPubl.publish(droneCommandMsgs);
 
- //    double current_xs, current_ys, current_zs, current_yaws;
- //    current_xs = last_drone_estimated_GMRwrtGFF_pose.x;
- //    current_ys = last_drone_estimated_GMRwrtGFF_pose.y;
- //    current_zs = last_drone_estimated_GMRwrtGFF_pose.z;
- //    current_yaws = last_drone_estimated_GMRwrtGFF_pose.yaw;
-
      if(controller_step_command_x !=0 || controller_step_command_y != 0 || controller_step_command_z != 0)
      {
          double current_xs, current_ys, current_zs;
@@ -216,6 +205,32 @@ void  UserCommander::publish_takeoff() {
 
 }
 
+void  UserCommander::publish_land() {
+           std::cout<<"Command land() sent"<<std::endl;
+           clearCmd(); //clear command
+           droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
+           droneCommandPubl.publish(droneCommandMsgs);
+           log(Info,std::string("Human Machine Interface sent: ")+"land");
+}
+
+void  UserCommander::publish_hover() {
+           std::cout<<"Command hover() sent"<<std::endl;
+           clearCmd();//clear command
+           droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
+           droneCommandPubl.publish(droneCommandMsgs);
+           log(Info,std::string("Human Machine Interface sent: ")+"hover");
+
+}
+
+void UserCommander::clearCmd()
+{
+    dronePitchRollCmdMsgs.pitchCmd=0.0;
+    dronePitchRollCmdMsgs.rollCmd=0.0;
+    droneDAltitudeCmdMsgs.dAltitudeCmd=0.0;
+    droneDYawCmdMsgs.dYawCmd=0.0;
+}
+
+
 void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::droneManagerStatus::ConstPtr &msg) {
 
     lastDroneManagerStatusMsg = (*msg);
@@ -257,31 +272,6 @@ void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::dr
 
 }
 
-
-void  UserCommander::publish_land() {
-           std::cout<<"Command land() sent"<<std::endl;
-           clearCmd(); //clear command
-           droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
-           droneCommandPubl.publish(droneCommandMsgs);
-           log(Info,std::string("Human Machine Interface sent: ")+"land");     
-}
-
-void  UserCommander::publish_hover() {
-           std::cout<<"Command hover() sent"<<std::endl;
-           clearCmd();//clear command
-           droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
-           droneCommandPubl.publish(droneCommandMsgs);
-           log(Info,std::string("Human Machine Interface sent: ")+"hover");
-
-}
-
-void UserCommander::clearCmd()
-{
-    dronePitchRollCmdMsgs.pitchCmd=0.0;
-    dronePitchRollCmdMsgs.rollCmd=0.0;
-    droneDAltitudeCmdMsgs.dAltitudeCmd=0.0;
-    droneDYawCmdMsgs.dYawCmd=0.0;
-}
 
 
 /*

@@ -313,13 +313,12 @@ void MainWindow::updateStatusBar()
         }
 
 
-        if(connection->telemetryReceiver->batteryMsgs.batteryPercent<=25.0){
+        if(connection->telemetryReceiver->batteryMsgs.batteryPercent<=25.0&&connection->telemetryReceiver->batteryMsgs.batteryPercent!=0){
             QPalette* palette = new QPalette();
             palette->setColor(QPalette::WindowText,Qt::red);
             ui->value_battery->setPalette(*palette);
-        }
-
-        ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
+         }
+            ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
 
         if(!designLaptop){
 
