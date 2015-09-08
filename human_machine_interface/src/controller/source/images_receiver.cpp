@@ -19,18 +19,13 @@
 ImagesReceiver::ImagesReceiver(){}
 
 
-void ImagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
+void ImagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
     
     if (!nodeHandle.getParam("drone_console_interface_sensor_bottom_camera", drone_console_interface_sensor_bottom_camera))
       drone_console_interface_sensor_bottom_camera = "camera/bottom/image_raw";
 
     if (!nodeHandle.getParam("drone_console_interface_sensor_front_camera", drone_console_interface_sensor_front_camera))
       drone_console_interface_sensor_front_camera = "camera/front/image_raw";
-
-    if(ros::this_node::getNamespace().compare(" /"))
-       rosnamespace.append("/drone0");//default namespace
-    else
-       rosnamespace.append(ros::this_node::getNamespace());
 
     // Topic communications
     image_transport::ImageTransport it_(nodeHandle);

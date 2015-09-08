@@ -70,7 +70,7 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
-        void openSubscriptions(ros::NodeHandle nodeHandle);
+        void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
         void readParams(ros::NodeHandle nodeHandle);
 
 Q_SIGNALS:

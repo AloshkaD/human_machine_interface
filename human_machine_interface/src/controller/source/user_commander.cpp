@@ -23,7 +23,7 @@
 
  UserCommander:: UserCommander(){}
 
-  void UserCommander::openPublications(ros::NodeHandle nodeHandle){
+  void UserCommander::openPublications(ros::NodeHandle nodeHandle, std::string rosnamespace){
 
       //Set params
       if (!nodeHandle.getParam("pitchroll_topic", pitchroll_topic))
@@ -49,12 +49,6 @@
 
       if (!nodeHandle.getParam("drone_manager_status", drone_manager_status))
         drone_manager_status = "droneManagerStatus";
-
-      std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
-      if(ros::this_node::getNamespace().compare(" /"))
-         rosnamespace.append("/drone0");//default namespace
-      else
-         rosnamespace.append(ros::this_node::getNamespace());
 
      // Topic communications
      dronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(rosnamespace + "/" + pitchroll_topic ,1, true);

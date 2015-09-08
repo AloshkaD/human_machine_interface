@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 2.8.3)
 set(PROJECT_NAME human_machine_interface)
-project(${PROJECT_NAME})
+project(${PROJECT_NAME} C CXX)
 
 add_definitions(-std=c++11)
 ##############################################################################
