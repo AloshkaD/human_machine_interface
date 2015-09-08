@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 #include <QMenu>
+#include <qt4/Qt/qtablewidget.h>
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
@@ -106,57 +107,62 @@ void PerformanceMonitor::initProcessViewerTable()
             std::cout<<"Process Status: Initializing"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing - Dead"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing (Dead)"));
             break;
 
         case droneMsgsROS::ProcessState::NotStarted:
             std::cout<<"Process Status: NotStarted"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started - Dead"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started (Dead)"));
             break;
 
         case droneMsgsROS::ProcessState::Recovering:
             std::cout<<"Process Status: Recovering"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering - Dead"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering (Dead)"));
             break;
 
         case droneMsgsROS::ProcessState::Running:
             std::cout<<"Process Status: Running"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running - Dead"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running (Dead)"));
             break;
 
         case droneMsgsROS::ProcessState::Sleeping:
             std::cout<<"Process Status: Sleeping"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping - Dead"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping (Dead)"));
             break;
 
         case droneMsgsROS::ProcessState::Started:
             std::cout<<"Process Status: Started"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started"));
-            if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started - Dead"));
+            if(!node_container.is_alive){
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started (Dead)"));
+            }
             break;
 
         case droneMsgsROS::ProcessState::Stopping:
             std::cout<<"Process Status: Stopping"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping - Dead"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping (Dead)"));
             break;
 
         case droneMsgsROS::ProcessState::Waiting:
             std::cout<<"Process Status: Waiting"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting - Dead"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting (Dead)"));
             break;
+        }
+        if(!node_container.is_alive){
+            ui->tableWidget->selectRow(rowProcessViewer);
+            ui->tableProcessViewer->setItem(rowProcessViewer,3,new QTableWidgetItem(QString::number((int)node_container.last_signal.toSec()/3600) + ":" + QString::number((int)node_container.last_signal.toSec()/60) + ":" + QString::number((int)node_container.last_signal.toSec())));
         }
         rowProcessViewer++;
     }

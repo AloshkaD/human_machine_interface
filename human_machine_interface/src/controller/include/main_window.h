@@ -77,8 +77,9 @@ public Q_SLOTS:
     void setTimerInterval(double ms);
     void on_actionOpen_perception_configuration_triggered();
     void onStartButton();
+    void onYawZeroButton();
     void onLandButton();
-    //void onResetCommandButton();
+    void onResetCommandButton();
     void onHoverButton();
    // void onEmergencyStopButton();
    // void keyPressEvent(QKeyEvent *e);

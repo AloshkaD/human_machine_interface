@@ -28,17 +28,21 @@ RosGraphReceiver::RosGraphReceiver(){}
 void RosGraphReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
     // Topic communications
 
-    if (!nodeHandle.getParam("supervisor_process_error_unified_notification", supervisor_process_error_unified_notification))
-         supervisor_process_error_unified_notification = "supervisor_process_error_unified_notification";
+    if (!nodeHandle.getParam("process_error_unified_notification", supervisor_process_error_unified_notification))
+         supervisor_process_error_unified_notification = "process_error_unified_notification";
 
-    if (!nodeHandle.getParam("supervisor_processes_performance", supervisor_processes_performance))
-         supervisor_processes_performance = "supervisor_processes_performance";
+    if (!nodeHandle.getParam("processes_performance", supervisor_processes_performance))
+         supervisor_processes_performance = "processes_performance";
 
-    std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace() << std::endl;;
+    if(ros::this_node::getNamespace().compare(" /"))
+       rosnamespace.append("/drone0");//default namespace
+    else
+       rosnamespace.append(ros::this_node::getNamespace());
 
+    std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace() << std::endl;
     //supervisor
-    errorInformerSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
-    watchdogSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
+    errorInformerSubs=nodeHandle.subscribe(rosnamespace + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
+    watchdogSubs=nodeHandle.subscribe(rosnamespace + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
 
 
     start();

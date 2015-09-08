@@ -51,9 +51,8 @@
         drone_manager_status = "droneManagerStatus";
 
       std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
-      if(ros::this_node::getNamespace().compare(" /")){
+      if(ros::this_node::getNamespace().compare(" /"))
          rosnamespace.append("/drone0");//default namespace
-      }
       else
          rosnamespace.append(ros::this_node::getNamespace());
 
@@ -219,6 +218,14 @@ void  UserCommander::publish_hover() {
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
            droneCommandPubl.publish(droneCommandMsgs);
            log(Info,std::string("Human Machine Interface sent: ")+"hover");
+
+}
+
+void  UserCommander::publish_yaw_zero() {
+           std::cout<<"Command yaw zero sent"<<std::endl;
+           droneDYawCmdMsgs.dYawCmd = 0.0;
+           droneDYawCmdPubl.publish(droneDYawCmdMsgs);
+           log(Info,std::string("Human Machine Interface sent: ")+"yaw zero");
 
 }
 

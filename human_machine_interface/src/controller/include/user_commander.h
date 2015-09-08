@@ -72,11 +72,13 @@ public:
         void sendYawCommandInPositionControlMode(double controller_step_command_yaw);
         void sendCommandInMovingManualAltitudMode(double cte_command_pitch, double cte_command_roll, double cte_command_height, double cte_command_yaw);
         void sendCommandInSpeedControlMode(double vxfi, double vyfi);
+
         void clearCmd();
 
         void publish_takeoff();
         void publish_land();
         void publish_hover();
+        void publish_yaw_zero();
 
         /*void publish_reset();
         void publish_emergencyStop();

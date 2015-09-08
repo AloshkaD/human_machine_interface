@@ -65,6 +65,7 @@ public:
         QString location;
         QString ns;
         QString action;
+        std::string rosnamespace;
 
 
 

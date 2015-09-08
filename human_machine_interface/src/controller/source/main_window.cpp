@@ -181,7 +181,8 @@ void MainWindow::setSignalHandlers()
     //connect(connection->telemetryReceiver, SIGNAL( parameterReceived( )), this, SLOT(show_frame()));
     connect(ui->takeoffButton,SIGNAL(clicked()),this, SLOT(onStartButton()));
     connect(ui->landButton,SIGNAL(clicked()),this, SLOT(onLandButton()));
-    //connect(ui->resetButton,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
+    connect(ui->yawzeroButton,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
+    connect(ui->resetButton,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
     connect(ui->hoverButton,SIGNAL(clicked()),this, SLOT(onHoverButton()));
     //connect(ui->emergencyStop_Button,SIGNAL(clicked()),this, SLOT(onEmergencyStopButton()));
     connect(ui->oneCameraButton, SIGNAL(clicked()), this, SLOT(displayOneCamera()));
@@ -469,14 +470,21 @@ void MainWindow::onLandButton(){
 
 }
 
-
 void MainWindow::onHoverButton(){
     std::cout<<"Hover pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_hover();
 }
 
+void MainWindow::onYawZeroButton(){
+    std::cout<<"Yaw zero pressed buttom"<<std::endl;
+    if (connection->connectStatus)
+        connection->usercommander->publish_yaw_zero();
+}
 
+void MainWindow::onResetCommandButton(){
+    std::cout<<"Reset pressed buttom: Not implemented yet!"<<std::endl;
+}
 // User commands in Keyboard///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

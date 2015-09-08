@@ -27,9 +27,8 @@ void ImagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
     if (!nodeHandle.getParam("drone_console_interface_sensor_front_camera", drone_console_interface_sensor_front_camera))
       drone_console_interface_sensor_front_camera = "camera/front/image_raw";
 
-    if(ros::this_node::getNamespace().compare(" /")){
+    if(ros::this_node::getNamespace().compare(" /"))
        rosnamespace.append("/drone0");//default namespace
-    }
     else
        rosnamespace.append(ros::this_node::getNamespace());
 

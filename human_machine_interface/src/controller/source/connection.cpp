@@ -88,11 +88,11 @@ bool Connection::init()
 
     // Start query threads
     telemetryReceiver->openSubscriptions(n);
-    //odometryReceiver->openSubscriptions(n);
-    //imgReceiver->openSubscriptions(n);
-    //graphReceiver->openSubscriptions(n);
+    odometryReceiver->openSubscriptions(n);
+    imgReceiver->openSubscriptions(n);
+    graphReceiver->openSubscriptions(n);
     // Start command threads
-    //usercommander->openPublications(n);
+    usercommander->openPublications(n);
 
 
     return true;
