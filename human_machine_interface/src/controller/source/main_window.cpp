@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../.././../../../src-build/human_machine_interface/ui_mainwindow.h"
+#include "../.././../../human_machine_interface-build//ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <qt4/Qt/qpointer.h>
@@ -126,9 +126,8 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
         }
         ignore_resize = 0;
     }
-    if(old_height>this->height()){
+    if(old_height>this->height())
         resize++;
-    }
 
     ignore_resize++;
     old_height=this->height();
@@ -153,8 +152,8 @@ void MainWindow::show_frame()
     max_osg_frame++;*/
 
     // Get the frame and visualize with a pixmap in a QLabel.
-  //  ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,false));
-   // ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
+   ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,false));
+   ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
 
 }
 
@@ -191,6 +190,7 @@ void MainWindow::setSignalHandlers()
     connect(ui->saveImageButton, SIGNAL(clicked()), this, SLOT(saveCurrentCameraView()));
     connect(ui->selection_mode, SIGNAL(currentIndexChanged(int)), this, SLOT(onControlModeChange(int)));
     connect(connection->graphReceiver, SIGNAL( errorInformerReceived( )), this, SLOT( incrementErrorsCounter( )));
+    //connect(ui->tabManager, SIGNAL(clicked()), this, SLOT(openTab()));
 
     disconnect(ui->mainCameraButton, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
     disconnect(ui->fourCameraButton, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
@@ -289,28 +289,28 @@ void MainWindow::updateStatusBar()
         switch(connection->telemetryReceiver->droneStatusMsgs.status)
         {
         case droneMsgsROS::droneStatus::UNKNOWN:
-            ui->value_currentGoal->setText("Unknown"); //refresh();
+            ui->value_currentGoal->setText("Unknown");
             break;
         case droneMsgsROS::droneStatus::INITED:
-            ui->value_currentGoal->setText("Init"); //refresh();
+            ui->value_currentGoal->setText("Init");
             break;
         case droneMsgsROS::droneStatus::LANDED:
-            ui->value_currentGoal->setText("Landed"); //refresh();
+            ui->value_currentGoal->setText("Landed");
             break;
         case droneMsgsROS::droneStatus::FLYING:
-            ui->value_currentGoal->setText("Flying"); //refresh();
+            ui->value_currentGoal->setText("Flying");
             break;
         case droneMsgsROS::droneStatus::HOVERING:
-            ui->value_currentGoal->setText("Hovering"); //refresh();
+            ui->value_currentGoal->setText("Hovering");
             break;
         case droneMsgsROS::droneStatus::TAKING_OFF:
-            ui->value_currentGoal->setText("Taking off"); //refresh();
+            ui->value_currentGoal->setText("Taking off");
             break;
         case droneMsgsROS::droneStatus::LANDING:
-            ui->value_currentGoal->setText("Landing"); //refresh();
+            ui->value_currentGoal->setText("Landing");
             break;
         case droneMsgsROS::droneStatus::LOOPING:
-            ui->value_currentGoal->setText("Looping"); //refresh();
+            ui->value_currentGoal->setText("Looping");
         }
 
 
@@ -493,7 +493,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
     if (connection->connectStatus){
         switch(e->key())
         {
-        case Qt::Key_8:
+        case Qt::Key_Right:
             std::cout<<"Right pressed buttom"<<std::endl;
             if(  connection->usercommander->getDroneManagerStatus().status ==  droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, CTE_COMMAND_ROLL, 0.0, 0.0);
@@ -501,7 +501,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 connection->usercommander->sendCommandInPositionControlMode(0.0, CONTROLLER_STEP_COMMAND_POSITTION, 0.0);
             break;
 
-        case Qt::Key_4:
+        case Qt::Key_Left:
             std::cout<<"Left pressed buttom"<<std::endl;
             if(  connection->usercommander->getDroneManagerStatus().status == droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, -CTE_COMMAND_ROLL, 0.0, 0.0);
@@ -509,7 +509,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 connection->usercommander->sendCommandInPositionControlMode(0.0, -CONTROLLER_STEP_COMMAND_POSITTION, 0.0);
             break;
 
-        case Qt::Key_2:
+        case Qt::Key_Down:
             std::cout<<"Down pressed buttom"<<std::endl;
             if(connection->usercommander->getDroneManagerStatus().status ==  droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(-CTE_COMMAND_PITCH, 0.0, 0.0, 0.0);
@@ -517,7 +517,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 connection->usercommander->sendCommandInPositionControlMode(-CONTROLLER_STEP_COMMAND_POSITTION, 0.0, 0.0);
             break;
 
-        case Qt::Key_6:
+        case Qt::Key_Up:
             std::cout<<"Up pressed buttom"<<std::endl;
             if(connection->usercommander->getDroneManagerStatus().status ==  droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(CTE_COMMAND_PITCH, 0.0, 0.0, 0.0);

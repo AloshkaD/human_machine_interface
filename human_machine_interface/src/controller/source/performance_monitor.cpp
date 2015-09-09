@@ -2,7 +2,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/performance_monitor.h"
-#include "../.././../../../src-build/human_machine_interface/ui_processmonitor.h"
+#include "../.././../../human_machine_interface-build/ui_processmonitor.h"
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qscrollbar.h>
 #include <string>
@@ -107,42 +107,42 @@ void PerformanceMonitor::initProcessViewerTable()
             std::cout<<"Process Status: Initializing"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Initializing (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem(" Dead  (Last state: Initializing)"));
             break;
 
         case droneMsgsROS::ProcessState::NotStarted:
             std::cout<<"Process Status: NotStarted"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Not Started (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem(" Dead (Last state: Not Started)"));
             break;
 
         case droneMsgsROS::ProcessState::Recovering:
             std::cout<<"Process Status: Recovering"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Recovering (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Dead (Last state: Recovering)"));
             break;
 
         case droneMsgsROS::ProcessState::Running:
             std::cout<<"Process Status: Running"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Running (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Dead (Last state: Running)"));
             break;
 
         case droneMsgsROS::ProcessState::Sleeping:
             std::cout<<"Process Status: Sleeping"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Sleeping (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Dead (Last state: Sleeping)"));
             break;
 
         case droneMsgsROS::ProcessState::Started:
             std::cout<<"Process Status: Started"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started"));
             if(!node_container.is_alive){
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Started (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Dead (Last state: Started)"));
             }
             break;
 
@@ -150,20 +150,25 @@ void PerformanceMonitor::initProcessViewerTable()
             std::cout<<"Process Status: Stopping"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Stopping (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Dead (Last state: Stopping)"));
             break;
 
         case droneMsgsROS::ProcessState::Waiting:
             std::cout<<"Process Status: Waiting"<<std::endl;
             ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting"));
             if(!node_container.is_alive)
-                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Waiting (Dead)"));
+                ui->tableProcessViewer->setItem(rowProcessViewer,1,new QTableWidgetItem("Dead (Last state: Waiting)"));
             break;
         }
-        if(!node_container.is_alive){
+       /*if(!node_container.is_alive){
             ui->tableWidget->selectRow(rowProcessViewer);
-            ui->tableProcessViewer->setItem(rowProcessViewer,3,new QTableWidgetItem(QString::number(node_container.last_signal.toSec())));
+            ui->tableProcessViewer->setItem(rowProcessViewer,3,new QTableWidgetItem(QString::number(node_container.last_signal.sec)));
         }
+
+        if(!initializedTable&&node_container.is_alive){
+            ui->tableWidget->selectRow(rowProcessViewer);
+            ui->tableProcessViewer->setItem(rowProcessViewer,2,new QTableWidgetItem(QString::number(node_container.last_signal.sec)));
+        }*/
         rowProcessViewer++;
     }
 
@@ -181,16 +186,14 @@ void PerformanceMonitor::onSupervisorStateReceived()
     QTableWidgetItem *itemMessage = new QTableWidgetItem(node->description);
     QTableWidgetItem *itemProcess = new QTableWidgetItem(node->node_name);
     QTableWidgetItem *itemHostname = new QTableWidgetItem(node->hostname);
-    QTableWidgetItem *itemErrorLocation = new QTableWidgetItem(node->location);
     QTableWidgetItem *itemErrorType = new QTableWidgetItem(node->error_type);
     QTableWidgetItem *itemSeverity= new QTableWidgetItem("Fatal");
 
     ui->tableWidget->setItem(row,0,itemMessage);
-    ui->tableWidget->setItem(row,1,itemErrorLocation);
-    ui->tableWidget->setItem(row,2,itemErrorType);
-    ui->tableWidget->setItem(row,3,itemProcess);
-    ui->tableWidget->setItem(row,4,itemHostname);
-    ui->tableWidget->setItem(row,5,itemSeverity);
+    ui->tableWidget->setItem(row,1,itemErrorType);
+    ui->tableWidget->setItem(row,2,itemProcess);
+    ui->tableWidget->setItem(row,3,itemHostname);
+    ui->tableWidget->setItem(row,4,itemSeverity);
     row++;
 
     errorCounter++;

@@ -102,7 +102,7 @@ void RosGraphReceiver::processPerformanceListCallback(const droneMsgsROS::Proces
         node_container= msg->process_list.at(i);
         node_container.name;
         log(Info,std::string("Reveived process state from drone0/processes_performance: ")+ boost::lexical_cast<std::string>(node_container.current_state.state) );
-        ROS_INFO("Reveived process state from drone0/processes_performance: [%d]",  node_container.current_state.state);
+
     }
 
     Q_EMIT supervisorStateReceived();

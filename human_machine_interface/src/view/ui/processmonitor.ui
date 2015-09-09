@@ -57,6 +57,9 @@
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="placeholderText">
         <string>Filter...</string>
        </property>
@@ -291,11 +294,6 @@
      </column>
      <column>
       <property name="text">
-       <string>Error location</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>Error type</string>
       </property>
      </column>
@@ -335,16 +333,6 @@
      <column>
       <property name="text">
        <string>State</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>StartTime</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>EndTime</string>
       </property>
      </column>
     </widget>

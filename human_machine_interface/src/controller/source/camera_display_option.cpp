@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/camera_display_option.h"
-#include "../.././../../../src-build/human_machine_interface/ui_cameradisplayoption.h"
+#include "../.././../../human_machine_interface-build/ui_cameradisplayoption.h"
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qpushbutton.h>
 #include <qt4/Qt/qtextdocument.h>
