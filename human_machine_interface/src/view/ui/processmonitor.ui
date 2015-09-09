@@ -57,6 +57,9 @@
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="placeholderText">
         <string>Filter...</string>
        </property>

@@ -83,6 +83,9 @@
          </item>
          <item row="1" column="0">
           <widget class="QLineEdit" name="line_edit_master">
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
            <property name="text">
             <string>http://192.168.1.2:11311/</string>
            </property>
@@ -106,6 +109,9 @@
          </item>
          <item row="3" column="0">
           <widget class="QLineEdit" name="line_edit_host">
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
            <property name="text">
             <string>192.168.1.67</string>
            </property>

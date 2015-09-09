@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../.././../../../src-build/human_machine_interface/ui_mainwindow.h"
+#include "../.././../../human_machine_interface-build//ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <iostream>
@@ -493,7 +493,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
     if (connection->connectStatus){
         switch(e->key())
         {
-        case Qt::Key_8:
+        case Qt::Key_Right:
             std::cout<<"Right pressed buttom"<<std::endl;
             if(  connection->usercommander->getDroneManagerStatus().status ==  droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, CTE_COMMAND_ROLL, 0.0, 0.0);
@@ -501,7 +501,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 connection->usercommander->sendCommandInPositionControlMode(0.0, CONTROLLER_STEP_COMMAND_POSITTION, 0.0);
             break;
 
-        case Qt::Key_4:
+        case Qt::Key_Left:
             std::cout<<"Left pressed buttom"<<std::endl;
             if(  connection->usercommander->getDroneManagerStatus().status == droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(0.0, -CTE_COMMAND_ROLL, 0.0, 0.0);
@@ -509,7 +509,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 connection->usercommander->sendCommandInPositionControlMode(0.0, -CONTROLLER_STEP_COMMAND_POSITTION, 0.0);
             break;
 
-        case Qt::Key_2:
+        case Qt::Key_Down:
             std::cout<<"Down pressed buttom"<<std::endl;
             if(connection->usercommander->getDroneManagerStatus().status ==  droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(-CTE_COMMAND_PITCH, 0.0, 0.0, 0.0);
@@ -517,7 +517,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 connection->usercommander->sendCommandInPositionControlMode(-CONTROLLER_STEP_COMMAND_POSITTION, 0.0, 0.0);
             break;
 
-        case Qt::Key_6:
+        case Qt::Key_Up:
             std::cout<<"Up pressed buttom"<<std::endl;
             if(connection->usercommander->getDroneManagerStatus().status ==  droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
                 connection->usercommander->sendCommandInMovingManualAltitudMode(CTE_COMMAND_PITCH, 0.0, 0.0, 0.0);

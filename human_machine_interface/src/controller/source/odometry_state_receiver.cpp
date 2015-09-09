@@ -27,7 +27,7 @@ OdometryStateReceiver::OdometryStateReceiver(){}
 
 void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
 
-    OdometryStateReceiver::readParams(nodeHandle);
+    readParams(nodeHandle);
 
     DroneGMREstimatedPoseSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_trajectory_controller_pose_subscription_gmr, 1, &OdometryStateReceiver::droneGMREstimatedPoseCallback, this); //EstimatedPose_droneGMR_wrt_GFF
     DroneGMREstimatedSpeedSubs=nodeHandle.subscribe(rosnamespace + "/" +  drone_trajectory_controller_speeds_subscription_gmr, 1, &OdometryStateReceiver::droneGMREstimatedSpeedCallback, this);//EstimatedSpeed_droneGMR_wrt_GFF
