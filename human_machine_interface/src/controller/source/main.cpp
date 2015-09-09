@@ -12,17 +12,24 @@
 
 #include <ros/ros.h>
 #include "../include/main_window.h"
-#include <QApplication>
+#include <qt4/Qt/qapplication.h>
 
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
+
 
 int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv);
     MainWindow w(argc,argv);
+
+    if (w.onlyOneInstance()==false)
+        return 1;
+  
+
+    
     w.show();
     app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
     int result = app.exec();

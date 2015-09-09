@@ -7,4 +7,4 @@ build-*
 *-build
 
 # User files
-*.user
+*.user*

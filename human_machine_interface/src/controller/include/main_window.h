@@ -6,6 +6,13 @@
 #include <qt4/QtGui/QMainWindow>
 #include <qt4/QtCore/QTime>
 #include <qt4/QtCore/QTimer>
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h> // For exit
+#include <unistd.h>
+#include <cstring>
+
 #include "connection.h"
 #include "communication_console.h"
 #include "odometry_state_receiver.h"
@@ -21,6 +28,7 @@
 #include "string"
 #include "droneMsgsROS/droneManagerStatus.h"
 #include "droneMsgsROS/droneStatus.h"
+
 
 
 namespace Ui {
@@ -55,6 +63,7 @@ public:
     bool isOpen_fourCameraView;
     bool designLaptop;
     QTimer *flightTimer;
+    bool onlyOneInstance();
 
 private Q_SLOTS:
    void show_frame();

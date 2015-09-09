@@ -15,17 +15,17 @@
 #include <qwt/qwt_plot_curve.h>
 #include <cmath>
 
-#include <QLabel>
-#include <QLayout>
-#include <QDockWidget>
-#include <QWidget>
-#include <QCheckBox>
-#include <QVariant>
+#include <qt4/Qt/qlabel.h>
+#include <qt4/Qt/qlayout.h>
+#include <qt4/Qt/qdockwidget.h>
+#include <qt4/Qt/qwidget.h>
+#include <qt4/Qt/qcheckbox.h>
+#include <qt4/Qt/qvariant.h>
 #include <list>
-#include <QMap>
-#include <QMapIterator>
-#include <QRegExp>
-#include <QTreeWidget>
+#include <qt4/Qt/qmap.h>
+#include <qt4/Qt/qiterator.h> //QMapIterator>
+#include <qt4/Qt/qregexp.h>
+#include <qt4/Qt/qtreewidget.h>  //QTreeWidget>
 
 
 ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryStateReceiver* telemetryReceiver,OdometryStateReceiver* odometryReceiver):

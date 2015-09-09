@@ -40,9 +40,8 @@ export OSG_DIR="/home/<my_account>/<my_OpenSceneGraph_Dir>/"
 
 ```
 cd ~/worskspace
-mkdir hmi_cvg_stack
-git clone https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git ./src
-cd src
+git clone https://bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git ./hmi_cvg_stack/src
+cd /hmi_cvg_stack/src
 catkin_init_workspace
 ./installation/set_environmental_variables.sh
 cd ..

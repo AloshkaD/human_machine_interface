@@ -6,7 +6,7 @@
     <arg name="drone_id_namespace" default="drone0" />
     <group ns="$(arg drone_id_namespace)">
         <!-- Ardrone driver node -->
-        <node name="human_machine_interface" pkg="human_machine_interface" type="human_machine_interface" />
+        <node name="human_machine_interface" pkg="human_machine_interface" type="human_machine_interface" output="screen"/>
 
         <!-- Topic Name ROS Params  -->
             <!-- Commands - telemetry_state_receiver -->

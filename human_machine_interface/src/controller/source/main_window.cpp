@@ -13,7 +13,6 @@
 #include "../.././../../../src-build/human_machine_interface/ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
-#include <iostream>
 #include <qt4/Qt/qpointer.h>
 #include <qt4/Qt/qcombobox.h>
 #include <qt4/Qt/qlabel.h>
@@ -46,6 +45,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) //initialize ui member
 {
+
     ui->setupUi(this);// connects all ui's triggers
 
     setWindowIcon(QIcon(":/images/images/drone-icon.png"));
@@ -597,6 +597,83 @@ MainWindow::~MainWindow()
 
 }
 
+bool MainWindow::onlyOneInstance()
+{
+    pid_t mypid = getpid();
+
+    FILE *fp;
+
+    /* Open the command for reading. */
+    char command [256];
+    char output[1024];
+    sprintf(command, "/bin/ps -p %d l", mypid);
+    fp = popen(command, "r");
+    if (fp == NULL) {
+      perror(" popen: ");
+      return false;
+    }
+
+    /* Read the output a line at a time - output it. */
+    fgets(output, sizeof(output)-1, fp);
+    if (fgets(output, sizeof(output)-1, fp) == NULL) {
+      perror("Fgets. It may failed to get a second line: ");
+      return false;
+    }
 
 
+    char* chars_array = strtok(output, " \t");
+    std::string output_ps[32];
+    int iterador = 0;
 
+    while( chars_array != NULL )
+    {
+        output_ps[iterador++] = std::string(chars_array);
+        chars_array = strtok(NULL, " ");
+    }
+
+    const char * process_name = output_ps[12].c_str();
+
+    sprintf(command, "/bin/pidof %s", process_name);
+    
+    
+    // Check instances that share the process name
+    fp = popen(command, "r");
+    if (fp == NULL) {
+      perror(" popen: ");
+      return false;
+    }
+
+
+    // Read the output a line at a time - output it. 
+    if (fgets(output, sizeof(output)/sizeof(char), fp) == NULL) {
+      perror("Fgets 2" );
+      return false;
+    }
+
+    // close 
+    pclose(fp);
+
+    chars_array = strtok(output, " \t");
+    std::string process_pids[10];
+    char process_pids_output[512];
+    sprintf(process_pids_output," ");
+    int instances = 0;
+
+    while( chars_array != NULL and instances < sizeof(process_pids)/sizeof(std::string) )
+    {
+        process_pids[instances++] = chars_array;
+        sprintf(process_pids_output, "%s %s", process_pids_output, chars_array);
+        chars_array = strtok(NULL, " ");
+    }
+
+
+    if (instances > 1)
+    {
+        std::cerr << "It is NOT ALLOWED to use more than one instance." << std::endl;
+        std::cerr << "The main instance PID is: " << process_pids[instances-1];
+        std::cerr << "Ending this instance with PID: " << mypid << std::endl;
+        return false;
+    }
+    else
+        return true;
+}

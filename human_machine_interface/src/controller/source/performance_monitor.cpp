@@ -3,11 +3,11 @@
 *****************************************************************************/
 #include "../include/performance_monitor.h"
 #include "../.././../../../src-build/human_machine_interface/ui_processmonitor.h"
-#include <QDebug>
-#include <QScrollBar>
+#include <qt4/Qt/qdebug.h>
+#include <qt4/Qt/qscrollbar.h>
 #include <string>
 #include <sstream>
-#include <QMenu>
+#include <qt4/Qt/qmenu.h>
 #include <qt4/Qt/qtablewidget.h>
 /*****************************************************************************
 ** Implementation
@@ -162,7 +162,7 @@ void PerformanceMonitor::initProcessViewerTable()
         }
         if(!node_container.is_alive){
             ui->tableWidget->selectRow(rowProcessViewer);
-            ui->tableProcessViewer->setItem(rowProcessViewer,3,new QTableWidgetItem(QString::number(node_container.last_signal.toSec())))+
+            ui->tableProcessViewer->setItem(rowProcessViewer,3,new QTableWidgetItem(QString::number(node_container.last_signal.toSec())));
         }
         rowProcessViewer++;
     }
