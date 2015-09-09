@@ -162,7 +162,7 @@ void PerformanceMonitor::initProcessViewerTable()
         }
         if(!node_container.is_alive){
             ui->tableWidget->selectRow(rowProcessViewer);
-            ui->tableProcessViewer->setItem(rowProcessViewer,3,new QTableWidgetItem(QString::number((int)node_container.last_signal.toSec()/3600) + ":" + QString::number((int)node_container.last_signal.toSec()/60) + ":" + QString::number((int)node_container.last_signal.toSec())));
+            ui->tableProcessViewer->setItem(rowProcessViewer,3,new QTableWidgetItem(QString::number(node_container.last_signal.toSec())))+
         }
         rowProcessViewer++;
     }
