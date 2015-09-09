@@ -25,26 +25,26 @@
 OdometryStateReceiver::OdometryStateReceiver(){}
 
 
-void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
+void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
 
     OdometryStateReceiver::readParams(nodeHandle);
 
-    DroneGMREstimatedPoseSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_trajectory_controller_pose_subscription_gmr, 1, &OdometryStateReceiver::droneGMREstimatedPoseCallback, this); //EstimatedPose_droneGMR_wrt_GFF
-    DroneGMREstimatedSpeedSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" +  drone_trajectory_controller_speeds_subscription_gmr, 1, &OdometryStateReceiver::droneGMREstimatedSpeedCallback, this);//EstimatedSpeed_droneGMR_wrt_GFF
-    DroneSOEstimatedPoseSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_state_estimator_interface_pose_subscription_lmrt, 1, &OdometryStateReceiver::droneSOEstimatedPoseCallback, this); //SOEstimatedPose
-    DroneSOEstimatedSpeedsSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" +  drone_state_estimator_interface_speeds_subscription_lmrt, 1, &OdometryStateReceiver::droneSOEstimatedSpeedsCallback, this);//SOEstimatedSpeeds
+    DroneGMREstimatedPoseSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_trajectory_controller_pose_subscription_gmr, 1, &OdometryStateReceiver::droneGMREstimatedPoseCallback, this); //EstimatedPose_droneGMR_wrt_GFF
+    DroneGMREstimatedSpeedSubs=nodeHandle.subscribe(rosnamespace + "/" +  drone_trajectory_controller_speeds_subscription_gmr, 1, &OdometryStateReceiver::droneGMREstimatedSpeedCallback, this);//EstimatedSpeed_droneGMR_wrt_GFF
+    DroneSOEstimatedPoseSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_state_estimator_interface_pose_subscription_lmrt, 1, &OdometryStateReceiver::droneSOEstimatedPoseCallback, this); //SOEstimatedPose
+    DroneSOEstimatedSpeedsSubs=nodeHandle.subscribe(rosnamespace + "/" +  drone_state_estimator_interface_speeds_subscription_lmrt, 1, &OdometryStateReceiver::droneSOEstimatedSpeedsCallback, this);//SOEstimatedSpeeds
 
 
     // Topic communications droneArucoEye
-    DroneArucoEstimatedPoseSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_trajectory_planner_pose_subscription, 1, &OdometryStateReceiver::droneArucoEstimatedPoseCallback, this); //ArucoSlam_EstimatedPose
-    DroneArucoEstimatedSpeedSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" +  drone_trajectory_controller_speeds_subscription_gmr_aruco, 1, &OdometryStateReceiver::droneArucoEstimatedSpeedCallback, this);//ArucoSlam_EstimatedSpeeds
-    DroneArucoEyeObservationSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" +  drone_logger_aruco_eye_observationvec_list, 1, &OdometryStateReceiver::droneArucoEyeObservationCallback, this);
+    DroneArucoEstimatedPoseSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_trajectory_planner_pose_subscription, 1, &OdometryStateReceiver::droneArucoEstimatedPoseCallback, this); //ArucoSlam_EstimatedPose
+    DroneArucoEstimatedSpeedSubs=nodeHandle.subscribe(rosnamespace + "/" +  drone_trajectory_controller_speeds_subscription_gmr_aruco, 1, &OdometryStateReceiver::droneArucoEstimatedSpeedCallback, this);//ArucoSlam_EstimatedSpeeds
+    DroneArucoEyeObservationSubs=nodeHandle.subscribe(rosnamespace + "/" +  drone_logger_aruco_eye_observationvec_list, 1, &OdometryStateReceiver::droneArucoEyeObservationCallback, this);
 
 
     // Topic communications controller
     // Controller references (rebroadcasts): control mode and position, speed and trajectory references
-    DroneTrajectoryPositionSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_logger_position_ref_rebroadcast_subscription, 1, &OdometryStateReceiver::dronePoseCallback, this);
-    DroneTrajectorySpeedsSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_logger_speed_ref_rebroadcast_subscription, 1, &OdometryStateReceiver::droneSpeedsCallback, this);
+    DroneTrajectoryPositionSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_logger_position_ref_rebroadcast_subscription, 1, &OdometryStateReceiver::dronePoseCallback, this);
+    DroneTrajectorySpeedsSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_logger_speed_ref_rebroadcast_subscription, 1, &OdometryStateReceiver::droneSpeedsCallback, this);
 
     start();
 //    real_time=ros;

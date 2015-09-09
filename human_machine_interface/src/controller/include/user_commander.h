@@ -48,7 +48,7 @@ public:
 	virtual ~UserCommander();
 
         void run();
-        void  openPublications(ros::NodeHandle nodeHandle);
+        void  openPublications(ros::NodeHandle nodeHandle, std::string rosnamespace);
 
 
         droneMsgsROS::dronePitchRollCmd dronePitchRollCmdMsgs;

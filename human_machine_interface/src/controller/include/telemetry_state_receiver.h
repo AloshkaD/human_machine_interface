@@ -71,7 +71,6 @@ public:
         QString location;
         QString ns;
         QString action;
-        std::string rosnamespace;
 
 
 
@@ -112,7 +111,7 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
-    void openSubscriptions(ros::NodeHandle nodeHandle);
+    void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
 
 Q_SIGNALS:
 	void loggingUpdated();

@@ -279,7 +279,7 @@ void DataPlot::clickToPlot(QTreeWidgetItem* item, int colum)
         }
         else // if item is in list checked items. detach plot and icon white.
         {
-            if(iconChange[id]==NULL){ //notChange.
+            if(iconChange[id]==3){ //notChange.
                 eraseColorIcon(id,item);
                 if(curves[id]!=NULL)
                 {
@@ -289,7 +289,7 @@ void DataPlot::clickToPlot(QTreeWidgetItem* item, int colum)
                 }
             }
         }//Restore flags
-        iconChange[id]=NULL;
+        iconChange[id]=3;
     }
 }
 

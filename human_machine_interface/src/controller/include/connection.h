@@ -26,6 +26,7 @@ public:
 
         void close();
         bool connectStatus;
+        std::string rosnamespace;
 
         TelemetryStateReceiver* telemetryReceiver;
         OdometryStateReceiver* odometryReceiver;

@@ -25,7 +25,7 @@
 MissionStateReceiver::MissionStateReceiver(){}
 
 
-void MissionStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
+void MissionStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
     // Topic communications
 
       //start();

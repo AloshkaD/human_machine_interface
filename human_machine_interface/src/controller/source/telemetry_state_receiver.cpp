@@ -25,7 +25,7 @@
 TelemetryStateReceiver::TelemetryStateReceiver(){}
 
 
-void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
+void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
     if (!nodeHandle.getParam("drone_driver_command_drone_command_pitch_roll", drone_driver_command_drone_command_pitch_roll))
      drone_driver_command_drone_command_pitch_roll = "command/pitch_roll";
 
@@ -70,16 +70,6 @@ void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle){
 
    if (!nodeHandle.getParam("drone_okto_like_simulator_okto_commands_subscriber", drone_okto_like_simulator_okto_commands_subscriber))
      drone_okto_like_simulator_okto_commands_subscriber = "drone_okto_like_simulator_okto_commands_subscriber";
-
-
-
-   std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
-   if(ros::this_node::getNamespace().compare(" /")){
-      rosnamespace.append("/drone0");//default namespace
-   }
-   else
-      rosnamespace.append(ros::this_node::getNamespace());
-
 
 
    //Commands

@@ -86,13 +86,21 @@ bool Connection::init()
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
 
+    std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
+    
+    if(ros::this_node::getNamespace().compare(" /"))
+       rosnamespace.append("/drone0");//default namespace
+    else
+       rosnamespace.append(ros::this_node::getNamespace());
+
+
     // Start query threads
-    telemetryReceiver->openSubscriptions(n);
-    odometryReceiver->openSubscriptions(n);
-    imgReceiver->openSubscriptions(n);
-    graphReceiver->openSubscriptions(n);
+    telemetryReceiver->openSubscriptions(n, rosnamespace);
+    odometryReceiver->openSubscriptions(n, rosnamespace);
+    imgReceiver->openSubscriptions(n, rosnamespace);
+    graphReceiver->openSubscriptions(n, rosnamespace);
     // Start command threads
-    usercommander->openPublications(n);
+    usercommander->openPublications(n, rosnamespace);
 
 
     return true;
