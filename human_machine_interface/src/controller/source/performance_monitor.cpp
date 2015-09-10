@@ -2,7 +2,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/performance_monitor.h"
-#include "../.././../../human_machine_interface-build/ui_processmonitor.h"
+#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_processmonitor.h"
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qscrollbar.h>
 #include <string>
@@ -18,14 +18,16 @@ PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collec
     ui(new Ui::performanceMonitor)
 {
     ui->setupUi(this);
-    node=collector;
+    ui->tableProcessViewer->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    ui->tableWidget->setColumnWidth(0,640);
 
+    node=collector;
     errorCounter=0;
 
     QObject::connect( node, SIGNAL( supervisorStateReceived( )), this, SLOT( initProcessViewerTable( )));
      QObject::connect( node, SIGNAL( errorInformerReceived( )), this, SLOT( onSupervisorStateReceived( )));
-    // ESTRUCTURA DE VISUALIZACIÓN
 
+     // ESTRUCTURA DE VISUALIZACIÓN
     listProcess << "trajectory_planner_example" << "perception_system_example";
     QStringList mission_planner;
     mission_planner << "trajectory_planner_example";
@@ -40,6 +42,7 @@ PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collec
     //updateTableInfo();
    // this->initTree(processList,ui->treeWidget);
     initProcessViewerTable();
+
 
    // setSignalHandlers();
     initializedTable=false;
@@ -187,13 +190,11 @@ void PerformanceMonitor::onSupervisorStateReceived()
     QTableWidgetItem *itemProcess = new QTableWidgetItem(node->node_name);
     QTableWidgetItem *itemHostname = new QTableWidgetItem(node->hostname);
     QTableWidgetItem *itemErrorType = new QTableWidgetItem(node->error_type);
-    QTableWidgetItem *itemSeverity= new QTableWidgetItem("Fatal");
 
     ui->tableWidget->setItem(row,0,itemMessage);
     ui->tableWidget->setItem(row,1,itemErrorType);
     ui->tableWidget->setItem(row,2,itemProcess);
     ui->tableWidget->setItem(row,3,itemHostname);
-    ui->tableWidget->setItem(row,4,itemSeverity);
     row++;
 
     errorCounter++;

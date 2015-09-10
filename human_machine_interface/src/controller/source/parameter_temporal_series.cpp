@@ -7,7 +7,7 @@
 */
 
 #include "../include/parameter_temporal_series.h"
-#include "../.././../../human_machine_interface-build/ui_parametertemporalseries.h"
+#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_parametertemporalseries.h"
 
 
 #include <qwt/qwt.h>

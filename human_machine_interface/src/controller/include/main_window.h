@@ -63,7 +63,7 @@ public:
     bool isOpen_fourCameraView;
     bool designLaptop;
     QTimer *flightTimer;
-    bool onlyOneInstance();
+    bool singletonApplication();
 
 private Q_SLOTS:
    void show_frame();

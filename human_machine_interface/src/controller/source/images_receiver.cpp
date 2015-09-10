@@ -67,7 +67,7 @@ QImage ImagesReceiver::cvtCvMat2QImage(const cv::Mat & image){
     }
     else if(!image.empty() && image.depth() != CV_8U)
     {
-        printf("The image format must be 8_bits\n");
+        printf("Wrong image format\n");
     }
     return qtemp;
 }

@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/connection.h"
-#include "../.././../../human_machine_interface-build/ui_connection.h"
+#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_connection.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/

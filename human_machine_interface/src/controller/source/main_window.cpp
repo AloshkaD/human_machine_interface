@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../.././../../human_machine_interface-build//ui_mainwindow.h"
+#include "../.././../../human_machine_interface-build/human_machine_interface/ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <qt4/Qt/qpointer.h>
@@ -585,6 +585,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
 }
 
 
+// Processes instances management///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::close()
 {
     this->~MainWindow();
@@ -597,7 +599,7 @@ MainWindow::~MainWindow()
 
 }
 
-bool MainWindow::onlyOneInstance()
+bool MainWindow::singletonApplication()
 {
     pid_t mypid = getpid();
 

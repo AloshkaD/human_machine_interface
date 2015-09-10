@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>845</width>
-    <height>500</height>
+    <width>1152</width>
+    <height>692</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -294,7 +294,7 @@
      </column>
      <column>
       <property name="text">
-       <string>Error type</string>
+       <string>Type</string>
       </property>
      </column>
      <column>
@@ -305,11 +305,6 @@
      <column>
       <property name="text">
        <string>Hostname</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Severity</string>
       </property>
      </column>
     </widget>
@@ -323,7 +318,7 @@
       <enum>Qt::CustomContextMenu</enum>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>300</number>
+      <number>600</number>
      </attribute>
      <column>
       <property name="text">
