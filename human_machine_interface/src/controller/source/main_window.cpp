@@ -589,6 +589,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
 
 void MainWindow::close()
 {
+    delete connection->graphReceiver;
+    delete connection->odometryReceiver;
+    delete connection->telemetryReceiver;
     this->~MainWindow();
 }
 
