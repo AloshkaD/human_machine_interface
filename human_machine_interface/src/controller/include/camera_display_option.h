@@ -31,13 +31,7 @@ public:
 
 
 public Q_SLOTS:
-
-    void changeCamera1();
-    void changeCamera2();
-    void changeCamera3();
-    void changeCamera4();
-    void changeCamera5();
-    void changeCamera6();
+    void changeCameraPosition(int id_camera);
     void updateImage1(const QPixmap* image);
     void updateImage2(const QPixmap* image);
     void updateImage3(const QPixmap* image);

@@ -29,8 +29,7 @@ public Q_SLOTS:
     void updateImage4(const QPixmap* image);
     void updateImage5(const QPixmap* image);
     void updateImage6(const QPixmap* image);
-    void changeRightImage();
-    void changeLeftImage();
+    void changeCurrentCamera(int direction);
     void saveCameraImages(const int camera_view_manager);
 
 private:

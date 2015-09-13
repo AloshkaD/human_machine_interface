@@ -331,6 +331,21 @@ void DataPlot::setTimerInterval(double ms)
 }
 
 
+// TODO> Checking if is NULL when user select
+void DataPlot::setDataCurve(double param[], QString curve_id, double data_msg)
+{
+    param[0] = data_msg;
+    msgs.insert(curve_id,param);
+    if(selectedItems.contains(curve_id)&& items[curve_id]!=NULL){
+        curves[curve_id]->setPen(QPen(colors[curve_id]));
+        curves[curve_id]->setRawSamples(d_x,msgs[curve_id],dataCount);
+        curves[curve_id]->attach(this);
+        curves[curve_id]->setVisible(true);
+         items[curve_id]->setText(1,QString::number(((double)((int)(data_msg*100)))/100));
+    }
+}
+
+
 // Read incoming connections
 // frecuency < topic rate. 1FPS
 void DataPlot::timerEvent(QTimerEvent *e)
@@ -470,19 +485,6 @@ void DataPlot::onParameterReceived()
 }
 
 
-// TODO> Checking if is NULL when user select
-void DataPlot::setDataCurve(double param[], QString curve_id, double data_msg)
-{
-    param[0] = data_msg;
-    msgs.insert(curve_id,param);
-    if(selectedItems.contains(curve_id)&& items[curve_id]!=NULL){
-        curves[curve_id]->setPen(QPen(colors[curve_id]));
-        curves[curve_id]->setRawSamples(d_x,msgs[curve_id],dataCount);
-        curves[curve_id]->attach(this);
-        curves[curve_id]->setVisible(true);
-         items[curve_id]->setText(1,QString::number(((double)((int)(data_msg*100)))/100));
-    }
-}
 
 
 void DataPlot::resizeAxisXScale(int ms)

@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_mainwindow.h"
+#include "../.././../../hmi_cvg_stack/src/human_machine_interface-build/ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <qt4/Qt/qpointer.h>
@@ -592,6 +592,7 @@ void MainWindow::close()
     delete connection->graphReceiver;
     delete connection->odometryReceiver;
     delete connection->telemetryReceiver;
+    connection->WriteSettings();
     this->~MainWindow();
 }
 
@@ -614,15 +615,15 @@ bool MainWindow::singletonApplication()
     sprintf(command, "/bin/ps -p %d l", mypid);
     fp = popen(command, "r");
     if (fp == NULL) {
-      perror(" popen: ");
-      return false;
+        perror(" popen: ");
+        return false;
     }
 
     /* Read the output a line at a time - output it. */
     fgets(output, sizeof(output)-1, fp);
     if (fgets(output, sizeof(output)-1, fp) == NULL) {
-      perror("Fgets. It may failed to get a second line: ");
-      return false;
+        perror("Fgets. It may failed to get a second line: ");
+        return false;
     }
 
 
@@ -644,18 +645,18 @@ bool MainWindow::singletonApplication()
     // Check instances that share the process name
     fp = popen(command, "r");
     if (fp == NULL) {
-      perror(" popen: ");
-      return false;
+        perror(" popen: ");
+        return false;
     }
 
 
-    // Read the output a line at a time - output it. 
+    // Read the output a line at a time - output it.
     if (fgets(output, sizeof(output)/sizeof(char), fp) == NULL) {
-      perror("Fgets 2" );
-      return false;
+        perror("Fgets 2" );
+        return false;
     }
 
-    // close 
+    // close
     pclose(fp);
 
     chars_array = strtok(output, " \t");
