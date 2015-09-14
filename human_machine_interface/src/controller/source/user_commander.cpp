@@ -76,6 +76,7 @@
 
  UserCommander::~ UserCommander() {}
 
+
  void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)
  {
      std::cout<<"comand move() IN SPEED sent"<<std::endl;
@@ -179,7 +180,8 @@
  }
 
 
-void  UserCommander::publish_takeoff() {
+void  UserCommander::publish_takeoff()
+{
            std::cout<<"Command takeoff sent"<<std::endl;
            clearCmd();//clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF;
@@ -195,7 +197,8 @@ void  UserCommander::publish_takeoff() {
 
 }
 
-void  UserCommander::publish_land() {
+void  UserCommander::publish_land()
+{
            std::cout<<"Command land() sent"<<std::endl;
            clearCmd(); //clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
@@ -203,7 +206,8 @@ void  UserCommander::publish_land() {
            log(Info,std::string("Human Machine Interface sent: ")+"land");
 }
 
-void  UserCommander::publish_hover() {
+void  UserCommander::publish_hover()
+{
            std::cout<<"Command hover() sent"<<std::endl;
            clearCmd();//clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
@@ -212,7 +216,8 @@ void  UserCommander::publish_hover() {
 
 }
 
-void  UserCommander::publish_yaw_zero() {
+void  UserCommander::publish_yaw_zero()
+{
            std::cout<<"Command yaw zero sent"<<std::endl;
            droneDYawCmdMsgs.dYawCmd = 0.0;
            droneDYawCmdPubl.publish(droneDYawCmdMsgs);

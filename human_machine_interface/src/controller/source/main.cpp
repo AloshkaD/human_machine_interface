@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     MainWindow w(argc,argv);
 
-    if (w.singletonApplication()==false)
-        return 1;
+    //if (w.singletonApplication()==false)
+    //    return 1;
   
 
     

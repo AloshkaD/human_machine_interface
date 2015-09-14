@@ -44,8 +44,7 @@ public:
 
 
 Q_SIGNALS:
-        void Update_Image1(const QPixmap* image);
-        void Update_Image2(const QPixmap* image);
+        void Update_Image(const QPixmap* image, int id_camera);
         void loggingUpdated();
 
 

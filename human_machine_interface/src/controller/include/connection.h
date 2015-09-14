@@ -30,6 +30,8 @@ public:
         bool connectStatus;
         bool readyForConnect();
         std::string rosnamespace;
+        std::string node_name;
+
 
         TelemetryStateReceiver* telemetryReceiver;
         OdometryStateReceiver* odometryReceiver;
@@ -57,6 +59,8 @@ Q_SIGNALS:
         void rosShutdown();
         void connectionEstablish();
 private:
+
+    bool initInCommon();
     std::thread connection_admin_thread;
     Ui::connection *ui;
     int init_argc;

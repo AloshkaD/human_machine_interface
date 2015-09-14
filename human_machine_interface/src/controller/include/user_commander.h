@@ -44,7 +44,8 @@
 ** Class
 *****************************************************************************/
 
-class UserCommander: public QObject{
+
+class UserCommander : public QObject {
     Q_OBJECT
 public:
         UserCommander();

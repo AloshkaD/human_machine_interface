@@ -45,11 +45,10 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) //initialize ui member
 {
-
     ui->setupUi(this);// connects all ui's triggers
 
     setWindowIcon(QIcon(":/images/images/drone-icon.png"));
-    this->setWindowTitle(QString::fromUtf8("Human Machine Interface"));
+    setWindowTitle(QString::fromUtf8("Human Machine Interface"));
 
     ignore_resize=0;
     resize=0;
@@ -60,44 +59,29 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
 
     ui->tabManager->setCurrentIndex(0); // ensure the first tab is showing
 
-    // Initilialize views
+    //Initialize views
     connection = new Connection(this,argc,argv);
     processView = new PerformanceMonitor(this,connection->graphReceiver);
     ui->gridPerformance->addWidget(processView,0,0);
     paramPlot = new ParameterTemporalSeries(this,connection->telemetryReceiver,connection->odometryReceiver);
     ui->gridParameters->addWidget(paramPlot,0,0);
     osg_sphere= new SphereView(ui->sphereScene->buddy(),connection->telemetryReceiver);
-    osg_sphere->resize(320, 450);    // Resize the QOSGWidget to the size of frames to render
+    osg_sphere->resize(320, 350);    // Resize the QOSGWidget to the size of frames to render
     osg_uav= new VehicleView(ui->vehicleScene->buddy(),connection->telemetryReceiver);
-    osg_uav->resize(320, 450);
-
-    timer = new QTimer(this); // Shows new frames rate -> 1 ms.
-    connect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
-    timer->start(1);
+    osg_uav->resize(320, 350);
 
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
     ui->gridCamera->addWidget(widget,0,0);
     initializeCameraView();
+
+    timer = new QTimer(this); // Shows new frames rate -> 1 ms.
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews())); // OSG frames
+    timer->start(1);
+
     setSignalHandlers(); // triggers
 
-
-    // UI design laptop
-
-    QDesktopWidget desktop;
-    int desktopHeight=desktop.geometry().height();
-    int desktopWidth=desktop.geometry().width();
-    qDebug() << desktopHeight;
-    qDebug() << desktopWidth;
-
-    if(desktopHeight<=1024){
-        designLaptop=true;
-        osg_uav->resize(320, 300);
-        osg_sphere->resize(320, 250);
-        ui->tab_dynamicView->setMaximumSize(QSize(350, 280));
-        delete ui->panel_vehicle; // destroy the default panels
-        delete ui->panel_sphere;
-    }
+    designLaptop=setLaptopDesign();
 
     this->current_time = new QTime(0,0,0);
     setTimerInterval(1000);// 1 second = 1000
@@ -106,9 +90,28 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     flightTimer->start(1000);
 
     old_height=this->height();
-
 }
 
+bool MainWindow::setLaptopDesign()
+{
+    // UI design laptop
+    QDesktopWidget desktop;
+    int desktopHeight=desktop.geometry().height();
+    int desktopWidth=desktop.geometry().width();
+    qDebug() << desktopHeight;
+    qDebug() << desktopWidth;
+
+    if(desktopHeight<=1024)
+    {
+        osg_uav->resize(320, 300);
+        osg_sphere->resize(320, 250);
+        ui->tab_dynamicView->setMaximumSize(QSize(350, 280));
+        delete ui->panel_vehicle; // destroy the default panels
+        delete ui->panel_sphere;
+        return true;
+    }
+    return false;
+}
 
 void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 {
@@ -133,30 +136,13 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
     old_height=this->height();
 }
 
-void MainWindow::show_frame()
+void MainWindow::updateDynamicViews()
 {
-    /*  if(this->isMaximized()&&max_osg_frame!=1){
-
-        if(ui->sphereScene->size().height()>ui->vehicleScene->size().height()){
-            osg_uav->resize(ui->sphereScene->size());
-            osg_sphere->resize(ui->sphereScene->size());
-        }
-        if(ui->sphereScene->size().height()<ui->vehicleScene->size().height()){
-            osg_sphere->resize(ui->vehicleScene->size());
-            osg_uav->resize(ui->vehicleScene->size());
-        }
-    }
-
-    if(max_osg_frame==1)
-        max_osg_frame=0;
-    max_osg_frame++;*/
-
     // Get the frame and visualize with a pixmap in a QLabel.
    ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,false));
    ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
 
 }
-
 
 void MainWindow::setTimerInterval(double ms)
 {
@@ -198,9 +184,9 @@ void MainWindow::setSignalHandlers()
 
 void MainWindow::saveCurrentCameraView()
 {
-    disconnect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
     Q_EMIT saveImage(camera_view_manager);
-    connect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
 }
 
 void MainWindow::initializeCameraView()
@@ -255,8 +241,6 @@ void MainWindow::displayFourGridCamera()
         isOpen_fourCameraView=true;
     }
 }
-
-
 
 void MainWindow::showNoMasterMessage()
 {
@@ -318,8 +302,8 @@ void MainWindow::updateStatusBar()
             QPalette* palette = new QPalette();
             palette->setColor(QPalette::WindowText,Qt::red);
             ui->value_battery->setPalette(*palette);
-         }
-            ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
+        }
+        ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
 
         if(!designLaptop){
 
@@ -394,10 +378,10 @@ void MainWindow::on_actionCommunication_Console_triggered()
 
 void MainWindow::on_actionOpen_perception_configuration_triggered()
 {
-    disconnect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
     file_name = QFileDialog::getOpenFileName(this,tr("Open File"), "/home", tr("All files (*.*)"));
     QMessageBox::information(this,tr("File Name"),file_name);
-    connect(timer, SIGNAL(timeout()), this, SLOT(show_frame()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
 }
 
 
@@ -430,7 +414,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 // User commands in GUI//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 // Control Mode
 void MainWindow::onControlModeChange(int key){
     std::cout<<key<<std::endl;
@@ -453,38 +436,41 @@ void MainWindow::onControlModeChange(int key){
     }
 }
 
-
-
-void MainWindow::onStartButton(){
+void MainWindow::onStartButton()
+{
     std::cout<<"Take Off pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_takeoff();
 
 }
 
-
-void MainWindow::onLandButton(){
+void MainWindow::onLandButton()
+{
     std::cout<<"Land pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_land();
 
 }
 
-void MainWindow::onHoverButton(){
+void MainWindow::onHoverButton()
+{
     std::cout<<"Hover pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_hover();
 }
 
-void MainWindow::onYawZeroButton(){
+void MainWindow::onYawZeroButton()
+{
     std::cout<<"Yaw zero pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_yaw_zero();
 }
 
-void MainWindow::onResetCommandButton(){
+void MainWindow::onResetCommandButton()
+{
     std::cout<<"Reset pressed buttom: Not implemented yet!"<<std::endl;
 }
+
 // User commands in Keyboard///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -589,6 +575,10 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
 
 void MainWindow::close()
 {
+    delete connection->graphReceiver;
+    delete connection->odometryReceiver;
+    delete connection->telemetryReceiver;
+    connection->WriteSettings();
     this->~MainWindow();
 }
 
@@ -611,15 +601,15 @@ bool MainWindow::singletonApplication()
     sprintf(command, "/bin/ps -p %d l", mypid);
     fp = popen(command, "r");
     if (fp == NULL) {
-      perror(" popen: ");
-      return false;
+        perror(" popen: ");
+        return false;
     }
 
     /* Read the output a line at a time - output it. */
     fgets(output, sizeof(output)-1, fp);
     if (fgets(output, sizeof(output)-1, fp) == NULL) {
-      perror("Fgets. It may failed to get a second line: ");
-      return false;
+        perror("Fgets. It may failed to get a second line: ");
+        return false;
     }
 
 
@@ -641,18 +631,18 @@ bool MainWindow::singletonApplication()
     // Check instances that share the process name
     fp = popen(command, "r");
     if (fp == NULL) {
-      perror(" popen: ");
-      return false;
+        perror(" popen: ");
+        return false;
     }
 
 
-    // Read the output a line at a time - output it. 
+    // Read the output a line at a time - output it.
     if (fgets(output, sizeof(output)/sizeof(char), fp) == NULL) {
-      perror("Fgets 2" );
-      return false;
+        perror("Fgets 2" );
+        return false;
     }
 
-    // close 
+    // close
     pclose(fp);
 
     chars_array = strtok(output, " \t");

@@ -64,9 +64,10 @@ public:
     bool designLaptop;
     QTimer *flightTimer;
     bool singletonApplication();
+    bool setLaptopDesign();
 
 private Q_SLOTS:
-   void show_frame();
+   void updateDynamicViews();
 
 public Q_SLOTS:
     void on_actionNew_connection_triggered();

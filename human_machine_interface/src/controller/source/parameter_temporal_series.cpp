@@ -66,7 +66,7 @@ ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryState
 void ParameterTemporalSeries::setSignalHandlers()
 {
     connect(ui->treeWidget,SIGNAL(itemChanged(QTreeWidgetItem*,int)),plot,SLOT(clickToPlot(QTreeWidgetItem*, int)));
-    connect(ui->spinBox_2, SIGNAL(valueChanged(int)),plot, SLOT(resizeAxisYScale(int)) );
+    //connect(ui->spinBox_2, SIGNAL(valueChanged(int)),plot, SLOT(resizeAxisYScale(int)) );
     connect(ui->pushButton, SIGNAL(clicked()),plot, SLOT(saveAsSVG()) );
     connect(telemReceiver, SIGNAL( parameterReceived( )), this, SLOT(updateParametersValue( )));
     //  connect(ui->lineEdit,SIGNAL(textChanged(QString)),
@@ -119,7 +119,8 @@ void ParameterTemporalSeries::addRootTree(QString name, QStringList list, QTreeW
 }
 
 
-void ParameterTemporalSeries::addChildTree(QTreeWidgetItem *parent,  QStringList list, QString description){
+void ParameterTemporalSeries::addChildTree(QTreeWidgetItem *parent,  QStringList list, QString description)
+{
     for(int i =0;i<list.size();++i){
         QTreeWidgetItem *itm = new QTreeWidgetItem();
         QPixmap pixmap(15,40);

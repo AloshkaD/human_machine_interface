@@ -9,6 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/connection.h"
+#include <qt4/Qt/qsettings.h>
 #include "../.././../../../human_machine_interface-build/human_machine_interface/ui_connection.h"
 /*****************************************************************************
 ** Implementation
@@ -29,6 +30,7 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
     graphReceiver= new RosGraphReceiver();
    
     connectStatus=false;
+    ReadSettings();
     connect(ui->connectButton,SIGNAL(clicked(bool)),this, SLOT(onButton_connect_clicked(bool)));
 }
 
@@ -77,21 +79,24 @@ void Connection::on_checkbox_use_environment_stateChanged(int state)
 }
 
 
-bool Connection::init()
-{
-    ros::init(init_argc,init_argv,"HMI");// ros node started.
+bool Connection::initInCommon(){
+
     if ( ! ros::master::check() ) // Check if roscore has been initialized.
       return false;
 
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
 
+    if(ros::this_node::getNamespace().compare(" /")){
+        rosnamespace.append("/drone0");//default namespace
+        node_name.append(ros::this_node::getName());
+    }
+    else{
+        rosnamespace.append(ros::this_node::getNamespace());
+        node_name.append("HMI");
+    }
+
     std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace() << std::endl;
-    
-    if(ros::this_node::getNamespace().compare(" /"))
-       rosnamespace.append("/drone0");//default namespace
-    else
-       rosnamespace.append(ros::this_node::getNamespace());
 
 
     // Start query threads
@@ -109,34 +114,27 @@ bool Connection::init()
     std::thread thr(&Connection::spinnerThread, this);
     std::swap(thr, connection_admin_thread);
 
-
-
     return true;
+}
+
+bool Connection::init()
+{
+    ros::init(init_argc,init_argv,node_name);// ros node started.
+
+    return Connection::initInCommon();
 }
 
 
 bool Connection::init(const std::string &master_url, const std::string &host_url)
 {
-    /*
+
     std::map<std::string,std::string> remappings;
     remappings["__master"] = master_url;
     remappings["__hostname"] = host_url;
-    ros::init(remappings,"HMI");
-    if ( ! ros::master::check() )
-        return false;
 
-    ros::start(); // explicitly call to ros start
+    ros::init(remappings,node_name);
 
-    // Start query threads
-    ros::AsyncSpinner spinner(4); // Use 4 threads
-    spinner.start();
-    //ros::waitForShutdown();
-
-
-    // Start command threads
-    return true;
-    */
-    return false; //In construction
+    return Connection::initInCommon();
 }
 
 bool Connection::readyForConnect(){
@@ -154,12 +152,9 @@ void Connection::spinnerThread(){//ros::NodeHandle n){
 
 void Connection::ReadSettings()
 {
-  /*  QSettings settings("Qt-Ros Package", qnode->nodeName().c_str());
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
+    QSettings settings("Human Machine Interface - QSettings", node_name.c_str());
     QString master_url = settings.value("master_url",QString("http://192.168.1.2:11311/")).toString();
     QString host_url = settings.value("host_url", QString("192.168.1.3")).toString();
-    QString topic_name = settings.value("topic_name", QString("/chatter")).toString();
     ui->line_edit_master->setText(master_url);
     ui->line_edit_host->setText(host_url);
     bool remember = settings.value("remember_settings", false).toBool();
@@ -169,19 +164,17 @@ void Connection::ReadSettings()
     if ( checked ) {
         ui->line_edit_master->setEnabled(false);
         ui->line_edit_host->setEnabled(false);
-    }*/
+    }
 }
 
 
 void Connection::WriteSettings()
 {
-   /* QSettings settings("Qt-Ros Package", qnode->nodeName().c_str());
-    settings->setValue("geometry", geometry());
-    settings->setValue("master_url",ui.line_edit_master->text());
-    settings->setValue("host_url",ui.line_edit_host->text());
-    settings->setValue("use_environment_variables",QVariant(ui.checkbox_use_environment->isChecked()));
-    settings->setValue("windowState", saveState());
-    settings->setValue("remember_settings",QVariant(ui.checkbox_remember_settings->isChecked()));*/
+    QSettings settings("Human Machine Interface - QSettings", node_name.c_str());
+    settings.setValue("master_url",ui->line_edit_master->text());
+    settings.setValue("host_url",ui->line_edit_host->text());
+    settings.setValue("use_environment_variables",QVariant(ui->checkbox_use_environment->isChecked()));
+    settings.setValue("remember_settings",QVariant(ui->checkbox_remember_settings->isChecked()));
 }
 
 
