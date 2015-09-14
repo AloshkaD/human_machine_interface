@@ -623,10 +623,23 @@ bool MainWindow::uniqueApplication()
         chars_array = strtok(NULL, " ");
     }
 
-    const char * process_name = output_ps[12].c_str();
+    strncpy(output, output_ps[12].c_str(), sizeof(output));
+    output[sizeof(output) - 1] = 0; // For safety
+
+    char* chars_array_name = strtok(output, "/");
+    std::string output_process_name[32];
+    int iterador_name = 0;
+
+    while( chars_array_name != NULL )
+    {
+        output_process_name[iterador_name++] = std::string(chars_array_name);
+        chars_array_name = strtok(NULL, "/");
+    }
+
+    const char * process_name = output_process_name[iterador_name-1].c_str();
+
 
     sprintf(command, "/bin/pidof %s", process_name);
-    
     
     // Check instances that share the process name
     fp = popen(command, "r");
@@ -661,9 +674,10 @@ bool MainWindow::uniqueApplication()
 
     if (instances > 1)
     {
-        std::cerr << "It is NOT ALLOWED to use more than one instance." << std::endl;
-        std::cerr << "The main instance PID is: " << process_pids[instances-1];
-        std::cerr << "Ending this instance with PID: " << mypid << std::endl;
+        // Temporaly redirect to cout but it has to be launched in cerr!!! Until fix the opengl bug
+        std::cout << "It is NOT ALLOWED to use more than one instance." << std::endl;
+        std::cout << "The main instance PID is: " << process_pids[instances-1];
+        std::cout << "Ending this instance with PID: " << mypid << std::endl;
         return false;
     }
     else
