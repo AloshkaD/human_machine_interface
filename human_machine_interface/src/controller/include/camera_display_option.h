@@ -20,11 +20,15 @@ public:
     ~CameraDisplayOption();
     virtual int heightForWidth( int width ) const;
     virtual QSize sizeHint() const;
-        QPixmap pix;
+    QPixmap pix;
+    QPixmap pixmap1;
+    QPixmap pixmap2;
+    QPixmap pixmap3;
+    QPixmap pixmap4;
     QString getCurrentCamera(int pos);
     void swapWidgets(QPushButton* imageToSwap, QString titleToSwap);
     void createPixmapsButton();
-    int currentCamera;
+    int current_camera;
     int mainCamera;
 
 
@@ -32,12 +36,7 @@ public:
 
 public Q_SLOTS:
     void changeCameraPosition(int id_camera);
-    void updateImage1(const QPixmap* image);
-    void updateImage2(const QPixmap* image);
-    void updateImage3(const QPixmap* image);
-    void updateImage4(const QPixmap* image);
-    void updateImage5(const QPixmap* image);
-    void updateImage6(const QPixmap* image);
+    void updateImage(const QPixmap* image, int id_camera);
 
     void saveCameraImages(const int camera_view_manager);
 

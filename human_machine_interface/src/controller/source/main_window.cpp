@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../.././../../hmi_cvg_stack/src/human_machine_interface-build/ui_mainwindow.h"
+#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <qt4/Qt/qpointer.h>
@@ -318,8 +318,8 @@ void MainWindow::updateStatusBar()
             QPalette* palette = new QPalette();
             palette->setColor(QPalette::WindowText,Qt::red);
             ui->value_battery->setPalette(*palette);
-         }
-            ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
+        }
+        ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
 
         if(!designLaptop){
 
@@ -430,7 +430,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 // User commands in GUI//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 // Control Mode
 void MainWindow::onControlModeChange(int key){
     std::cout<<key<<std::endl;
@@ -453,38 +452,41 @@ void MainWindow::onControlModeChange(int key){
     }
 }
 
-
-
-void MainWindow::onStartButton(){
+void MainWindow::onStartButton()
+{
     std::cout<<"Take Off pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_takeoff();
 
 }
 
-
-void MainWindow::onLandButton(){
+void MainWindow::onLandButton()
+{
     std::cout<<"Land pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_land();
 
 }
 
-void MainWindow::onHoverButton(){
+void MainWindow::onHoverButton()
+{
     std::cout<<"Hover pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_hover();
 }
 
-void MainWindow::onYawZeroButton(){
+void MainWindow::onYawZeroButton()
+{
     std::cout<<"Yaw zero pressed buttom"<<std::endl;
     if (connection->connectStatus)
         connection->usercommander->publish_yaw_zero();
 }
 
-void MainWindow::onResetCommandButton(){
+void MainWindow::onResetCommandButton()
+{
     std::cout<<"Reset pressed buttom: Not implemented yet!"<<std::endl;
 }
+
 // User commands in Keyboard///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
