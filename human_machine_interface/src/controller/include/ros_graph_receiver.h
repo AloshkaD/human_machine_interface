@@ -18,7 +18,6 @@
 
 #include <ros/ros.h>
 #include <string>
-#include <QString>
 #include "std_msgs/String.h"
 #include "std_msgs/Float32MultiArray.h"
 #include "geometry_msgs/Point.h"
@@ -30,6 +29,7 @@
 #include "droneMsgsROS/ProcessError.h"
 #include "droneMsgsROS/ProcessDescriptorList.h"
 #include "sensor_msgs/Imu.h"
+
 //Magnetometer and RotationAngles
 #include "geometry_msgs/Vector3Stamped.h"
 
@@ -40,24 +40,27 @@
 #include "droneMsgsROS/droneAltitude.h"
 
 #include "droneMsgsROS/dronePose.h"
+
 //Ground Speed
 #include "droneMsgsROS/vector2Stamped.h"
-#include <QThread>
-#include <QString>
-#include <QStringListModel>
+#include <qt4/Qt/qthread.h>
+#include <qt4/Qt/qstring.h>
+#include <qt4/Qt/qstringlistmodel.h>
+
 
 
 /*****************************************************************************
 ** Class
 *****************************************************************************/
 
-class RosGraphReceiver: public QThread {
+class RosGraphReceiver: public QObject{
     Q_OBJECT
-public:
-         RosGraphReceiver();
-	virtual ~ RosGraphReceiver();
 
-        void run();
+public:
+        RosGraphReceiver();
+        virtual ~ RosGraphReceiver();
+        bool ready(); 
+        
         QString description;
         QString node_name;
         QString error_type;
@@ -65,7 +68,6 @@ public:
         QString location;
         QString ns;
         QString action;
-        std::string rosnamespace;
 
 
 
@@ -90,8 +92,7 @@ public:
 
 
 Q_SIGNALS:
-	void loggingUpdated();
-        void rosShutdown();
+        void loggingUpdated();
         void parameterReceived();
         void updateStatus();
         void supervisorStateReceived( );
@@ -99,9 +100,7 @@ Q_SIGNALS:
 
 
 private:
-
-	int init_argc;
-	char** init_argv;
+        bool subscriptions_complete;
 
         ros::Subscriber watchdogSubs;
         void processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg);

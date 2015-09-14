@@ -4,9 +4,6 @@
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
-#include <QThread>
-#include <QString>
-#include <QStringListModel>
 #include <ros/ros.h>
 #include <ros/network.h>
 #include <string>
@@ -14,17 +11,21 @@
 #include <sstream>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
-#include "communication_definition.h"
 #include <sensor_msgs/image_encodings.h>
+#include "communication_definition.h"
 
-class ImagesReceiver : public QThread {
+#include <qt4/Qt/qthread.h>
+#include <qt4/Qt/qstring.h>
+#include <qt4/Qt/qstringlistmodel.h>
+
+class ImagesReceiver : public QObject{
     Q_OBJECT
 
 public:
     ImagesReceiver();
     virtual ~ImagesReceiver();
 
-    void run();
+    
 
 
         enum LogLevel {
@@ -39,18 +40,18 @@ public:
         void log( const LogLevel &level, const std::string &msg);
         void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
         void onControlModeChange(QString key);
-        std::string rosnamespace;
+        bool ready(); 
 
 
 Q_SIGNALS:
         void Update_Image1(const QPixmap* image);
         void Update_Image2(const QPixmap* image);
         void loggingUpdated();
-        void rosShutdown();
 
 
 
 private:
+        bool subscriptions_complete;
 
         std::string drone_console_interface_sensor_bottom_camera;
         std::string drone_console_interface_sensor_front_camera;

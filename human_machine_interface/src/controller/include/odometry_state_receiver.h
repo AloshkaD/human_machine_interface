@@ -18,7 +18,6 @@
 
 #include <ros/ros.h>
 #include <string>
-#include <QString>
 #include "std_msgs/String.h"
 #include "std_msgs/Float32MultiArray.h"
 #include "geometry_msgs/Point.h"
@@ -32,22 +31,24 @@
 #include "droneMsgsROS/dronePositionTrajectoryRefCommand.h"
 #include "droneMsgsROS/droneTrajectoryControllerControlMode.h"
 #include "communication_definition.h"
-#include <QThread>
-#include <QString>
-#include <QStringListModel>
+#include <qt4/Qt/qstring.h>
+#include <qt4/Qt/qthread.h>
+#include <qt4/QtCore/QtDebug>
+#include <qt4/Qt/qstringlistmodel.h>
 
 
 /*****************************************************************************
 ** Class
 *****************************************************************************/
 
-class OdometryStateReceiver: public QThread {
+class OdometryStateReceiver: public QObject{
     Q_OBJECT
 public:
-         OdometryStateReceiver();
+        OdometryStateReceiver();
 	virtual ~ OdometryStateReceiver();
 
         void run();
+        bool ready();
 
         droneMsgsROS::droneSpeeds DroneSpeedsMsgs;
         droneMsgsROS::dronePose DronePoseMsgs;
@@ -74,14 +75,14 @@ public:
         void readParams(ros::NodeHandle nodeHandle);
 
 Q_SIGNALS:
-	void loggingUpdated();
-        void rosShutdown();
+        void loggingUpdated();
         void parameterReceived();
         void updateStatus();
         void supervisorStateReceived( );
 
 
 private:
+        bool subscriptions_complete;
 
         std::string drone_trajectory_controller_pose_subscription_gmr;
         std::string drone_trajectory_controller_speeds_subscription_gmr;

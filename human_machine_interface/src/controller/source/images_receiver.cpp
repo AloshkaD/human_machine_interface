@@ -16,7 +16,9 @@
 ** Implementation
 *****************************************************************************/
 
-ImagesReceiver::ImagesReceiver(){}
+ImagesReceiver::ImagesReceiver(){
+    subscriptions_complete = false;
+}
 
 
 void ImagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
@@ -31,24 +33,19 @@ void ImagesReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string r
     image_transport::ImageTransport it_(nodeHandle);
     image_bottom_sub_ = it_.subscribe(rosnamespace + "/" + drone_console_interface_sensor_bottom_camera, 1,&ImagesReceiver::imagesBottomReceptionCallback, this);
     image_front_sub_ = it_.subscribe(rosnamespace + "/" +  drone_console_interface_sensor_front_camera, 1,&ImagesReceiver::imagesFrontReceptionCallback, this);
-    start();
+    //start();
     //    real_time=ros;
+    subscriptions_complete = true;
 }
 
 
-void ImagesReceiver::run() {
-    ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown();
+bool ImagesReceiver::ready() {
+    if (!subscriptions_complete)
+        return false;
+    return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
 }
 
-ImagesReceiver::~ImagesReceiver() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-    wait();
-}
+ImagesReceiver::~ImagesReceiver() {}
 
 QImage ImagesReceiver::cvtCvMat2QImage(const cv::Mat & image){
     QImage qtemp;

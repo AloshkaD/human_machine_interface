@@ -22,7 +22,9 @@
 ** Implementation
 *****************************************************************************/
 
-TelemetryStateReceiver::TelemetryStateReceiver(){}
+TelemetryStateReceiver::TelemetryStateReceiver(){
+    subscriptions_complete = false;
+}
 
 
 void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
@@ -102,25 +104,19 @@ void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::
    // optFlowSubs=nodeHandle.subscribe("drone0/" + DRONE_OKTO_LIKE_SIMULATOR_GROUND_SPEED_SENSOR_PUBLISHER, 1, &telemetryStateReceiver::optFlowCallback, this);
    //Commands
    // oktoCommandsSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_okto_like_simulator_okto_commands_subscriber, 1, &telemetryStateReceiver::oktoCommandsCallback, this);
-   start();
+   subscriptions_complete = true;
    // real_time=ros;
 }
 
 
-TelemetryStateReceiver::~TelemetryStateReceiver() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-	wait();
-}
+TelemetryStateReceiver::~TelemetryStateReceiver() {}
 
 
 
-void TelemetryStateReceiver::run() {
-    ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
+bool TelemetryStateReceiver::ready() {
+    if (!subscriptions_complete)
+        return false;
+    return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
 }
 
 
@@ -297,7 +293,7 @@ void TelemetryStateReceiver::droneHLCallback(const droneMsgsROS::droneCommand::C
 {
     droneCommandMsgs=*msg;
     Q_EMIT parameterReceived();
-    ROS_INFO("Received command: [%f]", msg->command);
+    ROS_INFO("Received command: [%d]", msg->command);
     return;
 }
 

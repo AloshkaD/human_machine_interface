@@ -18,7 +18,6 @@
 
 #include <ros/ros.h>
 #include <string>
-#include <QString>
 #include <vector>
 #include "std_msgs/String.h"
 #include "std_msgs/Float32MultiArray.h"
@@ -47,23 +46,24 @@
 #include "droneMsgsROS/dronePose.h"
 //Ground Speed
 #include "droneMsgsROS/vector2Stamped.h"
-#include <QThread>
+
+#include <qt4/Qt/qstring.h>
+#include <qt4/Qt/qthread.h>
 #include <qt4/QtCore/QtDebug>
-#include <QString>
-#include <QStringListModel>
+#include <qt4/Qt/qstringlistmodel.h>
 
 
 /*****************************************************************************
 ** Class
 *****************************************************************************/
 
-class TelemetryStateReceiver: public QThread {
+class TelemetryStateReceiver: public QObject{
     Q_OBJECT
 public:
          TelemetryStateReceiver();
 	virtual ~ TelemetryStateReceiver();
 
-        void run();
+        bool ready(); 
         QString description;
         QString node_name;
         QString error_type;
@@ -114,14 +114,15 @@ public:
     void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
 
 Q_SIGNALS:
-	void loggingUpdated();
-        void rosShutdown();
+	    void loggingUpdated();
         void parameterReceived();
         void updateStatus();
 
 
 
 private:
+        bool subscriptions_complete;
+
         int init_argc;
         int real_time;
         char** init_argv;

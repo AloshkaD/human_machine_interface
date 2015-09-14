@@ -21,7 +21,9 @@
 ** Implementation
 *****************************************************************************/
 
- UserCommander:: UserCommander(){}
+ UserCommander:: UserCommander(){
+     subscriptions_complete = false;
+}
 
   void UserCommander::openPublications(ros::NodeHandle nodeHandle, std::string rosnamespace){
 
@@ -54,7 +56,7 @@
      dronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(rosnamespace + "/" + pitchroll_topic ,1, true);
      droneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>(rosnamespace + "/" + daltitude_topic,1, true);
      droneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>(rosnamespace + "/" + dyawcmd_topic,1, true);
-     droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(rosnamespace + "/" + command_publish_topic,1, true);
+     //droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(rosnamespace + "/" + command_publish_topic,1, true);
 
      dronePositionReferencePublisher = nodeHandle.advertise<droneMsgsROS::dronePositionRefCommandStamped>(rosnamespace + "/" + drone_position_refs, 1);
      droneYawReferencePublisher = nodeHandle.advertise<droneMsgsROS::droneYawRefCommand>(rosnamespace + "/" + drone_controller_yaw_ref_command, 1);
@@ -62,22 +64,17 @@
 
      droneManagerStatusSubs  = nodeHandle.subscribe(rosnamespace + "/" + drone_manager_status, 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
 
-     start();
+     subscriptions_complete = true;
+
  }
 
- void UserCommander::run() {
-     ros::spin();
-     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-     Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
+ bool UserCommander::ready() {
+    if (!subscriptions_complete)
+        return false;
+    return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
  }
 
- UserCommander::~ UserCommander() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-    wait();
-}
+ UserCommander::~ UserCommander() {}
 
  void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)
  {

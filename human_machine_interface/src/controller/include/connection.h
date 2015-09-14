@@ -1,13 +1,15 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-#include <QDialog>
+#include <thread>
 #include "telemetry_state_receiver.h"
 #include "odometry_state_receiver.h"
 #include "images_receiver.h"
 #include "user_commander.h"
 #include "sphere_view.h"
 #include "ros_graph_receiver.h"
+
+#include <qt4/Qt/qdialog.h>
 
 namespace Ui {
 class connection;
@@ -26,6 +28,7 @@ public:
 
         void close();
         bool connectStatus;
+        bool readyForConnect();
         std::string rosnamespace;
 
         TelemetryStateReceiver* telemetryReceiver;
@@ -33,6 +36,8 @@ public:
         ImagesReceiver* imgReceiver;
         RosGraphReceiver* graphReceiver;
         UserCommander* usercommander;
+
+        void spinnerThread();
 
 public Q_SLOTS:
 	/******************************************
@@ -49,8 +54,10 @@ public Q_SLOTS:
     //void updateLoggingView();
 
 Q_SIGNALS:
+        void rosShutdown();
         void connectionEstablish();
 private:
+    std::thread connection_admin_thread;
     Ui::connection *ui;
     int init_argc;
     char** init_argv;

@@ -86,7 +86,7 @@ bool Connection::init()
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
 
-    std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace()<<std::endl;
+    std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace() << std::endl;
     
     if(ros::this_node::getNamespace().compare(" /"))
        rosnamespace.append("/drone0");//default namespace
@@ -103,12 +103,21 @@ bool Connection::init()
     usercommander->openPublications(n, rosnamespace);
 
 
+    if(!Connection::readyForConnect())
+     return false;
+
+    std::thread thr(&Connection::spinnerThread, this);
+    std::swap(thr, connection_admin_thread);
+
+
+
     return true;
 }
 
 
 bool Connection::init(const std::string &master_url, const std::string &host_url)
 {
+    /*
     std::map<std::string,std::string> remappings;
     remappings["__master"] = master_url;
     remappings["__hostname"] = host_url;
@@ -117,15 +126,31 @@ bool Connection::init(const std::string &master_url, const std::string &host_url
         return false;
 
     ros::start(); // explicitly call to ros start
-    ros::NodeHandle n;
+
     // Start query threads
-    //telemetryReceiver->openGeneralSubscriptions(n);
+    ros::AsyncSpinner spinner(4); // Use 4 threads
+    spinner.start();
+    //ros::waitForShutdown();
 
 
     // Start command threads
     return true;
+    */
+    return false; //In construction
 }
 
+bool Connection::readyForConnect(){
+    if(!telemetryReceiver->ready() || !odometryReceiver->ready() || !imgReceiver->ready() || !graphReceiver->ready() || !usercommander->ready())
+        return false;
+    return true;
+}
+
+
+void Connection::spinnerThread(){//ros::NodeHandle n){
+    ros::spin();
+    ros::waitForShutdown();
+
+}
 
 void Connection::ReadSettings()
 {

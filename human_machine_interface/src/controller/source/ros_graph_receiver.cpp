@@ -22,7 +22,9 @@
 ** Implementation
 *****************************************************************************/
 
-RosGraphReceiver::RosGraphReceiver(){}
+RosGraphReceiver::RosGraphReceiver(){
+    subscriptions_complete = false;
+}
 
 
 void RosGraphReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
@@ -39,23 +41,17 @@ void RosGraphReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string
     watchdogSubs=nodeHandle.subscribe(rosnamespace + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
 
 
-    start();
+    subscriptions_complete=true;
 //    real_time=ros;
 }
 
-RosGraphReceiver::~RosGraphReceiver() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-	wait();
-}
+RosGraphReceiver::~RosGraphReceiver() {}
 
 
-void RosGraphReceiver::run() {
-    ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+bool RosGraphReceiver::ready() {
+    if (!subscriptions_complete)
+        return false;
+    return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
 }
 
 void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg)

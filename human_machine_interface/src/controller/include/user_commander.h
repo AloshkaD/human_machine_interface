@@ -32,23 +32,26 @@
 #include "droneMsgsROS/dronePitchRollCmd.h"
 #include "droneMsgsROS/dronePositionTrajectoryRefCommand.h"
 #include "droneMsgsROS/droneSpeeds.h"
-#include <QThread>
 #include "communication_definition.h"
-#include <QStringListModel>
+
+#include <qt4/Qt/qstring.h>
+#include <qt4/Qt/qthread.h>
+#include <qt4/QtCore/QtDebug>
+#include <qt4/Qt/qstringlistmodel.h>
 
 
 /*****************************************************************************
 ** Class
 *****************************************************************************/
 
-class UserCommander : public QThread {
+class UserCommander: public QObject{
     Q_OBJECT
 public:
         UserCommander();
 	virtual ~UserCommander();
 
-        void run();
-        void  openPublications(ros::NodeHandle nodeHandle, std::string rosnamespace);
+        bool ready(); 
+        void openPublications(ros::NodeHandle nodeHandle, std::string rosnamespace);
 
 
         droneMsgsROS::dronePitchRollCmd dronePitchRollCmdMsgs;
@@ -63,7 +66,6 @@ public:
         droneMsgsROS::droneSpeeds drone_speed_reference;
         droneMsgsROS::dronePose   current_drone_position_reference;
         droneMsgsROS::droneSpeeds current_drone_speed_reference;
-        std::string rosnamespace;
 
 
         droneMsgsROS::droneManagerStatus getDroneManagerStatus(){return lastDroneManagerStatusMsg;}
@@ -80,18 +82,19 @@ public:
         void publish_hover();
         void publish_yaw_zero();
 
+
         /*void publish_reset();
         void publish_emergencyStop();
         void publish_LLCommand();*/
 
 
-	enum LogLevel {
-	         Debug,
-	         Info,
-	         Warn,
-	         Error,
-	         Fatal
-	 };
+    enum LogLevel {
+             Debug,
+             Info,
+             Warn,
+             Error,
+             Fatal
+     };
 
         enum userCommands {
             TakeOff,
@@ -99,15 +102,17 @@ public:
             Land
         };
 
-	QStringListModel* loggingModel() { return &logging_model; }
-	void log( const LogLevel &level, const std::string &msg);
+    QStringListModel* loggingModel() { return &logging_model; }
+    void log( const LogLevel &level, const std::string &msg);
 
 
 Q_SIGNALS:
-	void loggingUpdated();
-        void rosShutdown();
+	    void loggingUpdated();
+
 
 private:
+        bool subscriptions_complete;
+
         std::vector<std::string> modules_names;
 
         std::string pitchroll_topic;

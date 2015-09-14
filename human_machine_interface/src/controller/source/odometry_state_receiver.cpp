@@ -22,7 +22,9 @@
 ** Implementation
 *****************************************************************************/
 
-OdometryStateReceiver::OdometryStateReceiver(){}
+OdometryStateReceiver::OdometryStateReceiver(){
+     subscriptions_complete = false;
+}
 
 
 void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
@@ -46,23 +48,18 @@ void OdometryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::s
     DroneTrajectoryPositionSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_logger_position_ref_rebroadcast_subscription, 1, &OdometryStateReceiver::dronePoseCallback, this);
     DroneTrajectorySpeedsSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_logger_speed_ref_rebroadcast_subscription, 1, &OdometryStateReceiver::droneSpeedsCallback, this);
 
-    start();
+    //start();
+    subscriptions_complete = true;
 //    real_time=ros;
 }
 
-void OdometryStateReceiver::run() {
-    ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+bool OdometryStateReceiver::ready() {
+    if (!subscriptions_complete)
+        return false;
+    return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
 }
 
-OdometryStateReceiver::~OdometryStateReceiver() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-    wait();
-}
+OdometryStateReceiver::~OdometryStateReceiver() {}
 
 
 void OdometryStateReceiver::readParams(ros::NodeHandle nodeHandle){

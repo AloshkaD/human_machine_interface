@@ -22,31 +22,28 @@
 ** Implementation
 *****************************************************************************/
 
-MissionStateReceiver::MissionStateReceiver(){}
+MissionStateReceiver::MissionStateReceiver(){
+     subscriptions_complete = false;
+}
 
 
 void MissionStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
     // Topic communications
 
       //start();
+     subscriptions_complete = true;
 //    real_time=ros;
 }
 
 
-void MissionStateReceiver::run() {
-    //ros::spin();
-    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown (useful to roslaunch)
+bool MissionStateReceiver::ready() {
+    if (!subscriptions_complete)
+        return false;
+    return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
 }
 
 
-MissionStateReceiver::~MissionStateReceiver() {
-    if(ros::isStarted()) {
-      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
-      ros::waitForShutdown();
-    }
-	wait();
-}
+MissionStateReceiver::~MissionStateReceiver() {}
 
 /*
 std::string DroneLoggerROSModule::droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg)
