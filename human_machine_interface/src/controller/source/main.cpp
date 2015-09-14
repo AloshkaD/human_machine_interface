@@ -25,11 +25,12 @@ int main(int argc, char *argv[])
     //Redirect the standard error temporally
     freopen( "standard_error.txt", "w", stderr );
 
+    if (MainWindow::uniqueApplication()==false)
+        return 1;
+
     QApplication app(argc, argv);
     MainWindow w(argc,argv);
 
-    //if (w.singletonApplication()==false)
-    //    return 1;
   
 
     

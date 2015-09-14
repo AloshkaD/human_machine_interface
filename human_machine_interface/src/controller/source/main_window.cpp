@@ -589,7 +589,7 @@ MainWindow::~MainWindow()
 
 }
 
-bool MainWindow::singletonApplication()
+bool MainWindow::uniqueApplication()
 {
     pid_t mypid = getpid();
 
