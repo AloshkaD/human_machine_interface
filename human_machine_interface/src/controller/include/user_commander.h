@@ -41,7 +41,7 @@
 ** Class
 *****************************************************************************/
 
-class UserCommander : public QThread {
+class UserCommander : public QObject {
     Q_OBJECT
 public:
         UserCommander();

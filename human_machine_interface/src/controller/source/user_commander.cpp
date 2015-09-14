@@ -61,22 +61,14 @@
      drone_speeds_reference_publisher     = nodeHandle.advertise<droneMsgsROS::droneSpeeds>(rosnamespace + "/" + drone_speed_refs_topic, 1);
 
      droneManagerStatusSubs  = nodeHandle.subscribe(rosnamespace + "/" + drone_manager_status, 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
-
-     start();
  }
 
- void UserCommander::run() {
-     ros::spin();
-     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-     Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
- }
 
  UserCommander::~ UserCommander() {
     if(ros::isStarted()) {
       ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
       ros::waitForShutdown();
     }
-    wait();
 }
 
  void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)
@@ -182,7 +174,8 @@
  }
 
 
-void  UserCommander::publish_takeoff() {
+void  UserCommander::publish_takeoff()
+{
            std::cout<<"Command takeoff sent"<<std::endl;
            clearCmd();//clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF;
@@ -198,7 +191,8 @@ void  UserCommander::publish_takeoff() {
 
 }
 
-void  UserCommander::publish_land() {
+void  UserCommander::publish_land()
+{
            std::cout<<"Command land() sent"<<std::endl;
            clearCmd(); //clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
@@ -206,7 +200,8 @@ void  UserCommander::publish_land() {
            log(Info,std::string("Human Machine Interface sent: ")+"land");
 }
 
-void  UserCommander::publish_hover() {
+void  UserCommander::publish_hover()
+{
            std::cout<<"Command hover() sent"<<std::endl;
            clearCmd();//clear command
            droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
@@ -215,7 +210,8 @@ void  UserCommander::publish_hover() {
 
 }
 
-void  UserCommander::publish_yaw_zero() {
+void  UserCommander::publish_yaw_zero()
+{
            std::cout<<"Command yaw zero sent"<<std::endl;
            droneDYawCmdMsgs.dYawCmd = 0.0;
            droneDYawCmdPubl.publish(droneDYawCmdMsgs);

@@ -75,14 +75,13 @@ void ParameterTemporalSeries::setSignalHandlers()
     connect(ui->pushButton_2,SIGNAL(clicked()),this, SLOT(onStopButton()));
 }
 
-
 void ParameterTemporalSeries::resizeEvent(QResizeEvent * event)
 {
     plot->resize(ui->plotWidget->size());
 }
 
-
-void ParameterTemporalSeries::initParameterList(QStringList list, QTreeWidget *tree){
+void ParameterTemporalSeries::initParameterList(QStringList list, QTreeWidget *tree)
+{
 
     ui->treeWidget->setIndentation(15);
     for(int i =0;i<list.size();++i){
@@ -98,8 +97,8 @@ void ParameterTemporalSeries::initParameterList(QStringList list, QTreeWidget *t
     }
 }
 
-
-void ParameterTemporalSeries::initTree(QMap<QString,QStringList> topicList, QTreeWidget *tree){
+void ParameterTemporalSeries::initTree(QMap<QString,QStringList> topicList, QTreeWidget *tree)
+{
     QMapIterator<QString,QStringList> i(topicList);
     while (i.hasNext()) {
         i.next();
@@ -108,8 +107,8 @@ void ParameterTemporalSeries::initTree(QMap<QString,QStringList> topicList, QTre
     }
 }
 
-
-void ParameterTemporalSeries::addRootTree(QString name, QStringList list, QTreeWidget *tree){
+void ParameterTemporalSeries::addRootTree(QString name, QStringList list, QTreeWidget *tree)
+{
     QTreeWidgetItem  *itm = new QTreeWidgetItem(tree);
     itm->setText(0,name);
     tree->addTopLevelItem(itm);
@@ -118,8 +117,8 @@ void ParameterTemporalSeries::addRootTree(QString name, QStringList list, QTreeW
 
 }
 
-
-void ParameterTemporalSeries::addChildTree(QTreeWidgetItem *parent,  QStringList list, QString description){
+void ParameterTemporalSeries::addChildTree(QTreeWidgetItem *parent,  QStringList list, QString description)
+{
     for(int i =0;i<list.size();++i){
         QTreeWidgetItem *itm = new QTreeWidgetItem();
         QPixmap pixmap(15,40);
@@ -133,7 +132,6 @@ void ParameterTemporalSeries::addChildTree(QTreeWidgetItem *parent,  QStringList
         parent->addChild(itm);
     }
 }
-
 
 void ParameterTemporalSeries::onTextFilterChange(const QString &arg1){
     QRegExp regExp(arg1, Qt::CaseInsensitive, QRegExp::Wildcard);
