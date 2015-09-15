@@ -10,7 +10,7 @@
 *****************************************************************************/
 #include "../include/connection.h"
 #include <qt4/Qt/qsettings.h>
-#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_connection.h"
+#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_connection.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
@@ -65,7 +65,6 @@ void Connection::onButton_connect_clicked(bool check)
    Q_EMIT connectionEstablish();
 }
 
-
 void Connection::on_checkbox_use_environment_stateChanged(int state)
 {
     bool enabled;
@@ -78,7 +77,6 @@ void Connection::on_checkbox_use_environment_stateChanged(int state)
     ui->line_edit_host->setEnabled(enabled);
 }
 
-
 bool Connection::initInCommon(){
 
     if ( ! ros::master::check() ) // Check if roscore has been initialized.
@@ -87,14 +85,10 @@ bool Connection::initInCommon(){
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
 
-    if(ros::this_node::getNamespace().compare(" /")){
-        rosnamespace.append("/drone0");//default namespace
-        node_name.append(ros::this_node::getName());
-    }
-    else{
+    if(ros::this_node::getNamespace().compare(" /"))
+        rosnamespace.append("/drone1");//default namespace
+    else
         rosnamespace.append(ros::this_node::getNamespace());
-        node_name.append("HMI");
-    }
 
     std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace() << std::endl;
 
@@ -119,11 +113,10 @@ bool Connection::initInCommon(){
 
 bool Connection::init()
 {
-    ros::init(init_argc,init_argv,node_name);// ros node started.
+    ros::init(init_argc,init_argv,"human_machine_interface");// ros node started.
 
     return Connection::initInCommon();
 }
-
 
 bool Connection::init(const std::string &master_url, const std::string &host_url)
 {
@@ -132,7 +125,7 @@ bool Connection::init(const std::string &master_url, const std::string &host_url
     remappings["__master"] = master_url;
     remappings["__hostname"] = host_url;
 
-    ros::init(remappings,node_name);
+    ros::init(remappings,"human_machine_interface");
 
     return Connection::initInCommon();
 }
@@ -143,10 +136,14 @@ bool Connection::readyForConnect(){
     return true;
 }
 
-
-void Connection::spinnerThread(){//ros::NodeHandle n){
+void Connection::spinnerThread(){
     ros::spin();
-    ros::waitForShutdown();
+    if(ros::isStarted()) {
+      ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
+      ros::waitForShutdown();
+    }
+    std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
+    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
 
 }
 
@@ -167,7 +164,6 @@ void Connection::ReadSettings()
     }
 }
 
-
 void Connection::WriteSettings()
 {
     QSettings settings("Human Machine Interface - QSettings", node_name.c_str());
@@ -177,12 +173,10 @@ void Connection::WriteSettings()
     settings.setValue("remember_settings",QVariant(ui->checkbox_remember_settings->isChecked()));
 }
 
-
 void Connection::close()
 {
     this->~Connection();
 }
-
 
 Connection::~Connection()
 {

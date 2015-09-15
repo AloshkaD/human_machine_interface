@@ -26,15 +26,12 @@ int main(int argc, char *argv[])
     freopen( "standard_error.txt", "w", stderr );
     //freopen( "standard_output.txt", "w", stdout );
 
-    if (MainWindow::uniqueApplication()==false)
-        return 1;
+    //if (MainWindow::uniqueApplication()==false)
+      // return 1;
 
     QApplication app(argc, argv);
     MainWindow w(argc,argv);
 
-  
-
-    
     w.show();
     app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
     int result = app.exec();

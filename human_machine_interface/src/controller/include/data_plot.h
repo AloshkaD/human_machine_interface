@@ -2,6 +2,7 @@
 #define _DATA_PLOT_H 1
 
 #include <qwt_plot.h>
+#include <thread>
 #include <qwt/qwt_plot_curve.h>
 #include <QTreeWidgetItem>
 #include <QStringList>
@@ -33,12 +34,13 @@ public:
     bool iconWhiteChange;
     bool stopPressed;
     int dataCount;
-    bool highRateOption;
+    int current_max_limit;
+    int current_min_limit;
     std::vector<std::string>  parameterList;
     QHash<QString,QwtPlotCurve*> curves;
     QHash<QString,QString> colors;
     QHash<QString,int> iconChange;
-    QHash<QString,double*> msgs;
+    QHash<QString,double*> d_y;
     QHash<QString,QTreeWidgetItem*> items;
 
     QTime upTime() const;
@@ -52,11 +54,14 @@ public:
     void setDataCurve(double param[], QString curve_id, double data_msg);
     std::vector<std::string> setCurveLabels(QMap<QString, QStringList> list);
 
+    void isConnectionReadyThread();
+
 public Q_SLOTS:
     void setTimerInterval(double interval);
     void clickToPlot(QTreeWidgetItem* item, int colum);
     void resizeAxisXScale(int ms);
-    void resizeAxisYScale(int ms);
+    void resizeAxisYMinLimit(int ms);
+    void resizeAxisYMaxLimit(int ms);
     void saveAsSVG();
     void onParameterReceived();
   //  void onParameterReceived(QTimerEvent *e);
@@ -65,7 +70,7 @@ protected:
     virtual void timerEvent(QTimerEvent *e);
 
 private:
-
+    std::thread connection_admin_thread;
     double d_x[BUFFER_SIZE];
     double param1[BUFFER_SIZE];
     double param2[BUFFER_SIZE];

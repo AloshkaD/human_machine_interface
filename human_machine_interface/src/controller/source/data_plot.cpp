@@ -81,12 +81,13 @@ DataPlot::DataPlot(QWidget *parent, TelemetryStateReceiver* collector, OdometryS
     plotColors <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray";
 
     iteratorColors=0;
-    highRateOption = false;
     stopPressed=false;
     alignScales();
     setAutoReplot(false);
 
     parameterList = setCurveLabels(*list);
+    current_min_limit=0;
+    current_max_limit=0;
 
 
     // LeftButton for the zooming
@@ -132,10 +133,6 @@ DataPlot::DataPlot(QWidget *parent, TelemetryStateReceiver* collector, OdometryS
     mY->attach(this);
 #endif
 
-    initAxisX();
-    initAxisY();
-    initCurves();
-    setTimerInterval(1000);// 1 second = 1000
 }
 
 
@@ -257,7 +254,6 @@ void DataPlot::eraseColorIcon(QString id,QTreeWidgetItem* item)
     item->setIcon(0, whiteIcon);
 }
 
-
 // Hash colors -> text, color.
 // Hash curves -> text, curves.
 // Hash iconChange -> text, iconChange. iconChange flags: 0(ChangeWhite),1(ChangeColor),3(notChange)
@@ -293,7 +289,6 @@ void DataPlot::clickToPlot(QTreeWidgetItem* item, int colum)
     }
 }
 
-
 //
 //  Set a plain canvas frame and align the scales to it
 //
@@ -315,7 +310,6 @@ void DataPlot::alignScales()
     }
 }
 
-
 // Set Timer interval to receive incoming connections
 void DataPlot::setTimerInterval(double ms)
 {
@@ -330,21 +324,19 @@ void DataPlot::setTimerInterval(double ms)
         d_timerId = startTimer(d_interval);
 }
 
-
 // TODO> Checking if is NULL when user select
 void DataPlot::setDataCurve(double param[], QString curve_id, double data_msg)
 {
     param[0] = data_msg;
-    msgs.insert(curve_id,param);
+    d_y.insert(curve_id,param);
     if(selectedItems.contains(curve_id)&& items[curve_id]!=NULL){
         curves[curve_id]->setPen(QPen(colors[curve_id]));
-        curves[curve_id]->setRawSamples(d_x,msgs[curve_id],dataCount);
+        curves[curve_id]->setRawSamples(d_x,d_y[curve_id],dataCount);
         curves[curve_id]->attach(this);
         curves[curve_id]->setVisible(true);
          items[curve_id]->setText(1,QString::number(((double)((int)(data_msg*100)))/100));
     }
 }
-
 
 // Read incoming connections
 // frecuency < topic rate. 1FPS
@@ -473,19 +465,16 @@ void DataPlot::timerEvent(QTimerEvent *e)
 
 }
 
-
 // Read incoming connections
 // Change the text. frecuency = topic rate
 void DataPlot::onParameterReceived()
 {
     connectStatus=true;
-
-
-
+    initAxisX();
+    initAxisY();
+    initCurves();
+    setTimerInterval(1000);// 1 second = 1000
 }
-
-
-
 
 void DataPlot::resizeAxisXScale(int ms)
 {
@@ -494,12 +483,19 @@ void DataPlot::resizeAxisXScale(int ms)
 }
 
 
-void DataPlot::resizeAxisYScale(int ms)
+void DataPlot::resizeAxisYMinLimit(int ms)
 {
-    setAxisScale(QwtPlot::yLeft, -20,ms);
+    current_min_limit=ms;
+    setAxisScale(QwtPlot::yLeft, current_min_limit,current_max_limit);
     replot();
 }
 
+void DataPlot::resizeAxisYMaxLimit(int ms)
+{
+    current_max_limit=ms;
+    setAxisScale(QwtPlot::yLeft,current_min_limit,current_max_limit);
+    replot();
+}
 
 // Get canvas and print in the output file
 void DataPlot::saveAsSVG()

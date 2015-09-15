@@ -45,8 +45,8 @@ bool MissionStateReceiver::ready() {
 
 MissionStateReceiver::~MissionStateReceiver() {}
 
-/*
-std::string DroneLoggerROSModule::droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg)
+
+std::string MissionStateReceiver::droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg)
 {
     std::stringstream result_ss;
 
@@ -73,68 +73,7 @@ std::string DroneLoggerROSModule::droneMissionInfoCallback(const droneMsgsROS::d
 
     return result_ss.str();
 }
-  */
-/*
 
-std::string DroneLoggerROSModule::obstaclesTwoDimCallback(const droneMsgsROS::obstaclesTwoDim::ConstPtr &msg)
-{
-    std::stringstream result_ss;
-
-
-    //msg->walls
-    result_ss<< "walls_id:[";
-    for (unsigned int i=0; i<msg->walls.size(); i++) {
-        result_ss<<msg->walls[i].id<<";";
-    }
-    result_ss<<"]";
-    result_ss<<" walls_center:[";
-    for (unsigned int i=0; i<msg->walls.size(); i++) {
-        result_ss<<msg->walls[i].centerX<<",";
-        result_ss<<msg->walls[i].centerY<<";";
-    }
-    result_ss<<"]";
-
-    result_ss<<" walls_size:[";
-    for (unsigned int i=0; i<msg->walls.size(); i++) {
-        result_ss<<msg->walls[i].sizeX<<",";
-        result_ss<<msg->walls[i].sizeY<<";";
-    }
-    result_ss<<"]";
-
-    result_ss<<" walls_yaw:[";
-    for (unsigned int i=0; i<msg->walls.size(); i++) {
-        result_ss<<msg->walls[i].yawAngle<<";";
-    }
-    result_ss<<"]";
-
-    // msg->poles
-    result_ss<<" poles_id:[";
-    for (unsigned int i=0; i<msg->poles.size(); i++) {
-        result_ss<<msg->poles[i].id<<";";
-    }
-    result_ss<<"]";
-    result_ss<<" poles_center:[";
-    for (unsigned int i=0; i<msg->poles.size(); i++) {
-        result_ss<<msg->poles[i].centerX<<",";
-        result_ss<<msg->poles[i].centerY<<";";
-    }
-    result_ss<<"]";
-    result_ss<<" poles_size:[";
-    for (unsigned int i=0; i<msg->poles.size(); i++) {
-        result_ss<<msg->poles[i].radiusX<<",";
-        result_ss<<msg->poles[i].radiusY<<";";
-    }
-    result_ss<<"]";
-    result_ss<<" poles_yaw:[";
-    for (unsigned int i=0; i<msg->poles.size(); i++) {
-        result_ss<<msg->poles[i].yawAngle<<";";
-    }
-    result_ss<<"]";
-
-
-    return result_ss.str();
-}
-*/
 
 
 void MissionStateReceiver::log( const LogLevel &level, const std::string &msg) {

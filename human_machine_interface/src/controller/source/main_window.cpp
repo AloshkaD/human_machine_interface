@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_mainwindow.h"
+#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <qt4/Qt/qpointer.h>
@@ -139,8 +139,8 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 void MainWindow::updateDynamicViews()
 {
     // Get the frame and visualize with a pixmap in a QLabel.
-   ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,false));
-   ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,false));
+   ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,true));
+   ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,true));
 
 }
 
@@ -236,7 +236,7 @@ void MainWindow::displayFourGridCamera()
         widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
         ui->gridCamera->addWidget(widget,0,0);
-        fourCamera= new CameraGridOption(this);
+        fourCamera= new CameraGridOption(this,connection->imgReceiver);
         ui->gridCamera->addWidget(fourCamera,0,0);
         isOpen_fourCameraView=true;
     }
@@ -640,7 +640,7 @@ bool MainWindow::uniqueApplication()
 
 
     sprintf(command, "/bin/pidof %s", process_name);
-    
+
     // Check instances that share the process name
     fp = popen(command, "r");
     if (fp == NULL) {

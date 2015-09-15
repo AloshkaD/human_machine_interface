@@ -58,7 +58,7 @@
      <item>
       <widget class="QLineEdit" name="lineEdit">
        <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
+        <enum>Qt::ClickFocus</enum>
        </property>
        <property name="placeholderText">
         <string>Filter...</string>
@@ -70,13 +70,19 @@
    <item row="6" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="stop_display_button">
        <property name="text">
         <string>Stop Message Display</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/images.qrc">
-         <normaloff>:/images/images/ic_pause_24px.svg</normaloff>:/images/images/ic_pause_24px.svg</iconset>
+         <normaloff>:/images/images/ic_pause_24px.svg</normaloff>
+         <normalon>:/images/images/ic_play_arrow_24px.svg</normalon>
+         <activeon>:/images/images/ic_play_arrow_24px.svg</activeon>
+         <selectedon>:/images/images/ic_play_arrow_24px.svg</selectedon>:/images/images/ic_pause_24px.svg</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -220,8 +226,16 @@
        <property name="icon">
         <iconset resource="../resources/images.qrc">
          <normaloff>:/images/images/ic_radio_button_on_24px.svg</normaloff>
-         <activeoff>:/images/images/ic_pause_24px.svg</activeoff>
-         <selectedoff>:/images/images/ic_pause_24px.svg</selectedoff>:/images/images/ic_radio_button_on_24px.svg</iconset>
+         <normalon>:/images/images/ic_pause_24px.svg</normalon>
+         <disabledoff>:/images/images/ic_pause_24px.svg</disabledoff>
+         <disabledon>:/images/images/ic_pause_24px.svg</disabledon>
+         <activeoff>:/images/images/ic_radio_button_on_24px.svg</activeoff>
+         <activeon>:/images/images/ic_pause_24px.svg</activeon>
+         <selectedoff>:/images/images/ic_radio_button_on_24px.svg</selectedoff>
+         <selectedon>:/images/images/ic_pause_24px.svg</selectedon>:/images/images/ic_radio_button_on_24px.svg</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

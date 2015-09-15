@@ -54,6 +54,10 @@ bool RosGraphReceiver::ready() {
     return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
 }
 
+// TODO:: Check wifi connection topic callback
+//................
+
+
 void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg)
 {
 
@@ -89,10 +93,7 @@ void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::C
 
 void RosGraphReceiver::processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg)
 {
-
     listProcessState=*msg;
-
-
     for(unsigned int i = 0; i < msg->process_list.size(); i = i + 1)
     {
         node_container= msg->process_list.at(i);

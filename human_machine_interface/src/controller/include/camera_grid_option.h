@@ -2,6 +2,7 @@
 #define CAMERAGRIDOPTION_H
 
 #include <QWidget>
+#include "images_receiver.h"
 
 namespace Ui {
 class CameraGridOption;
@@ -12,11 +13,22 @@ class CameraGridOption : public QWidget
     Q_OBJECT
 
 public:
-    explicit CameraGridOption(QWidget *parent = 0);
+    explicit CameraGridOption(QWidget *parent = 0, ImagesReceiver *imgReceiver=0);
     ~CameraGridOption();
+    int current_camera;
+    int mainCamera;
+    QPixmap pixmap1;
+    QPixmap pixmap2;
+    QPixmap pixmap3;
+    QPixmap pixmap4;
+
+public Q_SLOTS:
+    void updateImage(const QPixmap* image, int id_camera);
 
 private:
     Ui::CameraGridOption *ui;
+    ImagesReceiver* imageReceiver;
+    QPixmap pix;
 };
 
 #endif 

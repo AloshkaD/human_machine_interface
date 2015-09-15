@@ -7,7 +7,7 @@
 */
 
 #include "../include/parameter_temporal_series.h"
-#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_parametertemporalseries.h"
+#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_parametertemporalseries.h"
 
 
 #include <qwt/qwt.h>
@@ -35,7 +35,6 @@ ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryState
     ui->setupUi(this);
     telemReceiver=telemetryReceiver;
     odomReceiver=odometryReceiver;
-
 
     // ESTRUCTURA DE VISUALIZACIÓN
     telemetry << "yaw" << "pitch" << "roll"  << "IMU.angular.vel.x"  << "IMU.angular.vel.y"  << "IMU.angular.vel.z"  << "IMU.accel.x"  << "IMU.accel.y"   << "IMU.accel.z" << "IMU.roll" << "IMU.pitch" << "IMU.yaw" << "IMU.yawPitch" << "altitude" << "altitudeSpeed" <<  "mag.X"<< "mag.Y"<< "mag.Z" << "groundSpeed.X"<< "groundSpeed.Y"<<"temperature"<<"pressure";
@@ -66,7 +65,8 @@ ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryState
 void ParameterTemporalSeries::setSignalHandlers()
 {
     connect(ui->treeWidget,SIGNAL(itemChanged(QTreeWidgetItem*,int)),plot,SLOT(clickToPlot(QTreeWidgetItem*, int)));
-    //connect(ui->spinBox_2, SIGNAL(valueChanged(int)),plot, SLOT(resizeAxisYScale(int)) );
+    connect(ui->spinBox_minAxis, SIGNAL(valueChanged(int)),plot, SLOT(resizeAxisYMinLimit(int)) );
+    connect(ui->spinBox_maxAxis, SIGNAL(valueChanged(int)),plot, SLOT(resizeAxisYMaxLimit(int)) );
     connect(ui->pushButton, SIGNAL(clicked()),plot, SLOT(saveAsSVG()) );
     connect(telemReceiver, SIGNAL( parameterReceived( )), this, SLOT(updateParametersValue( )));
     //  connect(ui->lineEdit,SIGNAL(textChanged(QString)),

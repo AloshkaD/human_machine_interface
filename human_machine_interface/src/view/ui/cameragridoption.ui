@@ -84,23 +84,6 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QWidget" name="widget_1" native="true">
-     <property name="statusTip">
-      <string>Show the camera views ordered in a grid</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-image: url(:/images/images/iarc_floor.png);</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QWidget" name="widget_2" native="true">
-     <property name="styleSheet">
-      <string notr="true">border-image: url(:/images/images/iarc_floor.png);</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0">
     <widget class="QFrame" name="frame_4">
      <property name="sizePolicy">
@@ -171,17 +154,31 @@
      </widget>
     </widget>
    </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="camera1_frame">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="camera2_frame">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
-    <widget class="QWidget" name="widget_5" native="true">
-     <property name="styleSheet">
-      <string notr="true">border-image: url(:/images/images/iarc_floor.png);</string>
+    <widget class="QLabel" name="camera3_frame">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QWidget" name="widget_4" native="true">
-     <property name="styleSheet">
-      <string notr="true">border-image: url(:/images/images/iarc_floor.png);</string>
+    <widget class="QLabel" name="camera4_frame">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>

@@ -18,17 +18,14 @@ public:
     virtual int heightForWidth( int width ) const;
     virtual QSize sizeHint() const;
     int current_image;
+
     ~CameraMainOption();
 
 
 public Q_SLOTS:
 
-    void updateImage1(const QPixmap* image);
-    void updateImage2(const QPixmap* image);
-    void updateImage3(const QPixmap* image);
-    void updateImage4(const QPixmap* image);
-    void updateImage5(const QPixmap* image);
-    void updateImage6(const QPixmap* image);
+
+    void updateImage(const QPixmap* image,int id_camera);
     void changeCurrentCamera(int direction);
     void saveCameraImages(const int camera_view_manager);
 

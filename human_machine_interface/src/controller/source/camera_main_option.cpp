@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/camera_main_option.h"
-#include "../.././../../../human_machine_interface-build/human_machine_interface/ui_cameramainoption.h"
+#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_cameramainoption.h"
 #include <qt4/Qt/qframe.h>
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qbuffer.h>
@@ -34,8 +34,8 @@ CameraMainOption::CameraMainOption(QWidget *parent,ImagesReceiver* imgReceiver) 
     signalMapper->setMapping(ui->leftButton,2);
     connect(signalMapper,SIGNAL(mapped(int)),this,SLOT(changeCurrentCamera(int)));
 
-    //connect(imageReceiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
-    connect(imageReceiver,SIGNAL(Update_Image1(const QPixmap*)),this,SLOT(updateImage1(const QPixmap*)));
+
+    connect(imageReceiver,SIGNAL(Update_Image(const QPixmap*,int)),this,SLOT(updateImage(const QPixmap*,int)));
     connect(parent, SIGNAL(saveImage(const int)), this, SLOT(saveCameraImages(const int)));
 }
 
@@ -143,7 +143,7 @@ void CameraMainOption::changeCurrentCamera(int direction) //TODO:Change label ti
 
 }
 
-void CameraMainOption::updateImage1(const QPixmap* image)
+void CameraMainOption::updateImage(const QPixmap* image,int id_camera)
 {
     pix = *image;
 
@@ -153,71 +153,6 @@ void CameraMainOption::updateImage1(const QPixmap* image)
         std::cout << "The camera 1 is activated" << std::endl;
     }else
         std::cout << "The camera 1 is disactivated" << std::endl;
-}
-
-
-void CameraMainOption::updateImage2(const QPixmap* image)
-{
-    pix = *image;
-
-    if(!image->isNull()){
-        ui->mainImage->setPixmap(pix);
-        ui->mainImage->setScaledContents( true );
-        std::cout << "The camera 2 is activated" << std::endl;
-    }else
-        std::cout << "The camera 2 is disactivated" << std::endl;
-
-}
-
-void CameraMainOption::updateImage3(const QPixmap* image)
-{
-    pix = *image;
-
-    if(!image->isNull()){
-        ui->mainImage->setPixmap(pix);
-        ui->mainImage->setScaledContents( true );
-        std::cout << "The camera 3 is activated" << std::endl;
-    }else
-        std::cout << "The camera 3 is disactivated" << std::endl;
-
-}
-
-void CameraMainOption::updateImage4(const QPixmap* image)
-{
-    pix = *image;
-
-    if(!image->isNull()){
-        ui->mainImage->setPixmap(pix);
-        ui->mainImage->setScaledContents( true );
-        std::cout << "The camera 4 is activated" << std::endl;
-    }else
-        std::cout << "The camera 4 is disactivated" << std::endl;
-}
-
-void CameraMainOption::updateImage5(const QPixmap* image)
-{
-    pix = *image;
-
-    if(!image->isNull()){
-        ui->mainImage->setPixmap(pix);
-        ui->mainImage->setScaledContents( true );
-        std::cout << "The camera 5 is activated" << std::endl;
-    }else
-        std::cout << "The camera 5 is disactivated" << std::endl;
-
-}
-
-void CameraMainOption::updateImage6(const QPixmap* image)
-{
-    pix = *image;
-
-    if(!image->isNull()){
-        ui->mainImage->setPixmap(pix);
-        ui->mainImage->setScaledContents( true );
-        std::cout << "The camera 6 is activated" << std::endl;
-    }else
-        std::cout << "The camera 6 is disactivated" << std::endl;
-
 }
 
 
