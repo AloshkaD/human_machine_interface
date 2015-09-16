@@ -112,6 +112,12 @@ public:
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
     void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
+    void printImuCallback(const sensor_msgs::Imu::ConstPtr& msg);
+    void printDronePitchRollCmdCallback(const droneMsgsROS::dronePitchRollCmd::ConstPtr& msg);
+    void printRotationAnglesCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg);
+    void printMagnetometerCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg);
+    void printAltitudeCallback(const droneMsgsROS::droneAltitude::ConstPtr& msg);
+    void printDronePositionCallback(const droneMsgsROS::dronePose::ConstPtr& msg);
 
 Q_SIGNALS:
 	    void loggingUpdated();

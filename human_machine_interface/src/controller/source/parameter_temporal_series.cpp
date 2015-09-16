@@ -186,16 +186,16 @@ void ParameterTemporalSeries::updateParametersValue(){
     QTreeWidgetItem * controllerItem=ui->tree_widget->topLevelItem(0);
 
 
-    controllerItem->child(0)->setText(1,QString::number(((double)((int)(odometry->DroneControllerPoseMsgs.x*100)))/100)+ "  m"); //xci
-    controllerItem->child(1)->setText(1,QString::number(((double)((int)(odometry->DroneControllerPoseMsgs.y*100)))/100)+ "  m"); //yci
-    controllerItem->child(2)->setText(1,QString::number(((double)((int)(odometry->DroneControllerPoseMsgs.z*100)))/100)+ "  m"); //zci
-    controllerItem->child(3)->setText(1,QString::number(((double)((int)(odometry->DroneControllerPoseMsgs.yaw*100)))/100)+ "  deg"); //yawci
-    controllerItem->child(4)->setText(1,QString::number(((double)((int)(odometry->DroneControllerPoseMsgs.pitch*100)))/100)+ "  deg"); //pitchci
-    controllerItem->child(5)->setText(1,QString::number(((double)((int)(odometry->DroneControllerPoseMsgs.roll*100)))/100)+ "  deg"); //rollci
-    controllerItem->child(6)->setText(1,QString::number(((double)((int)(odometry->DroneControllerSpeedsMsgs.dx*100)))/100)+ "  m/s"); //vxci
-    controllerItem->child(7)->setText(1,QString::number(((double)((int)(odometry->DroneControllerSpeedsMsgs.dy)))/100)+ "  m/s"); //vyci
-    controllerItem->child(8)->setText(1,QString::number(((double)((int)(odometry->DroneControllerSpeedsMsgs.dz)))/100)+ "  m/s"); //vzci
-    controllerItem->child(9)->setText(1,QString::number(((double)((int)(odometry->DroneControllerSpeedsMsgs.dyaw)))/100)+ "  m/s"); //dyawfi
+    controllerItem->child(0)->setText(1,QString::number(((double)((int)(odometry->drone_controller_pose_msgs.x*100)))/100)+ "  m"); //xci
+    controllerItem->child(1)->setText(1,QString::number(((double)((int)(odometry->drone_controller_pose_msgs.y*100)))/100)+ "  m"); //yci
+    controllerItem->child(2)->setText(1,QString::number(((double)((int)(odometry->drone_controller_pose_msgs.z*100)))/100)+ "  m"); //zci
+    controllerItem->child(3)->setText(1,QString::number(((double)((int)(odometry->drone_controller_pose_msgs.yaw*100)))/100)+ "  deg"); //yawci
+    controllerItem->child(4)->setText(1,QString::number(((double)((int)(odometry->drone_controller_pose_msgs.pitch*100)))/100)+ "  deg"); //pitchci
+    controllerItem->child(5)->setText(1,QString::number(((double)((int)(odometry->drone_controller_pose_msgs.roll*100)))/100)+ "  deg"); //rollci
+    controllerItem->child(6)->setText(1,QString::number(((double)((int)(odometry->drone_controller_speeds_msgs.dx*100)))/100)+ "  m/s"); //vxci
+    controllerItem->child(7)->setText(1,QString::number(((double)((int)(odometry->drone_controller_speeds_msgs.dy)))/100)+ "  m/s"); //vyci
+    controllerItem->child(8)->setText(1,QString::number(((double)((int)(odometry->drone_controller_speeds_msgs.dz)))/100)+ "  m/s"); //vzci
+    controllerItem->child(9)->setText(1,QString::number(((double)((int)(odometry->drone_controller_speeds_msgs.dyaw)))/100)+ "  m/s"); //dyawfi
 
     EKF->child(0)->setText(1,QString::number(((double)((int)(odometry->drone_pose_msgs.x*100)))/100) + "  m"); //x
     EKF->child(1)->setText(1,QString::number(((double)((int)(odometry->drone_pose_msgs.y*100)))/100) + "  m"); //y
@@ -203,12 +203,12 @@ void ParameterTemporalSeries::updateParametersValue(){
     EKF->child(3)->setText(1,QString::number(((double)((int)(odometry->drone_pose_msgs.yaw*100)))/100) + "  deg"); //yaw
     EKF->child(4)->setText(1,QString::number(((double)((int)(odometry->drone_pose_msgs.pitch*100)))/100) + "  deg"); //pitch
     EKF->child(5)->setText(1,QString::number(((double)((int)(odometry->drone_pose_msgs.roll*100)))/100) + "  deg"); //roll
-    EKF->child(6)->setText(1,QString::number(((double)((int)(odometry->DroneSpeedsMsgs.dx*100)))/100) + "  m/s"); //dx
-    EKF->child(7)->setText(1,QString::number(((double)((int)(odometry->DroneSpeedsMsgs.dy*100)))/100) + "  m/s"); //dy
-    EKF->child(8)->setText(1,QString::number(((double)((int)(odometry->DroneSpeedsMsgs.dz*100)))/100) + "  m/s"); //dz
-    EKF->child(9)->setText(1,QString::number(((double)((int)(odometry->DroneSpeedsMsgs.dyaw*100)))/100) + "  m/s"); //dyaw
-    EKF->child(10)->setText(1,QString::number(((double)((int)(odometry->DroneSpeedsMsgs.dpitch*100)))/100) + "  m/s"); //dpitch
-    EKF->child(11)->setText(1,QString::number(((double)((int)(odometry->DroneSpeedsMsgs.droll*100)))/100) + "  m/s");  //droll
+    EKF->child(6)->setText(1,QString::number(((double)((int)(odometry->drone_speeds_msgs.dx*100)))/100) + "  m/s"); //dx
+    EKF->child(7)->setText(1,QString::number(((double)((int)(odometry->drone_speeds_msgs.dy*100)))/100) + "  m/s"); //dy
+    EKF->child(8)->setText(1,QString::number(((double)((int)(odometry->drone_speeds_msgs.dz*100)))/100) + "  m/s"); //dz
+    EKF->child(9)->setText(1,QString::number(((double)((int)(odometry->drone_speeds_msgs.dyaw*100)))/100) + "  m/s"); //dyaw
+    EKF->child(10)->setText(1,QString::number(((double)((int)(odometry->drone_speeds_msgs.dpitch*100)))/100) + "  m/s"); //dpitch
+    EKF->child(11)->setText(1,QString::number(((double)((int)(odometry->drone_speeds_msgs.droll*100)))/100) + "  m/s");  //droll
 
 
     telemetryItem->child(0)->setText(1,QString::number(((double)((int)(telem_receiver->rotation_angles_msgs.vector.z*100)))/100) + "  deg");//yaw

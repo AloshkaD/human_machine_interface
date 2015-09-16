@@ -164,6 +164,7 @@ void MainWindow::setSignalHandlers()
     connect(connection,SIGNAL(connectionEstablish( )),this, SLOT(testConnection()));
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateDynamicsPanel( )));
+    connect(connection->usercommander, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
     //connect(connection->telemetryReceiver, SIGNAL( parameterReceived( )), this, SLOT(show_frame()));
     connect(ui->take_off_button,SIGNAL(clicked()),this, SLOT(onStartButton()));
     connect(ui->land_button,SIGNAL(clicked()),this, SLOT(onLandButton()));
@@ -290,39 +291,70 @@ void MainWindow::updateStatusBar()
 {
 
     if (connection->connect_status){
-        switch(connection->telemetry_receiver->droneStatusMsgs.status)
+        switch(connection->usercommander->lastDroneManagerStatusMsg.status)
         {
-        case droneMsgsROS::droneStatus::UNKNOWN:
-            ui->value_currentGoal->setText("Unknown");
+        case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD:
+            ui->value_currentGoal->setText("Moving Manual Altitud");
             break;
-        case droneMsgsROS::droneStatus::INITED:
-            ui->value_currentGoal->setText("Init");
+        case droneMsgsROS::droneManagerStatus::EMERGENCY:
+            ui->value_currentGoal->setText("Emergency");
             break;
-        case droneMsgsROS::droneStatus::LANDED:
-            ui->value_currentGoal->setText("Landed");
-            break;
-        case droneMsgsROS::droneStatus::FLYING:
-            ui->value_currentGoal->setText("Flying");
-            break;
-        case droneMsgsROS::droneStatus::HOVERING:
+        case droneMsgsROS::droneManagerStatus::HOVERING:
             ui->value_currentGoal->setText("Hovering");
             break;
-        case droneMsgsROS::droneStatus::TAKING_OFF:
-            ui->value_currentGoal->setText("Taking off");
+        case droneMsgsROS::droneManagerStatus::HOVERING_VISUAL_SERVOING:
+            ui->value_currentGoal->setText("Hovering Visual Servoing");
             break;
-        case droneMsgsROS::droneStatus::LANDING:
+        case droneMsgsROS::droneManagerStatus::LANDED:
+            ui->value_currentGoal->setText("Landed");
+            break;
+        case droneMsgsROS::droneManagerStatus::LANDING:
             ui->value_currentGoal->setText("Landing");
             break;
-        case droneMsgsROS::droneStatus::LOOPING:
-            ui->value_currentGoal->setText("Looping");
+        case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_THRUST:
+            ui->value_currentGoal->setText("Moving Manual Thrust");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_POSITION:
+            ui->value_currentGoal->setText("Moving Position");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_SPEED:
+            ui->value_currentGoal->setText("Moving Speed");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_TRAJECTORY:
+            ui->value_currentGoal->setText("Moving Trajectory");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_FLIP:
+            ui->value_currentGoal->setText("Moving Flip");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_FLIP_BACK:
+            ui->value_currentGoal->setText("Moving Flip Back");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_FLIP_FRONT:
+            ui->value_currentGoal->setText("Moving Flip Front");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_FLIP_LEFT:
+            ui->value_currentGoal->setText("Moving Flip Left");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_FLIP_RIGHT:
+            ui->value_currentGoal->setText("Moving Flip Right");
+            break;
+        case droneMsgsROS::droneManagerStatus::UNKNOWN:
+            ui->value_currentGoal->setText("Unknow");
+            break;
+        case droneMsgsROS::droneManagerStatus::TAKINGOFF:
+            ui->value_currentGoal->setText("Taking Off");
+            break;
+        case droneMsgsROS::droneManagerStatus::SLEEPING:
+            ui->value_currentGoal->setText("Sleeping");
+            break;
         }
 
-        if(connection->telemetry_receiver->battery_msgs.battery_percent<=25.0&&connection->telemetry_receiver->battery_msgs.battery_percent!=0){
+        if(connection->telemetry_receiver->battery_msgs.batteryPercent<=25.0&&connection->telemetry_receiver->battery_msgs.batteryPercent!=0){
             QPalette* palette = new QPalette();
             palette->setColor(QPalette::WindowText,Qt::red);
             ui->value_battery->setPalette(*palette);
         }
-        ui->value_battery->setText(QString::number(connection->telemetry_receiver->battery_msgs.battery_percent) +  "%");
+        ui->value_battery->setText(QString::number(connection->telemetry_receiver->battery_msgs.batteryPercent) +  "%");
     }
 }
 

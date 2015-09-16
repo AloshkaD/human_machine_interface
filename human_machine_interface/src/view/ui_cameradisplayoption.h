@@ -1,3 +1,11 @@
+/********************************************************************************
+** Form generated from reading UI file 'cameradisplayoption.ui'
+**
+** Created by: Qt User Interface Compiler version 4.8.6
+**
+** WARNING! All changes made in this file will be lost when recompiling UI file!
+********************************************************************************/
+
 #ifndef UI_CAMERADISPLAYOPTION_H
 #define UI_CAMERADISPLAYOPTION_H
 
@@ -18,24 +26,24 @@ class Ui_cameraDisplayOption
 {
 public:
     QGridLayout *gridLayout;
-    QFrame *frameCamera1;
-    QLabel *titleCamera1;
-    QFrame *frameCamera2;
-    QLabel *titleCamera2;
-    QPushButton *imageCamera1;
-    QPushButton *imageCamera2;
-    QFrame *frameCamera3;
-    QLabel *titleCamera3;
-    QPushButton *imageCamera3;
-    QFrame *frameCamera6;
-    QLabel *titleCamera6;
-    QFrame *frameCamera5;
-    QLabel *titleCamera5;
+    QFrame *frame_camera1;
+    QLabel *title_camera1;
+    QFrame *frame_camera2;
+    QLabel *title_camera2;
+    QPushButton *image_camera1;
+    QPushButton *image_camera2;
+    QFrame *frame_camera3;
+    QLabel *title_camera3;
+    QPushButton *image_camera3;
+    QFrame *frame_camera6;
+    QLabel *title_camera6;
+    QFrame *frame_camera5;
+    QLabel *title_camera5;
     QFrame *frameCamera4;
-    QLabel *titleCamera4;
-    QPushButton *imageCamera6;
-    QPushButton *imageCamera5;
-    QPushButton *imageCamera4;
+    QLabel *title_camera4;
+    QPushButton *image_camera6;
+    QPushButton *image_camera5;
+    QPushButton *image_camera4;
 
     void setupUi(QWidget *cameraDisplayOption)
     {
@@ -44,112 +52,112 @@ public:
         cameraDisplayOption->resize(965, 718);
         gridLayout = new QGridLayout(cameraDisplayOption);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        frameCamera1 = new QFrame(cameraDisplayOption);
-        frameCamera1->setObjectName(QString::fromUtf8("frameCamera1"));
+        frame_camera1 = new QFrame(cameraDisplayOption);
+        frame_camera1->setObjectName(QString::fromUtf8("frame_camera1"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(frameCamera1->sizePolicy().hasHeightForWidth());
-        frameCamera1->setSizePolicy(sizePolicy);
-        frameCamera1->setMaximumSize(QSize(16777215, 20));
-        frameCamera1->setFrameShape(QFrame::StyledPanel);
-        frameCamera1->setFrameShadow(QFrame::Raised);
-        titleCamera1 = new QLabel(frameCamera1);
-        titleCamera1->setObjectName(QString::fromUtf8("titleCamera1"));
-        titleCamera1->setGeometry(QRect(10, 0, 67, 17));
+        sizePolicy.setHeightForWidth(frame_camera1->sizePolicy().hasHeightForWidth());
+        frame_camera1->setSizePolicy(sizePolicy);
+        frame_camera1->setMaximumSize(QSize(16777215, 20));
+        frame_camera1->setFrameShape(QFrame::StyledPanel);
+        frame_camera1->setFrameShadow(QFrame::Raised);
+        title_camera1 = new QLabel(frame_camera1);
+        title_camera1->setObjectName(QString::fromUtf8("title_camera1"));
+        title_camera1->setGeometry(QRect(10, 0, 67, 17));
 
-        gridLayout->addWidget(frameCamera1, 0, 0, 1, 2);
+        gridLayout->addWidget(frame_camera1, 0, 0, 1, 2);
 
-        frameCamera2 = new QFrame(cameraDisplayOption);
-        frameCamera2->setObjectName(QString::fromUtf8("frameCamera2"));
-        sizePolicy.setHeightForWidth(frameCamera2->sizePolicy().hasHeightForWidth());
-        frameCamera2->setSizePolicy(sizePolicy);
-        frameCamera2->setMaximumSize(QSize(16777215, 20));
-        frameCamera2->setFrameShape(QFrame::StyledPanel);
-        frameCamera2->setFrameShadow(QFrame::Raised);
-        titleCamera2 = new QLabel(frameCamera2);
-        titleCamera2->setObjectName(QString::fromUtf8("titleCamera2"));
-        titleCamera2->setGeometry(QRect(10, 0, 67, 17));
+        frame_camera2 = new QFrame(cameraDisplayOption);
+        frame_camera2->setObjectName(QString::fromUtf8("frame_camera2"));
+        sizePolicy.setHeightForWidth(frame_camera2->sizePolicy().hasHeightForWidth());
+        frame_camera2->setSizePolicy(sizePolicy);
+        frame_camera2->setMaximumSize(QSize(16777215, 20));
+        frame_camera2->setFrameShape(QFrame::StyledPanel);
+        frame_camera2->setFrameShadow(QFrame::Raised);
+        title_camera2 = new QLabel(frame_camera2);
+        title_camera2->setObjectName(QString::fromUtf8("title_camera2"));
+        title_camera2->setGeometry(QRect(10, 0, 67, 17));
 
-        gridLayout->addWidget(frameCamera2, 0, 2, 1, 1);
+        gridLayout->addWidget(frame_camera2, 0, 2, 1, 1);
 
-        imageCamera1 = new QPushButton(cameraDisplayOption);
-        imageCamera1->setObjectName(QString::fromUtf8("imageCamera1"));
+        image_camera1 = new QPushButton(cameraDisplayOption);
+        image_camera1->setObjectName(QString::fromUtf8("image_camera1"));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(imageCamera1->sizePolicy().hasHeightForWidth());
-        imageCamera1->setSizePolicy(sizePolicy1);
-        imageCamera1->setFocusPolicy(Qt::NoFocus);
-        imageCamera1->setCheckable(false);
-        imageCamera1->setAutoDefault(false);
-        imageCamera1->setDefault(false);
-        imageCamera1->setFlat(false);
+        sizePolicy1.setHeightForWidth(image_camera1->sizePolicy().hasHeightForWidth());
+        image_camera1->setSizePolicy(sizePolicy1);
+        image_camera1->setFocusPolicy(Qt::NoFocus);
+        image_camera1->setCheckable(false);
+        image_camera1->setAutoDefault(false);
+        image_camera1->setDefault(false);
+        image_camera1->setFlat(false);
 
-        gridLayout->addWidget(imageCamera1, 1, 0, 3, 2);
+        gridLayout->addWidget(image_camera1, 1, 0, 3, 2);
 
-        imageCamera2 = new QPushButton(cameraDisplayOption);
-        imageCamera2->setObjectName(QString::fromUtf8("imageCamera2"));
-        sizePolicy1.setHeightForWidth(imageCamera2->sizePolicy().hasHeightForWidth());
-        imageCamera2->setSizePolicy(sizePolicy1);
-        imageCamera2->setFocusPolicy(Qt::NoFocus);
-        imageCamera2->setAutoFillBackground(false);
-        imageCamera2->setCheckable(false);
-        imageCamera2->setAutoDefault(false);
-        imageCamera2->setDefault(false);
+        image_camera2 = new QPushButton(cameraDisplayOption);
+        image_camera2->setObjectName(QString::fromUtf8("image_camera2"));
+        sizePolicy1.setHeightForWidth(image_camera2->sizePolicy().hasHeightForWidth());
+        image_camera2->setSizePolicy(sizePolicy1);
+        image_camera2->setFocusPolicy(Qt::NoFocus);
+        image_camera2->setAutoFillBackground(false);
+        image_camera2->setCheckable(false);
+        image_camera2->setAutoDefault(false);
+        image_camera2->setDefault(false);
 
-        gridLayout->addWidget(imageCamera2, 1, 2, 1, 1);
+        gridLayout->addWidget(image_camera2, 1, 2, 1, 1);
 
-        frameCamera3 = new QFrame(cameraDisplayOption);
-        frameCamera3->setObjectName(QString::fromUtf8("frameCamera3"));
-        sizePolicy.setHeightForWidth(frameCamera3->sizePolicy().hasHeightForWidth());
-        frameCamera3->setSizePolicy(sizePolicy);
-        frameCamera3->setMaximumSize(QSize(16777215, 20));
-        frameCamera3->setFrameShape(QFrame::StyledPanel);
-        frameCamera3->setFrameShadow(QFrame::Raised);
-        titleCamera3 = new QLabel(frameCamera3);
-        titleCamera3->setObjectName(QString::fromUtf8("titleCamera3"));
-        titleCamera3->setGeometry(QRect(10, 0, 67, 17));
+        frame_camera3 = new QFrame(cameraDisplayOption);
+        frame_camera3->setObjectName(QString::fromUtf8("frame_camera3"));
+        sizePolicy.setHeightForWidth(frame_camera3->sizePolicy().hasHeightForWidth());
+        frame_camera3->setSizePolicy(sizePolicy);
+        frame_camera3->setMaximumSize(QSize(16777215, 20));
+        frame_camera3->setFrameShape(QFrame::StyledPanel);
+        frame_camera3->setFrameShadow(QFrame::Raised);
+        title_camera3 = new QLabel(frame_camera3);
+        title_camera3->setObjectName(QString::fromUtf8("title_camera3"));
+        title_camera3->setGeometry(QRect(10, 0, 67, 17));
 
-        gridLayout->addWidget(frameCamera3, 2, 2, 1, 1);
+        gridLayout->addWidget(frame_camera3, 2, 2, 1, 1);
 
-        imageCamera3 = new QPushButton(cameraDisplayOption);
-        imageCamera3->setObjectName(QString::fromUtf8("imageCamera3"));
-        sizePolicy1.setHeightForWidth(imageCamera3->sizePolicy().hasHeightForWidth());
-        imageCamera3->setSizePolicy(sizePolicy1);
-        imageCamera3->setFocusPolicy(Qt::NoFocus);
-        imageCamera3->setCheckable(false);
-        imageCamera3->setAutoDefault(false);
-        imageCamera3->setDefault(false);
-        imageCamera3->setFlat(false);
+        image_camera3 = new QPushButton(cameraDisplayOption);
+        image_camera3->setObjectName(QString::fromUtf8("image_camera3"));
+        sizePolicy1.setHeightForWidth(image_camera3->sizePolicy().hasHeightForWidth());
+        image_camera3->setSizePolicy(sizePolicy1);
+        image_camera3->setFocusPolicy(Qt::NoFocus);
+        image_camera3->setCheckable(false);
+        image_camera3->setAutoDefault(false);
+        image_camera3->setDefault(false);
+        image_camera3->setFlat(false);
 
-        gridLayout->addWidget(imageCamera3, 3, 2, 1, 1);
+        gridLayout->addWidget(image_camera3, 3, 2, 1, 1);
 
-        frameCamera6 = new QFrame(cameraDisplayOption);
-        frameCamera6->setObjectName(QString::fromUtf8("frameCamera6"));
-        sizePolicy.setHeightForWidth(frameCamera6->sizePolicy().hasHeightForWidth());
-        frameCamera6->setSizePolicy(sizePolicy);
-        frameCamera6->setMaximumSize(QSize(16777215, 20));
-        frameCamera6->setFrameShape(QFrame::StyledPanel);
-        frameCamera6->setFrameShadow(QFrame::Raised);
-        titleCamera6 = new QLabel(frameCamera6);
-        titleCamera6->setObjectName(QString::fromUtf8("titleCamera6"));
-        titleCamera6->setGeometry(QRect(10, 0, 67, 17));
+        frame_camera6 = new QFrame(cameraDisplayOption);
+        frame_camera6->setObjectName(QString::fromUtf8("frame_camera6"));
+        sizePolicy.setHeightForWidth(frame_camera6->sizePolicy().hasHeightForWidth());
+        frame_camera6->setSizePolicy(sizePolicy);
+        frame_camera6->setMaximumSize(QSize(16777215, 20));
+        frame_camera6->setFrameShape(QFrame::StyledPanel);
+        frame_camera6->setFrameShadow(QFrame::Raised);
+        title_camera6 = new QLabel(frame_camera6);
+        title_camera6->setObjectName(QString::fromUtf8("title_camera6"));
+        title_camera6->setGeometry(QRect(10, 0, 67, 17));
 
-        gridLayout->addWidget(frameCamera6, 4, 0, 1, 1);
+        gridLayout->addWidget(frame_camera6, 4, 0, 1, 1);
 
-        frameCamera5 = new QFrame(cameraDisplayOption);
-        frameCamera5->setObjectName(QString::fromUtf8("frameCamera5"));
-        sizePolicy.setHeightForWidth(frameCamera5->sizePolicy().hasHeightForWidth());
-        frameCamera5->setSizePolicy(sizePolicy);
-        frameCamera5->setMaximumSize(QSize(16777215, 20));
-        frameCamera5->setFrameShape(QFrame::StyledPanel);
-        frameCamera5->setFrameShadow(QFrame::Raised);
-        titleCamera5 = new QLabel(frameCamera5);
-        titleCamera5->setObjectName(QString::fromUtf8("titleCamera5"));
-        titleCamera5->setGeometry(QRect(10, 0, 67, 17));
+        frame_camera5 = new QFrame(cameraDisplayOption);
+        frame_camera5->setObjectName(QString::fromUtf8("frame_camera5"));
+        sizePolicy.setHeightForWidth(frame_camera5->sizePolicy().hasHeightForWidth());
+        frame_camera5->setSizePolicy(sizePolicy);
+        frame_camera5->setMaximumSize(QSize(16777215, 20));
+        frame_camera5->setFrameShape(QFrame::StyledPanel);
+        frame_camera5->setFrameShadow(QFrame::Raised);
+        title_camera5 = new QLabel(frame_camera5);
+        title_camera5->setObjectName(QString::fromUtf8("title_camera5"));
+        title_camera5->setGeometry(QRect(10, 0, 67, 17));
 
-        gridLayout->addWidget(frameCamera5, 4, 1, 1, 1);
+        gridLayout->addWidget(frame_camera5, 4, 1, 1, 1);
 
         frameCamera4 = new QFrame(cameraDisplayOption);
         frameCamera4->setObjectName(QString::fromUtf8("frameCamera4"));
@@ -158,47 +166,47 @@ public:
         frameCamera4->setMaximumSize(QSize(16777215, 20));
         frameCamera4->setFrameShape(QFrame::StyledPanel);
         frameCamera4->setFrameShadow(QFrame::Raised);
-        titleCamera4 = new QLabel(frameCamera4);
-        titleCamera4->setObjectName(QString::fromUtf8("titleCamera4"));
-        titleCamera4->setGeometry(QRect(10, 0, 67, 17));
+        title_camera4 = new QLabel(frameCamera4);
+        title_camera4->setObjectName(QString::fromUtf8("title_camera4"));
+        title_camera4->setGeometry(QRect(10, 0, 67, 17));
 
         gridLayout->addWidget(frameCamera4, 4, 2, 1, 1);
 
-        imageCamera6 = new QPushButton(cameraDisplayOption);
-        imageCamera6->setObjectName(QString::fromUtf8("imageCamera6"));
-        sizePolicy1.setHeightForWidth(imageCamera6->sizePolicy().hasHeightForWidth());
-        imageCamera6->setSizePolicy(sizePolicy1);
-        imageCamera6->setFocusPolicy(Qt::NoFocus);
-        imageCamera6->setCheckable(false);
-        imageCamera6->setAutoDefault(false);
-        imageCamera6->setDefault(false);
-        imageCamera6->setFlat(false);
+        image_camera6 = new QPushButton(cameraDisplayOption);
+        image_camera6->setObjectName(QString::fromUtf8("image_camera6"));
+        sizePolicy1.setHeightForWidth(image_camera6->sizePolicy().hasHeightForWidth());
+        image_camera6->setSizePolicy(sizePolicy1);
+        image_camera6->setFocusPolicy(Qt::NoFocus);
+        image_camera6->setCheckable(false);
+        image_camera6->setAutoDefault(false);
+        image_camera6->setDefault(false);
+        image_camera6->setFlat(false);
 
-        gridLayout->addWidget(imageCamera6, 5, 0, 1, 1);
+        gridLayout->addWidget(image_camera6, 5, 0, 1, 1);
 
-        imageCamera5 = new QPushButton(cameraDisplayOption);
-        imageCamera5->setObjectName(QString::fromUtf8("imageCamera5"));
-        sizePolicy1.setHeightForWidth(imageCamera5->sizePolicy().hasHeightForWidth());
-        imageCamera5->setSizePolicy(sizePolicy1);
-        imageCamera5->setFocusPolicy(Qt::NoFocus);
-        imageCamera5->setCheckable(false);
-        imageCamera5->setAutoDefault(false);
-        imageCamera5->setDefault(false);
-        imageCamera5->setFlat(false);
+        image_camera5 = new QPushButton(cameraDisplayOption);
+        image_camera5->setObjectName(QString::fromUtf8("image_camera5"));
+        sizePolicy1.setHeightForWidth(image_camera5->sizePolicy().hasHeightForWidth());
+        image_camera5->setSizePolicy(sizePolicy1);
+        image_camera5->setFocusPolicy(Qt::NoFocus);
+        image_camera5->setCheckable(false);
+        image_camera5->setAutoDefault(false);
+        image_camera5->setDefault(false);
+        image_camera5->setFlat(false);
 
-        gridLayout->addWidget(imageCamera5, 5, 1, 1, 1);
+        gridLayout->addWidget(image_camera5, 5, 1, 1, 1);
 
-        imageCamera4 = new QPushButton(cameraDisplayOption);
-        imageCamera4->setObjectName(QString::fromUtf8("imageCamera4"));
-        sizePolicy1.setHeightForWidth(imageCamera4->sizePolicy().hasHeightForWidth());
-        imageCamera4->setSizePolicy(sizePolicy1);
-        imageCamera4->setFocusPolicy(Qt::NoFocus);
-        imageCamera4->setCheckable(false);
-        imageCamera4->setAutoDefault(false);
-        imageCamera4->setDefault(false);
-        imageCamera4->setFlat(false);
+        image_camera4 = new QPushButton(cameraDisplayOption);
+        image_camera4->setObjectName(QString::fromUtf8("image_camera4"));
+        sizePolicy1.setHeightForWidth(image_camera4->sizePolicy().hasHeightForWidth());
+        image_camera4->setSizePolicy(sizePolicy1);
+        image_camera4->setFocusPolicy(Qt::NoFocus);
+        image_camera4->setCheckable(false);
+        image_camera4->setAutoDefault(false);
+        image_camera4->setDefault(false);
+        image_camera4->setFlat(false);
 
-        gridLayout->addWidget(imageCamera4, 5, 2, 1, 1);
+        gridLayout->addWidget(image_camera4, 5, 2, 1, 1);
 
 
         retranslateUi(cameraDisplayOption);
@@ -212,18 +220,18 @@ public:
 #ifndef QT_NO_STATUSTIP
         cameraDisplayOption->setStatusTip(QApplication::translate("cameraDisplayOption", "Allows the user to monitorize different cameras and select the main camera.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_STATUSTIP
-        titleCamera1->setText(QApplication::translate("cameraDisplayOption", "Camera 1", 0, QApplication::UnicodeUTF8));
-        titleCamera2->setText(QApplication::translate("cameraDisplayOption", "Camera 2", 0, QApplication::UnicodeUTF8));
-        imageCamera1->setText(QString());
-        imageCamera2->setText(QString());
-        titleCamera3->setText(QApplication::translate("cameraDisplayOption", "Camera 3", 0, QApplication::UnicodeUTF8));
-        imageCamera3->setText(QString());
-        titleCamera6->setText(QApplication::translate("cameraDisplayOption", "Camera 6", 0, QApplication::UnicodeUTF8));
-        titleCamera5->setText(QApplication::translate("cameraDisplayOption", "Camera 5", 0, QApplication::UnicodeUTF8));
-        titleCamera4->setText(QApplication::translate("cameraDisplayOption", "Camera 4", 0, QApplication::UnicodeUTF8));
-        imageCamera6->setText(QString());
-        imageCamera5->setText(QString());
-        imageCamera4->setText(QString());
+        title_camera1->setText(QApplication::translate("cameraDisplayOption", "Camera 1", 0, QApplication::UnicodeUTF8));
+        title_camera2->setText(QApplication::translate("cameraDisplayOption", "Camera 2", 0, QApplication::UnicodeUTF8));
+        image_camera1->setText(QString());
+        image_camera2->setText(QString());
+        title_camera3->setText(QApplication::translate("cameraDisplayOption", "Camera 3", 0, QApplication::UnicodeUTF8));
+        image_camera3->setText(QString());
+        title_camera6->setText(QApplication::translate("cameraDisplayOption", "Camera 6", 0, QApplication::UnicodeUTF8));
+        title_camera5->setText(QApplication::translate("cameraDisplayOption", "Camera 5", 0, QApplication::UnicodeUTF8));
+        title_camera4->setText(QApplication::translate("cameraDisplayOption", "Camera 4", 0, QApplication::UnicodeUTF8));
+        image_camera6->setText(QString());
+        image_camera5->setText(QString());
+        image_camera4->setText(QString());
     } // retranslateUi
 
 };

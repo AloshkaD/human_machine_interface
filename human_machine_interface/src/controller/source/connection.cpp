@@ -31,7 +31,7 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
    
     connect_status=false;
     ReadSettings();
-    connect(ui->connectButton,SIGNAL(clicked(bool)),this, SLOT(onButton_connect_clicked(bool)));
+    connect(ui->connect_button,SIGNAL(clicked(bool)),this, SLOT(onButton_connect_clicked(bool)));
 }
 
 
@@ -48,7 +48,7 @@ void Connection::onButton_connect_clicked(bool check)
             connect_status=false;
          }else{
             connect_status=true;
-            ui->connectButton->setEnabled(false);
+            ui->connect_button->setEnabled(false);
          }
     }else{
         master=ui->line_edit_master->text().toStdString();
@@ -56,7 +56,7 @@ void Connection::onButton_connect_clicked(bool check)
         if(!this->init(master,host)){
             connect_status=false;
         }else{
-            ui->connectButton->setEnabled(false);
+            ui->connect_button->setEnabled(false);
             ui->line_edit_master->setReadOnly(true);
             ui->line_edit_host->setReadOnly(true);
             connect_status=true;
@@ -130,13 +130,15 @@ bool Connection::init(const std::string &master_url, const std::string &host_url
     return Connection::initInCommon();
 }
 
-bool Connection::readyForConnect(){
+bool Connection::readyForConnect()
+{
     if(!telemetry_receiver->ready() || !odometry_receiver->ready() || !img_receiver->ready() || !graph_receiver->ready() || !usercommander->ready())
         return false;
     return true;
 }
 
-void Connection::spinnerThread(){
+void Connection::spinnerThread()
+{
     ros::spin();
     if(ros::isStarted()) {
       ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.

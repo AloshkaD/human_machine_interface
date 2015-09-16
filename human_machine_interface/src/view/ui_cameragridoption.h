@@ -1,3 +1,11 @@
+/********************************************************************************
+** Form generated from reading UI file 'cameragridoption.ui'
+**
+** Created by: Qt User Interface Compiler version 4.8.6
+**
+** WARNING! All changes made in this file will be lost when recompiling UI file!
+********************************************************************************/
+
 #ifndef UI_CAMERAGRIDOPTION_H
 #define UI_CAMERAGRIDOPTION_H
 
@@ -21,14 +29,14 @@ public:
     QLabel *label;
     QFrame *frame_2;
     QLabel *label_2;
-    QWidget *widget_1;
-    QWidget *widget_2;
     QFrame *frame_4;
     QLabel *label_3;
     QFrame *frame_3;
     QLabel *label_4;
-    QWidget *widget_5;
-    QWidget *widget_4;
+    QLabel *camera1_frame;
+    QLabel *camera2_frame;
+    QLabel *camera3_frame;
+    QLabel *camera4_frame;
 
     void setupUi(QWidget *CameraGridOption)
     {
@@ -66,18 +74,6 @@ public:
 
         gridLayout->addWidget(frame_2, 0, 1, 1, 1);
 
-        widget_1 = new QWidget(CameraGridOption);
-        widget_1->setObjectName(QString::fromUtf8("widget_1"));
-        widget_1->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
-
-        gridLayout->addWidget(widget_1, 1, 0, 1, 1);
-
-        widget_2 = new QWidget(CameraGridOption);
-        widget_2->setObjectName(QString::fromUtf8("widget_2"));
-        widget_2->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
-
-        gridLayout->addWidget(widget_2, 1, 1, 1, 1);
-
         frame_4 = new QFrame(CameraGridOption);
         frame_4->setObjectName(QString::fromUtf8("frame_4"));
         sizePolicy.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
@@ -104,17 +100,25 @@ public:
 
         gridLayout->addWidget(frame_3, 2, 1, 1, 1);
 
-        widget_5 = new QWidget(CameraGridOption);
-        widget_5->setObjectName(QString::fromUtf8("widget_5"));
-        widget_5->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
+        camera1_frame = new QLabel(CameraGridOption);
+        camera1_frame->setObjectName(QString::fromUtf8("camera1_frame"));
 
-        gridLayout->addWidget(widget_5, 3, 0, 1, 1);
+        gridLayout->addWidget(camera1_frame, 1, 0, 1, 1);
 
-        widget_4 = new QWidget(CameraGridOption);
-        widget_4->setObjectName(QString::fromUtf8("widget_4"));
-        widget_4->setStyleSheet(QString::fromUtf8("border-image: url(:/images/images/iarc_floor.png);"));
+        camera2_frame = new QLabel(CameraGridOption);
+        camera2_frame->setObjectName(QString::fromUtf8("camera2_frame"));
 
-        gridLayout->addWidget(widget_4, 3, 1, 1, 1);
+        gridLayout->addWidget(camera2_frame, 1, 1, 1, 1);
+
+        camera3_frame = new QLabel(CameraGridOption);
+        camera3_frame->setObjectName(QString::fromUtf8("camera3_frame"));
+
+        gridLayout->addWidget(camera3_frame, 3, 0, 1, 1);
+
+        camera4_frame = new QLabel(CameraGridOption);
+        camera4_frame->setObjectName(QString::fromUtf8("camera4_frame"));
+
+        gridLayout->addWidget(camera4_frame, 3, 1, 1, 1);
 
 
         retranslateUi(CameraGridOption);
@@ -127,11 +131,12 @@ public:
         CameraGridOption->setWindowTitle(QApplication::translate("CameraGridOption", "Form", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("CameraGridOption", "Camera 1", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("CameraGridOption", "Camera 2", 0, QApplication::UnicodeUTF8));
-#ifndef QT_NO_STATUSTIP
-        widget_1->setStatusTip(QApplication::translate("CameraGridOption", "Show the camera views ordered in a grid", 0, QApplication::UnicodeUTF8));
-#endif // QT_NO_STATUSTIP
         label_3->setText(QApplication::translate("CameraGridOption", "Camera 3", 0, QApplication::UnicodeUTF8));
         label_4->setText(QApplication::translate("CameraGridOption", "Camera 4", 0, QApplication::UnicodeUTF8));
+        camera1_frame->setText(QString());
+        camera2_frame->setText(QString());
+        camera3_frame->setText(QString());
+        camera4_frame->setText(QString());
     } // retranslateUi
 
 };

@@ -189,11 +189,11 @@ void CameraDisplayOption::swapWidgets(QPushButton* image_to_swap, QString title_
 
     QString main_title;
     int row, col, col_span, row_span;
-    int index = ui->grid_layout->indexOf(image_to_swap); //position of the imageCamera2
+    int index = ui->gridLayout->indexOf(image_to_swap); //position of the imageCamera2
 
     if(index != -1)
     {
-        ui->grid_layout->getItemPosition(index, &row, &col, &col_span, &row_span);
+        ui->gridLayout->getItemPosition(index, &row, &col, &col_span, &row_span);
         qDebug() << "Clicked Item is at:" << row << col
                  << "spanning" << row_span << col_span;
     }
@@ -201,38 +201,38 @@ void CameraDisplayOption::swapWidgets(QPushButton* image_to_swap, QString title_
     {
     case 1:{
         main_title="Camera 1";
-        ui->grid_layout->addWidget(ui->image_camera1,row,col,row_span,col_span); // Swap main widget in the widget position clicked.
+        ui->gridLayout->addWidget(ui->image_camera1,row,col,row_span,col_span); // Swap main widget in the widget position clicked.
         break;
     }
     case 2:{
         main_title="Camera 2";
-        ui->grid_layout->addWidget(ui->image_camera2,row,col,row_span,col_span);
+        ui->gridLayout->addWidget(ui->image_camera2,row,col,row_span,col_span);
         break;
     }
     case 3:{
         main_title="Camera 3";
-        ui->grid_layout->addWidget(ui->image_camera3,row,col,row_span,col_span);
+        ui->gridLayout->addWidget(ui->image_camera3,row,col,row_span,col_span);
         break;
     }
     case 4:{
         main_title="Camera 4";
-        ui->grid_layout->addWidget(ui->image_camera4,row,col,row_span,col_span);
+        ui->gridLayout->addWidget(ui->image_camera4,row,col,row_span,col_span);
         break;
     }
     case 5:{
         main_title="Camera 5";
-        ui->grid_layout->addWidget(ui->image_camera5,row,col,row_span,col_span);
+        ui->gridLayout->addWidget(ui->image_camera5,row,col,row_span,col_span);
         break;
     }
     case 6:{
         main_title="Camera 6";
-        ui->grid_layout->addWidget(ui->image_camera6,row,col,row_span,col_span);
+        ui->gridLayout->addWidget(ui->image_camera6,row,col,row_span,col_span);
         break;
     }
 
     }
 
-    ui->grid_layout->addWidget(image_to_swap,1,0,3,2); // add the button to the main grid
+    ui->gridLayout->addWidget(image_to_swap,1,0,3,2); // add the button to the main grid
     ui->title_camera1->setText(title_to_swap);// add title to the main grid
 
     if(row==1 && col==0)

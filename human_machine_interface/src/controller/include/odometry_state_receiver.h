@@ -73,6 +73,14 @@ public:
 	void log( const LogLevel &level, const std::string &msg);
         void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
         void readParams(ros::NodeHandle nodeHandle);
+        void printDroneArucoEstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg);
+        void printDroneArucoEstimatedSpeedCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg);
+        void printDroneGMREstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg);
+        void printDroneGMREstimatedSpeedCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg);
+        void printDronePoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg);
+        void printDroneSpeedsCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg);
+        void printDroneSOEstimatedPoseCallback(const droneMsgsROS::dronePose::ConstPtr &msg);
+        void printDroneSOEstimatedSpeedsCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg);
 
 Q_SIGNALS:
         void loggingUpdated();

@@ -133,6 +133,11 @@ DataPlot::DataPlot(QWidget *parent, TelemetryStateReceiver* collector, OdometryS
     mY->attach(this);
 #endif
 
+    initAxisX();
+    initAxisY();
+    initCurves();
+
+    setTimerInterval(1000);// 1 second = 1000
 }
 
 
@@ -467,10 +472,7 @@ void DataPlot::timerEvent(QTimerEvent *e)
 void DataPlot::onParameterReceived()
 {
     connect_status=true;
-    initAxisX();
-    initAxisY();
-    initCurves();
-    setTimerInterval(1000);// 1 second = 1000
+
 }
 
 void DataPlot::resizeAxisXScale(int ms)

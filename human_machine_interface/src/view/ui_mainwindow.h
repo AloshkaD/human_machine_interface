@@ -1,3 +1,11 @@
+/********************************************************************************
+** Form generated from reading UI file 'mainwindow.ui'
+**
+** Created by: Qt User Interface Compiler version 4.8.6
+**
+** WARNING! All changes made in this file will be lost when recompiling UI file!
+********************************************************************************/
+
 #ifndef UI_MAINWINDOW_H
 #define UI_MAINWINDOW_H
 
@@ -15,6 +23,7 @@
 #include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
+#include <QtGui/QSplitter>
 #include <QtGui/QStatusBar>
 #include <QtGui/QTabWidget>
 #include <QtGui/QToolButton>
@@ -27,113 +36,114 @@ class Ui_MainWindow
 public:
     QAction *actionOpen_perception_configuration;
     QAction *actionNew_connection;
-    QAction *actionCameras;
+    QAction *action_cameras;
     QAction *actionParameter_Temporal_Series;
     QAction *actionProcess_Monitor;
     QAction *actionSystem_Status;
     QAction *action3D_Perception_View;
     QAction *actionContents;
-    QAction *on_actionAbout_Human_Machine_Interface;
+    QAction *actionAbout_Human_Machine_Interface;
     QAction *actionUser_Commands_Manual;
     QAction *actionCommunication_Console;
-    QWidget *centralWidget;
-    QGridLayout *gridLayout_9;
-    QTabWidget *tabManager;
-    QWidget *tabParameters;
-    QGridLayout *gridLayout_8;
-    QGridLayout *gridParameters;
-    QWidget *tabCameraView;
-    QGridLayout *gridLayout;
-    QWidget *widget_CamOptions;
-    QGridLayout *gridLayout_10;
-    QPushButton *mainCameraButton;
-    QPushButton *fourCameraButton;
-    QLabel *labelDisplayOptions;
-    QPushButton *oneCameraButton;
-    QSpacerItem *horizontalSpacer;
-    QPushButton *saveImageButton;
-    QGridLayout *gridCamera;
-    QWidget *tabPerformance;
-    QGridLayout *gridLayout_11;
-    QGridLayout *gridPerformance;
+    QWidget *central_widget;
+    QGridLayout *gridLayout_2;
+    QSplitter *splitter;
     QWidget *widget;
     QGridLayout *gridLayout_7;
-    QTabWidget *tab_controlPanel;
-    QWidget *widget_controlPanel;
-    QGridLayout *gridLayout_5;
-    QLabel *label_flyingTime;
-    QLabel *value_Warnings;
-    QPushButton *emergencyStop_Button;
-    QLabel *label_warnings;
-    QLabel *value_currentGoal;
-    QLabel *value_wifi;
-    QToolButton *yawzeroButton;
-    QToolButton *resetButton;
-    QLabel *value_battery;
-    QToolButton *hoverButton;
-    QComboBox *selection_vehicle;
-    QLabel *value_FligthTime;
-    QFrame *line_2;
-    QLabel *value_Errors;
-    QComboBox *selection_mode;
-    QLabel *label_battery_2;
-    QLabel *label_controlMode;
-    QLabel *label_selVehicle;
-    QLabel *label_currentGoal;
-    QToolButton *landButton;
-    QFrame *line;
-    QLabel *label_wifi;
-    QLabel *label_errors;
-    QToolButton *takeoffButton;
-    QTabWidget *tab_dynamicView;
+    QTabWidget *tab_dynamic_view;
     QWidget *widget_vehicle;
     QGridLayout *gridLayout_3;
     QGridLayout *grid_vehicle;
     QFrame *panel_vehicle;
     QGridLayout *grid_panelVehicle;
-    QLabel *valueVehicle_Yaw;
-    QLabel *labelVehicle_X;
-    QLabel *valueVehicle_roll;
-    QLabel *labelVehicle_Z;
-    QLabel *labelVehicle_yaw;
-    QSpacerItem *horizontalSpacer_right;
-    QLabel *labelVehicle_roll;
-    QLabel *valueVehicle_Y;
-    QSpacerItem *horizontalSpacer_left;
-    QLabel *valueVehicle_pitch;
-    QLabel *valueVehicle_X;
-    QSpacerItem *horizontalSpacer_middle;
-    QLabel *labelVehicle_Y;
-    QLabel *labelVehicle_pitch;
-    QLabel *valueVehicle_Z;
-    QLabel *vehicleScene;
+    QLabel *value_vehicle_yaw;
+    QLabel *label_vehicle_x;
+    QLabel *value_vehicle_roll;
+    QLabel *label_vehicle_z;
+    QLabel *label_vehicle_yaw;
+    QSpacerItem *horizontal_spacer_right;
+    QLabel *label_vehicle_roll;
+    QLabel *value_vehicle_y;
+    QSpacerItem *horizontal_spacer_left;
+    QLabel *value_vehicle_pitch;
+    QLabel *value_vehicle_x;
+    QSpacerItem *horizontal_spacer_middle;
+    QLabel *label_vehicle_y;
+    QLabel *label_vehicle_pitch;
+    QLabel *value_vehicle_z;
+    QLabel *vehicle_scene;
     QWidget *widget_sphere;
     QGridLayout *gridLayout_4;
     QGridLayout *grid_sphere;
-    QLabel *sphereScene;
+    QLabel *sphere_scene;
     QFrame *panel_sphere;
     QGridLayout *grid_panelSphere;
-    QLabel *valueSphere_yaw;
-    QLabel *labelSphere_X;
-    QLabel *valueSphere_roll;
-    QLabel *labelSphere_Z;
-    QLabel *labelSphere_yaw;
-    QSpacerItem *horizontalSpacer_right_2;
-    QLabel *labelSphere_roll;
-    QLabel *valueSphere_Y;
-    QSpacerItem *horizontalSpacer_left_2;
-    QLabel *labelSphere_Y;
-    QLabel *valueSphere_pitch;
-    QLabel *labelSphere_pitch;
-    QLabel *valueSphere_X;
-    QSpacerItem *horizontalSpacer_middle_2;
-    QLabel *valueSphere_Z;
-    QMenuBar *menuBar;
-    QMenu *menuFile;
-    QMenu *menuView;
-    QMenu *menuSettings;
-    QMenu *menuHelp;
-    QStatusBar *statusBar;
+    QLabel *value_sphere_yaw;
+    QLabel *label_sphere_x;
+    QLabel *value_sphere_roll;
+    QLabel *label_sphere_z;
+    QLabel *label_sphere_yaw;
+    QSpacerItem *horizontal_spacer_right_2;
+    QLabel *label_sphere_roll;
+    QLabel *value_sphere_y;
+    QSpacerItem *horizontal_spacer_left_2;
+    QLabel *label_sphere_y;
+    QLabel *value_sphere_pitch;
+    QLabel *label_sphere_pitch;
+    QLabel *value_sphere_x;
+    QSpacerItem *horizontal_spacer_middle_2;
+    QLabel *value_sphere_z;
+    QTabWidget *tab_control_panel;
+    QWidget *widget_control_panel;
+    QGridLayout *gridLayout_5;
+    QLabel *value_fligth_time;
+    QComboBox *selection_vehicle;
+    QLabel *label_errors;
+    QPushButton *emergency_stop_button;
+    QLabel *label_wifi;
+    QToolButton *take_off_button;
+    QFrame *line_2;
+    QToolButton *yaw_zero_button;
+    QToolButton *hover_button;
+    QLabel *value_battery;
+    QToolButton *reset_button;
+    QLabel *label_flying_time;
+    QLabel *value_errors;
+    QLabel *label_control_mode;
+    QFrame *line;
+    QLabel *value_currentGoal;
+    QLabel *label_sel_vehicle;
+    QLabel *label_battery_2;
+    QLabel *value_wifi;
+    QLabel *label_current_goal;
+    QToolButton *land_button;
+    QComboBox *selection_mode;
+    QSpacerItem *horizontal_spacer_2;
+    QSpacerItem *horizontal_spacer_3;
+    QTabWidget *tab_manager;
+    QWidget *tab_parameters;
+    QGridLayout *gridLayout_8;
+    QGridLayout *grid_parameters;
+    QWidget *tab_camera_view;
+    QGridLayout *gridLayout;
+    QPushButton *save_image_button;
+    QWidget *widget_cam_options;
+    QGridLayout *gridLayout_10;
+    QPushButton *main_camera_button;
+    QPushButton *four_camera_button;
+    QLabel *label_display_options;
+    QPushButton *one_camera_button;
+    QSpacerItem *horizontal_spacer;
+    QGridLayout *grid_camera;
+    QWidget *tab_performance;
+    QGridLayout *gridLayout_11;
+    QGridLayout *grid_performance;
+    QMenuBar *menu_bar;
+    QMenu *menu_file;
+    QMenu *menu_view;
+    QMenu *menu_settings;
+    QMenu *menu_help;
+    QStatusBar *status_bar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -155,8 +165,8 @@ public:
         actionOpen_perception_configuration->setObjectName(QString::fromUtf8("actionOpen_perception_configuration"));
         actionNew_connection = new QAction(MainWindow);
         actionNew_connection->setObjectName(QString::fromUtf8("actionNew_connection"));
-        actionCameras = new QAction(MainWindow);
-        actionCameras->setObjectName(QString::fromUtf8("actionCameras"));
+        action_cameras = new QAction(MainWindow);
+        action_cameras->setObjectName(QString::fromUtf8("action_cameras"));
         actionParameter_Temporal_Series = new QAction(MainWindow);
         actionParameter_Temporal_Series->setObjectName(QString::fromUtf8("actionParameter_Temporal_Series"));
         actionProcess_Monitor = new QAction(MainWindow);
@@ -167,153 +177,28 @@ public:
         action3D_Perception_View->setObjectName(QString::fromUtf8("action3D_Perception_View"));
         actionContents = new QAction(MainWindow);
         actionContents->setObjectName(QString::fromUtf8("actionContents"));
-        on_actionAbout_Human_Machine_Interface = new QAction(MainWindow);
-        on_actionAbout_Human_Machine_Interface->setObjectName(QString::fromUtf8("on_actionAbout_Human_Machine_Interface"));
+        actionAbout_Human_Machine_Interface = new QAction(MainWindow);
+        actionAbout_Human_Machine_Interface->setObjectName(QString::fromUtf8("actionAbout_Human_Machine_Interface"));
         actionUser_Commands_Manual = new QAction(MainWindow);
         actionUser_Commands_Manual->setObjectName(QString::fromUtf8("actionUser_Commands_Manual"));
         actionCommunication_Console = new QAction(MainWindow);
         actionCommunication_Console->setObjectName(QString::fromUtf8("actionCommunication_Console"));
-        centralWidget = new QWidget(MainWindow);
-        centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        gridLayout_9 = new QGridLayout(centralWidget);
-        gridLayout_9->setSpacing(6);
-        gridLayout_9->setContentsMargins(11, 11, 11, 11);
-        gridLayout_9->setObjectName(QString::fromUtf8("gridLayout_9"));
-        tabManager = new QTabWidget(centralWidget);
-        tabManager->setObjectName(QString::fromUtf8("tabManager"));
-        tabManager->setEnabled(true);
-        sizePolicy.setHeightForWidth(tabManager->sizePolicy().hasHeightForWidth());
-        tabManager->setSizePolicy(sizePolicy);
-        tabManager->setMinimumSize(QSize(0, 0));
-        tabManager->setMaximumSize(QSize(32909, 1501));
-        tabManager->setSizeIncrement(QSize(0, 0));
-        tabManager->setBaseSize(QSize(0, 0));
-        tabManager->setFocusPolicy(Qt::NoFocus);
-        tabManager->setTabShape(QTabWidget::Rounded);
-        tabManager->setElideMode(Qt::ElideNone);
-        tabManager->setUsesScrollButtons(false);
-        tabManager->setDocumentMode(false);
-        tabParameters = new QWidget();
-        tabParameters->setObjectName(QString::fromUtf8("tabParameters"));
-        gridLayout_8 = new QGridLayout(tabParameters);
-        gridLayout_8->setSpacing(6);
-        gridLayout_8->setContentsMargins(11, 11, 11, 11);
-        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
-        gridLayout_8->setContentsMargins(-1, 0, -1, -1);
-        gridParameters = new QGridLayout();
-        gridParameters->setSpacing(6);
-        gridParameters->setObjectName(QString::fromUtf8("gridParameters"));
-        gridParameters->setHorizontalSpacing(0);
-
-        gridLayout_8->addLayout(gridParameters, 0, 0, 1, 1);
-
-        tabManager->addTab(tabParameters, QString());
-        tabCameraView = new QWidget();
-        tabCameraView->setObjectName(QString::fromUtf8("tabCameraView"));
-        gridLayout = new QGridLayout(tabCameraView);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        widget_CamOptions = new QWidget(tabCameraView);
-        widget_CamOptions->setObjectName(QString::fromUtf8("widget_CamOptions"));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        central_widget = new QWidget(MainWindow);
+        central_widget->setObjectName(QString::fromUtf8("central_widget"));
+        gridLayout_2 = new QGridLayout(central_widget);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        splitter = new QSplitter(central_widget);
+        splitter->setObjectName(QString::fromUtf8("splitter"));
+        splitter->setOrientation(Qt::Horizontal);
+        widget = new QWidget(splitter);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(widget_CamOptions->sizePolicy().hasHeightForWidth());
-        widget_CamOptions->setSizePolicy(sizePolicy1);
-        widget_CamOptions->setMaximumSize(QSize(270, 75));
-        gridLayout_10 = new QGridLayout(widget_CamOptions);
-        gridLayout_10->setSpacing(6);
-        gridLayout_10->setContentsMargins(11, 11, 11, 11);
-        gridLayout_10->setObjectName(QString::fromUtf8("gridLayout_10"));
-        gridLayout_10->setContentsMargins(-1, 0, -1, -1);
-        mainCameraButton = new QPushButton(widget_CamOptions);
-        mainCameraButton->setObjectName(QString::fromUtf8("mainCameraButton"));
-        sizePolicy1.setHeightForWidth(mainCameraButton->sizePolicy().hasHeightForWidth());
-        mainCameraButton->setSizePolicy(sizePolicy1);
-        mainCameraButton->setMaximumSize(QSize(30, 30));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/images/images/multiplecameraview.png"), QSize(), QIcon::Normal, QIcon::Off);
-        mainCameraButton->setIcon(icon);
-        mainCameraButton->setIconSize(QSize(70, 35));
-
-        gridLayout_10->addWidget(mainCameraButton, 1, 1, 1, 1);
-
-        fourCameraButton = new QPushButton(widget_CamOptions);
-        fourCameraButton->setObjectName(QString::fromUtf8("fourCameraButton"));
-        sizePolicy1.setHeightForWidth(fourCameraButton->sizePolicy().hasHeightForWidth());
-        fourCameraButton->setSizePolicy(sizePolicy1);
-        fourCameraButton->setMaximumSize(QSize(30, 30));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/images/images/ic_view_stream_24px.png"), QSize(), QIcon::Normal, QIcon::Off);
-        fourCameraButton->setIcon(icon1);
-        fourCameraButton->setIconSize(QSize(40, 40));
-
-        gridLayout_10->addWidget(fourCameraButton, 1, 2, 1, 1);
-
-        labelDisplayOptions = new QLabel(widget_CamOptions);
-        labelDisplayOptions->setObjectName(QString::fromUtf8("labelDisplayOptions"));
-
-        gridLayout_10->addWidget(labelDisplayOptions, 0, 0, 1, 3);
-
-        oneCameraButton = new QPushButton(widget_CamOptions);
-        oneCameraButton->setObjectName(QString::fromUtf8("oneCameraButton"));
-        sizePolicy1.setHeightForWidth(oneCameraButton->sizePolicy().hasHeightForWidth());
-        oneCameraButton->setSizePolicy(sizePolicy1);
-        oneCameraButton->setMaximumSize(QSize(30, 30));
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/images/images/ic_image_24px.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        oneCameraButton->setIcon(icon2);
-        oneCameraButton->setIconSize(QSize(25, 25));
-
-        gridLayout_10->addWidget(oneCameraButton, 1, 0, 1, 1);
-
-
-        gridLayout->addWidget(widget_CamOptions, 0, 0, 1, 1);
-
-        horizontalSpacer = new QSpacerItem(747, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout->addItem(horizontalSpacer, 0, 1, 1, 1);
-
-        saveImageButton = new QPushButton(tabCameraView);
-        saveImageButton->setObjectName(QString::fromUtf8("saveImageButton"));
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/images/images/ .svg"), QSize(), QIcon::Normal, QIcon::Off);
-        saveImageButton->setIcon(icon3);
-
-        gridLayout->addWidget(saveImageButton, 0, 2, 1, 1);
-
-        gridCamera = new QGridLayout();
-        gridCamera->setSpacing(0);
-        gridCamera->setObjectName(QString::fromUtf8("gridCamera"));
-
-        gridLayout->addLayout(gridCamera, 1, 0, 1, 3);
-
-        tabManager->addTab(tabCameraView, QString());
-        tabPerformance = new QWidget();
-        tabPerformance->setObjectName(QString::fromUtf8("tabPerformance"));
-        gridLayout_11 = new QGridLayout(tabPerformance);
-        gridLayout_11->setSpacing(6);
-        gridLayout_11->setContentsMargins(11, 11, 11, 11);
-        gridLayout_11->setObjectName(QString::fromUtf8("gridLayout_11"));
-        gridLayout_11->setContentsMargins(-1, 0, -1, -1);
-        gridPerformance = new QGridLayout();
-        gridPerformance->setSpacing(6);
-        gridPerformance->setObjectName(QString::fromUtf8("gridPerformance"));
-
-        gridLayout_11->addLayout(gridPerformance, 0, 0, 1, 1);
-
-        tabManager->addTab(tabPerformance, QString());
-
-        gridLayout_9->addWidget(tabManager, 0, 1, 1, 1);
-
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
+        widget->setSizePolicy(sizePolicy1);
         widget->setMinimumSize(QSize(350, 0));
         widget->setMaximumSize(QSize(350, 16777215));
         widget->setLayoutDirection(Qt::LeftToRight);
@@ -324,312 +209,20 @@ public:
         gridLayout_7->setHorizontalSpacing(6);
         gridLayout_7->setVerticalSpacing(4);
         gridLayout_7->setContentsMargins(-1, 0, -1, 0);
-        tab_controlPanel = new QTabWidget(widget);
-        tab_controlPanel->setObjectName(QString::fromUtf8("tab_controlPanel"));
-        sizePolicy2.setHeightForWidth(tab_controlPanel->sizePolicy().hasHeightForWidth());
-        tab_controlPanel->setSizePolicy(sizePolicy2);
-        tab_controlPanel->setMinimumSize(QSize(0, 380));
-        tab_controlPanel->setMaximumSize(QSize(350, 800));
-        tab_controlPanel->setFocusPolicy(Qt::NoFocus);
-        tab_controlPanel->setUsesScrollButtons(false);
-        widget_controlPanel = new QWidget();
-        widget_controlPanel->setObjectName(QString::fromUtf8("widget_controlPanel"));
-        gridLayout_5 = new QGridLayout(widget_controlPanel);
-        gridLayout_5->setSpacing(6);
-        gridLayout_5->setContentsMargins(11, 11, 11, 11);
-        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
-        gridLayout_5->setContentsMargins(-1, -1, -1, 0);
-        label_flyingTime = new QLabel(widget_controlPanel);
-        label_flyingTime->setObjectName(QString::fromUtf8("label_flyingTime"));
-        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Maximum);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_flyingTime->sizePolicy().hasHeightForWidth());
-        label_flyingTime->setSizePolicy(sizePolicy3);
-
-        gridLayout_5->addWidget(label_flyingTime, 2, 0, 1, 2);
-
-        value_Warnings = new QLabel(widget_controlPanel);
-        value_Warnings->setObjectName(QString::fromUtf8("value_Warnings"));
-        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Preferred);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(value_Warnings->sizePolicy().hasHeightForWidth());
-        value_Warnings->setSizePolicy(sizePolicy4);
-        value_Warnings->setMinimumSize(QSize(100, 0));
-
-        gridLayout_5->addWidget(value_Warnings, 5, 3, 1, 3);
-
-        emergencyStop_Button = new QPushButton(widget_controlPanel);
-        emergencyStop_Button->setObjectName(QString::fromUtf8("emergencyStop_Button"));
-        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(emergencyStop_Button->sizePolicy().hasHeightForWidth());
-        emergencyStop_Button->setSizePolicy(sizePolicy5);
-        emergencyStop_Button->setFocusPolicy(Qt::NoFocus);
-        QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/images/images/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
-        emergencyStop_Button->setIcon(icon4);
-        emergencyStop_Button->setAutoRepeat(true);
-        emergencyStop_Button->setAutoDefault(true);
-        emergencyStop_Button->setDefault(true);
-
-        gridLayout_5->addWidget(emergencyStop_Button, 11, 0, 1, 6);
-
-        label_warnings = new QLabel(widget_controlPanel);
-        label_warnings->setObjectName(QString::fromUtf8("label_warnings"));
-        QSizePolicy sizePolicy6(QSizePolicy::Minimum, QSizePolicy::Maximum);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(label_warnings->sizePolicy().hasHeightForWidth());
-        label_warnings->setSizePolicy(sizePolicy6);
-        label_warnings->setMinimumSize(QSize(140, 0));
-
-        gridLayout_5->addWidget(label_warnings, 5, 0, 1, 3);
-
-        value_currentGoal = new QLabel(widget_controlPanel);
-        value_currentGoal->setObjectName(QString::fromUtf8("value_currentGoal"));
-        sizePolicy4.setHeightForWidth(value_currentGoal->sizePolicy().hasHeightForWidth());
-        value_currentGoal->setSizePolicy(sizePolicy4);
-        value_currentGoal->setMinimumSize(QSize(100, 0));
-
-        gridLayout_5->addWidget(value_currentGoal, 3, 3, 1, 3);
-
-        value_wifi = new QLabel(widget_controlPanel);
-        value_wifi->setObjectName(QString::fromUtf8("value_wifi"));
-        sizePolicy4.setHeightForWidth(value_wifi->sizePolicy().hasHeightForWidth());
-        value_wifi->setSizePolicy(sizePolicy4);
-        value_wifi->setMinimumSize(QSize(100, 0));
-
-        gridLayout_5->addWidget(value_wifi, 0, 3, 1, 3);
-
-        yawzeroButton = new QToolButton(widget_controlPanel);
-        yawzeroButton->setObjectName(QString::fromUtf8("yawzeroButton"));
-        sizePolicy5.setHeightForWidth(yawzeroButton->sizePolicy().hasHeightForWidth());
-        yawzeroButton->setSizePolicy(sizePolicy5);
-        yawzeroButton->setMinimumSize(QSize(60, 0));
-        yawzeroButton->setMaximumSize(QSize(60, 16777215));
-        QFont font;
-        font.setPointSize(10);
-        yawzeroButton->setFont(font);
-        yawzeroButton->setFocusPolicy(Qt::NoFocus);
-        QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/images/images/arrow-up.png"), QSize(), QIcon::Normal, QIcon::Off);
-        yawzeroButton->setIcon(icon5);
-        yawzeroButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-
-        gridLayout_5->addWidget(yawzeroButton, 10, 2, 1, 2);
-
-        resetButton = new QToolButton(widget_controlPanel);
-        resetButton->setObjectName(QString::fromUtf8("resetButton"));
-        sizePolicy5.setHeightForWidth(resetButton->sizePolicy().hasHeightForWidth());
-        resetButton->setSizePolicy(sizePolicy5);
-        resetButton->setMinimumSize(QSize(60, 0));
-        resetButton->setMaximumSize(QSize(60, 16777215));
-        resetButton->setFont(font);
-        resetButton->setFocusPolicy(Qt::NoFocus);
-        QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/images/images/reset.png"), QSize(), QIcon::Normal, QIcon::Off);
-        resetButton->setIcon(icon6);
-        resetButton->setIconSize(QSize(14, 14));
-        resetButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-
-        gridLayout_5->addWidget(resetButton, 10, 5, 1, 1);
-
-        value_battery = new QLabel(widget_controlPanel);
-        value_battery->setObjectName(QString::fromUtf8("value_battery"));
-        sizePolicy4.setHeightForWidth(value_battery->sizePolicy().hasHeightForWidth());
-        value_battery->setSizePolicy(sizePolicy4);
-        value_battery->setMinimumSize(QSize(100, 0));
-
-        gridLayout_5->addWidget(value_battery, 1, 3, 1, 3);
-
-        hoverButton = new QToolButton(widget_controlPanel);
-        hoverButton->setObjectName(QString::fromUtf8("hoverButton"));
-        hoverButton->setMinimumSize(QSize(60, 0));
-        hoverButton->setMaximumSize(QSize(60, 70));
-        hoverButton->setFont(font);
-        hoverButton->setFocusPolicy(Qt::NoFocus);
-        QIcon icon7;
-        icon7.addFile(QString::fromUtf8(":/images/images/air_plane_airport_2.png"), QSize(), QIcon::Normal, QIcon::Off);
-        hoverButton->setIcon(icon7);
-        hoverButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-
-        gridLayout_5->addWidget(hoverButton, 10, 4, 1, 1);
-
-        selection_vehicle = new QComboBox(widget_controlPanel);
-        selection_vehicle->setObjectName(QString::fromUtf8("selection_vehicle"));
-        sizePolicy1.setHeightForWidth(selection_vehicle->sizePolicy().hasHeightForWidth());
-        selection_vehicle->setSizePolicy(sizePolicy1);
-        selection_vehicle->setMinimumSize(QSize(0, 25));
-        selection_vehicle->setMaximumSize(QSize(185, 370));
-        selection_vehicle->setFocusPolicy(Qt::NoFocus);
-        selection_vehicle->setLayoutDirection(Qt::LeftToRight);
-        selection_vehicle->setInsertPolicy(QComboBox::InsertAtTop);
-        selection_vehicle->setFrame(true);
-
-        gridLayout_5->addWidget(selection_vehicle, 7, 2, 1, 4);
-
-        value_FligthTime = new QLabel(widget_controlPanel);
-        value_FligthTime->setObjectName(QString::fromUtf8("value_FligthTime"));
-        sizePolicy4.setHeightForWidth(value_FligthTime->sizePolicy().hasHeightForWidth());
-        value_FligthTime->setSizePolicy(sizePolicy4);
-        value_FligthTime->setMinimumSize(QSize(100, 0));
-
-        gridLayout_5->addWidget(value_FligthTime, 2, 3, 1, 3);
-
-        line_2 = new QFrame(widget_controlPanel);
-        line_2->setObjectName(QString::fromUtf8("line_2"));
-        line_2->setFrameShape(QFrame::HLine);
-        line_2->setFrameShadow(QFrame::Sunken);
-
-        gridLayout_5->addWidget(line_2, 9, 0, 1, 6);
-
-        value_Errors = new QLabel(widget_controlPanel);
-        value_Errors->setObjectName(QString::fromUtf8("value_Errors"));
-        sizePolicy4.setHeightForWidth(value_Errors->sizePolicy().hasHeightForWidth());
-        value_Errors->setSizePolicy(sizePolicy4);
-        value_Errors->setMinimumSize(QSize(100, 0));
-
-        gridLayout_5->addWidget(value_Errors, 4, 3, 1, 3);
-
-        selection_mode = new QComboBox(widget_controlPanel);
-        selection_mode->setObjectName(QString::fromUtf8("selection_mode"));
-        sizePolicy1.setHeightForWidth(selection_mode->sizePolicy().hasHeightForWidth());
-        selection_mode->setSizePolicy(sizePolicy1);
-        selection_mode->setMinimumSize(QSize(1, 25));
-        selection_mode->setMaximumSize(QSize(185, 300));
-        selection_mode->setFocusPolicy(Qt::NoFocus);
-
-        gridLayout_5->addWidget(selection_mode, 8, 2, 1, 4);
-
-        label_battery_2 = new QLabel(widget_controlPanel);
-        label_battery_2->setObjectName(QString::fromUtf8("label_battery_2"));
-        sizePolicy3.setHeightForWidth(label_battery_2->sizePolicy().hasHeightForWidth());
-        label_battery_2->setSizePolicy(sizePolicy3);
-
-        gridLayout_5->addWidget(label_battery_2, 1, 0, 1, 2);
-
-        label_controlMode = new QLabel(widget_controlPanel);
-        label_controlMode->setObjectName(QString::fromUtf8("label_controlMode"));
-        QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Maximum);
-        sizePolicy7.setHorizontalStretch(0);
-        sizePolicy7.setVerticalStretch(0);
-        sizePolicy7.setHeightForWidth(label_controlMode->sizePolicy().hasHeightForWidth());
-        label_controlMode->setSizePolicy(sizePolicy7);
-        label_controlMode->setMinimumSize(QSize(120, 0));
-
-        gridLayout_5->addWidget(label_controlMode, 8, 0, 1, 2);
-
-        label_selVehicle = new QLabel(widget_controlPanel);
-        label_selVehicle->setObjectName(QString::fromUtf8("label_selVehicle"));
-        sizePolicy7.setHeightForWidth(label_selVehicle->sizePolicy().hasHeightForWidth());
-        label_selVehicle->setSizePolicy(sizePolicy7);
-        label_selVehicle->setMinimumSize(QSize(120, 0));
-
-        gridLayout_5->addWidget(label_selVehicle, 7, 0, 1, 2);
-
-        label_currentGoal = new QLabel(widget_controlPanel);
-        label_currentGoal->setObjectName(QString::fromUtf8("label_currentGoal"));
-        sizePolicy7.setHeightForWidth(label_currentGoal->sizePolicy().hasHeightForWidth());
-        label_currentGoal->setSizePolicy(sizePolicy7);
-        label_currentGoal->setMinimumSize(QSize(120, 0));
-
-        gridLayout_5->addWidget(label_currentGoal, 3, 0, 1, 2);
-
-        landButton = new QToolButton(widget_controlPanel);
-        landButton->setObjectName(QString::fromUtf8("landButton"));
-        sizePolicy5.setHeightForWidth(landButton->sizePolicy().hasHeightForWidth());
-        landButton->setSizePolicy(sizePolicy5);
-        landButton->setMinimumSize(QSize(60, 0));
-        landButton->setMaximumSize(QSize(60, 16777215));
-        landButton->setFont(font);
-        landButton->setFocusPolicy(Qt::NoFocus);
-        QIcon icon8;
-        icon8.addFile(QString::fromUtf8(":/images/images/airplane-landing.png"), QSize(), QIcon::Normal, QIcon::Off);
-        landButton->setIcon(icon8);
-        landButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-
-        gridLayout_5->addWidget(landButton, 10, 1, 1, 1);
-
-        line = new QFrame(widget_controlPanel);
-        line->setObjectName(QString::fromUtf8("line"));
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
-
-        gridLayout_5->addWidget(line, 6, 0, 1, 6);
-
-        label_wifi = new QLabel(widget_controlPanel);
-        label_wifi->setObjectName(QString::fromUtf8("label_wifi"));
-        sizePolicy7.setHeightForWidth(label_wifi->sizePolicy().hasHeightForWidth());
-        label_wifi->setSizePolicy(sizePolicy7);
-        label_wifi->setMinimumSize(QSize(120, 0));
-
-        gridLayout_5->addWidget(label_wifi, 0, 0, 1, 2);
-
-        label_errors = new QLabel(widget_controlPanel);
-        label_errors->setObjectName(QString::fromUtf8("label_errors"));
-        sizePolicy7.setHeightForWidth(label_errors->sizePolicy().hasHeightForWidth());
-        label_errors->setSizePolicy(sizePolicy7);
-        label_errors->setMinimumSize(QSize(120, 0));
-
-        gridLayout_5->addWidget(label_errors, 4, 0, 1, 2);
-
-        takeoffButton = new QToolButton(widget_controlPanel);
-        takeoffButton->setObjectName(QString::fromUtf8("takeoffButton"));
-        sizePolicy5.setHeightForWidth(takeoffButton->sizePolicy().hasHeightForWidth());
-        takeoffButton->setSizePolicy(sizePolicy5);
-        takeoffButton->setMinimumSize(QSize(60, 0));
-        takeoffButton->setMaximumSize(QSize(60, 16777215));
-        takeoffButton->setFont(font);
-        takeoffButton->setFocusPolicy(Qt::NoFocus);
-        QIcon icon9;
-        icon9.addFile(QString::fromUtf8(":/images/images/airplane-takeoff.png"), QSize(), QIcon::Normal, QIcon::Off);
-        takeoffButton->setIcon(icon9);
-        takeoffButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-
-        gridLayout_5->addWidget(takeoffButton, 10, 0, 1, 1);
-
-        tab_controlPanel->addTab(widget_controlPanel, QString());
-        label_wifi->raise();
-        value_wifi->raise();
-        label_battery_2->raise();
-        value_battery->raise();
-        label_flyingTime->raise();
-        value_FligthTime->raise();
-        label_currentGoal->raise();
-        value_currentGoal->raise();
-        label_errors->raise();
-        value_Errors->raise();
-        label_warnings->raise();
-        value_Warnings->raise();
-        line->raise();
-        label_selVehicle->raise();
-        selection_vehicle->raise();
-        label_controlMode->raise();
-        selection_mode->raise();
-        line_2->raise();
-        takeoffButton->raise();
-        landButton->raise();
-        yawzeroButton->raise();
-        hoverButton->raise();
-        resetButton->raise();
-        emergencyStop_Button->raise();
-
-        gridLayout_7->addWidget(tab_controlPanel, 0, 0, 1, 1);
-
-        tab_dynamicView = new QTabWidget(widget);
-        tab_dynamicView->setObjectName(QString::fromUtf8("tab_dynamicView"));
-        tab_dynamicView->setEnabled(true);
-        sizePolicy2.setHeightForWidth(tab_dynamicView->sizePolicy().hasHeightForWidth());
-        tab_dynamicView->setSizePolicy(sizePolicy2);
-        tab_dynamicView->setMaximumSize(QSize(350, 600));
-        tab_dynamicView->setFocusPolicy(Qt::NoFocus);
-        tab_dynamicView->setUsesScrollButtons(false);
-        tab_dynamicView->setDocumentMode(false);
-        tab_dynamicView->setTabsClosable(false);
-        tab_dynamicView->setMovable(false);
+        tab_dynamic_view = new QTabWidget(widget);
+        tab_dynamic_view->setObjectName(QString::fromUtf8("tab_dynamic_view"));
+        tab_dynamic_view->setEnabled(true);
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(tab_dynamic_view->sizePolicy().hasHeightForWidth());
+        tab_dynamic_view->setSizePolicy(sizePolicy2);
+        tab_dynamic_view->setMaximumSize(QSize(350, 16777215));
+        tab_dynamic_view->setFocusPolicy(Qt::NoFocus);
+        tab_dynamic_view->setUsesScrollButtons(false);
+        tab_dynamic_view->setDocumentMode(false);
+        tab_dynamic_view->setTabsClosable(false);
+        tab_dynamic_view->setMovable(false);
         widget_vehicle = new QWidget();
         widget_vehicle->setObjectName(QString::fromUtf8("widget_vehicle"));
         gridLayout_3 = new QGridLayout(widget_vehicle);
@@ -641,8 +234,11 @@ public:
         grid_vehicle->setObjectName(QString::fromUtf8("grid_vehicle"));
         panel_vehicle = new QFrame(widget_vehicle);
         panel_vehicle->setObjectName(QString::fromUtf8("panel_vehicle"));
-        sizePolicy4.setHeightForWidth(panel_vehicle->sizePolicy().hasHeightForWidth());
-        panel_vehicle->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(panel_vehicle->sizePolicy().hasHeightForWidth());
+        panel_vehicle->setSizePolicy(sizePolicy3);
         panel_vehicle->setMaximumSize(QSize(350, 16777215));
         panel_vehicle->setFrameShape(QFrame::NoFrame);
         panel_vehicle->setFrameShadow(QFrame::Raised);
@@ -650,120 +246,120 @@ public:
         grid_panelVehicle->setSpacing(6);
         grid_panelVehicle->setContentsMargins(11, 11, 11, 11);
         grid_panelVehicle->setObjectName(QString::fromUtf8("grid_panelVehicle"));
-        valueVehicle_Yaw = new QLabel(panel_vehicle);
-        valueVehicle_Yaw->setObjectName(QString::fromUtf8("valueVehicle_Yaw"));
-        sizePolicy4.setHeightForWidth(valueVehicle_Yaw->sizePolicy().hasHeightForWidth());
-        valueVehicle_Yaw->setSizePolicy(sizePolicy4);
-        valueVehicle_Yaw->setMinimumSize(QSize(50, 0));
-        valueVehicle_Yaw->setMaximumSize(QSize(30, 16777215));
+        value_vehicle_yaw = new QLabel(panel_vehicle);
+        value_vehicle_yaw->setObjectName(QString::fromUtf8("value_vehicle_yaw"));
+        sizePolicy3.setHeightForWidth(value_vehicle_yaw->sizePolicy().hasHeightForWidth());
+        value_vehicle_yaw->setSizePolicy(sizePolicy3);
+        value_vehicle_yaw->setMinimumSize(QSize(50, 0));
+        value_vehicle_yaw->setMaximumSize(QSize(80, 16777215));
 
-        grid_panelVehicle->addWidget(valueVehicle_Yaw, 0, 5, 1, 1);
+        grid_panelVehicle->addWidget(value_vehicle_yaw, 0, 5, 1, 1);
 
-        labelVehicle_X = new QLabel(panel_vehicle);
-        labelVehicle_X->setObjectName(QString::fromUtf8("labelVehicle_X"));
+        label_vehicle_x = new QLabel(panel_vehicle);
+        label_vehicle_x->setObjectName(QString::fromUtf8("label_vehicle_x"));
 
-        grid_panelVehicle->addWidget(labelVehicle_X, 0, 1, 1, 1);
+        grid_panelVehicle->addWidget(label_vehicle_x, 0, 1, 1, 1);
 
-        valueVehicle_roll = new QLabel(panel_vehicle);
-        valueVehicle_roll->setObjectName(QString::fromUtf8("valueVehicle_roll"));
-        sizePolicy4.setHeightForWidth(valueVehicle_roll->sizePolicy().hasHeightForWidth());
-        valueVehicle_roll->setSizePolicy(sizePolicy4);
-        valueVehicle_roll->setMinimumSize(QSize(50, 0));
-        valueVehicle_roll->setMaximumSize(QSize(30, 16777215));
+        value_vehicle_roll = new QLabel(panel_vehicle);
+        value_vehicle_roll->setObjectName(QString::fromUtf8("value_vehicle_roll"));
+        sizePolicy3.setHeightForWidth(value_vehicle_roll->sizePolicy().hasHeightForWidth());
+        value_vehicle_roll->setSizePolicy(sizePolicy3);
+        value_vehicle_roll->setMinimumSize(QSize(50, 0));
+        value_vehicle_roll->setMaximumSize(QSize(80, 16777215));
 
-        grid_panelVehicle->addWidget(valueVehicle_roll, 2, 5, 1, 2);
+        grid_panelVehicle->addWidget(value_vehicle_roll, 2, 5, 1, 2);
 
-        labelVehicle_Z = new QLabel(panel_vehicle);
-        labelVehicle_Z->setObjectName(QString::fromUtf8("labelVehicle_Z"));
+        label_vehicle_z = new QLabel(panel_vehicle);
+        label_vehicle_z->setObjectName(QString::fromUtf8("label_vehicle_z"));
 
-        grid_panelVehicle->addWidget(labelVehicle_Z, 2, 1, 1, 1);
+        grid_panelVehicle->addWidget(label_vehicle_z, 2, 1, 1, 1);
 
-        labelVehicle_yaw = new QLabel(panel_vehicle);
-        labelVehicle_yaw->setObjectName(QString::fromUtf8("labelVehicle_yaw"));
+        label_vehicle_yaw = new QLabel(panel_vehicle);
+        label_vehicle_yaw->setObjectName(QString::fromUtf8("label_vehicle_yaw"));
 
-        grid_panelVehicle->addWidget(labelVehicle_yaw, 0, 4, 1, 1);
+        grid_panelVehicle->addWidget(label_vehicle_yaw, 0, 4, 1, 1);
 
-        horizontalSpacer_right = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+        horizontal_spacer_right = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-        grid_panelVehicle->addItem(horizontalSpacer_right, 0, 6, 1, 1);
+        grid_panelVehicle->addItem(horizontal_spacer_right, 0, 6, 1, 1);
 
-        labelVehicle_roll = new QLabel(panel_vehicle);
-        labelVehicle_roll->setObjectName(QString::fromUtf8("labelVehicle_roll"));
+        label_vehicle_roll = new QLabel(panel_vehicle);
+        label_vehicle_roll->setObjectName(QString::fromUtf8("label_vehicle_roll"));
 
-        grid_panelVehicle->addWidget(labelVehicle_roll, 2, 4, 1, 1);
+        grid_panelVehicle->addWidget(label_vehicle_roll, 2, 4, 1, 1);
 
-        valueVehicle_Y = new QLabel(panel_vehicle);
-        valueVehicle_Y->setObjectName(QString::fromUtf8("valueVehicle_Y"));
-        sizePolicy4.setHeightForWidth(valueVehicle_Y->sizePolicy().hasHeightForWidth());
-        valueVehicle_Y->setSizePolicy(sizePolicy4);
-        valueVehicle_Y->setMinimumSize(QSize(50, 0));
-        valueVehicle_Y->setMaximumSize(QSize(30, 16777215));
+        value_vehicle_y = new QLabel(panel_vehicle);
+        value_vehicle_y->setObjectName(QString::fromUtf8("value_vehicle_y"));
+        sizePolicy3.setHeightForWidth(value_vehicle_y->sizePolicy().hasHeightForWidth());
+        value_vehicle_y->setSizePolicy(sizePolicy3);
+        value_vehicle_y->setMinimumSize(QSize(50, 0));
+        value_vehicle_y->setMaximumSize(QSize(30, 16777215));
 
-        grid_panelVehicle->addWidget(valueVehicle_Y, 1, 2, 1, 1);
+        grid_panelVehicle->addWidget(value_vehicle_y, 1, 2, 1, 1);
 
-        horizontalSpacer_left = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+        horizontal_spacer_left = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-        grid_panelVehicle->addItem(horizontalSpacer_left, 0, 0, 1, 1);
+        grid_panelVehicle->addItem(horizontal_spacer_left, 0, 0, 1, 1);
 
-        valueVehicle_pitch = new QLabel(panel_vehicle);
-        valueVehicle_pitch->setObjectName(QString::fromUtf8("valueVehicle_pitch"));
-        sizePolicy4.setHeightForWidth(valueVehicle_pitch->sizePolicy().hasHeightForWidth());
-        valueVehicle_pitch->setSizePolicy(sizePolicy4);
-        valueVehicle_pitch->setMinimumSize(QSize(50, 0));
-        valueVehicle_pitch->setMaximumSize(QSize(30, 16777215));
+        value_vehicle_pitch = new QLabel(panel_vehicle);
+        value_vehicle_pitch->setObjectName(QString::fromUtf8("value_vehicle_pitch"));
+        sizePolicy3.setHeightForWidth(value_vehicle_pitch->sizePolicy().hasHeightForWidth());
+        value_vehicle_pitch->setSizePolicy(sizePolicy3);
+        value_vehicle_pitch->setMinimumSize(QSize(50, 0));
+        value_vehicle_pitch->setMaximumSize(QSize(80, 16777215));
 
-        grid_panelVehicle->addWidget(valueVehicle_pitch, 1, 5, 1, 2);
+        grid_panelVehicle->addWidget(value_vehicle_pitch, 1, 5, 1, 2);
 
-        valueVehicle_X = new QLabel(panel_vehicle);
-        valueVehicle_X->setObjectName(QString::fromUtf8("valueVehicle_X"));
-        sizePolicy4.setHeightForWidth(valueVehicle_X->sizePolicy().hasHeightForWidth());
-        valueVehicle_X->setSizePolicy(sizePolicy4);
-        valueVehicle_X->setMinimumSize(QSize(50, 0));
-        valueVehicle_X->setMaximumSize(QSize(33, 16777215));
+        value_vehicle_x = new QLabel(panel_vehicle);
+        value_vehicle_x->setObjectName(QString::fromUtf8("value_vehicle_x"));
+        sizePolicy3.setHeightForWidth(value_vehicle_x->sizePolicy().hasHeightForWidth());
+        value_vehicle_x->setSizePolicy(sizePolicy3);
+        value_vehicle_x->setMinimumSize(QSize(50, 0));
+        value_vehicle_x->setMaximumSize(QSize(33, 16777215));
 
-        grid_panelVehicle->addWidget(valueVehicle_X, 0, 2, 1, 1);
+        grid_panelVehicle->addWidget(value_vehicle_x, 0, 2, 1, 1);
 
-        horizontalSpacer_middle = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+        horizontal_spacer_middle = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-        grid_panelVehicle->addItem(horizontalSpacer_middle, 0, 3, 1, 1);
+        grid_panelVehicle->addItem(horizontal_spacer_middle, 0, 3, 1, 1);
 
-        labelVehicle_Y = new QLabel(panel_vehicle);
-        labelVehicle_Y->setObjectName(QString::fromUtf8("labelVehicle_Y"));
+        label_vehicle_y = new QLabel(panel_vehicle);
+        label_vehicle_y->setObjectName(QString::fromUtf8("label_vehicle_y"));
 
-        grid_panelVehicle->addWidget(labelVehicle_Y, 1, 1, 1, 1);
+        grid_panelVehicle->addWidget(label_vehicle_y, 1, 1, 1, 1);
 
-        labelVehicle_pitch = new QLabel(panel_vehicle);
-        labelVehicle_pitch->setObjectName(QString::fromUtf8("labelVehicle_pitch"));
+        label_vehicle_pitch = new QLabel(panel_vehicle);
+        label_vehicle_pitch->setObjectName(QString::fromUtf8("label_vehicle_pitch"));
 
-        grid_panelVehicle->addWidget(labelVehicle_pitch, 1, 4, 1, 1);
+        grid_panelVehicle->addWidget(label_vehicle_pitch, 1, 4, 1, 1);
 
-        valueVehicle_Z = new QLabel(panel_vehicle);
-        valueVehicle_Z->setObjectName(QString::fromUtf8("valueVehicle_Z"));
-        sizePolicy4.setHeightForWidth(valueVehicle_Z->sizePolicy().hasHeightForWidth());
-        valueVehicle_Z->setSizePolicy(sizePolicy4);
-        valueVehicle_Z->setMinimumSize(QSize(50, 0));
-        valueVehicle_Z->setMaximumSize(QSize(30, 16777215));
+        value_vehicle_z = new QLabel(panel_vehicle);
+        value_vehicle_z->setObjectName(QString::fromUtf8("value_vehicle_z"));
+        sizePolicy3.setHeightForWidth(value_vehicle_z->sizePolicy().hasHeightForWidth());
+        value_vehicle_z->setSizePolicy(sizePolicy3);
+        value_vehicle_z->setMinimumSize(QSize(50, 0));
+        value_vehicle_z->setMaximumSize(QSize(30, 16777215));
 
-        grid_panelVehicle->addWidget(valueVehicle_Z, 2, 2, 1, 1);
+        grid_panelVehicle->addWidget(value_vehicle_z, 2, 2, 1, 1);
 
 
         grid_vehicle->addWidget(panel_vehicle, 1, 0, 1, 1);
 
-        vehicleScene = new QLabel(widget_vehicle);
-        vehicleScene->setObjectName(QString::fromUtf8("vehicleScene"));
-        QSizePolicy sizePolicy8(QSizePolicy::Preferred, QSizePolicy::Expanding);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
-        sizePolicy8.setHeightForWidth(vehicleScene->sizePolicy().hasHeightForWidth());
-        vehicleScene->setSizePolicy(sizePolicy8);
+        vehicle_scene = new QLabel(widget_vehicle);
+        vehicle_scene->setObjectName(QString::fromUtf8("vehicle_scene"));
+        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(vehicle_scene->sizePolicy().hasHeightForWidth());
+        vehicle_scene->setSizePolicy(sizePolicy4);
 
-        grid_vehicle->addWidget(vehicleScene, 0, 0, 1, 1);
+        grid_vehicle->addWidget(vehicle_scene, 0, 0, 1, 1);
 
 
         gridLayout_3->addLayout(grid_vehicle, 0, 0, 1, 1);
 
-        tab_dynamicView->addTab(widget_vehicle, QString());
-        tab_dynamicView->setTabText(tab_dynamicView->indexOf(widget_vehicle), QString::fromUtf8("Vehicle Dynamics"));
+        tab_dynamic_view->addTab(widget_vehicle, QString());
+        tab_dynamic_view->setTabText(tab_dynamic_view->indexOf(widget_vehicle), QString::fromUtf8("Vehicle Dynamics"));
         widget_sphere = new QWidget();
         widget_sphere->setObjectName(QString::fromUtf8("widget_sphere"));
         gridLayout_4 = new QGridLayout(widget_sphere);
@@ -773,17 +369,17 @@ public:
         grid_sphere = new QGridLayout();
         grid_sphere->setSpacing(6);
         grid_sphere->setObjectName(QString::fromUtf8("grid_sphere"));
-        sphereScene = new QLabel(widget_sphere);
-        sphereScene->setObjectName(QString::fromUtf8("sphereScene"));
-        sizePolicy8.setHeightForWidth(sphereScene->sizePolicy().hasHeightForWidth());
-        sphereScene->setSizePolicy(sizePolicy8);
+        sphere_scene = new QLabel(widget_sphere);
+        sphere_scene->setObjectName(QString::fromUtf8("sphere_scene"));
+        sizePolicy4.setHeightForWidth(sphere_scene->sizePolicy().hasHeightForWidth());
+        sphere_scene->setSizePolicy(sizePolicy4);
 
-        grid_sphere->addWidget(sphereScene, 0, 0, 1, 1);
+        grid_sphere->addWidget(sphere_scene, 0, 0, 1, 1);
 
         panel_sphere = new QFrame(widget_sphere);
         panel_sphere->setObjectName(QString::fromUtf8("panel_sphere"));
-        sizePolicy4.setHeightForWidth(panel_sphere->sizePolicy().hasHeightForWidth());
-        panel_sphere->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(panel_sphere->sizePolicy().hasHeightForWidth());
+        panel_sphere->setSizePolicy(sizePolicy3);
         panel_sphere->setMaximumSize(QSize(350, 16777215));
         panel_sphere->setFrameShape(QFrame::NoFrame);
         panel_sphere->setFrameShadow(QFrame::Raised);
@@ -791,101 +387,101 @@ public:
         grid_panelSphere->setSpacing(6);
         grid_panelSphere->setContentsMargins(11, 11, 11, 11);
         grid_panelSphere->setObjectName(QString::fromUtf8("grid_panelSphere"));
-        valueSphere_yaw = new QLabel(panel_sphere);
-        valueSphere_yaw->setObjectName(QString::fromUtf8("valueSphere_yaw"));
-        sizePolicy4.setHeightForWidth(valueSphere_yaw->sizePolicy().hasHeightForWidth());
-        valueSphere_yaw->setSizePolicy(sizePolicy4);
-        valueSphere_yaw->setMinimumSize(QSize(50, 0));
-        valueSphere_yaw->setMaximumSize(QSize(30, 16777215));
+        value_sphere_yaw = new QLabel(panel_sphere);
+        value_sphere_yaw->setObjectName(QString::fromUtf8("value_sphere_yaw"));
+        sizePolicy3.setHeightForWidth(value_sphere_yaw->sizePolicy().hasHeightForWidth());
+        value_sphere_yaw->setSizePolicy(sizePolicy3);
+        value_sphere_yaw->setMinimumSize(QSize(50, 0));
+        value_sphere_yaw->setMaximumSize(QSize(80, 16777215));
 
-        grid_panelSphere->addWidget(valueSphere_yaw, 0, 5, 1, 1);
+        grid_panelSphere->addWidget(value_sphere_yaw, 0, 5, 1, 1);
 
-        labelSphere_X = new QLabel(panel_sphere);
-        labelSphere_X->setObjectName(QString::fromUtf8("labelSphere_X"));
+        label_sphere_x = new QLabel(panel_sphere);
+        label_sphere_x->setObjectName(QString::fromUtf8("label_sphere_x"));
 
-        grid_panelSphere->addWidget(labelSphere_X, 0, 1, 1, 1);
+        grid_panelSphere->addWidget(label_sphere_x, 0, 1, 1, 1);
 
-        valueSphere_roll = new QLabel(panel_sphere);
-        valueSphere_roll->setObjectName(QString::fromUtf8("valueSphere_roll"));
-        sizePolicy4.setHeightForWidth(valueSphere_roll->sizePolicy().hasHeightForWidth());
-        valueSphere_roll->setSizePolicy(sizePolicy4);
-        valueSphere_roll->setMinimumSize(QSize(50, 0));
-        valueSphere_roll->setMaximumSize(QSize(30, 16777215));
+        value_sphere_roll = new QLabel(panel_sphere);
+        value_sphere_roll->setObjectName(QString::fromUtf8("value_sphere_roll"));
+        sizePolicy3.setHeightForWidth(value_sphere_roll->sizePolicy().hasHeightForWidth());
+        value_sphere_roll->setSizePolicy(sizePolicy3);
+        value_sphere_roll->setMinimumSize(QSize(50, 0));
+        value_sphere_roll->setMaximumSize(QSize(80, 16777215));
 
-        grid_panelSphere->addWidget(valueSphere_roll, 2, 5, 1, 2);
+        grid_panelSphere->addWidget(value_sphere_roll, 2, 5, 1, 2);
 
-        labelSphere_Z = new QLabel(panel_sphere);
-        labelSphere_Z->setObjectName(QString::fromUtf8("labelSphere_Z"));
+        label_sphere_z = new QLabel(panel_sphere);
+        label_sphere_z->setObjectName(QString::fromUtf8("label_sphere_z"));
 
-        grid_panelSphere->addWidget(labelSphere_Z, 2, 1, 1, 1);
+        grid_panelSphere->addWidget(label_sphere_z, 2, 1, 1, 1);
 
-        labelSphere_yaw = new QLabel(panel_sphere);
-        labelSphere_yaw->setObjectName(QString::fromUtf8("labelSphere_yaw"));
+        label_sphere_yaw = new QLabel(panel_sphere);
+        label_sphere_yaw->setObjectName(QString::fromUtf8("label_sphere_yaw"));
 
-        grid_panelSphere->addWidget(labelSphere_yaw, 0, 4, 1, 1);
+        grid_panelSphere->addWidget(label_sphere_yaw, 0, 4, 1, 1);
 
-        horizontalSpacer_right_2 = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+        horizontal_spacer_right_2 = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-        grid_panelSphere->addItem(horizontalSpacer_right_2, 0, 6, 1, 1);
+        grid_panelSphere->addItem(horizontal_spacer_right_2, 0, 6, 1, 1);
 
-        labelSphere_roll = new QLabel(panel_sphere);
-        labelSphere_roll->setObjectName(QString::fromUtf8("labelSphere_roll"));
+        label_sphere_roll = new QLabel(panel_sphere);
+        label_sphere_roll->setObjectName(QString::fromUtf8("label_sphere_roll"));
 
-        grid_panelSphere->addWidget(labelSphere_roll, 2, 4, 1, 1);
+        grid_panelSphere->addWidget(label_sphere_roll, 2, 4, 1, 1);
 
-        valueSphere_Y = new QLabel(panel_sphere);
-        valueSphere_Y->setObjectName(QString::fromUtf8("valueSphere_Y"));
-        sizePolicy4.setHeightForWidth(valueSphere_Y->sizePolicy().hasHeightForWidth());
-        valueSphere_Y->setSizePolicy(sizePolicy4);
-        valueSphere_Y->setMinimumSize(QSize(50, 0));
-        valueSphere_Y->setMaximumSize(QSize(30, 16777215));
+        value_sphere_y = new QLabel(panel_sphere);
+        value_sphere_y->setObjectName(QString::fromUtf8("value_sphere_y"));
+        sizePolicy3.setHeightForWidth(value_sphere_y->sizePolicy().hasHeightForWidth());
+        value_sphere_y->setSizePolicy(sizePolicy3);
+        value_sphere_y->setMinimumSize(QSize(50, 0));
+        value_sphere_y->setMaximumSize(QSize(30, 16777215));
 
-        grid_panelSphere->addWidget(valueSphere_Y, 1, 2, 1, 1);
+        grid_panelSphere->addWidget(value_sphere_y, 1, 2, 1, 1);
 
-        horizontalSpacer_left_2 = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+        horizontal_spacer_left_2 = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-        grid_panelSphere->addItem(horizontalSpacer_left_2, 0, 0, 1, 1);
+        grid_panelSphere->addItem(horizontal_spacer_left_2, 0, 0, 1, 1);
 
-        labelSphere_Y = new QLabel(panel_sphere);
-        labelSphere_Y->setObjectName(QString::fromUtf8("labelSphere_Y"));
+        label_sphere_y = new QLabel(panel_sphere);
+        label_sphere_y->setObjectName(QString::fromUtf8("label_sphere_y"));
 
-        grid_panelSphere->addWidget(labelSphere_Y, 1, 1, 1, 1);
+        grid_panelSphere->addWidget(label_sphere_y, 1, 1, 1, 1);
 
-        valueSphere_pitch = new QLabel(panel_sphere);
-        valueSphere_pitch->setObjectName(QString::fromUtf8("valueSphere_pitch"));
-        sizePolicy4.setHeightForWidth(valueSphere_pitch->sizePolicy().hasHeightForWidth());
-        valueSphere_pitch->setSizePolicy(sizePolicy4);
-        valueSphere_pitch->setMinimumSize(QSize(50, 0));
-        valueSphere_pitch->setMaximumSize(QSize(30, 16777215));
+        value_sphere_pitch = new QLabel(panel_sphere);
+        value_sphere_pitch->setObjectName(QString::fromUtf8("value_sphere_pitch"));
+        sizePolicy3.setHeightForWidth(value_sphere_pitch->sizePolicy().hasHeightForWidth());
+        value_sphere_pitch->setSizePolicy(sizePolicy3);
+        value_sphere_pitch->setMinimumSize(QSize(50, 0));
+        value_sphere_pitch->setMaximumSize(QSize(80, 16777215));
 
-        grid_panelSphere->addWidget(valueSphere_pitch, 1, 5, 1, 2);
+        grid_panelSphere->addWidget(value_sphere_pitch, 1, 5, 1, 2);
 
-        labelSphere_pitch = new QLabel(panel_sphere);
-        labelSphere_pitch->setObjectName(QString::fromUtf8("labelSphere_pitch"));
+        label_sphere_pitch = new QLabel(panel_sphere);
+        label_sphere_pitch->setObjectName(QString::fromUtf8("label_sphere_pitch"));
 
-        grid_panelSphere->addWidget(labelSphere_pitch, 1, 4, 1, 1);
+        grid_panelSphere->addWidget(label_sphere_pitch, 1, 4, 1, 1);
 
-        valueSphere_X = new QLabel(panel_sphere);
-        valueSphere_X->setObjectName(QString::fromUtf8("valueSphere_X"));
-        sizePolicy4.setHeightForWidth(valueSphere_X->sizePolicy().hasHeightForWidth());
-        valueSphere_X->setSizePolicy(sizePolicy4);
-        valueSphere_X->setMinimumSize(QSize(50, 0));
-        valueSphere_X->setMaximumSize(QSize(30, 16777215));
+        value_sphere_x = new QLabel(panel_sphere);
+        value_sphere_x->setObjectName(QString::fromUtf8("value_sphere_x"));
+        sizePolicy3.setHeightForWidth(value_sphere_x->sizePolicy().hasHeightForWidth());
+        value_sphere_x->setSizePolicy(sizePolicy3);
+        value_sphere_x->setMinimumSize(QSize(50, 0));
+        value_sphere_x->setMaximumSize(QSize(30, 16777215));
 
-        grid_panelSphere->addWidget(valueSphere_X, 0, 2, 1, 1);
+        grid_panelSphere->addWidget(value_sphere_x, 0, 2, 1, 1);
 
-        horizontalSpacer_middle_2 = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+        horizontal_spacer_middle_2 = new QSpacerItem(30, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-        grid_panelSphere->addItem(horizontalSpacer_middle_2, 0, 3, 1, 1);
+        grid_panelSphere->addItem(horizontal_spacer_middle_2, 0, 3, 1, 1);
 
-        valueSphere_Z = new QLabel(panel_sphere);
-        valueSphere_Z->setObjectName(QString::fromUtf8("valueSphere_Z"));
-        sizePolicy4.setHeightForWidth(valueSphere_Z->sizePolicy().hasHeightForWidth());
-        valueSphere_Z->setSizePolicy(sizePolicy4);
-        valueSphere_Z->setMinimumSize(QSize(50, 0));
-        valueSphere_Z->setMaximumSize(QSize(30, 16777215));
+        value_sphere_z = new QLabel(panel_sphere);
+        value_sphere_z->setObjectName(QString::fromUtf8("value_sphere_z"));
+        sizePolicy3.setHeightForWidth(value_sphere_z->sizePolicy().hasHeightForWidth());
+        value_sphere_z->setSizePolicy(sizePolicy3);
+        value_sphere_z->setMinimumSize(QSize(50, 0));
+        value_sphere_z->setMaximumSize(QSize(30, 16777215));
 
-        grid_panelSphere->addWidget(valueSphere_Z, 2, 2, 1, 1);
+        grid_panelSphere->addWidget(value_sphere_z, 2, 2, 1, 1);
 
 
         grid_sphere->addWidget(panel_sphere, 1, 0, 1, 1);
@@ -893,56 +489,464 @@ public:
 
         gridLayout_4->addLayout(grid_sphere, 0, 0, 1, 1);
 
-        tab_dynamicView->addTab(widget_sphere, QString());
+        tab_dynamic_view->addTab(widget_sphere, QString());
 
-        gridLayout_7->addWidget(tab_dynamicView, 1, 0, 1, 1);
+        gridLayout_7->addWidget(tab_dynamic_view, 1, 0, 1, 1);
+
+        tab_control_panel = new QTabWidget(widget);
+        tab_control_panel->setObjectName(QString::fromUtf8("tab_control_panel"));
+        sizePolicy1.setHeightForWidth(tab_control_panel->sizePolicy().hasHeightForWidth());
+        tab_control_panel->setSizePolicy(sizePolicy1);
+        tab_control_panel->setMinimumSize(QSize(0, 380));
+        tab_control_panel->setMaximumSize(QSize(600, 16777215));
+        tab_control_panel->setFocusPolicy(Qt::NoFocus);
+        tab_control_panel->setLayoutDirection(Qt::LeftToRight);
+        tab_control_panel->setUsesScrollButtons(false);
+        widget_control_panel = new QWidget();
+        widget_control_panel->setObjectName(QString::fromUtf8("widget_control_panel"));
+        gridLayout_5 = new QGridLayout(widget_control_panel);
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setContentsMargins(11, 11, 11, 11);
+        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
+        gridLayout_5->setContentsMargins(-1, -1, -1, 0);
+        value_fligth_time = new QLabel(widget_control_panel);
+        value_fligth_time->setObjectName(QString::fromUtf8("value_fligth_time"));
+        sizePolicy3.setHeightForWidth(value_fligth_time->sizePolicy().hasHeightForWidth());
+        value_fligth_time->setSizePolicy(sizePolicy3);
+        value_fligth_time->setMinimumSize(QSize(100, 0));
+        value_fligth_time->setAutoFillBackground(false);
+
+        gridLayout_5->addWidget(value_fligth_time, 2, 3, 1, 3);
+
+        selection_vehicle = new QComboBox(widget_control_panel);
+        selection_vehicle->setObjectName(QString::fromUtf8("selection_vehicle"));
+        QSizePolicy sizePolicy5(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(selection_vehicle->sizePolicy().hasHeightForWidth());
+        selection_vehicle->setSizePolicy(sizePolicy5);
+        selection_vehicle->setMinimumSize(QSize(0, 25));
+        selection_vehicle->setMaximumSize(QSize(185, 370));
+        selection_vehicle->setFocusPolicy(Qt::NoFocus);
+        selection_vehicle->setLayoutDirection(Qt::LeftToRight);
+        selection_vehicle->setInsertPolicy(QComboBox::InsertAtTop);
+        selection_vehicle->setFrame(true);
+
+        gridLayout_5->addWidget(selection_vehicle, 6, 3, 1, 3);
+
+        label_errors = new QLabel(widget_control_panel);
+        label_errors->setObjectName(QString::fromUtf8("label_errors"));
+        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Maximum);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(label_errors->sizePolicy().hasHeightForWidth());
+        label_errors->setSizePolicy(sizePolicy6);
+        label_errors->setMinimumSize(QSize(120, 0));
+
+        gridLayout_5->addWidget(label_errors, 4, 0, 1, 2);
+
+        emergency_stop_button = new QPushButton(widget_control_panel);
+        emergency_stop_button->setObjectName(QString::fromUtf8("emergency_stop_button"));
+        QSizePolicy sizePolicy7(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(emergency_stop_button->sizePolicy().hasHeightForWidth());
+        emergency_stop_button->setSizePolicy(sizePolicy7);
+        emergency_stop_button->setFocusPolicy(Qt::NoFocus);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/images/images/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
+        emergency_stop_button->setIcon(icon);
+        emergency_stop_button->setAutoRepeat(true);
+        emergency_stop_button->setAutoDefault(true);
+        emergency_stop_button->setDefault(true);
+
+        gridLayout_5->addWidget(emergency_stop_button, 10, 0, 1, 6);
+
+        label_wifi = new QLabel(widget_control_panel);
+        label_wifi->setObjectName(QString::fromUtf8("label_wifi"));
+        sizePolicy6.setHeightForWidth(label_wifi->sizePolicy().hasHeightForWidth());
+        label_wifi->setSizePolicy(sizePolicy6);
+        label_wifi->setMinimumSize(QSize(120, 0));
+
+        gridLayout_5->addWidget(label_wifi, 0, 0, 1, 2);
+
+        take_off_button = new QToolButton(widget_control_panel);
+        take_off_button->setObjectName(QString::fromUtf8("take_off_button"));
+        sizePolicy7.setHeightForWidth(take_off_button->sizePolicy().hasHeightForWidth());
+        take_off_button->setSizePolicy(sizePolicy7);
+        take_off_button->setMinimumSize(QSize(60, 0));
+        take_off_button->setMaximumSize(QSize(60, 16777215));
+        QFont font;
+        font.setPointSize(10);
+        take_off_button->setFont(font);
+        take_off_button->setFocusPolicy(Qt::NoFocus);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/images/images/airplane-takeoff.png"), QSize(), QIcon::Normal, QIcon::Off);
+        take_off_button->setIcon(icon1);
+        take_off_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+        gridLayout_5->addWidget(take_off_button, 9, 0, 1, 1);
+
+        line_2 = new QFrame(widget_control_panel);
+        line_2->setObjectName(QString::fromUtf8("line_2"));
+        line_2->setFrameShape(QFrame::HLine);
+        line_2->setFrameShadow(QFrame::Sunken);
+
+        gridLayout_5->addWidget(line_2, 8, 0, 1, 6);
+
+        yaw_zero_button = new QToolButton(widget_control_panel);
+        yaw_zero_button->setObjectName(QString::fromUtf8("yaw_zero_button"));
+        sizePolicy7.setHeightForWidth(yaw_zero_button->sizePolicy().hasHeightForWidth());
+        yaw_zero_button->setSizePolicy(sizePolicy7);
+        yaw_zero_button->setMinimumSize(QSize(60, 0));
+        yaw_zero_button->setMaximumSize(QSize(60, 16777215));
+        yaw_zero_button->setFont(font);
+        yaw_zero_button->setFocusPolicy(Qt::NoFocus);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/images/images/arrow-up.png"), QSize(), QIcon::Normal, QIcon::Off);
+        yaw_zero_button->setIcon(icon2);
+        yaw_zero_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+        gridLayout_5->addWidget(yaw_zero_button, 9, 2, 1, 2);
+
+        hover_button = new QToolButton(widget_control_panel);
+        hover_button->setObjectName(QString::fromUtf8("hover_button"));
+        hover_button->setMinimumSize(QSize(60, 0));
+        hover_button->setMaximumSize(QSize(60, 70));
+        hover_button->setFont(font);
+        hover_button->setFocusPolicy(Qt::NoFocus);
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/images/images/air_plane_airport_2.png"), QSize(), QIcon::Normal, QIcon::Off);
+        hover_button->setIcon(icon3);
+        hover_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+        gridLayout_5->addWidget(hover_button, 9, 4, 1, 1);
+
+        value_battery = new QLabel(widget_control_panel);
+        value_battery->setObjectName(QString::fromUtf8("value_battery"));
+        sizePolicy3.setHeightForWidth(value_battery->sizePolicy().hasHeightForWidth());
+        value_battery->setSizePolicy(sizePolicy3);
+        value_battery->setMinimumSize(QSize(100, 0));
+
+        gridLayout_5->addWidget(value_battery, 1, 3, 1, 3);
+
+        reset_button = new QToolButton(widget_control_panel);
+        reset_button->setObjectName(QString::fromUtf8("reset_button"));
+        sizePolicy7.setHeightForWidth(reset_button->sizePolicy().hasHeightForWidth());
+        reset_button->setSizePolicy(sizePolicy7);
+        reset_button->setMinimumSize(QSize(60, 0));
+        reset_button->setMaximumSize(QSize(60, 16777215));
+        reset_button->setFont(font);
+        reset_button->setFocusPolicy(Qt::NoFocus);
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/images/images/reset.png"), QSize(), QIcon::Normal, QIcon::Off);
+        reset_button->setIcon(icon4);
+        reset_button->setIconSize(QSize(14, 14));
+        reset_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+        gridLayout_5->addWidget(reset_button, 9, 5, 1, 1);
+
+        label_flying_time = new QLabel(widget_control_panel);
+        label_flying_time->setObjectName(QString::fromUtf8("label_flying_time"));
+        QSizePolicy sizePolicy8(QSizePolicy::Preferred, QSizePolicy::Maximum);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(label_flying_time->sizePolicy().hasHeightForWidth());
+        label_flying_time->setSizePolicy(sizePolicy8);
+
+        gridLayout_5->addWidget(label_flying_time, 2, 0, 1, 2);
+
+        value_errors = new QLabel(widget_control_panel);
+        value_errors->setObjectName(QString::fromUtf8("value_errors"));
+        sizePolicy3.setHeightForWidth(value_errors->sizePolicy().hasHeightForWidth());
+        value_errors->setSizePolicy(sizePolicy3);
+        value_errors->setMinimumSize(QSize(100, 0));
+
+        gridLayout_5->addWidget(value_errors, 4, 3, 1, 3);
+
+        label_control_mode = new QLabel(widget_control_panel);
+        label_control_mode->setObjectName(QString::fromUtf8("label_control_mode"));
+        sizePolicy6.setHeightForWidth(label_control_mode->sizePolicy().hasHeightForWidth());
+        label_control_mode->setSizePolicy(sizePolicy6);
+        label_control_mode->setMinimumSize(QSize(120, 0));
+
+        gridLayout_5->addWidget(label_control_mode, 7, 0, 1, 2);
+
+        line = new QFrame(widget_control_panel);
+        line->setObjectName(QString::fromUtf8("line"));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        gridLayout_5->addWidget(line, 5, 0, 1, 6);
+
+        value_currentGoal = new QLabel(widget_control_panel);
+        value_currentGoal->setObjectName(QString::fromUtf8("value_currentGoal"));
+        sizePolicy3.setHeightForWidth(value_currentGoal->sizePolicy().hasHeightForWidth());
+        value_currentGoal->setSizePolicy(sizePolicy3);
+        value_currentGoal->setMinimumSize(QSize(100, 0));
+
+        gridLayout_5->addWidget(value_currentGoal, 3, 3, 1, 3);
+
+        label_sel_vehicle = new QLabel(widget_control_panel);
+        label_sel_vehicle->setObjectName(QString::fromUtf8("label_sel_vehicle"));
+        sizePolicy6.setHeightForWidth(label_sel_vehicle->sizePolicy().hasHeightForWidth());
+        label_sel_vehicle->setSizePolicy(sizePolicy6);
+        label_sel_vehicle->setMinimumSize(QSize(120, 0));
+
+        gridLayout_5->addWidget(label_sel_vehicle, 6, 0, 1, 2);
+
+        label_battery_2 = new QLabel(widget_control_panel);
+        label_battery_2->setObjectName(QString::fromUtf8("label_battery_2"));
+        sizePolicy8.setHeightForWidth(label_battery_2->sizePolicy().hasHeightForWidth());
+        label_battery_2->setSizePolicy(sizePolicy8);
+
+        gridLayout_5->addWidget(label_battery_2, 1, 0, 1, 2);
+
+        value_wifi = new QLabel(widget_control_panel);
+        value_wifi->setObjectName(QString::fromUtf8("value_wifi"));
+        sizePolicy3.setHeightForWidth(value_wifi->sizePolicy().hasHeightForWidth());
+        value_wifi->setSizePolicy(sizePolicy3);
+        value_wifi->setMinimumSize(QSize(100, 0));
+
+        gridLayout_5->addWidget(value_wifi, 0, 3, 1, 3);
+
+        label_current_goal = new QLabel(widget_control_panel);
+        label_current_goal->setObjectName(QString::fromUtf8("label_current_goal"));
+        sizePolicy6.setHeightForWidth(label_current_goal->sizePolicy().hasHeightForWidth());
+        label_current_goal->setSizePolicy(sizePolicy6);
+        label_current_goal->setMinimumSize(QSize(120, 0));
+
+        gridLayout_5->addWidget(label_current_goal, 3, 0, 1, 2);
+
+        land_button = new QToolButton(widget_control_panel);
+        land_button->setObjectName(QString::fromUtf8("land_button"));
+        sizePolicy7.setHeightForWidth(land_button->sizePolicy().hasHeightForWidth());
+        land_button->setSizePolicy(sizePolicy7);
+        land_button->setMinimumSize(QSize(60, 0));
+        land_button->setMaximumSize(QSize(60, 16777215));
+        land_button->setFont(font);
+        land_button->setFocusPolicy(Qt::NoFocus);
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/images/images/airplane-landing.png"), QSize(), QIcon::Normal, QIcon::Off);
+        land_button->setIcon(icon5);
+        land_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+        gridLayout_5->addWidget(land_button, 9, 1, 1, 1);
+
+        selection_mode = new QComboBox(widget_control_panel);
+        selection_mode->setObjectName(QString::fromUtf8("selection_mode"));
+        sizePolicy5.setHeightForWidth(selection_mode->sizePolicy().hasHeightForWidth());
+        selection_mode->setSizePolicy(sizePolicy5);
+        selection_mode->setMinimumSize(QSize(0, 25));
+        selection_mode->setMaximumSize(QSize(185, 300));
+        selection_mode->setFocusPolicy(Qt::NoFocus);
+
+        gridLayout_5->addWidget(selection_mode, 7, 3, 1, 3);
+
+        horizontal_spacer_2 = new QSpacerItem(15, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+        gridLayout_5->addItem(horizontal_spacer_2, 6, 2, 1, 1);
+
+        horizontal_spacer_3 = new QSpacerItem(15, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
+
+        gridLayout_5->addItem(horizontal_spacer_3, 7, 2, 1, 1);
+
+        tab_control_panel->addTab(widget_control_panel, QString());
+        label_wifi->raise();
+        value_wifi->raise();
+        label_battery_2->raise();
+        value_battery->raise();
+        label_flying_time->raise();
+        value_fligth_time->raise();
+        label_current_goal->raise();
+        value_currentGoal->raise();
+        label_errors->raise();
+        value_errors->raise();
+        line->raise();
+        label_sel_vehicle->raise();
+        selection_vehicle->raise();
+        label_control_mode->raise();
+        selection_mode->raise();
+        line_2->raise();
+        take_off_button->raise();
+        land_button->raise();
+        yaw_zero_button->raise();
+        hover_button->raise();
+        reset_button->raise();
+        emergency_stop_button->raise();
+
+        gridLayout_7->addWidget(tab_control_panel, 0, 0, 1, 1);
+
+        splitter->addWidget(widget);
+        tab_manager = new QTabWidget(splitter);
+        tab_manager->setObjectName(QString::fromUtf8("tab_manager"));
+        tab_manager->setEnabled(true);
+        sizePolicy.setHeightForWidth(tab_manager->sizePolicy().hasHeightForWidth());
+        tab_manager->setSizePolicy(sizePolicy);
+        tab_manager->setMinimumSize(QSize(0, 0));
+        tab_manager->setMaximumSize(QSize(32909, 1501));
+        tab_manager->setSizeIncrement(QSize(0, 0));
+        tab_manager->setBaseSize(QSize(0, 0));
+        tab_manager->setFocusPolicy(Qt::NoFocus);
+        tab_manager->setTabShape(QTabWidget::Rounded);
+        tab_manager->setElideMode(Qt::ElideNone);
+        tab_manager->setUsesScrollButtons(false);
+        tab_manager->setDocumentMode(false);
+        tab_parameters = new QWidget();
+        tab_parameters->setObjectName(QString::fromUtf8("tab_parameters"));
+        gridLayout_8 = new QGridLayout(tab_parameters);
+        gridLayout_8->setSpacing(6);
+        gridLayout_8->setContentsMargins(11, 11, 11, 11);
+        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
+        gridLayout_8->setContentsMargins(-1, 0, -1, -1);
+        grid_parameters = new QGridLayout();
+        grid_parameters->setSpacing(6);
+        grid_parameters->setObjectName(QString::fromUtf8("grid_parameters"));
+        grid_parameters->setHorizontalSpacing(0);
+
+        gridLayout_8->addLayout(grid_parameters, 0, 0, 1, 1);
+
+        tab_manager->addTab(tab_parameters, QString());
+        tab_camera_view = new QWidget();
+        tab_camera_view->setObjectName(QString::fromUtf8("tab_camera_view"));
+        gridLayout = new QGridLayout(tab_camera_view);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        save_image_button = new QPushButton(tab_camera_view);
+        save_image_button->setObjectName(QString::fromUtf8("save_image_button"));
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/images/images/ .svg"), QSize(), QIcon::Normal, QIcon::Off);
+        save_image_button->setIcon(icon6);
+
+        gridLayout->addWidget(save_image_button, 0, 2, 1, 1);
+
+        widget_cam_options = new QWidget(tab_camera_view);
+        widget_cam_options->setObjectName(QString::fromUtf8("widget_cam_options"));
+        sizePolicy2.setHeightForWidth(widget_cam_options->sizePolicy().hasHeightForWidth());
+        widget_cam_options->setSizePolicy(sizePolicy2);
+        widget_cam_options->setMaximumSize(QSize(270, 75));
+        gridLayout_10 = new QGridLayout(widget_cam_options);
+        gridLayout_10->setSpacing(6);
+        gridLayout_10->setContentsMargins(11, 11, 11, 11);
+        gridLayout_10->setObjectName(QString::fromUtf8("gridLayout_10"));
+        gridLayout_10->setContentsMargins(-1, 0, -1, -1);
+        main_camera_button = new QPushButton(widget_cam_options);
+        main_camera_button->setObjectName(QString::fromUtf8("main_camera_button"));
+        sizePolicy2.setHeightForWidth(main_camera_button->sizePolicy().hasHeightForWidth());
+        main_camera_button->setSizePolicy(sizePolicy2);
+        main_camera_button->setMaximumSize(QSize(30, 30));
+        QIcon icon7;
+        icon7.addFile(QString::fromUtf8(":/images/images/multiplecameraview.png"), QSize(), QIcon::Normal, QIcon::Off);
+        main_camera_button->setIcon(icon7);
+        main_camera_button->setIconSize(QSize(70, 35));
+
+        gridLayout_10->addWidget(main_camera_button, 1, 1, 1, 1);
+
+        four_camera_button = new QPushButton(widget_cam_options);
+        four_camera_button->setObjectName(QString::fromUtf8("four_camera_button"));
+        sizePolicy2.setHeightForWidth(four_camera_button->sizePolicy().hasHeightForWidth());
+        four_camera_button->setSizePolicy(sizePolicy2);
+        four_camera_button->setMaximumSize(QSize(30, 30));
+        QIcon icon8;
+        icon8.addFile(QString::fromUtf8(":/images/images/ic_view_stream_24px.png"), QSize(), QIcon::Normal, QIcon::Off);
+        four_camera_button->setIcon(icon8);
+        four_camera_button->setIconSize(QSize(40, 40));
+
+        gridLayout_10->addWidget(four_camera_button, 1, 2, 1, 1);
+
+        label_display_options = new QLabel(widget_cam_options);
+        label_display_options->setObjectName(QString::fromUtf8("label_display_options"));
+
+        gridLayout_10->addWidget(label_display_options, 0, 0, 1, 3);
+
+        one_camera_button = new QPushButton(widget_cam_options);
+        one_camera_button->setObjectName(QString::fromUtf8("one_camera_button"));
+        sizePolicy2.setHeightForWidth(one_camera_button->sizePolicy().hasHeightForWidth());
+        one_camera_button->setSizePolicy(sizePolicy2);
+        one_camera_button->setMaximumSize(QSize(30, 30));
+        QIcon icon9;
+        icon9.addFile(QString::fromUtf8(":/images/images/ic_image_24px.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        one_camera_button->setIcon(icon9);
+        one_camera_button->setIconSize(QSize(25, 25));
+
+        gridLayout_10->addWidget(one_camera_button, 1, 0, 1, 1);
 
 
-        gridLayout_9->addWidget(widget, 0, 0, 1, 1);
+        gridLayout->addWidget(widget_cam_options, 0, 0, 1, 1);
 
-        MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1382, 25));
-        menuBar->setDefaultUp(false);
-        menuBar->setNativeMenuBar(false);
-        menuFile = new QMenu(menuBar);
-        menuFile->setObjectName(QString::fromUtf8("menuFile"));
-        menuView = new QMenu(menuBar);
-        menuView->setObjectName(QString::fromUtf8("menuView"));
-        menuSettings = new QMenu(menuBar);
-        menuSettings->setObjectName(QString::fromUtf8("menuSettings"));
-        menuHelp = new QMenu(menuBar);
-        menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
-        MainWindow->setMenuBar(menuBar);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QString::fromUtf8("statusBar"));
-        MainWindow->setStatusBar(statusBar);
+        horizontal_spacer = new QSpacerItem(747, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        menuBar->addAction(menuFile->menuAction());
-        menuBar->addAction(menuView->menuAction());
-        menuBar->addAction(menuSettings->menuAction());
-        menuBar->addAction(menuHelp->menuAction());
-        menuFile->addAction(actionOpen_perception_configuration);
-        menuView->addAction(actionCameras);
-        menuView->addSeparator();
-        menuView->addAction(actionParameter_Temporal_Series);
-        menuView->addSeparator();
-        menuView->addAction(actionProcess_Monitor);
-        menuView->addAction(actionSystem_Status);
-        menuView->addSeparator();
-        menuView->addAction(action3D_Perception_View);
-        menuSettings->addAction(actionNew_connection);
-        menuSettings->addAction(actionCommunication_Console);
-        menuHelp->addAction(actionContents);
-        menuHelp->addAction(on_actionAbout_Human_Machine_Interface);
-        menuHelp->addAction(actionUser_Commands_Manual);
+        gridLayout->addItem(horizontal_spacer, 0, 1, 1, 1);
+
+        grid_camera = new QGridLayout();
+        grid_camera->setSpacing(0);
+        grid_camera->setObjectName(QString::fromUtf8("grid_camera"));
+
+        gridLayout->addLayout(grid_camera, 1, 0, 1, 3);
+
+        tab_manager->addTab(tab_camera_view, QString());
+        tab_performance = new QWidget();
+        tab_performance->setObjectName(QString::fromUtf8("tab_performance"));
+        gridLayout_11 = new QGridLayout(tab_performance);
+        gridLayout_11->setSpacing(6);
+        gridLayout_11->setContentsMargins(11, 11, 11, 11);
+        gridLayout_11->setObjectName(QString::fromUtf8("gridLayout_11"));
+        gridLayout_11->setContentsMargins(-1, 0, -1, -1);
+        grid_performance = new QGridLayout();
+        grid_performance->setSpacing(6);
+        grid_performance->setObjectName(QString::fromUtf8("grid_performance"));
+
+        gridLayout_11->addLayout(grid_performance, 0, 0, 1, 1);
+
+        tab_manager->addTab(tab_performance, QString());
+        splitter->addWidget(tab_manager);
+
+        gridLayout_2->addWidget(splitter, 0, 0, 1, 1);
+
+        MainWindow->setCentralWidget(central_widget);
+        menu_bar = new QMenuBar(MainWindow);
+        menu_bar->setObjectName(QString::fromUtf8("menu_bar"));
+        menu_bar->setGeometry(QRect(0, 0, 1382, 25));
+        menu_bar->setDefaultUp(false);
+        menu_bar->setNativeMenuBar(false);
+        menu_file = new QMenu(menu_bar);
+        menu_file->setObjectName(QString::fromUtf8("menu_file"));
+        menu_view = new QMenu(menu_bar);
+        menu_view->setObjectName(QString::fromUtf8("menu_view"));
+        menu_settings = new QMenu(menu_bar);
+        menu_settings->setObjectName(QString::fromUtf8("menu_settings"));
+        menu_help = new QMenu(menu_bar);
+        menu_help->setObjectName(QString::fromUtf8("menu_help"));
+        MainWindow->setMenuBar(menu_bar);
+        status_bar = new QStatusBar(MainWindow);
+        status_bar->setObjectName(QString::fromUtf8("status_bar"));
+        MainWindow->setStatusBar(status_bar);
+
+        menu_bar->addAction(menu_file->menuAction());
+        menu_bar->addAction(menu_view->menuAction());
+        menu_bar->addAction(menu_settings->menuAction());
+        menu_bar->addAction(menu_help->menuAction());
+        menu_file->addAction(actionOpen_perception_configuration);
+        menu_view->addAction(action_cameras);
+        menu_view->addSeparator();
+        menu_view->addAction(actionParameter_Temporal_Series);
+        menu_view->addSeparator();
+        menu_view->addAction(actionProcess_Monitor);
+        menu_view->addAction(actionSystem_Status);
+        menu_view->addSeparator();
+        menu_view->addAction(action3D_Perception_View);
+        menu_settings->addAction(actionNew_connection);
+        menu_settings->addAction(actionCommunication_Console);
+        menu_help->addAction(actionContents);
+        menu_help->addAction(actionAbout_Human_Machine_Interface);
+        menu_help->addAction(actionUser_Commands_Manual);
 
         retranslateUi(MainWindow);
 
-        tabManager->setCurrentIndex(1);
-        tab_controlPanel->setCurrentIndex(0);
-        tab_dynamicView->setCurrentIndex(0);
+        tab_dynamic_view->setCurrentIndex(0);
+        tab_control_panel->setCurrentIndex(0);
+        tab_manager->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -953,97 +957,96 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         actionOpen_perception_configuration->setText(QApplication::translate("MainWindow", "Open perception config file ", 0, QApplication::UnicodeUTF8));
         actionNew_connection->setText(QApplication::translate("MainWindow", "New Connection ", 0, QApplication::UnicodeUTF8));
-        actionCameras->setText(QApplication::translate("MainWindow", "Cameras", 0, QApplication::UnicodeUTF8));
+        action_cameras->setText(QApplication::translate("MainWindow", "Cameras", 0, QApplication::UnicodeUTF8));
         actionParameter_Temporal_Series->setText(QApplication::translate("MainWindow", "Parameter Temporal Series", 0, QApplication::UnicodeUTF8));
         actionProcess_Monitor->setText(QApplication::translate("MainWindow", "Process Monitor", 0, QApplication::UnicodeUTF8));
         actionSystem_Status->setText(QApplication::translate("MainWindow", "System Status", 0, QApplication::UnicodeUTF8));
         action3D_Perception_View->setText(QApplication::translate("MainWindow", "3D Perception View", 0, QApplication::UnicodeUTF8));
         actionContents->setText(QApplication::translate("MainWindow", "Contents", 0, QApplication::UnicodeUTF8));
-        on_actionAbout_Human_Machine_Interface->setText(QApplication::translate("MainWindow", "About Human Machine Interface", 0, QApplication::UnicodeUTF8));
+        actionAbout_Human_Machine_Interface->setText(QApplication::translate("MainWindow", "About Human Machine Interface", 0, QApplication::UnicodeUTF8));
         actionUser_Commands_Manual->setText(QApplication::translate("MainWindow", "User Commands Manual", 0, QApplication::UnicodeUTF8));
         actionCommunication_Console->setText(QApplication::translate("MainWindow", "Communication Console", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_STATUSTIP
-        tabManager->setStatusTip(QString());
+        tab_dynamic_view->setStatusTip(QApplication::translate("MainWindow", "Shows the rotation angles and the current position", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_STATUSTIP
-        tabManager->setTabText(tabManager->indexOf(tabParameters), QApplication::translate("MainWindow", "Parameters", 0, QApplication::UnicodeUTF8));
-        mainCameraButton->setText(QString());
-        fourCameraButton->setText(QString());
-        labelDisplayOptions->setText(QApplication::translate("MainWindow", "Display Options:", 0, QApplication::UnicodeUTF8));
-        oneCameraButton->setText(QString());
-        saveImageButton->setText(QString());
-        tabManager->setTabText(tabManager->indexOf(tabCameraView), QApplication::translate("MainWindow", "Camera Views", 0, QApplication::UnicodeUTF8));
-        tabManager->setTabText(tabManager->indexOf(tabPerformance), QApplication::translate("MainWindow", "Performance Monitor", 0, QApplication::UnicodeUTF8));
+        value_vehicle_yaw->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_vehicle_x->setText(QApplication::translate("MainWindow", "X:", 0, QApplication::UnicodeUTF8));
+        value_vehicle_roll->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_vehicle_z->setText(QApplication::translate("MainWindow", "Z:", 0, QApplication::UnicodeUTF8));
+        label_vehicle_yaw->setText(QApplication::translate("MainWindow", "Yaw:", 0, QApplication::UnicodeUTF8));
+        label_vehicle_roll->setText(QApplication::translate("MainWindow", "Roll:", 0, QApplication::UnicodeUTF8));
+        value_vehicle_y->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        value_vehicle_pitch->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        value_vehicle_x->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_vehicle_y->setText(QApplication::translate("MainWindow", "Y:", 0, QApplication::UnicodeUTF8));
+        label_vehicle_pitch->setText(QApplication::translate("MainWindow", "Pitch:", 0, QApplication::UnicodeUTF8));
+        value_vehicle_z->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        vehicle_scene->setText(QString());
+        sphere_scene->setText(QString());
+        value_sphere_yaw->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_sphere_x->setText(QApplication::translate("MainWindow", "X:", 0, QApplication::UnicodeUTF8));
+        value_sphere_roll->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_sphere_z->setText(QApplication::translate("MainWindow", "Z:", 0, QApplication::UnicodeUTF8));
+        label_sphere_yaw->setText(QApplication::translate("MainWindow", "Yaw:", 0, QApplication::UnicodeUTF8));
+        label_sphere_roll->setText(QApplication::translate("MainWindow", "Roll:", 0, QApplication::UnicodeUTF8));
+        value_sphere_y->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_sphere_y->setText(QApplication::translate("MainWindow", "Y:", 0, QApplication::UnicodeUTF8));
+        value_sphere_pitch->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_sphere_pitch->setText(QApplication::translate("MainWindow", "Pitch:", 0, QApplication::UnicodeUTF8));
+        value_sphere_x->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        value_sphere_z->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        tab_dynamic_view->setTabText(tab_dynamic_view->indexOf(widget_sphere), QApplication::translate("MainWindow", "Sphere Dynamics", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        tab_controlPanel->setToolTip(QApplication::translate("MainWindow", "Panel Control", 0, QApplication::UnicodeUTF8));
+        tab_control_panel->setToolTip(QApplication::translate("MainWindow", "Panel Control", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        tab_controlPanel->setStatusTip(QApplication::translate("MainWindow", "Shows the current state of the vehicle and basic control commands", 0, QApplication::UnicodeUTF8));
+        tab_control_panel->setStatusTip(QApplication::translate("MainWindow", "Shows the current state of the vehicle and basic control commands", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_STATUSTIP
-        label_flyingTime->setText(QApplication::translate("MainWindow", "Flying Time :", 0, QApplication::UnicodeUTF8));
-        value_Warnings->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        emergencyStop_Button->setText(QApplication::translate("MainWindow", "Emergency Stop", 0, QApplication::UnicodeUTF8));
-        label_warnings->setText(QApplication::translate("MainWindow", "Detected Warnings :", 0, QApplication::UnicodeUTF8));
-        value_currentGoal->setText(QApplication::translate("MainWindow", "-", 0, QApplication::UnicodeUTF8));
-        value_wifi->setText(QApplication::translate("MainWindow", "Disconnected", 0, QApplication::UnicodeUTF8));
-        yawzeroButton->setText(QApplication::translate("MainWindow", "Yaw Zero", 0, QApplication::UnicodeUTF8));
-        resetButton->setText(QApplication::translate("MainWindow", "Reset", 0, QApplication::UnicodeUTF8));
-        value_battery->setText(QApplication::translate("MainWindow", "0%", 0, QApplication::UnicodeUTF8));
-        hoverButton->setText(QApplication::translate("MainWindow", "Hover", 0, QApplication::UnicodeUTF8));
+        value_fligth_time->setText(QApplication::translate("MainWindow", "0:00", 0, QApplication::UnicodeUTF8));
         selection_vehicle->clear();
         selection_vehicle->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "UAV_1", 0, QApplication::UnicodeUTF8)
         );
-        value_FligthTime->setText(QApplication::translate("MainWindow", "0:00", 0, QApplication::UnicodeUTF8));
-        value_Errors->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_errors->setText(QApplication::translate("MainWindow", "Detected Errors :", 0, QApplication::UnicodeUTF8));
+        emergency_stop_button->setText(QApplication::translate("MainWindow", "Emergency Stop", 0, QApplication::UnicodeUTF8));
+        label_wifi->setText(QApplication::translate("MainWindow", "Wifi Connection :", 0, QApplication::UnicodeUTF8));
+        take_off_button->setText(QApplication::translate("MainWindow", "Take Off", 0, QApplication::UnicodeUTF8));
+        yaw_zero_button->setText(QApplication::translate("MainWindow", "Yaw Zero", 0, QApplication::UnicodeUTF8));
+        hover_button->setText(QApplication::translate("MainWindow", "Hover", 0, QApplication::UnicodeUTF8));
+        value_battery->setText(QApplication::translate("MainWindow", "0%", 0, QApplication::UnicodeUTF8));
+        reset_button->setText(QApplication::translate("MainWindow", "Reset", 0, QApplication::UnicodeUTF8));
+        label_flying_time->setText(QApplication::translate("MainWindow", "Flying Time :", 0, QApplication::UnicodeUTF8));
+        value_errors->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
+        label_control_mode->setText(QApplication::translate("MainWindow", "Control Mode :", 0, QApplication::UnicodeUTF8));
+        value_currentGoal->setText(QApplication::translate("MainWindow", "-", 0, QApplication::UnicodeUTF8));
+        label_sel_vehicle->setText(QApplication::translate("MainWindow", "Selected Vehicle :", 0, QApplication::UnicodeUTF8));
+        label_battery_2->setText(QApplication::translate("MainWindow", "Battery Charge :", 0, QApplication::UnicodeUTF8));
+        value_wifi->setText(QApplication::translate("MainWindow", "Disconnected", 0, QApplication::UnicodeUTF8));
+        label_current_goal->setText(QApplication::translate("MainWindow", "Current Status :", 0, QApplication::UnicodeUTF8));
+        land_button->setText(QApplication::translate("MainWindow", "Land", 0, QApplication::UnicodeUTF8));
         selection_mode->clear();
         selection_mode->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Autonomous", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Automatic", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Manual", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Manual Position", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Manual Altitude", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Manual Speed", 0, QApplication::UnicodeUTF8)
         );
-        label_battery_2->setText(QApplication::translate("MainWindow", "Battery Charge :", 0, QApplication::UnicodeUTF8));
-        label_controlMode->setText(QApplication::translate("MainWindow", "Control Mode :", 0, QApplication::UnicodeUTF8));
-        label_selVehicle->setText(QApplication::translate("MainWindow", "Selected Vehicle :", 0, QApplication::UnicodeUTF8));
-        label_currentGoal->setText(QApplication::translate("MainWindow", "Current Goal :", 0, QApplication::UnicodeUTF8));
-        landButton->setText(QApplication::translate("MainWindow", "Land", 0, QApplication::UnicodeUTF8));
-        label_wifi->setText(QApplication::translate("MainWindow", "Wifi Connection :", 0, QApplication::UnicodeUTF8));
-        label_errors->setText(QApplication::translate("MainWindow", "Detected Errors :", 0, QApplication::UnicodeUTF8));
-        takeoffButton->setText(QApplication::translate("MainWindow", "Take Off", 0, QApplication::UnicodeUTF8));
-        tab_controlPanel->setTabText(tab_controlPanel->indexOf(widget_controlPanel), QApplication::translate("MainWindow", "Control Panel", 0, QApplication::UnicodeUTF8));
+        tab_control_panel->setTabText(tab_control_panel->indexOf(widget_control_panel), QApplication::translate("MainWindow", "Control Panel", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_STATUSTIP
-        tab_dynamicView->setStatusTip(QApplication::translate("MainWindow", "Shows the rotation angles and the current position", 0, QApplication::UnicodeUTF8));
+        tab_manager->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        valueVehicle_Yaw->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        labelVehicle_X->setText(QApplication::translate("MainWindow", "X:", 0, QApplication::UnicodeUTF8));
-        valueVehicle_roll->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        labelVehicle_Z->setText(QApplication::translate("MainWindow", "Z:", 0, QApplication::UnicodeUTF8));
-        labelVehicle_yaw->setText(QApplication::translate("MainWindow", "Yaw:", 0, QApplication::UnicodeUTF8));
-        labelVehicle_roll->setText(QApplication::translate("MainWindow", "Roll:", 0, QApplication::UnicodeUTF8));
-        valueVehicle_Y->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        valueVehicle_pitch->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        valueVehicle_X->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        labelVehicle_Y->setText(QApplication::translate("MainWindow", "Y:", 0, QApplication::UnicodeUTF8));
-        labelVehicle_pitch->setText(QApplication::translate("MainWindow", "Pitch:", 0, QApplication::UnicodeUTF8));
-        valueVehicle_Z->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        vehicleScene->setText(QString());
-        sphereScene->setText(QString());
-        valueSphere_yaw->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        labelSphere_X->setText(QApplication::translate("MainWindow", "X:", 0, QApplication::UnicodeUTF8));
-        valueSphere_roll->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        labelSphere_Z->setText(QApplication::translate("MainWindow", "Z:", 0, QApplication::UnicodeUTF8));
-        labelSphere_yaw->setText(QApplication::translate("MainWindow", "Yaw:", 0, QApplication::UnicodeUTF8));
-        labelSphere_roll->setText(QApplication::translate("MainWindow", "Roll:", 0, QApplication::UnicodeUTF8));
-        valueSphere_Y->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        labelSphere_Y->setText(QApplication::translate("MainWindow", "Y:", 0, QApplication::UnicodeUTF8));
-        valueSphere_pitch->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        labelSphere_pitch->setText(QApplication::translate("MainWindow", "Pitch:", 0, QApplication::UnicodeUTF8));
-        valueSphere_X->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        valueSphere_Z->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        tab_dynamicView->setTabText(tab_dynamicView->indexOf(widget_sphere), QApplication::translate("MainWindow", "Sphere Dynamics", 0, QApplication::UnicodeUTF8));
-        menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
-        menuView->setTitle(QApplication::translate("MainWindow", "View", 0, QApplication::UnicodeUTF8));
-        menuSettings->setTitle(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
-        menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
+        tab_manager->setTabText(tab_manager->indexOf(tab_parameters), QApplication::translate("MainWindow", "Parameters", 0, QApplication::UnicodeUTF8));
+        save_image_button->setText(QString());
+        main_camera_button->setText(QString());
+        four_camera_button->setText(QString());
+        label_display_options->setText(QApplication::translate("MainWindow", "Display Options:", 0, QApplication::UnicodeUTF8));
+        one_camera_button->setText(QString());
+        tab_manager->setTabText(tab_manager->indexOf(tab_camera_view), QApplication::translate("MainWindow", "Camera Views", 0, QApplication::UnicodeUTF8));
+        tab_manager->setTabText(tab_manager->indexOf(tab_performance), QApplication::translate("MainWindow", "Performance Monitor", 0, QApplication::UnicodeUTF8));
+        menu_file->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
+        menu_view->setTitle(QApplication::translate("MainWindow", "View", 0, QApplication::UnicodeUTF8));
+        menu_settings->setTitle(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
+        menu_help->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

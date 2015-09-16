@@ -124,12 +124,15 @@ bool TelemetryStateReceiver::ready() {
 void TelemetryStateReceiver::dronePitchRollCmdCallback(const droneMsgsROS::dronePitchRollCmd::ConstPtr& msg)
 {
     drone_pitchRoll_cmd_msgs=*msg;
-    Q_EMIT parameterReceived();
+    //printDronePitchRollCmdCallback(msg);
+    return;
+
+}
+
+void TelemetryStateReceiver::printDronePitchRollCmdCallback(const droneMsgsROS::dronePitchRollCmd::ConstPtr& msg)
+{
     log(Info,std::string("Received rollCmd from command/roll: ")+ boost::lexical_cast<std::string>(msg->rollCmd) );
     log(Info,std::string("Received rollCmd from command/pitch: ")+ boost::lexical_cast<std::string>(msg->rollCmd) );
-    ROS_INFO("Received rollCmd from command/roll: [%f]", msg->rollCmd);
-    ROS_INFO("Received pitchCmd from command/pitch: [%f]", msg->pitchCmd);
-    Q_EMIT updateStatus();
     return;
 
 }
@@ -138,6 +141,11 @@ void TelemetryStateReceiver::imuCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
     imu_msgs=*msg;
     Q_EMIT parameterReceived();
+   // printImuCallback(msg);
+    return;
+}
+void TelemetryStateReceiver::printImuCallback(const sensor_msgs::Imu::ConstPtr& msg)
+{
     log(Info,std::string("Received description from IMU angular velocity x:  ")+ boost::lexical_cast<std::string>(msg->angular_velocity.x) );
     log(Info,std::string("Received description from IMU angular velocity y:   ")+ boost::lexical_cast<std::string>(msg->angular_velocity.y) );
     log(Info,std::string("Received description from IMU angular velocity z:  ")+ boost::lexical_cast<std::string>(msg->angular_velocity.z) );
@@ -149,17 +157,6 @@ void TelemetryStateReceiver::imuCallback(const sensor_msgs::Imu::ConstPtr& msg)
     log(Info,std::string("Received description from IMU orientation z:  ")+ boost::lexical_cast<std::string>(msg->orientation.z) );
     log(Info,std::string("Received description from IMU orientation w:  ")+ boost::lexical_cast<std::string>(msg->orientation.w) );
    //log(Info,std::string("Received description from IMU orientation covariance: ")+ boost::lexical_cast<std::string>(msg->orientation_covariance) );
-    ROS_INFO("Received description from IMU angular velocity x: [%f]", msg->angular_velocity.x);
-    ROS_INFO("Received description from IMU angular velocity y: [%f]", msg->angular_velocity.y);
-    ROS_INFO("Received description from IMU angular velocity z: [%f]", msg->angular_velocity.z);
-    ROS_INFO("Received description from IMU angular velocity covariance: [%f]", msg->angular_velocity_covariance);
-    ROS_INFO("Received description from IMU linear acceleration: [%f]", msg->linear_acceleration);
-    ROS_INFO("Received description from IMU linear acceleration covariance: [%f]", msg->linear_acceleration_covariance);
-    ROS_INFO("Received description from IMU orientation x: [%f]", msg->orientation.x);
-    ROS_INFO("Received description from IMU orientation y: [%f]", msg->orientation.y);
-    ROS_INFO("Received description from IMU orientation z: [%f]", msg->orientation.z);
-    ROS_INFO("Received description from IMU orientation w: [%f]", msg->orientation.w);
-    ROS_INFO("Received description from IMU orientation covariance: [%f]", msg->orientation_covariance);
     return;
 }
 
@@ -167,12 +164,15 @@ void TelemetryStateReceiver::magnetometerCallback(const geometry_msgs::Vector3St
 {
     magnetometer_msgs=*msg;
     Q_EMIT parameterReceived();
+    //printMagnetometerCallback(msg);
+    return;
+}
+
+void TelemetryStateReceiver::printMagnetometerCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg)
+{
     log(Info,std::string("Received description from Magnetometer sensor vector x:  ")+ boost::lexical_cast<std::string>(msg->vector.x) );
     log(Info,std::string("Received description from Magnetometer sensor vector y:   ")+ boost::lexical_cast<std::string>(msg->vector.y) );
     log(Info,std::string("Received description from Magnetometer sensor vector z:  ")+ boost::lexical_cast<std::string>(msg->vector.z) );
-    ROS_INFO("Received description from Magnetometer sensor vector x: [%f]", msg->vector.x);
-    ROS_INFO("Received description from Magnetometer sensor vector y: [%f]", msg->vector.y);
-    ROS_INFO("Received description from Magnetometer sensor vector z: [%f]", msg->vector.z);
     return;
 }
 
@@ -180,8 +180,8 @@ void TelemetryStateReceiver::batteryCallback(const droneMsgsROS::battery::ConstP
 {
     battery_msgs=*msg;
     Q_EMIT parameterReceived();
-    log(Info,std::string("Received description from Battery percent:   ")+ boost::lexical_cast<std::string>(msg->battery_percent) );
-    ROS_INFO("Received description from Battery percent: [%f]", msg->battery_percent);
+    //log(Info,std::string("Received description from Battery percent:   ")+ boost::lexical_cast<std::string>(msg->batteryPercent) );
+    //ROS_INFO("Received description from Battery percent: [%f]", msg->batteryPercent);
     return;
 }
 
@@ -189,10 +189,14 @@ void TelemetryStateReceiver::altitudeCallback(const droneMsgsROS::droneAltitude:
 {
     altitude_msgs=*msg;
     Q_EMIT parameterReceived();
+    //printAltitudeCallback(msg);
+    return;
+}
+
+void TelemetryStateReceiver::printAltitudeCallback(const droneMsgsROS::droneAltitude::ConstPtr& msg)
+{
     log(Info,std::string("Received description from  Altitude percent:   ")+ boost::lexical_cast<std::string>(msg->altitude) );
     log(Info,std::string("Received description from  Altitude speed percent:   ")+ boost::lexical_cast<std::string>(msg->altitude_speed) );
-    ROS_INFO("Received description from Altitude: [%f]", msg->altitude);
-    ROS_INFO("Received description from Altitude speed: [%f]", msg->altitude_speed);
     return;
 }
 
@@ -207,76 +211,55 @@ void TelemetryStateReceiver::rotationAnglesCallback(const geometry_msgs::Vector3
 {
     rotation_angles_msgs=*msg;
     Q_EMIT parameterReceived();
-    log(Info,std::string("Received roll from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.x) );
-    log(Info,std::string("Received pitch from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.y) );
-    log(Info,std::string("Received yaw from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.z) );
-    ROS_INFO("Received roll from drone0/rotation_angles: [%f]", msg->vector.x);
-    ROS_INFO("Received pitch from drone0/rotation_angles: [%f]", msg->vector.y);
-    ROS_INFO("Received yaw from drone0/rotation_angles: [%f]", msg->vector.z);
+    //printRotationAnglesCallback(msg);
     return;
 }
 
+void TelemetryStateReceiver::printRotationAnglesCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg)
+{
+    log(Info,std::string("Received roll from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.x) );
+    log(Info,std::string("Received pitch from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.y) );
+    log(Info,std::string("Received yaw from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.z) );
+    return;
+}
 void TelemetryStateReceiver::dronePositionCallback(const droneMsgsROS::dronePose::ConstPtr& msg)
 {
     drone_pose_msgs=*msg;
     Q_EMIT parameterReceived();
+    //printDronePositionCallback(msg);
+    return;
+}
+
+void TelemetryStateReceiver::printDronePositionCallback(const droneMsgsROS::dronePose::ConstPtr& msg)
+{
     log(Info,std::string("Received position x:")+ boost::lexical_cast<std::string>(msg->x) );
     log(Info,std::string("Received posistion y:")+ boost::lexical_cast<std::string>(msg->y) );
     log(Info,std::string("Received position z:")+ boost::lexical_cast<std::string>(msg->z) );
     log(Info,std::string("Received position pitch:")+ boost::lexical_cast<std::string>(msg->pitch) );
     log(Info,std::string("Received position roll:")+ boost::lexical_cast<std::string>(msg->roll) );
     log(Info,std::string("Received position yaw:")+ boost::lexical_cast<std::string>(msg->yaw) );
-    ROS_INFO("Received position x: [%f]", msg->x);
-    ROS_INFO("Received posistion y: [%f]", msg->y);
-    ROS_INFO("Received position z: [%f]", msg->z);
-    ROS_INFO("Received position pitch: [%f]", msg->pitch);
-    ROS_INFO("Received position roll: [%f]", msg->roll);
-    ROS_INFO("Received position yaw: [%f]", msg->yaw);
-    return;
 }
-
 void TelemetryStateReceiver::groundSpeedCallback(const droneMsgsROS::vector2Stamped::ConstPtr& msg)
 {
     ground_speed_msgs=*msg;
     Q_EMIT parameterReceived();
-    log(Info,std::string("Received x speed from drone0/ground_speed:")+ boost::lexical_cast<std::string>(msg->vector.x) );
-    log(Info,std::string("Received y speed from drone0/ground_speed:")+ boost::lexical_cast<std::string>(msg->vector.y) );
-    ROS_INFO("Received x speed from drone0/ground_speed: [%f]", msg->vector.x);
-    ROS_INFO("Received y speed from drone0/ground_speed: [%f]", msg->vector.y);
+    //log(Info,std::string("Received x speed from drone0/ground_speed:")+ boost::lexical_cast<std::string>(msg->vector.x) );
+    //log(Info,std::string("Received y speed from drone0/ground_speed:")+ boost::lexical_cast<std::string>(msg->vector.y) );
     return;
 }
-
-
-
 
 void TelemetryStateReceiver::temperatureCallback(const  sensor_msgs::Temperature::ConstPtr& msg)
 {
     temperature=*msg;
-    log(Info,std::string("Received temperature from drone0/temperature:")+ boost::lexical_cast<std::string>(msg->temperature) );
-    log(Info,std::string("Received variance from drone0/temperature:")+ boost::lexical_cast<std::string>(msg->variance) );
-    ROS_INFO("Received temperature from drone0/temperature: [%f]",msg->temperature);
-    ROS_INFO("Received variance from drone0/temperature: [%f]",  msg->variance);
+    // log(Info,std::string("Received temperature from drone0/temperature:")+ boost::lexical_cast<std::string>(msg->temperature) );
+    // log(Info,std::string("Received variance from drone0/temperature:")+ boost::lexical_cast<std::string>(msg->variance) );
 }
-
-ros::Subscriber TelemetryStateReceiver::getDroneInputSubs() const
-{
-    return drone_input_subs;
-}
-
-void TelemetryStateReceiver::setDroneInputSubs(const ros::Subscriber &value)
-{
-    drone_input_subs = value;
-}
-
 
 void TelemetryStateReceiver::pressureCallback(const sensor_msgs::FluidPressure::ConstPtr& msg)
 {
     fluid_pressure=*msg;
-    log(Info,std::string("Received fluid_pressure from drone0/pressure:")+ boost::lexical_cast<std::string>(msg->fluid_pressure) );
-    log(Info,std::string("Received variance from drone0/pressure:")+ boost::lexical_cast<std::string>(msg->variance) );
-    ROS_INFO("Received fluid_pressure from drone0/pressure: [%f]",msg->fluid_pressure);
-    ROS_INFO("Received variance from drone0/pressure: [%f]",  msg->variance);
-
+   // log(Info,std::string("Received fluid_pressure from drone0/pressure:")+ boost::lexical_cast<std::string>(msg->fluid_pressure) );
+   // log(Info,std::string("Received variance from drone0/pressure:")+ boost::lexical_cast<std::string>(msg->variance) );
 }
 
 
@@ -284,7 +267,7 @@ void TelemetryStateReceiver::droneDAltitudeCmdCallback(const droneMsgsROS::drone
 {
     drone_dAltitude_cmd_msgs=*msg;
     Q_EMIT parameterReceived();
-    ROS_INFO("Received dAltitude command from command/dAltitude: [%f]", msg->dAltitudeCmd);
+    //log(Info,std::string("Received dAltitude command from command/dAltitude:")+ boost::lexical_cast<std::string>(msg->dAltitudeCmd));
     return;
 }
 
@@ -292,8 +275,7 @@ void TelemetryStateReceiver::droneDYawCmdCallback(const droneMsgsROS::droneDYawC
 {
     drone_dyaw_cmd_msgs=*msg;
     Q_EMIT parameterReceived();
-    ROS_INFO("Received dYaw command from command/dYaw: [%f]", msg->dYawCmd);
-
+     //log(Info,std::string("Received dYaw command from command/dYaw:")+ boost::lexical_cast<std::string>(msg->dYawCmd));
     return;
 }
 
@@ -301,7 +283,7 @@ void TelemetryStateReceiver::droneHLCallback(const droneMsgsROS::droneCommand::C
 {
     drone_command_msgs=*msg;
     Q_EMIT parameterReceived();
-    ROS_INFO("Received command: [%d]", msg->command);
+    //log(Info,std::string("Received command:")+ boost::lexical_cast<std::string>(msg->command));
     return;
 }
 

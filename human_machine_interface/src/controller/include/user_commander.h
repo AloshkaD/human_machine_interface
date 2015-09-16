@@ -109,7 +109,8 @@ public:
 
 Q_SIGNALS:
 	    void loggingUpdated();
-
+            void parameterReceived();
+            void updateStatus();
 
 private:
         bool subscriptions_complete;

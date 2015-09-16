@@ -38,7 +38,7 @@ void UserCommander::openPublications(ros::NodeHandle nodeHandle, std::string ros
         dyawcmd_topic = "command/dYaw";
 
     if (!nodeHandle.getParam("command_publish_topic", command_publish_topic))
-        command_publish_topic = "command/high_level";
+        command_publish_topic = "droneMissionPlannerCommand";
 
     if (!nodeHandle.getParam("drone_position_refs", drone_position_refs))
         drone_position_refs = "dronePositionRefs";
@@ -56,14 +56,13 @@ void UserCommander::openPublications(ros::NodeHandle nodeHandle, std::string ros
     dronePitchRollCmdPubl=nodeHandle.advertise<droneMsgsROS::dronePitchRollCmd>(rosnamespace + "/" + pitchroll_topic ,1, true);
     droneDAltitudeCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDAltitudeCmd>(rosnamespace + "/" + daltitude_topic,1, true);
     droneDYawCmdPubl=nodeHandle.advertise<droneMsgsROS::droneDYawCmd>(rosnamespace + "/" + dyawcmd_topic,1, true);
-    //droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(rosnamespace + "/" + command_publish_topic,1, true);
+    droneCommandPubl=nodeHandle.advertise<droneMsgsROS::droneMissionPlannerCommand>(rosnamespace + "/" + command_publish_topic,1, true);
 
     dronePositionReferencePublisher = nodeHandle.advertise<droneMsgsROS::dronePositionRefCommandStamped>(rosnamespace + "/" + drone_position_refs, 1);
     droneYawReferencePublisher = nodeHandle.advertise<droneMsgsROS::droneYawRefCommand>(rosnamespace + "/" + drone_controller_yaw_ref_command, 1);
     drone_speeds_reference_publisher     = nodeHandle.advertise<droneMsgsROS::droneSpeeds>(rosnamespace + "/" + drone_speed_refs_topic, 1);
 
     droneManagerStatusSubs  = nodeHandle.subscribe(rosnamespace + "/" + drone_manager_status, 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
-
     subscriptions_complete = true;
 
 }
@@ -271,7 +270,7 @@ void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::dr
                 std::cout<<"Manager Status: MOVING TRAJECTORY"<<std::endl;
                 break;
         }
-
+     Q_EMIT parameterReceived();
 }
 
 

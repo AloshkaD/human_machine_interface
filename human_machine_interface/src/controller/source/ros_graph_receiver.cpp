@@ -79,14 +79,10 @@ void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::C
     supervisor_state_time = ros::Time::now().toSec();
     Q_EMIT errorInformerReceived();
 
-    log(Info,std::string("Received description from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->description.c_str()) );
-    log(Info,std::string("Received node_name from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->process_name.c_str()) );
-    log(Info,std::string("Received hostname from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->hostname.c_str()) );
-    log(Info,std::string("Received location from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->function.c_str()) );
-    ROS_INFO("Received description from /drone_0/error_informer: [%s]", msg->description.c_str());
-    ROS_INFO("Received node_name from /drone_0/error_informer: [%s]", msg->process_name.c_str());
-    ROS_INFO("Received hostname from /drone_0/error_informer: [%s]", msg->hostname.c_str());
-    ROS_INFO("Received location from /drone_0/error_informer: [%s]",  msg->function.c_str());
+    //log(Info,std::string("Received description from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->description.c_str()) );
+    //log(Info,std::string("Received node_name from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->process_name.c_str()) );
+    //log(Info,std::string("Received hostname from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->hostname.c_str()) );
+    //log(Info,std::string("Received location from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->function.c_str()) );
 
 }
 
@@ -98,8 +94,6 @@ void RosGraphReceiver::processPerformanceListCallback(const droneMsgsROS::Proces
     {
         node_container= msg->process_list.at(i);
         node_container.name;
-        log(Info,std::string("Reveived process state from drone0/processes_performance: ")+ boost::lexical_cast<std::string>(node_container.current_state.state) );
-
     }
 
     Q_EMIT supervisorStateReceived();
