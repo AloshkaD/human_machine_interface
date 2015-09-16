@@ -2,7 +2,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/performance_monitor.h"
-#include "../.././../../../hmi_cvg_stack-build/human_machine_interface/ui_processmonitor.h"
+#include "../../view/ui/ui_performancemonitor.h"
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qscrollbar.h>
 #include <string>
@@ -16,7 +16,7 @@
 
 PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collector) :
     QWidget(parent),
-    ui(new Ui::performanceMonitor)
+    ui(new Ui::PerformanceMonitor)
 {
     ui->setupUi(this);
     ui->table_process_viewer->horizontalHeader()->setResizeMode(QHeaderView::Stretch);

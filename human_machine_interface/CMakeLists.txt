@@ -212,6 +212,30 @@ include(${QT_USE_FILE})
 add_definitions(-DQT_NO_KEYWORDS)
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
+####################################################################
+#  UI Headers improvement
+####################################################################
+
+set(QT4_WRAP_UI_DIR $ENV{HMI_PATH}/human_machine_interface/src/view/ui)
+file(MAKE_DIRECTORY ${QT4_WRAP_UI_DIR})
+
+
+MACRO (QT4_WRAP_UI_OWN outfiles )
+  QT4_EXTRACT_OPTIONS(ui_files ui_options ${ARGN})
+
+  FOREACH (it ${ui_files})
+    GET_FILENAME_COMPONENT(outfile ${it} NAME_WE)
+    GET_FILENAME_COMPONENT(infile ${it} ABSOLUTE)
+    SET(outfile ${QT4_WRAP_UI_DIR}/ui_${outfile}.h) # Here we set output
+    ADD_CUSTOM_COMMAND(OUTPUT ${outfile}
+      COMMAND ${QT_UIC_EXECUTABLE}
+      ARGS ${ui_options} -o ${outfile} ${infile}
+      MAIN_DEPENDENCY ${infile})
+    SET(${outfiles} ${${outfiles}} ${outfile})
+  ENDFOREACH (it)
+
+ENDMACRO (QT4_WRAP_UI_OWN)
+
 ##############################################################################
 # Sections
 ##############################################################################
@@ -221,7 +245,7 @@ file(GLOB QT_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/view/resources/*
 file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS  src/controller/include/*.h)
 
 QT4_ADD_RESOURCES(QT_RESOURCES_CPP ${QT_RESOURCES})
-QT4_WRAP_UI(QT_FORMS_HPP ${QT_FORMS})
+QT4_WRAP_UI_OWN(QT_FORMS_HPP ${QT_FORMS})
 QT4_WRAP_CPP(QT_MOC_HPP ${QT_MOC})
 
 ##############################################################################

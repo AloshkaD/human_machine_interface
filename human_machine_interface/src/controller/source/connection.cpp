@@ -10,7 +10,7 @@
 *****************************************************************************/
 #include "../include/connection.h"
 #include <qt4/Qt/qsettings.h>
-#include "../.././../../../hmi_cvg_stack-build/human_machine_interface/ui_connection.h"
+#include "../../view/ui/ui_connection.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/

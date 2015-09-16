@@ -13,7 +13,7 @@
 #include "ros_graph_receiver.h"
 
 namespace Ui {
-class performanceMonitor;
+class PerformanceMonitor;
 }
 
 class PerformanceMonitor : public QWidget
@@ -55,7 +55,7 @@ public Q_SLOTS:
 
 
 private:
-    Ui::performanceMonitor *ui;
+    Ui::PerformanceMonitor *ui;
     QMap<QString,QStringList> processList;
     QStringList listProcess;
 

@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/camera_grid_option.h"
-#include "../.././../../../hmi_cvg_stack-build/human_machine_interface/ui_cameragridoption.h"
+#include "../../view/ui/ui_cameragridoption.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/

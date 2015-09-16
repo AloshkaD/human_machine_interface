@@ -22,8 +22,8 @@
 
 int main(int argc, char *argv[])
 {
-    //if (MainWindow::uniqueApplication()==false)
-      // return 1;
+    if (MainWindow::uniqueApplication()==false)
+       return 1;
 
     QApplication app(argc, argv);
     MainWindow w(argc,argv);
