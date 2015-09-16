@@ -9,18 +9,18 @@
 ** Includes
 *****************************************************************************/
 #include "../include/camera_grid_option.h"
-#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_cameragridoption.h"
+#include "../.././../../../hmi_cvg_stack-build/human_machine_interface/ui_cameragridoption.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
 
-CameraGridOption::CameraGridOption(QWidget *parent,ImagesReceiver* imgReceiver) :
+CameraGridOption::CameraGridOption(QWidget *parent,ImagesReceiver* img_receiver) :
     QWidget(parent),
     ui(new Ui::CameraGridOption)
 {
     ui->setupUi(this);
-    imageReceiver=imgReceiver;
-    connect(imageReceiver,SIGNAL(Update_Image(const QPixmap*,int)),this,SLOT(updateImage(const QPixmap*,int)));
+    image_receiver=img_receiver;
+    connect(image_receiver,SIGNAL(Update_Image(const QPixmap*,int)),this,SLOT(updateImage(const QPixmap*,int)));
 }
 
 void CameraGridOption::updateImage(const QPixmap* image,int id_camera)

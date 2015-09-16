@@ -27,16 +27,16 @@ public:
 
 
         void close();
-        bool connectStatus;
+        bool connect_status;
         bool readyForConnect();
         std::string rosnamespace;
         std::string node_name;
 
 
-        TelemetryStateReceiver* telemetryReceiver;
-        OdometryStateReceiver* odometryReceiver;
-        ImagesReceiver* imgReceiver;
-        RosGraphReceiver* graphReceiver;
+        TelemetryStateReceiver* telemetry_receiver;
+        OdometryStateReceiver* odometry_receiver;
+        ImagesReceiver* img_receiver;
+        RosGraphReceiver* graph_receiver;
         UserCommander* usercommander;
 
         void spinnerThread();

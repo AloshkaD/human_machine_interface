@@ -72,20 +72,20 @@ DataPlot::DataPlot(QWidget *parent, TelemetryStateReceiver* collector, OdometryS
     d_timerId(-1)
 {
     node=collector;
-    odomReceiver=odometryReceiver;
-    connectStatus=false;
+    odom_receiver=odometryReceiver;
+    connect_status=false;
     QObject::connect( node, SIGNAL( parameterReceived( )), this, SLOT( onParameterReceived( )));
 
-    dataCount=0;
+    data_count=0;
     posicionBuffer=PLOT_SIZE;
-    plotColors <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray";
+    colors_list <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray" <<"red"<<"blue"<<"green"<<"black"<<"yellow"<<"magenta"<<"cyan"<<"gray"<<"darkCyan"<<"darkMagenta"<<"darkYellow"<<"darkGray"<<"darkRed"<<"darkBlue"<<"darkGreen"<<"lightGray";
 
-    iteratorColors=0;
-    stopPressed=false;
+    iterator_colors=0;
+    is_stop_pressed=false;
     alignScales();
     setAutoReplot(false);
 
-    parameterList = setCurveLabels(*list);
+    parameters_list = setCurveLabels(*list);
     current_min_limit=0;
     current_max_limit=0;
 
@@ -202,9 +202,9 @@ void DataPlot::initAxisY()
 
 void DataPlot::initCurves()
 {
-    for(unsigned int i = 0; i < parameterList.size(); i = i + 1)
+    for(unsigned int i = 0; i < parameters_list.size(); i = i + 1)
     {
-      curves.insert(parameterList.at(i).c_str(),new QwtPlotCurve(parameterList.at(i).c_str()));
+      curves.insert(parameters_list.at(i).c_str(),new QwtPlotCurve(parameters_list.at(i).c_str()));
     }
 
 }
@@ -233,8 +233,8 @@ void DataPlot::assignColorIcon(QString id,QTreeWidgetItem* item)
     QPixmap pixmap(15,40);
     if(colors[id]==NULL)
     {
-        QString color= plotColors.at(iteratorColors);
-        iteratorColors++;
+        QString color= colors_list.at(iterator_colors);
+        iterator_colors++;
         colors.insert(id,color);
     }
     pixmap.fill(QColor(colors[id]));
@@ -242,16 +242,15 @@ void DataPlot::assignColorIcon(QString id,QTreeWidgetItem* item)
     item->setIcon(0, icon);
 }
 
-
 // Params: item identifier and treeWidgetItem structure
 // erase the color to the Hash structure
 void DataPlot::eraseColorIcon(QString id,QTreeWidgetItem* item)
 {
     QPixmap pixmap(15,40);
     pixmap.fill(QColor("white"));
-    QIcon whiteIcon(pixmap);
-    iconChange.insert(id,2);
-    item->setIcon(0, whiteIcon);
+    QIcon white_icon(pixmap);
+    list_colors_icon.insert(id,2);
+    item->setIcon(0, white_icon);
 }
 
 // Hash colors -> text, color.
@@ -260,32 +259,32 @@ void DataPlot::eraseColorIcon(QString id,QTreeWidgetItem* item)
 void DataPlot::clickToPlot(QTreeWidgetItem* item, int colum)
 {
     if(colum==0){ // handle only signals in colum 0
-        QString text = item->text(colum);
         QString id;
+        QString text = item->text(colum);
         if(item->parent()!=NULL)
             id = item->parent()->text(0) + "/" + text;
         else
             id=item->text(colum);
-        if(!selectedItems.contains(id))// if item is not in checked items.
+        if(!selected_items.contains(id))// if item is not in checked items.
         {
-            selectedItems << id;
+            selected_items << id;
             items.insert(id,item);
-            iconChange.insert(id,1);
+            list_colors_icon.insert(id,1);
             assignColorIcon(id,item);
         }
         else // if item is in list checked items. detach plot and icon white.
         {
-            if(iconChange[id]==3){ //notChange.
+            if(list_colors_icon[id]==3){ //notChange.
                 eraseColorIcon(id,item);
                 if(curves[id]!=NULL)
                 {
                     curves[id]->setVisible(false);
-                    selectedItems.removeAll(id);
+                    selected_items.removeAll(id);
                     items[id]->setText(1,"");
                 }
             }
         }//Restore flags
-        iconChange[id]=3;
+        list_colors_icon[id]=3;
     }
 }
 
@@ -300,13 +299,13 @@ void DataPlot::alignScales()
 
     for ( int i = 0; i < QwtPlot::axisCnt; i++ )
     {
-        QwtScaleWidget *scaleWidget = (QwtScaleWidget *)axisWidget(i);
-        if ( scaleWidget )
-            scaleWidget->setMargin(0);
+        QwtScaleWidget *scale_widget = (QwtScaleWidget *)axisWidget(i);
+        if ( scale_widget )
+            scale_widget->setMargin(0);
 
-        QwtScaleDraw *scaleDraw = (QwtScaleDraw *)axisScaleDraw(i);
-        if ( scaleDraw )
-            scaleDraw->enableComponent(QwtAbstractScaleDraw::Backbone, false);
+        QwtScaleDraw *scale_draw = (QwtScaleDraw *)axisScaleDraw(i);
+        if ( scale_draw )
+            scale_draw->enableComponent(QwtAbstractScaleDraw::Backbone, false);
     }
 }
 
@@ -329,9 +328,9 @@ void DataPlot::setDataCurve(double param[], QString curve_id, double data_msg)
 {
     param[0] = data_msg;
     d_y.insert(curve_id,param);
-    if(selectedItems.contains(curve_id)&& items[curve_id]!=NULL){
+    if(selected_items.contains(curve_id)&& items[curve_id]!=NULL){
         curves[curve_id]->setPen(QPen(colors[curve_id]));
-        curves[curve_id]->setRawSamples(d_x,d_y[curve_id],dataCount);
+        curves[curve_id]->setRawSamples(d_x,d_y[curve_id],data_count);
         curves[curve_id]->attach(this);
         curves[curve_id]->setVisible(true);
          items[curve_id]->setText(1,QString::number(((double)((int)(data_msg*100)))/100));
@@ -342,9 +341,9 @@ void DataPlot::setDataCurve(double param[], QString curve_id, double data_msg)
 // frecuency < topic rate. 1FPS
 void DataPlot::timerEvent(QTimerEvent *e)
 {
-    if(connectStatus){
+    if(connect_status){
     // fill the values.
-      for ( int i = dataCount; i > 0; i-- )
+      for ( int i = data_count; i > 0; i-- )
       {
           param1[i] = param1[i-1];
           param2[i] = param2[i-1];
@@ -390,64 +389,62 @@ void DataPlot::timerEvent(QTimerEvent *e)
           param42[i] = param42[i-1];
           param43[i] = param43[i-1];
           param44[i] = param44[i-1];
-
-
       }
 
       /* Controller*/
 
-      this->setDataCurve(param1,parameterList.at(0).c_str(),odomReceiver->DroneControllerPoseMsgs.x);
-      this->setDataCurve(param2,parameterList.at(1).c_str(), odomReceiver->DroneControllerPoseMsgs.y);
-      this->setDataCurve(param3,parameterList.at(2).c_str(), odomReceiver->DroneControllerPoseMsgs.z);
-      this->setDataCurve(param4,parameterList.at(3).c_str(),odomReceiver->DroneControllerPoseMsgs.yaw);
-      this->setDataCurve(param5,parameterList.at(4).c_str(),odomReceiver->DroneControllerPoseMsgs.pitch);
-      this->setDataCurve(param6,parameterList.at(5).c_str(),odomReceiver->DroneControllerPoseMsgs.roll);
-      this->setDataCurve(param7,parameterList.at(6).c_str(), odomReceiver->DroneControllerSpeedsMsgs.dx);
-      this->setDataCurve(param8,parameterList.at(7).c_str(),odomReceiver->DroneControllerSpeedsMsgs.dy);
-      this->setDataCurve(param9,parameterList.at(8).c_str(),odomReceiver->DroneControllerSpeedsMsgs.dz);
-      this->setDataCurve(param10,parameterList.at(9).c_str(),odomReceiver->DroneControllerSpeedsMsgs.dyaw);
+      this->setDataCurve(param1,parameters_list.at(0).c_str(),odom_receiver->drone_controller_pose_msgs.x);
+      this->setDataCurve(param2,parameters_list.at(1).c_str(), odom_receiver->drone_controller_pose_msgs.y);
+      this->setDataCurve(param3,parameters_list.at(2).c_str(), odom_receiver->drone_controller_pose_msgs.z);
+      this->setDataCurve(param4,parameters_list.at(3).c_str(),odom_receiver->drone_controller_pose_msgs.yaw);
+      this->setDataCurve(param5,parameters_list.at(4).c_str(),odom_receiver->drone_controller_pose_msgs.pitch);
+      this->setDataCurve(param6,parameters_list.at(5).c_str(),odom_receiver->drone_controller_pose_msgs.roll);
+      this->setDataCurve(param7,parameters_list.at(6).c_str(), odom_receiver->drone_controller_speeds_msgs.dx);
+      this->setDataCurve(param8,parameters_list.at(7).c_str(),odom_receiver->drone_controller_speeds_msgs.dy);
+      this->setDataCurve(param9,parameters_list.at(8).c_str(),odom_receiver->drone_controller_speeds_msgs.dz);
+      this->setDataCurve(param10,parameters_list.at(9).c_str(),odom_receiver->drone_controller_speeds_msgs.dyaw);
 
 
       /* Ext.Kallman Filter*/
 
-      this->setDataCurve(param11,parameterList.at(10).c_str(),odomReceiver->DronePoseMsgs.x);
-      this->setDataCurve(param12,parameterList.at(11).c_str(), odomReceiver->DronePoseMsgs.y);
-      this->setDataCurve(param13,parameterList.at(12).c_str(), odomReceiver->DronePoseMsgs.z);
-      this->setDataCurve(param14,parameterList.at(13).c_str(),odomReceiver->DronePoseMsgs.yaw);
-      this->setDataCurve(param15,parameterList.at(14).c_str(),odomReceiver->DronePoseMsgs.pitch);
-      this->setDataCurve(param16,parameterList.at(15).c_str(),odomReceiver->DronePoseMsgs.roll);
-      this->setDataCurve(param17,parameterList.at(16).c_str(), odomReceiver->DroneSpeedsMsgs.dx);
-      this->setDataCurve(param18,parameterList.at(17).c_str(),odomReceiver->DroneSpeedsMsgs.dy);
-      this->setDataCurve(param19,parameterList.at(18).c_str(),odomReceiver->DroneSpeedsMsgs.dz);
-      this->setDataCurve(param20,parameterList.at(19).c_str(),odomReceiver->DroneSpeedsMsgs.dyaw);
-      this->setDataCurve(param21,parameterList.at(20).c_str(),odomReceiver->DroneSpeedsMsgs.dpitch);
-      this->setDataCurve(param22,parameterList.at(21).c_str(),odomReceiver->DroneSpeedsMsgs.droll);
+      this->setDataCurve(param11,parameters_list.at(10).c_str(),odom_receiver->drone_pose_msgs.x);
+      this->setDataCurve(param12,parameters_list.at(11).c_str(), odom_receiver->drone_pose_msgs.y);
+      this->setDataCurve(param13,parameters_list.at(12).c_str(), odom_receiver->drone_pose_msgs.z);
+      this->setDataCurve(param14,parameters_list.at(13).c_str(),odom_receiver->drone_pose_msgs.yaw);
+      this->setDataCurve(param15,parameters_list.at(14).c_str(),odom_receiver->drone_pose_msgs.pitch);
+      this->setDataCurve(param16,parameters_list.at(15).c_str(),odom_receiver->drone_pose_msgs.roll);
+      this->setDataCurve(param17,parameters_list.at(16).c_str(), odom_receiver->drone_speeds_msgs.dx);
+      this->setDataCurve(param18,parameters_list.at(17).c_str(),odom_receiver->drone_speeds_msgs.dy);
+      this->setDataCurve(param19,parameters_list.at(18).c_str(),odom_receiver->drone_speeds_msgs.dz);
+      this->setDataCurve(param20,parameters_list.at(19).c_str(),odom_receiver->drone_speeds_msgs.dyaw);
+      this->setDataCurve(param21,parameters_list.at(20).c_str(),odom_receiver->drone_speeds_msgs.dpitch);
+      this->setDataCurve(param22,parameters_list.at(21).c_str(),odom_receiver->drone_speeds_msgs.droll);
 
 
       /* Telemetry*/
 
-      this->setDataCurve(param23,parameterList.at(22).c_str(),node->rotationAnglesMsgs.vector.z);
-      this->setDataCurve(param24,parameterList.at(23).c_str(),node->rotationAnglesMsgs.vector.y);
-      this->setDataCurve(param25,parameterList.at(24).c_str(),node->rotationAnglesMsgs.vector.x);
-      this->setDataCurve(param26,parameterList.at(25).c_str(),node->imuMsgs.angular_velocity.x);
-      this->setDataCurve(param27,parameterList.at(26).c_str(),node->imuMsgs.angular_velocity.y);
-      this->setDataCurve(param28,parameterList.at(27).c_str(),node->imuMsgs.angular_velocity.z);
-      this->setDataCurve(param29,parameterList.at(28).c_str(),node->imuMsgs.linear_acceleration.x);
-      this->setDataCurve(param30,parameterList.at(29).c_str(),node->imuMsgs.linear_acceleration.y);
-      this->setDataCurve(param31,parameterList.at(30).c_str(),node->imuMsgs.linear_acceleration.z);
-      this->setDataCurve(param32,parameterList.at(31).c_str(),node->imuMsgs.orientation.x);
-      this->setDataCurve(param33,parameterList.at(32).c_str(),node->imuMsgs.orientation.y);
-      this->setDataCurve(param34,parameterList.at(33).c_str(),node->imuMsgs.orientation.z);
-      this->setDataCurve(param35,parameterList.at(34).c_str(),node->imuMsgs.orientation.w);
-      this->setDataCurve(param36,parameterList.at(35).c_str(),node->altitudeMsgs.altitude);
-      this->setDataCurve(param37,parameterList.at(36).c_str(),node->altitudeMsgs.altitude_speed);
-      this->setDataCurve(param38,parameterList.at(37).c_str(),node->magnetometerMsgs.vector.x);
-      this->setDataCurve(param39,parameterList.at(38).c_str(),node->magnetometerMsgs.vector.y);
-      this->setDataCurve(param40,parameterList.at(39).c_str(),node->magnetometerMsgs.vector.z);
-      this->setDataCurve(param41,parameterList.at(40).c_str(),node->groundSpeedMsgs.vector.x);
-      this->setDataCurve(param42,parameterList.at(41).c_str(),node->groundSpeedMsgs.vector.y);
-      this->setDataCurve(param43,parameterList.at(42).c_str(),node->temperature.temperature);
-      this->setDataCurve(param44,parameterList.at(43).c_str(),node->fluidPressure.fluid_pressure);
+      this->setDataCurve(param23,parameters_list.at(22).c_str(),node->rotation_angles_msgs.vector.z);
+      this->setDataCurve(param24,parameters_list.at(23).c_str(),node->rotation_angles_msgs.vector.y);
+      this->setDataCurve(param25,parameters_list.at(24).c_str(),node->rotation_angles_msgs.vector.x);
+      this->setDataCurve(param26,parameters_list.at(25).c_str(),node->imu_msgs.angular_velocity.x);
+      this->setDataCurve(param27,parameters_list.at(26).c_str(),node->imu_msgs.angular_velocity.y);
+      this->setDataCurve(param28,parameters_list.at(27).c_str(),node->imu_msgs.angular_velocity.z);
+      this->setDataCurve(param29,parameters_list.at(28).c_str(),node->imu_msgs.linear_acceleration.x);
+      this->setDataCurve(param30,parameters_list.at(29).c_str(),node->imu_msgs.linear_acceleration.y);
+      this->setDataCurve(param31,parameters_list.at(30).c_str(),node->imu_msgs.linear_acceleration.z);
+      this->setDataCurve(param32,parameters_list.at(31).c_str(),node->imu_msgs.orientation.x);
+      this->setDataCurve(param33,parameters_list.at(32).c_str(),node->imu_msgs.orientation.y);
+      this->setDataCurve(param34,parameters_list.at(33).c_str(),node->imu_msgs.orientation.z);
+      this->setDataCurve(param35,parameters_list.at(34).c_str(),node->imu_msgs.orientation.w);
+      this->setDataCurve(param36,parameters_list.at(35).c_str(),node->altitude_msgs.altitude);
+      this->setDataCurve(param37,parameters_list.at(36).c_str(),node->altitude_msgs.altitude_speed);
+      this->setDataCurve(param38,parameters_list.at(37).c_str(),node->magnetometer_msgs.vector.x);
+      this->setDataCurve(param39,parameters_list.at(38).c_str(),node->magnetometer_msgs.vector.y);
+      this->setDataCurve(param40,parameters_list.at(39).c_str(),node->magnetometer_msgs.vector.z);
+      this->setDataCurve(param41,parameters_list.at(40).c_str(),node->ground_speed_msgs.vector.x);
+      this->setDataCurve(param42,parameters_list.at(41).c_str(),node->ground_speed_msgs.vector.y);
+      this->setDataCurve(param43,parameters_list.at(42).c_str(),node->temperature.temperature);
+      this->setDataCurve(param44,parameters_list.at(43).c_str(),node->fluid_pressure.fluid_pressure);
 
 
      }
@@ -457,10 +454,10 @@ void DataPlot::timerEvent(QTimerEvent *e)
       setAxisScale(QwtPlot::xBottom,
                    d_x[PLOT_SIZE - 1],d_x[0]);
 
-      if(dataCount<PLOT_SIZE)
-          dataCount++;
+      if(data_count<PLOT_SIZE)
+          data_count++;
 
-      if(!stopPressed)
+      if(!is_stop_pressed)
           replot();// Update the plot 1fps
 
 }
@@ -469,7 +466,7 @@ void DataPlot::timerEvent(QTimerEvent *e)
 // Change the text. frecuency = topic rate
 void DataPlot::onParameterReceived()
 {
-    connectStatus=true;
+    connect_status=true;
     initAxisX();
     initAxisY();
     initCurves();
@@ -481,7 +478,6 @@ void DataPlot::resizeAxisXScale(int ms)
     setAxisScale(QwtPlot::xBottom, 0, ms);
     replot();
 }
-
 
 void DataPlot::resizeAxisYMinLimit(int ms)
 {

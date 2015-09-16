@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_mainwindow.h"
+#include "../.././../../../hmi_cvg_stack-build/human_machine_interface/ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <qt4/Qt/qpointer.h>
@@ -54,40 +54,40 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     resize=0;
     num_of_auto_ops=2;
     max_osg_frame=0;
-    errorCounter=0;// counter error for performance_monitor
-    designLaptop=false;
+    error_counter=0;// counter error for performance_monitor
+    is_laptop_design=false;
 
-    ui->tabManager->setCurrentIndex(0); // ensure the first tab is showing
+    ui->tab_manager->setCurrentIndex(0); // ensure the first tab is showing
 
     //Initialize views
     connection = new Connection(this,argc,argv);
-    processView = new PerformanceMonitor(this,connection->graphReceiver);
-    ui->gridPerformance->addWidget(processView,0,0);
-    paramPlot = new ParameterTemporalSeries(this,connection->telemetryReceiver,connection->odometryReceiver);
-    ui->gridParameters->addWidget(paramPlot,0,0);
-    osg_sphere= new SphereView(ui->sphereScene->buddy(),connection->telemetryReceiver);
+    process_view = new PerformanceMonitor(this,connection->graph_receiver);
+    ui->grid_performance->addWidget(process_view,0,0);
+    param_plot = new ParameterTemporalSeries(this,connection->telemetry_receiver,connection->odometry_receiver);
+    ui->grid_parameters->addWidget(param_plot,0,0);
+    osg_sphere= new SphereView(ui->sphere_scene->buddy(),connection->telemetry_receiver);
     osg_sphere->resize(320, 350);    // Resize the QOSGWidget to the size of frames to render
-    osg_uav= new VehicleView(ui->vehicleScene->buddy(),connection->telemetryReceiver);
+    osg_uav= new VehicleView(ui->vehicle_scene->buddy(),connection->telemetry_receiver);
     osg_uav->resize(320, 350);
 
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
-    ui->gridCamera->addWidget(widget,0,0);
+    ui->grid_camera->addWidget(widget,0,0);
     initializeCameraView();
 
     timer = new QTimer(this); // Shows new frames rate -> 1 ms.
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews())); // OSG frames
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView())); // OSG frames
     timer->start(1);
 
     setSignalHandlers(); // triggers
 
-    designLaptop=setLaptopDesign();
+    is_laptop_design=setLaptopDesign();
 
     this->current_time = new QTime(0,0,0);
     setTimerInterval(1000);// 1 second = 1000
 
-    flightTimer = new QTimer(this);
-    flightTimer->start(1000);
+    flight_timer = new QTimer(this);
+    flight_timer->start(1000);
 
     old_height=this->height();
 }
@@ -96,16 +96,16 @@ bool MainWindow::setLaptopDesign()
 {
     // UI design laptop
     QDesktopWidget desktop;
-    int desktopHeight=desktop.geometry().height();
-    int desktopWidth=desktop.geometry().width();
-    qDebug() << desktopHeight;
-    qDebug() << desktopWidth;
+    int desktop_height=desktop.geometry().height();
+    int desktop_width=desktop.geometry().width();
+    qDebug() << desktop_height;
+    qDebug() << desktop_width;
 
-    if(desktopHeight<=1024)
+    if(desktop_height<=1024)
     {
         osg_uav->resize(320, 300);
         osg_sphere->resize(320, 250);
-        ui->tab_dynamicView->setMaximumSize(QSize(350, 280));
+        ui->tab_dynamic_view->setMaximumSize(QSize(350, 280));
         delete ui->panel_vehicle; // destroy the default panels
         delete ui->panel_sphere;
         return true;
@@ -117,15 +117,15 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 {
     QMainWindow::resizeEvent(event);
     if((ignore_resize % num_of_auto_ops) == 0&&old_height!=this->height()){
-        if(ui->sphereScene->size().height()>=ui->vehicleScene->size().height()){
-            osg_uav->resize(ui->sphereScene->size());
-            osg_sphere->resize(ui->sphereScene->size());
+        if(ui->sphere_scene->size().height()>=ui->vehicle_scene->size().height()){
+            osg_uav->resize(ui->sphere_scene->size());
+            osg_sphere->resize(ui->sphere_scene->size());
         }
-        if(ui->sphereScene->size().height()<=ui->vehicleScene->size().height()){
-            osg_sphere->resize(ui->vehicleScene->size());
-            osg_sphere->resize(320, (int)(ui->sphereScene->size().height()-resize));
-            osg_uav->resize(320,(int)(ui->sphereScene->size().height()-resize));
-            osg_uav->resize(ui->vehicleScene->size());
+        if(ui->sphere_scene->size().height()<=ui->vehicle_scene->size().height()){
+            osg_sphere->resize(ui->vehicle_scene->size());
+            osg_sphere->resize(320, (int)(ui->sphere_scene->size().height()-resize));
+            osg_uav->resize(320,(int)(ui->sphere_scene->size().height()-resize));
+            osg_uav->resize(ui->vehicle_scene->size());
         }
         ignore_resize = 0;
     }
@@ -136,11 +136,11 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
     old_height=this->height();
 }
 
-void MainWindow::updateDynamicViews()
+void MainWindow::updateDynamicView()
 {
     // Get the frame and visualize with a pixmap in a QLabel.
-   ui->sphereScene->setPixmap(osg_sphere->renderPixmap(0,0,true));
-   ui->vehicleScene->setPixmap(osg_uav->renderPixmap(0,0,true));
+   ui->sphere_scene->setPixmap(osg_sphere->renderPixmap(0,0,true));
+   ui->vehicle_scene->setPixmap(osg_uav->renderPixmap(0,0,true));
 
 }
 
@@ -162,31 +162,32 @@ void MainWindow::setSignalHandlers()
 {
     connect(connection, SIGNAL(rosShutdown()), this, SLOT(close())); //Close the app.
     connect(connection,SIGNAL(connectionEstablish( )),this, SLOT(testConnection()));
-    connect(connection->telemetryReceiver, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
+    connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
+    connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateDynamicsPanel( )));
     //connect(connection->telemetryReceiver, SIGNAL( parameterReceived( )), this, SLOT(show_frame()));
-    connect(ui->takeoffButton,SIGNAL(clicked()),this, SLOT(onStartButton()));
-    connect(ui->landButton,SIGNAL(clicked()),this, SLOT(onLandButton()));
-    connect(ui->yawzeroButton,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
-    connect(ui->resetButton,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
-    connect(ui->hoverButton,SIGNAL(clicked()),this, SLOT(onHoverButton()));
+    connect(ui->take_off_button,SIGNAL(clicked()),this, SLOT(onStartButton()));
+    connect(ui->land_button,SIGNAL(clicked()),this, SLOT(onLandButton()));
+    connect(ui->yaw_zero_button,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
+    connect(ui->reset_button,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
+    connect(ui->hover_button,SIGNAL(clicked()),this, SLOT(onHoverButton()));
     //connect(ui->emergencyStop_Button,SIGNAL(clicked()),this, SLOT(onEmergencyStopButton()));
-    connect(ui->oneCameraButton, SIGNAL(clicked()), this, SLOT(displayOneCamera()));
-    connect(ui->mainCameraButton, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
-    connect(ui->fourCameraButton, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
-    connect(ui->saveImageButton, SIGNAL(clicked()), this, SLOT(saveCurrentCameraView()));
+    connect(ui->one_camera_button, SIGNAL(clicked()), this, SLOT(displayOneCamera()));
+    connect(ui->main_camera_button, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
+    connect(ui->four_camera_button, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
+    connect(ui->save_image_button, SIGNAL(clicked()), this, SLOT(saveCurrentCameraView()));
     connect(ui->selection_mode, SIGNAL(currentIndexChanged(int)), this, SLOT(onControlModeChange(int)));
-    connect(connection->graphReceiver, SIGNAL( errorInformerReceived( )), this, SLOT( incrementErrorsCounter( )));
+    connect(connection->graph_receiver, SIGNAL( errorInformerReceived( )), this, SLOT( incrementErrorsCounter( )));
     //connect(ui->tabManager, SIGNAL(clicked()), this, SLOT(openTab()));
 
-    disconnect(ui->mainCameraButton, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
-    disconnect(ui->fourCameraButton, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
+    disconnect(ui->main_camera_button, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
+    disconnect(ui->four_camera_button, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
 }
 
 void MainWindow::saveCurrentCameraView()
 {
-    disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
     Q_EMIT saveImage(camera_view_manager);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
 }
 
 void MainWindow::initializeCameraView()
@@ -196,9 +197,9 @@ void MainWindow::initializeCameraView()
     widget->setAutoFillBackground(false);
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
-    ui->gridCamera->addWidget(widget,0,0);
-    oneoption= new CameraMainOption(this,connection->imgReceiver);
-    ui->gridCamera->addWidget(oneoption,0,0);
+    ui->grid_camera->addWidget(widget,0,0);
+    one_option= new CameraMainOption(this,connection->img_receiver);
+    ui->grid_camera->addWidget(one_option,0,0);
 
 }
 
@@ -209,10 +210,10 @@ void MainWindow::displayOneCamera()
     widget->setAutoFillBackground(false);
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
-    ui->gridCamera->addWidget(widget,0,0);
-    if(!isOpen_oneCameraView) oneoption= new CameraMainOption(this,connection->imgReceiver);
-    ui->gridCamera->addWidget(oneoption,0,0);
-    isOpen_oneCameraView=true;
+    ui->grid_camera->addWidget(widget,0,0);
+    if(!is_open_one_camera_view) one_option= new CameraMainOption(this,connection->img_receiver);
+    ui->grid_camera->addWidget(one_option,0,0);
+    is_open_one_camera_view=true;
 }
 void MainWindow::displayMainGridCamera()
 {
@@ -220,25 +221,25 @@ void MainWindow::displayMainGridCamera()
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
     widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
-    ui->gridCamera->addWidget(widget,0,0);
-    if(!isOpen_mainCameraView)
-        mainoption= new CameraDisplayOption(this,connection->imgReceiver);
-    ui->gridCamera->addWidget(mainoption,0,0);
-    isOpen_mainCameraView=true;
+    ui->grid_camera->addWidget(widget,0,0);
+    if(!is_open_main_camera_view)
+        mainoption= new CameraDisplayOption(this,connection->img_receiver);
+    ui->grid_camera->addWidget(mainoption,0,0);
+    is_open_main_camera_view=true;
 }
 
 void MainWindow::displayFourGridCamera()
 {
-    if(!isOpen_fourCameraView){
+    if(!is_open_four_camera_view){
         camera_view_manager=3;
         QWidget* widget = new QWidget();
         widget->setAutoFillBackground(false);
         widget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
 
-        ui->gridCamera->addWidget(widget,0,0);
-        fourCamera= new CameraGridOption(this,connection->imgReceiver);
-        ui->gridCamera->addWidget(fourCamera,0,0);
-        isOpen_fourCameraView=true;
+        ui->grid_camera->addWidget(widget,0,0);
+        fourCamera= new CameraGridOption(this,connection->img_receiver);
+        ui->grid_camera->addWidget(fourCamera,0,0);
+        is_open_four_camera_view=true;
     }
 }
 
@@ -254,23 +255,42 @@ void MainWindow::flightTime()
 {
     this->current_time->setHMS(this->current_time->addSecs(+1).hour(),this->current_time->addSecs(+1).minute(),this->current_time->addSecs(+1).second());
     QString text = this->current_time->toString();
-    ui->value_FligthTime->setText(text);
+    ui->value_fligth_time->setText(text);
 }
 
 
 void MainWindow::incrementErrorsCounter()
 {
-    if (connection->connectStatus){
-        errorCounter++;
-        ui->value_Errors->setText(QString::number(errorCounter));
+    if (connection->connect_status){
+        error_counter++;
+        ui->value_errors->setText(QString::number(error_counter));
+    }
+}
+void MainWindow::updateDynamicsPanel()
+{
+    if(connection->connect_status&&!is_laptop_design){
+        // sphere
+        ui->value_sphere_x->setText(QString::number(((double)((int)(connection->odometry_receiver->drone_pose_msgs.x*100)))/100) + "  m");
+        ui->value_sphere_y->setText(QString::number(((double)((int)(connection->odometry_receiver->drone_pose_msgs.y*100)))/100) + "  m");
+        ui->value_sphere_z->setText(QString::number(((double)((int)(connection->odometry_receiver->drone_pose_msgs.z*100)))/100) + "  m");
+        ui->value_sphere_yaw->setText(QString::number(((double)((int)(connection->telemetry_receiver->rotation_angles_msgs.vector.z*100)))/100) + "  deg");
+        ui->value_sphere_roll->setText(QString::number(((double)((int)(connection->telemetry_receiver->rotation_angles_msgs.vector.x*100)))/100) + "  deg");
+        ui->value_sphere_pitch->setText(QString::number(((double)((int)(connection->telemetry_receiver->rotation_angles_msgs.vector.y*100)))/100) + "  deg");
+        // vehicle
+        ui->value_vehicle_x->setText(QString::number(((double)((int)(connection->odometry_receiver->drone_pose_msgs.x*100)))/100) + "  m");
+        ui->value_vehicle_y->setText(QString::number(((double)((int)(connection->odometry_receiver->drone_pose_msgs.y*100)))/100) + "  m");
+        ui->value_vehicle_z->setText(QString::number(((double)((int)(connection->odometry_receiver->drone_pose_msgs.z*100)))/100) + "  m");
+        ui->value_vehicle_yaw->setText(QString::number(((double)((int)(connection->telemetry_receiver->rotation_angles_msgs.vector.z*100)))/100) + "  deg");
+        ui->value_vehicle_pitch->setText(QString::number(((double)((int)(connection->telemetry_receiver->rotation_angles_msgs.vector.x*100)))/100) + "  deg");
+        ui->value_vehicle_roll->setText(QString::number(((double)((int)(connection->telemetry_receiver->rotation_angles_msgs.vector.y*100)))/100) + "  deg");
     }
 }
 
 void MainWindow::updateStatusBar()
 {
 
-    if (connection->connectStatus){
-        switch(connection->telemetryReceiver->droneStatusMsgs.status)
+    if (connection->connect_status){
+        switch(connection->telemetry_receiver->droneStatusMsgs.status)
         {
         case droneMsgsROS::droneStatus::UNKNOWN:
             ui->value_currentGoal->setText("Unknown");
@@ -297,46 +317,25 @@ void MainWindow::updateStatusBar()
             ui->value_currentGoal->setText("Looping");
         }
 
-
-        if(connection->telemetryReceiver->batteryMsgs.batteryPercent<=25.0&&connection->telemetryReceiver->batteryMsgs.batteryPercent!=0){
+        if(connection->telemetry_receiver->battery_msgs.battery_percent<=25.0&&connection->telemetry_receiver->battery_msgs.battery_percent!=0){
             QPalette* palette = new QPalette();
             palette->setColor(QPalette::WindowText,Qt::red);
             ui->value_battery->setPalette(*palette);
         }
-        ui->value_battery->setText(QString::number(connection->telemetryReceiver->batteryMsgs.batteryPercent) +  "%");
-
-        if(!designLaptop){
-
-            // sphere
-            ui->valueSphere_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
-            ui->valueSphere_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
-            ui->valueSphere_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
-            ui->valueSphere_yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.z*100)))/100) + "  deg");
-            ui->valueSphere_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.x*100)))/100) + "  deg");
-            ui->valueSphere_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.y*100)))/100) + "  deg");
-
-
-            // vehicle
-            ui->valueVehicle_X->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.x*100)))/100) + "  m");
-            ui->valueVehicle_Y->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.y*100)))/100) + "  m");
-            ui->valueVehicle_Z->setText(QString::number(((double)((int)(connection->odometryReceiver->DronePoseMsgs.z*100)))/100) + "  m");
-            ui->valueVehicle_Yaw->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.z*100)))/100) + "  deg");
-            ui->valueVehicle_pitch->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.x*100)))/100) + "  deg");
-            ui->valueVehicle_roll->setText(QString::number(((double)((int)(connection->telemetryReceiver->rotationAnglesMsgs.vector.y*100)))/100) + "  deg");
-        }
+        ui->value_battery->setText(QString::number(connection->telemetry_receiver->battery_msgs.battery_percent) +  "%");
     }
 }
 
 void MainWindow::testConnection()
 {
-    if (!connection->connectStatus){
+    if (!connection->connect_status){
         cout << "roscore node could have not been initialized" << '\n';
         showNoMasterMessage();
     }else{
         showConnectionEstablished();
         ui->value_wifi->setText("Connected");
 
-        connect(flightTimer, SIGNAL(timeout()), this, SLOT(flightTime()));
+        connect(flight_timer, SIGNAL(timeout()), this, SLOT(flightTime()));
     }
 }
 
@@ -378,10 +377,10 @@ void MainWindow::on_actionCommunication_Console_triggered()
 
 void MainWindow::on_actionOpen_perception_configuration_triggered()
 {
-    disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
     file_name = QFileDialog::getOpenFileName(this,tr("Open File"), "/home", tr("All files (*.*)"));
     QMessageBox::information(this,tr("File Name"),file_name);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicViews()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
 }
 
 
@@ -417,7 +416,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 // Control Mode
 void MainWindow::onControlModeChange(int key){
     std::cout<<key<<std::endl;
-    if (connection->connectStatus){
+    if (connection->connect_status){
         switch(key)
         {
         case(1):
@@ -439,7 +438,7 @@ void MainWindow::onControlModeChange(int key){
 void MainWindow::onStartButton()
 {
     std::cout<<"Take Off pressed buttom"<<std::endl;
-    if (connection->connectStatus)
+    if (connection->connect_status)
         connection->usercommander->publish_takeoff();
 
 }
@@ -447,7 +446,7 @@ void MainWindow::onStartButton()
 void MainWindow::onLandButton()
 {
     std::cout<<"Land pressed buttom"<<std::endl;
-    if (connection->connectStatus)
+    if (connection->connect_status)
         connection->usercommander->publish_land();
 
 }
@@ -455,14 +454,14 @@ void MainWindow::onLandButton()
 void MainWindow::onHoverButton()
 {
     std::cout<<"Hover pressed buttom"<<std::endl;
-    if (connection->connectStatus)
+    if (connection->connect_status)
         connection->usercommander->publish_hover();
 }
 
 void MainWindow::onYawZeroButton()
 {
     std::cout<<"Yaw zero pressed buttom"<<std::endl;
-    if (connection->connectStatus)
+    if (connection->connect_status)
         connection->usercommander->publish_yaw_zero();
 }
 
@@ -476,7 +475,7 @@ void MainWindow::onResetCommandButton()
 
 void MainWindow::keyPressEvent(QKeyEvent *e){
     std::stringstream key;
-    if (connection->connectStatus){
+    if (connection->connect_status){
         switch(e->key())
         {
         case Qt::Key_Right:
@@ -575,9 +574,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
 
 void MainWindow::close()
 {
-    delete connection->graphReceiver;
-    delete connection->odometryReceiver;
-    delete connection->telemetryReceiver;
+    delete connection->graph_receiver;
+    delete connection->odometry_receiver;
+    delete connection->telemetry_receiver;
     connection->WriteSettings();
     this->~MainWindow();
 }
@@ -671,6 +670,9 @@ bool MainWindow::uniqueApplication()
         chars_array = strtok(NULL, " ");
     }
 
+    //Redirect the standard error temporally
+    freopen( "standard_error.txt", "w", stderr );
+    //freopen( "standard_output.txt", "w", stdout );
 
     if (instances > 1)
     {

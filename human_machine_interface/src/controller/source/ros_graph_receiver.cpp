@@ -37,8 +37,8 @@ void RosGraphReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string
          supervisor_processes_performance = "processes_performance";
 
     //supervisor
-    errorInformerSubs=nodeHandle.subscribe(rosnamespace + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
-    watchdogSubs=nodeHandle.subscribe(rosnamespace + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
+    error_informer_subs=nodeHandle.subscribe(rosnamespace + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
+    watchdog_subs=nodeHandle.subscribe(rosnamespace + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
 
 
     subscriptions_complete=true;
@@ -61,8 +61,8 @@ bool RosGraphReceiver::ready() {
 void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg)
 {
 
-    description=   msg->description.c_str();
-    node_name=  msg->process_name.c_str();
+    description=msg->description.c_str();
+    node_name=msg->process_name.c_str();
     if(msg->error_type.value==msg->error_type.FrozenNode)
         error_type="FrozenNode";
     if(msg->error_type.value==msg->error_type.InvalidInputData)
@@ -76,7 +76,7 @@ void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::C
 
     hostname= msg->hostname.c_str();
     location = msg->function.c_str();
-    supervisorStateTime = ros::Time::now().toSec();
+    supervisor_state_time = ros::Time::now().toSec();
     Q_EMIT errorInformerReceived();
 
     log(Info,std::string("Received description from /drone_0/error_informer: ")+ boost::lexical_cast<std::string>(msg->description.c_str()) );
@@ -93,7 +93,7 @@ void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::C
 
 void RosGraphReceiver::processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg)
 {
-    listProcessState=*msg;
+    list_process_state=*msg;
     for(unsigned int i = 0; i < msg->process_list.size(); i = i + 1)
     {
         node_container= msg->process_list.at(i);

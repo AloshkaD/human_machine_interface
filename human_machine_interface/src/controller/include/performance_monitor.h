@@ -21,8 +21,8 @@ class PerformanceMonitor : public QWidget
     Q_OBJECT
 
     int row;
-    int errorCounter;
-    bool initializedTable;
+    int error_counter;
+    bool initialized_table;
     bool is_display_stopped;
 
 public:

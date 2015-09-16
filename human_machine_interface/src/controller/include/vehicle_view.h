@@ -55,9 +55,9 @@ class VehicleView: public QGLWidget
 
         osg::ref_ptr<osgViewer::Viewer> viewer;
         osg::observer_ptr<osgViewer::GraphicsWindowEmbedded> window;
-        osg::ref_ptr<osg::Node> loadedModel;
+        osg::ref_ptr<osg::Node> loaded_model;
         osg::ref_ptr<osg::MatrixTransform> transformation;
-        osg::ref_ptr<osg::MatrixTransform> auxTransformation;
+        osg::ref_ptr<osg::MatrixTransform> aux_transformation;
 };
 
 #endif

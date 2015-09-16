@@ -26,20 +26,20 @@ public:
     DataPlot(QWidget* = NULL, TelemetryStateReceiver *collector=0, OdometryStateReceiver* odometryReceiver=0, QMap<QString, QStringList>  *list=0);
     void alignScales();
 
-    bool connectStatus;
-    QStringList selectedItems;
-    QStringList plotColors;
-    int iteratorColors;
+    bool connect_status;
+    QStringList selected_items;
+    QStringList colors_list;
+    int iterator_colors;
     bool iconColorChange; // make difference between change by checkbox and icons.
     bool iconWhiteChange;
-    bool stopPressed;
-    int dataCount;
+    bool is_stop_pressed;
+    int data_count;
     int current_max_limit;
     int current_min_limit;
-    std::vector<std::string>  parameterList;
+    std::vector<std::string>  parameters_list;
     QHash<QString,QwtPlotCurve*> curves;
     QHash<QString,QString> colors;
-    QHash<QString,int> iconChange;
+    QHash<QString,int> list_colors_icon;
     QHash<QString,double*> d_y;
     QHash<QString,QTreeWidgetItem*> items;
 
@@ -123,7 +123,7 @@ private:
     double hrateBuff5[HIGHRATE_SIZE];
     double hrateBuff6[HIGHRATE_SIZE];
     TelemetryStateReceiver* node;
-    OdometryStateReceiver* odomReceiver;
+    OdometryStateReceiver* odom_receiver;
 
     int posicionBuffer;
     int d_interval; // timer in ms

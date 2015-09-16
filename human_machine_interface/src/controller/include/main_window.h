@@ -48,7 +48,7 @@ public:
     VehicleView *osg_uav;
     QTimer *timer;
     QTime *current_time;
-    int errorCounter;
+    int error_counter;
 
 
     QString file_name;
@@ -58,16 +58,17 @@ public:
     int old_height;
     int resize;
     int camera_view_manager;
-    bool isOpen_mainCameraView;
-    bool isOpen_oneCameraView;
-    bool isOpen_fourCameraView;
-    bool designLaptop;
-    QTimer *flightTimer;
+    bool is_open_main_camera_view;
+    bool is_open_one_camera_view;
+    bool is_open_four_camera_view;
+    bool is_laptop_design;
+    QTimer *flight_timer;
     static bool uniqueApplication();
     bool setLaptopDesign();
 
+
 private Q_SLOTS:
-   void updateDynamicViews();
+   void updateDynamicView();
 
 public Q_SLOTS:
     void on_actionNew_connection_triggered();
@@ -100,6 +101,7 @@ public Q_SLOTS:
     void saveCurrentCameraView();
     void onControlModeChange(int key);
     void keyPressEvent(QKeyEvent *e);
+    void updateDynamicsPanel();
 
 
 
@@ -121,10 +123,10 @@ private:
     Ui::MainWindow *ui;
     Connection *connection;
     CameraDisplayOption *mainoption;
-    CameraMainOption *oneoption;
+    CameraMainOption *one_option;
     CameraGridOption *fourCamera;
-    PerformanceMonitor *processView;
-    ParameterTemporalSeries *paramPlot;
+    PerformanceMonitor *process_view;
+    ParameterTemporalSeries *param_plot;
     CommunicationConsole *consoleView;
     int d_interval; // timer in ms
     int d_timerId;

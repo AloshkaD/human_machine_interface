@@ -50,12 +50,12 @@ public:
         void run();
         bool ready();
 
-        droneMsgsROS::droneSpeeds DroneSpeedsMsgs;
-        droneMsgsROS::dronePose DronePoseMsgs;
-        droneMsgsROS::droneSpeeds DroneControllerSpeedsMsgs;
-        droneMsgsROS::dronePose DroneControllerPoseMsgs;
+        droneMsgsROS::droneSpeeds drone_speeds_msgs;
+        droneMsgsROS::dronePose drone_pose_msgs;
+        droneMsgsROS::droneSpeeds drone_controller_speeds_msgs;
+        droneMsgsROS::dronePose drone_controller_pose_msgs;
 
-        std::vector<droneMsgsROS::ProcessDescriptor> listProcessState;
+        std::vector<droneMsgsROS::ProcessDescriptor> list_process_state;
 
 
 	/*********************
@@ -94,7 +94,6 @@ private:
         std::string drone_logger_position_ref_rebroadcast_subscription;
         std::string drone_logger_speed_ref_rebroadcast_subscription;
 
-
 	int init_argc;
         int real_time;
         char** init_argv;
@@ -120,7 +119,6 @@ private:
         ros::Subscriber DroneArucoEyeObservationSubs;
         void droneArucoEyeObservationCallback(const droneMsgsROS::obsVector::ConstPtr &msg);
 
-
         ros::Subscriber DroneTrajectoryControlSubs;
         void droneTrajectoryControllerControlModeCallback(const droneMsgsROS::droneTrajectoryControllerControlMode::ConstPtr &msg);
 
@@ -132,7 +130,6 @@ private:
 
         ros::Subscriber DroneTrajectoryTjReferenceSubs;
         void dronePositionTrajectoryRefCommandCallback(const droneMsgsROS::dronePositionTrajectoryRefCommand::ConstPtr &msg);
-
 
         void processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg);
 

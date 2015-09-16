@@ -31,7 +31,7 @@ public Q_SLOTS:
 
 private:
     Ui::cameraMainOption *ui;
-    ImagesReceiver* imageReceiver;
+    ImagesReceiver* image_receiver;
     QPixmap pix;
 };
 

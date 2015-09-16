@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/camera_main_option.h"
-#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_cameramainoption.h"
+#include "../.././../../../hmi_cvg_stack-build/human_machine_interface/ui_cameramainoption.h"
 #include <qt4/Qt/qframe.h>
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qbuffer.h>
@@ -24,18 +24,18 @@ CameraMainOption::CameraMainOption(QWidget *parent,ImagesReceiver* imgReceiver) 
     ui(new Ui::cameraMainOption)
 {
     ui->setupUi(this);
-    imageReceiver=imgReceiver;
+    image_receiver=imgReceiver;
     current_image=1;
 
     QSignalMapper* signalMapper = new QSignalMapper(this);
-    connect(ui->rightButton, SIGNAL(clicked()),signalMapper, SLOT(map()));
-    connect(ui->rightButton, SIGNAL(clicked()),signalMapper, SLOT(map()));
-    signalMapper->setMapping(ui->rightButton,1);
-    signalMapper->setMapping(ui->leftButton,2);
+    connect(ui->right_button, SIGNAL(clicked()),signalMapper, SLOT(map()));
+    connect(ui->right_button, SIGNAL(clicked()),signalMapper, SLOT(map()));
+    signalMapper->setMapping(ui->right_button,1);
+    signalMapper->setMapping(ui->left_button,2);
     connect(signalMapper,SIGNAL(mapped(int)),this,SLOT(changeCurrentCamera(int)));
 
 
-    connect(imageReceiver,SIGNAL(Update_Image(const QPixmap*,int)),this,SLOT(updateImage(const QPixmap*,int)));
+    connect(image_receiver,SIGNAL(Update_Image(const QPixmap*,int)),this,SLOT(updateImage(const QPixmap*,int)));
     connect(parent, SIGNAL(saveImage(const int)), this, SLOT(saveCameraImages(const int)));
 }
 
@@ -80,61 +80,61 @@ void CameraMainOption::changeCurrentCamera(int direction) //TODO:Change label ti
     {
     case 1:
         if(direction==1) //Right direction
-            connect(imageReceiver,SIGNAL(Update_Image1(const QPixmap*)),this,SLOT(updateImage1(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image1(const QPixmap*)),this,SLOT(updateImage1(const QPixmap*)));
         else{
-            disconnect(imageReceiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image1(const QPixmap*)),this,SLOT(updateImage1(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image1(const QPixmap*)),this,SLOT(updateImage1(const QPixmap*)));
         }
         break;
 
     case 2:
         if(direction==1){
-            disconnect(imageReceiver,SIGNAL(Update_Image1(const QPixmap*)),this,SLOT(updateImage1(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image1(const QPixmap*)),this,SLOT(updateImage1(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
         }else{
-            disconnect(imageReceiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
         }
         break;
 
     case 3:
         if(direction==1){
-            disconnect(imageReceiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image2(const QPixmap*)),this,SLOT(updateImage2(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
         }else{
-            disconnect(imageReceiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
         }
         break;
 
     case 4:
         if(direction==1){
-            disconnect(imageReceiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image3(const QPixmap*)),this,SLOT(updateImage3(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
         }else{
-            disconnect(imageReceiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
         }
 
         break;
 
     case 5:
         if(direction==1){
-            disconnect(imageReceiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image4(const QPixmap*)),this,SLOT(updateImage4(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
         }else{
-            disconnect(imageReceiver,SIGNAL(Update_Image6(const QPixmap*)),this,SLOT(updateImage6(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image6(const QPixmap*)),this,SLOT(updateImage6(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
         }
 
         break;
 
     case 6:
         if(direction==1){
-            disconnect(imageReceiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
-            connect(imageReceiver,SIGNAL(Update_Image6(const QPixmap*)),this,SLOT(updateImage6(const QPixmap*)));
+            disconnect(image_receiver,SIGNAL(Update_Image5(const QPixmap*)),this,SLOT(updateImage5(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image6(const QPixmap*)),this,SLOT(updateImage6(const QPixmap*)));
         }else{
-            connect(imageReceiver,SIGNAL(Update_Image6(const QPixmap*)),this,SLOT(updateImage6(const QPixmap*)));
+            connect(image_receiver,SIGNAL(Update_Image6(const QPixmap*)),this,SLOT(updateImage6(const QPixmap*)));
         }
         break;
 

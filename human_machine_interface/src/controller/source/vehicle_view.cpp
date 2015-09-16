@@ -5,7 +5,7 @@
   @date    06-2015
   @version 1.0
 */
-  
+
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
@@ -25,15 +25,14 @@ VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryRecei
 
     // Create the transformation matrix to show the 3D model, this is the root node.
     transformation = new osg::MatrixTransform;
-    auxTransformation = new osg::MatrixTransform;
+    aux_transformation = new osg::MatrixTransform;
 
-   viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.3f));
+    viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.3f));
 
     
     // Load the 3D model, Geodo
-    loadedModel = osgDB::readNodeFile("pelican2.3ds");
-    if(loadedModel.get()==NULL)
-      qDebug()<<"NULL";
+    loaded_model = osgDB::readNodeFile("pelican2.3ds");
+
 
     // Set camera
     osg::Vec3d eye( 20.0, -20.0, 20.0 );
@@ -43,11 +42,13 @@ VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryRecei
 
     viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
 
-
-   // Set the 3D mode as child of the transformation.
-   auxTransformation->addChild(loadedModel.get());
-   auxTransformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
-   transformation->addChild(auxTransformation);
+    if(loaded_model.get()==NULL){
+        // Set the 3D mode as child of the transformation.
+        aux_transformation->addChild(loaded_model.get());
+        aux_transformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
+        transformation->addChild(aux_transformation);
+    }else
+        std::cout<<"the model is not loaded"<<std::endl;
 
 }
 
@@ -78,8 +79,8 @@ void VehicleView::paintGL()
 {
 
     // Set a rotation matrix transforamtion to turn the model
-    float pitchAngle=osg::DegreesToRadians(telemReceiver->rotationAnglesMsgs.vector.y);
-    float rollAngle=osg::DegreesToRadians(telemReceiver->rotationAnglesMsgs.vector.x);
+    float pitchAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.y);
+    float rollAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.x);
 
     osg::Matrix pitchMatrix = osg::Matrix::rotate( pitchAngle, 1, 0, 0 );
     osg::Matrix rollMatrix = osg::Matrix::rotate( rollAngle, 0, 1, 0 );

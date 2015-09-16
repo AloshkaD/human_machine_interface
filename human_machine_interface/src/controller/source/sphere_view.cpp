@@ -97,9 +97,9 @@ void SphereView::paintGL()
 {
 
 
-    float pitchAngle=osg::DegreesToRadians(telemReceiver->rotationAnglesMsgs.vector.y);
-    float yawAngle=osg::DegreesToRadians(telemReceiver->rotationAnglesMsgs.vector.z);
-    float rollAngle=osg::DegreesToRadians(telemReceiver->rotationAnglesMsgs.vector.x);
+    float pitchAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.y);
+    float yawAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.z);
+    float rollAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.x);
 
 
     osg::Matrix pitchMatrix = osg::Matrix::rotate( pitchAngle, 1, 0, 0 );
@@ -110,7 +110,7 @@ void SphereView::paintGL()
    // labelXtrans->setMatrix(rollMatrix);
 
     viewer->setSceneData(root);
-    // Increase the roation angle
+    // Increase the rotation angle
 
 
     // Render the frame
@@ -210,10 +210,6 @@ void SphereView::shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransf
     coneZGeode->addDrawable( coneZ );
 
     fixedAxisGeode-> addDrawable( fixedAxis );
-
-
-
-
     xconeXForm->addChild(coneXGeode);
   //  xlabelXForm->addChild(XtextGeode);
     yconeXForm->addChild(coneYGeode);
@@ -259,8 +255,6 @@ void SphereView::axisGenerator(osg::Geometry* axis, bool fixed){
         y_color = yf_color;
         z_color = zf_color;
     }
-
-
 
     osg::Vec4Array* color = new osg::Vec4Array(6);
     (*color)[0] = x_color;

@@ -71,10 +71,10 @@ public:
 
 
 
-        droneMsgsROS::ProcessDescriptorList listProcessState;
+        droneMsgsROS::ProcessDescriptorList list_process_state;
         droneMsgsROS::ProcessDescriptor node_container;
         droneMsgsROS::droneStatus droneStatusMsgs;
-        double supervisorStateTime;
+        double supervisor_state_time;
 
 
 	enum LogLevel {
@@ -102,9 +102,9 @@ Q_SIGNALS:
 private:
         bool subscriptions_complete;
 
-        ros::Subscriber watchdogSubs;
+        ros::Subscriber watchdog_subs;
         void processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg);
-        ros::Subscriber errorInformerSubs;
+        ros::Subscriber error_informer_subs;
         void errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg);
 
         std::string supervisor_process_error_unified_notification;

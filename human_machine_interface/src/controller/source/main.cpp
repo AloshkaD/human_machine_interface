@@ -22,10 +22,6 @@
 
 int main(int argc, char *argv[])
 {
-    //Redirect the standard error temporally
-    freopen( "standard_error.txt", "w", stderr );
-    //freopen( "standard_output.txt", "w", stdout );
-
     //if (MainWindow::uniqueApplication()==false)
       // return 1;
 

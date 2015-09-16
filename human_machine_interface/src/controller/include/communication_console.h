@@ -18,7 +18,7 @@ class CommunicationConsole : public QDialog
     Q_OBJECT
 
 public:
-    explicit CommunicationConsole(QWidget *parent = 0, ImagesReceiver *imgReceiver=0, TelemetryStateReceiver *telemReceiver=0);
+    explicit CommunicationConsole(QWidget *parent = 0, ImagesReceiver *imgReceiver=0, TelemetryStateReceiver *telemReceiver=0, OdometryStateReceiver* odom_receiver=0,RosGraphReceiver* gr_receiver=0);
     ~CommunicationConsole();
 
 
@@ -40,10 +40,10 @@ public Q_SLOTS:
 
 private:
     Ui::CommunicationConsole *ui;
-    TelemetryStateReceiver* telemetryReceiver;
-    OdometryStateReceiver* odometryReceiver;
-    ImagesReceiver* imagesReceiver;
-    RosGraphReceiver* graphReceiver;
+    TelemetryStateReceiver* telemetry_receiver;
+    OdometryStateReceiver* odometry_receiver;
+    ImagesReceiver* images_receiver;
+    RosGraphReceiver* graph_receiver;
 
 };
 

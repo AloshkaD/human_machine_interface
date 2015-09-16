@@ -110,7 +110,6 @@ void ImagesReceiver::imagesFrontReceptionCallback(const sensor_msgs::ImageConstP
         Q_EMIT Update_Image(&px,1);
 }
 
-
 void ImagesReceiver::log( const LogLevel &level, const std::string &msg) {
     logging_model.insertRows(logging_model.rowCount(),1);
     std::stringstream logging_model_msg;

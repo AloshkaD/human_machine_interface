@@ -77,23 +77,23 @@ public:
 
 
         QStringList fieldsMsgs;
-        droneMsgsROS::dronePitchRollCmd dronePitchRollCmdMsgs;
-        droneMsgsROS::droneDAltitudeCmd droneDAltitudeCmdMsgs;
-        droneMsgsROS::droneDYawCmd droneDYawCmdMsgs;
-        droneMsgsROS::dronePose dronePoseMsgs;
+        droneMsgsROS::dronePitchRollCmd drone_pitchRoll_cmd_msgs;
+        droneMsgsROS::droneDAltitudeCmd drone_dAltitude_cmd_msgs;
+        droneMsgsROS::droneDYawCmd drone_dyaw_cmd_msgs;
+        droneMsgsROS::dronePose drone_pose_msgs;
 
 
 
 
-        geometry_msgs::Vector3Stamped magnetometerMsgs;
-        droneMsgsROS::battery batteryMsgs;
-        droneMsgsROS::droneAltitude altitudeMsgs;
-        geometry_msgs::Vector3Stamped rotationAnglesMsgs;
-        droneMsgsROS::vector2Stamped groundSpeedMsgs;
-        sensor_msgs::Imu imuMsgs;
-        droneMsgsROS::droneStatus droneStatusMsgs;
-        droneMsgsROS::droneCommand droneCommandMsgs;
-        sensor_msgs::FluidPressure fluidPressure;
+        geometry_msgs::Vector3Stamped magnetometer_msgs;
+        droneMsgsROS::battery battery_msgs;
+        droneMsgsROS::droneAltitude altitude_msgs;
+        geometry_msgs::Vector3Stamped rotation_angles_msgs;
+        droneMsgsROS::vector2Stamped ground_speed_msgs;
+        sensor_msgs::Imu imu_msgs;
+        droneMsgsROS::droneStatus drone_status_msgs;
+        droneMsgsROS::droneCommand drone_command_msgs;
+        sensor_msgs::FluidPressure fluid_pressure;
         sensor_msgs::Temperature temperature;
 
         float time;
@@ -149,69 +149,69 @@ private:
         ros::Subscriber droneStatusSubs;
         void droneStatusSensorCallback(const droneMsgsROS::droneStatus::ConstPtr& msg);
 
-        ros::Subscriber MagnetometerSubs;
+        ros::Subscriber magnetometer_subs;
         void magnetometerCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg);
 
-        ros::Subscriber BatterySubs;
+        ros::Subscriber battery_subs;
         void batteryCallback(const droneMsgsROS::battery::ConstPtr& msg);
 
-        ros::Subscriber AltitudeSubs;
+        ros::Subscriber altitude_subs;
         void altitudeCallback(const droneMsgsROS::droneAltitude::ConstPtr& msg);
 
-        ros::Subscriber RotationAnglesSubs;
+        ros::Subscriber rotation_angles_subs;
         void rotationAnglesCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg);
 
-        ros::Subscriber GroundSpeedSubs;
+        ros::Subscriber ground_speed_subs;
         void groundSpeedCallback(const droneMsgsROS::vector2Stamped::ConstPtr& msg);
 
-        ros::Subscriber ImuSubs;
+        ros::Subscriber imu_subs;
         void imuCallback(const sensor_msgs::Imu::ConstPtr& msg);
 
         ros::Subscriber dronePositionSubs;
         void dronePositionCallback(const droneMsgsROS::dronePose::ConstPtr& msg);
 
-        ros::Subscriber DroneHLCmdSubs;
+        ros::Subscriber drone_HLCmd_subs;
         void droneLLCallback(const droneMsgsROS::droneDYawCmd::ConstPtr& msg);
 
         ros::Subscriber DroneLLCmdSubs;
         void droneHLCallback(const droneMsgsROS::droneCommand::ConstPtr& msg);
 
-        ros::Subscriber TemperatureSubs;
+        ros::Subscriber temperature_subs;
         void temperatureCallback(const  sensor_msgs::Temperature::ConstPtr& msg);
 
-        ros::Subscriber DroneInputSubs;
+        ros::Subscriber drone_input_subs;
         void  droneInputPelicanCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);
 
-        ros::Subscriber optFlowSubs;
+        ros::Subscriber opt_flow_subs;
         void  optFlowCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);
 
-        ros::Subscriber oktoCommandsSubs;
+        ros::Subscriber okto_commands_subs;
         void  oktoCommandsCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);
 
-        ros::Subscriber PressureSubs;
+        ros::Subscriber pressure_subs;
         void  pressureCallback(const sensor_msgs::FluidPressure::ConstPtr& msg);
 
-        ros::Subscriber DroneStatusSubs;
+        ros::Subscriber drone_status_subs;
         void  statusSensorCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);
 
-        ros::Subscriber DronePitchRollCmdSubs;
+        ros::Subscriber drone_pitchRoll_cmd_subs;
         void dronePitchRollCmdCallback(const droneMsgsROS::dronePitchRollCmd::ConstPtr& msg);
 
-        ros::Subscriber DroneDAltitudeCmdSubs;
+        ros::Subscriber drone_dAltitude_cmd_subs;
         void droneDAltitudeCmdCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg);
 
-        ros::Subscriber DroneDYawCmdSubs;
+        ros::Subscriber drone_dYaw_cmd_subs;
         void droneDYawCmdCallback(const droneMsgsROS::droneDYawCmd::ConstPtr& msg);
 
-        ros::Subscriber DroneCommandSubs;
+        ros::Subscriber drone_command_subs;
 
-        ros::Subscriber DronePelicanLLStatusSubs;
+        ros::Subscriber drone_pelicanLL_status_subs;
 
-        ros::Subscriber DronePelicanIMUCalcSubs;
+        ros::Subscriber drone_pelican_IMUCalc_subs;
 
-        ros::Subscriber DronePelicanRCDataSubs;
+        ros::Subscriber drone_pelicanRCData_subs;
 
-        ros::Subscriber DronePelicanControlInputSubs;
+        ros::Subscriber drone_pelicanControl_input_subs;
 
         QStringListModel logging_model;
 };

@@ -29,7 +29,7 @@ public:
     void swapWidgets(QPushButton* imageToSwap, QString titleToSwap);
     void createPixmapsButton();
     int current_camera;
-    int mainCamera;
+    int main_camera;
 
 
 
@@ -45,7 +45,7 @@ public Q_SLOTS:
 
 private:
     Ui::cameraDisplayOption *ui;
-    ImagesReceiver* imageReceiver;
+    ImagesReceiver* image_receiver;
 
 };
 

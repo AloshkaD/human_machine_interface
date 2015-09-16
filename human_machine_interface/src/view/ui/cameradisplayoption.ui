@@ -18,7 +18,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0" colspan="2">
-    <widget class="QFrame" name="frameCamera1">
+    <widget class="QFrame" name="frame_camera1">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
        <horstretch>0</horstretch>
@@ -37,7 +37,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="titleCamera1">
+     <widget class="QLabel" name="title_camera1">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -53,7 +53,7 @@
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QFrame" name="frameCamera2">
+    <widget class="QFrame" name="frame_camera2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
        <horstretch>0</horstretch>
@@ -72,7 +72,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="titleCamera2">
+     <widget class="QLabel" name="title_camera2">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -88,7 +88,7 @@
     </widget>
    </item>
    <item row="1" column="0" rowspan="3" colspan="2">
-    <widget class="QPushButton" name="imageCamera1">
+    <widget class="QPushButton" name="image_camera1">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -116,7 +116,7 @@
     </widget>
    </item>
    <item row="1" column="2">
-    <widget class="QPushButton" name="imageCamera2">
+    <widget class="QPushButton" name="image_camera2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -144,7 +144,7 @@
     </widget>
    </item>
    <item row="2" column="2">
-    <widget class="QFrame" name="frameCamera3">
+    <widget class="QFrame" name="frame_camera3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
        <horstretch>0</horstretch>
@@ -163,7 +163,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="titleCamera3">
+     <widget class="QLabel" name="title_camera3">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -179,7 +179,7 @@
     </widget>
    </item>
    <item row="3" column="2">
-    <widget class="QPushButton" name="imageCamera3">
+    <widget class="QPushButton" name="image_camera3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -207,7 +207,7 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QFrame" name="frameCamera6">
+    <widget class="QFrame" name="frame_camera6">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
        <horstretch>0</horstretch>
@@ -226,7 +226,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="titleCamera6">
+     <widget class="QLabel" name="title_camera6">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -242,7 +242,7 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QFrame" name="frameCamera5">
+    <widget class="QFrame" name="frame_camera5">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
        <horstretch>0</horstretch>
@@ -261,7 +261,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="titleCamera5">
+     <widget class="QLabel" name="title_camera5">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -296,7 +296,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="titleCamera4">
+     <widget class="QLabel" name="title_camera4">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -312,7 +312,7 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QPushButton" name="imageCamera6">
+    <widget class="QPushButton" name="image_camera6">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -340,7 +340,7 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QPushButton" name="imageCamera5">
+    <widget class="QPushButton" name="image_camera5">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -368,7 +368,7 @@
     </widget>
    </item>
    <item row="5" column="2">
-    <widget class="QPushButton" name="imageCamera4">
+    <widget class="QPushButton" name="image_camera4">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>

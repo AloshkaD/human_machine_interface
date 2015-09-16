@@ -75,22 +75,22 @@ void TelemetryStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::
 
 
    //Commands
-   DronePitchRollCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_pitch_roll, 1, &TelemetryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
-   DroneDAltitudeCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_daltitude, 1, &TelemetryStateReceiver::droneDAltitudeCmdCallback, this);//command/dAltitude
-   DroneDYawCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_dyaw, 1, &TelemetryStateReceiver::droneDYawCmdCallback, this);//command/dYaw
-   DroneHLCmdSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_hl_command, 1, &TelemetryStateReceiver::droneHLCallback, this);//command/high_level
+   drone_pitchRoll_cmd_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_pitch_roll, 1, &TelemetryStateReceiver::dronePitchRollCmdCallback, this); //command/pitch_roll
+   drone_dAltitude_cmd_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_daltitude, 1, &TelemetryStateReceiver::droneDAltitudeCmdCallback, this);//command/dAltitude
+   drone_dYaw_cmd_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_command_dyaw, 1, &TelemetryStateReceiver::droneDYawCmdCallback, this);//command/dYaw
+   drone_HLCmd_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_command_drone_hl_command, 1, &TelemetryStateReceiver::droneHLCallback, this);//command/high_level
    //DroneLLCmdSubs=nodeHandle.subscribe(ros::this_node::getNamespace() + "/" + drone_driver_command_drone_ll_autopilot_command, 1, &telemetryStateReceiver::droneLLCallback, this);//command/low_level
 
    //Sensor
-   ImuSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_imu, 1, &TelemetryStateReceiver::imuCallback, this);
-   TemperatureSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_temperature, 1, &TelemetryStateReceiver::temperatureCallback, this);
-   MagnetometerSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_magnetometer, 1, &TelemetryStateReceiver::magnetometerCallback, this);
-   BatterySubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_battery, 1, &TelemetryStateReceiver::batteryCallback, this);
-   AltitudeSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_altitude, 1, &TelemetryStateReceiver::altitudeCallback, this);
-   RotationAnglesSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_rotation_angles, 1, &TelemetryStateReceiver::rotationAnglesCallback, this);
-   GroundSpeedSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_ground_speed, 1, &TelemetryStateReceiver::groundSpeedCallback, this);
-   PressureSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_pressure, 1, &TelemetryStateReceiver::pressureCallback, this);
-   DroneStatusSubs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_status, 1, &TelemetryStateReceiver::droneStatusSensorCallback, this);
+   imu_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_imu, 1, &TelemetryStateReceiver::imuCallback, this);
+   temperature_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_temperature, 1, &TelemetryStateReceiver::temperatureCallback, this);
+   magnetometer_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_magnetometer, 1, &TelemetryStateReceiver::magnetometerCallback, this);
+   battery_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_battery, 1, &TelemetryStateReceiver::batteryCallback, this);
+   altitude_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_altitude, 1, &TelemetryStateReceiver::altitudeCallback, this);
+   rotation_angles_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_rotation_angles, 1, &TelemetryStateReceiver::rotationAnglesCallback, this);
+   ground_speed_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_ground_speed, 1, &TelemetryStateReceiver::groundSpeedCallback, this);
+   pressure_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_pressure, 1, &TelemetryStateReceiver::pressureCallback, this);
+   drone_status_subs=nodeHandle.subscribe(rosnamespace + "/" + drone_driver_sensor_status, 1, &TelemetryStateReceiver::droneStatusSensorCallback, this);
 
 
    // Asctec Autopilot/Pelican Low-Level Telemetry
@@ -123,7 +123,7 @@ bool TelemetryStateReceiver::ready() {
 
 void TelemetryStateReceiver::dronePitchRollCmdCallback(const droneMsgsROS::dronePitchRollCmd::ConstPtr& msg)
 {
-    dronePitchRollCmdMsgs=*msg;
+    drone_pitchRoll_cmd_msgs=*msg;
     Q_EMIT parameterReceived();
     log(Info,std::string("Received rollCmd from command/roll: ")+ boost::lexical_cast<std::string>(msg->rollCmd) );
     log(Info,std::string("Received rollCmd from command/pitch: ")+ boost::lexical_cast<std::string>(msg->rollCmd) );
@@ -134,11 +134,9 @@ void TelemetryStateReceiver::dronePitchRollCmdCallback(const droneMsgsROS::drone
 
 }
 
-
-
 void TelemetryStateReceiver::imuCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
-    imuMsgs=*msg;
+    imu_msgs=*msg;
     Q_EMIT parameterReceived();
     log(Info,std::string("Received description from IMU angular velocity x:  ")+ boost::lexical_cast<std::string>(msg->angular_velocity.x) );
     log(Info,std::string("Received description from IMU angular velocity y:   ")+ boost::lexical_cast<std::string>(msg->angular_velocity.y) );
@@ -167,7 +165,7 @@ void TelemetryStateReceiver::imuCallback(const sensor_msgs::Imu::ConstPtr& msg)
 
 void TelemetryStateReceiver::magnetometerCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg)
 {
-    magnetometerMsgs=*msg;
+    magnetometer_msgs=*msg;
     Q_EMIT parameterReceived();
     log(Info,std::string("Received description from Magnetometer sensor vector x:  ")+ boost::lexical_cast<std::string>(msg->vector.x) );
     log(Info,std::string("Received description from Magnetometer sensor vector y:   ")+ boost::lexical_cast<std::string>(msg->vector.y) );
@@ -180,16 +178,16 @@ void TelemetryStateReceiver::magnetometerCallback(const geometry_msgs::Vector3St
 
 void TelemetryStateReceiver::batteryCallback(const droneMsgsROS::battery::ConstPtr& msg)
 {
-    batteryMsgs=*msg;
+    battery_msgs=*msg;
     Q_EMIT parameterReceived();
-    log(Info,std::string("Received description from Battery percent:   ")+ boost::lexical_cast<std::string>(msg->batteryPercent) );
-    ROS_INFO("Received description from Battery percent: [%f]", msg->batteryPercent);
+    log(Info,std::string("Received description from Battery percent:   ")+ boost::lexical_cast<std::string>(msg->battery_percent) );
+    ROS_INFO("Received description from Battery percent: [%f]", msg->battery_percent);
     return;
 }
 
 void TelemetryStateReceiver::altitudeCallback(const droneMsgsROS::droneAltitude::ConstPtr& msg)
 {
-    altitudeMsgs=*msg;
+    altitude_msgs=*msg;
     Q_EMIT parameterReceived();
     log(Info,std::string("Received description from  Altitude percent:   ")+ boost::lexical_cast<std::string>(msg->altitude) );
     log(Info,std::string("Received description from  Altitude speed percent:   ")+ boost::lexical_cast<std::string>(msg->altitude_speed) );
@@ -200,14 +198,14 @@ void TelemetryStateReceiver::altitudeCallback(const droneMsgsROS::droneAltitude:
 
 void TelemetryStateReceiver::droneStatusSensorCallback(const droneMsgsROS::droneStatus::ConstPtr& msg)
 {
-    droneStatusMsgs=*msg; // status type
+    drone_status_msgs=*msg; // status type
     Q_EMIT parameterReceived();
     return;
 }
 
 void TelemetryStateReceiver::rotationAnglesCallback(const geometry_msgs::Vector3Stamped::ConstPtr& msg)
 {
-    rotationAnglesMsgs=*msg;
+    rotation_angles_msgs=*msg;
     Q_EMIT parameterReceived();
     log(Info,std::string("Received roll from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.x) );
     log(Info,std::string("Received pitch from drone0/rotation_angles:   ")+ boost::lexical_cast<std::string>(msg->vector.y) );
@@ -220,7 +218,7 @@ void TelemetryStateReceiver::rotationAnglesCallback(const geometry_msgs::Vector3
 
 void TelemetryStateReceiver::dronePositionCallback(const droneMsgsROS::dronePose::ConstPtr& msg)
 {
-    dronePoseMsgs=*msg;
+    drone_pose_msgs=*msg;
     Q_EMIT parameterReceived();
     log(Info,std::string("Received position x:")+ boost::lexical_cast<std::string>(msg->x) );
     log(Info,std::string("Received posistion y:")+ boost::lexical_cast<std::string>(msg->y) );
@@ -239,7 +237,7 @@ void TelemetryStateReceiver::dronePositionCallback(const droneMsgsROS::dronePose
 
 void TelemetryStateReceiver::groundSpeedCallback(const droneMsgsROS::vector2Stamped::ConstPtr& msg)
 {
-    groundSpeedMsgs=*msg;
+    ground_speed_msgs=*msg;
     Q_EMIT parameterReceived();
     log(Info,std::string("Received x speed from drone0/ground_speed:")+ boost::lexical_cast<std::string>(msg->vector.x) );
     log(Info,std::string("Received y speed from drone0/ground_speed:")+ boost::lexical_cast<std::string>(msg->vector.y) );
@@ -260,10 +258,20 @@ void TelemetryStateReceiver::temperatureCallback(const  sensor_msgs::Temperature
     ROS_INFO("Received variance from drone0/temperature: [%f]",  msg->variance);
 }
 
+ros::Subscriber TelemetryStateReceiver::getDroneInputSubs() const
+{
+    return drone_input_subs;
+}
+
+void TelemetryStateReceiver::setDroneInputSubs(const ros::Subscriber &value)
+{
+    drone_input_subs = value;
+}
+
 
 void TelemetryStateReceiver::pressureCallback(const sensor_msgs::FluidPressure::ConstPtr& msg)
 {
-    fluidPressure=*msg;
+    fluid_pressure=*msg;
     log(Info,std::string("Received fluid_pressure from drone0/pressure:")+ boost::lexical_cast<std::string>(msg->fluid_pressure) );
     log(Info,std::string("Received variance from drone0/pressure:")+ boost::lexical_cast<std::string>(msg->variance) );
     ROS_INFO("Received fluid_pressure from drone0/pressure: [%f]",msg->fluid_pressure);
@@ -274,7 +282,7 @@ void TelemetryStateReceiver::pressureCallback(const sensor_msgs::FluidPressure::
 
 void TelemetryStateReceiver::droneDAltitudeCmdCallback(const droneMsgsROS::droneDAltitudeCmd::ConstPtr& msg)
 {
-    droneDAltitudeCmdMsgs=*msg;
+    drone_dAltitude_cmd_msgs=*msg;
     Q_EMIT parameterReceived();
     ROS_INFO("Received dAltitude command from command/dAltitude: [%f]", msg->dAltitudeCmd);
     return;
@@ -282,7 +290,7 @@ void TelemetryStateReceiver::droneDAltitudeCmdCallback(const droneMsgsROS::drone
 
 void TelemetryStateReceiver::droneDYawCmdCallback(const droneMsgsROS::droneDYawCmd::ConstPtr& msg)
 {
-    droneDYawCmdMsgs=*msg;
+    drone_dyaw_cmd_msgs=*msg;
     Q_EMIT parameterReceived();
     ROS_INFO("Received dYaw command from command/dYaw: [%f]", msg->dYawCmd);
 
@@ -291,7 +299,7 @@ void TelemetryStateReceiver::droneDYawCmdCallback(const droneMsgsROS::droneDYawC
 
 void TelemetryStateReceiver::droneHLCallback(const droneMsgsROS::droneCommand::ConstPtr& msg)
 {
-    droneCommandMsgs=*msg;
+    drone_command_msgs=*msg;
     Q_EMIT parameterReceived();
     ROS_INFO("Received command: [%d]", msg->command);
     return;
@@ -299,7 +307,7 @@ void TelemetryStateReceiver::droneHLCallback(const droneMsgsROS::droneCommand::C
 
 void TelemetryStateReceiver::droneLLCallback(const droneMsgsROS::droneDYawCmd::ConstPtr& msg)
 {
-    droneDYawCmdMsgs=*msg;
+    drone_dyaw_cmd_msgs=*msg;
     Q_EMIT parameterReceived();
     return;
 }

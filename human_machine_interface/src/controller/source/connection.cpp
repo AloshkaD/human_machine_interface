@@ -10,7 +10,7 @@
 *****************************************************************************/
 #include "../include/connection.h"
 #include <qt4/Qt/qsettings.h>
-#include "../.././../../../hmi_cvg_stack -build/human_machine_interface/ui_connection.h"
+#include "../.././../../../hmi_cvg_stack-build/human_machine_interface/ui_connection.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
@@ -23,13 +23,13 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
 {
 	ui->setupUi(this);
 
-    telemetryReceiver= new TelemetryStateReceiver();
-    odometryReceiver= new OdometryStateReceiver();
-    imgReceiver = new ImagesReceiver();
+    telemetry_receiver= new TelemetryStateReceiver();
+    odometry_receiver= new OdometryStateReceiver();
+    img_receiver = new ImagesReceiver();
     usercommander= new UserCommander();
-    graphReceiver= new RosGraphReceiver();
+    graph_receiver= new RosGraphReceiver();
    
-    connectStatus=false;
+    connect_status=false;
     ReadSettings();
     connect(ui->connectButton,SIGNAL(clicked(bool)),this, SLOT(onButton_connect_clicked(bool)));
 }
@@ -45,21 +45,21 @@ void Connection::onButton_connect_clicked(bool check)
     std::string host;
     if ( ui->checkbox_use_environment->isChecked() ) {
         if(!this->init()){
-            connectStatus=false;
+            connect_status=false;
          }else{
-            connectStatus=true;
+            connect_status=true;
             ui->connectButton->setEnabled(false);
          }
     }else{
         master=ui->line_edit_master->text().toStdString();
         host=ui->line_edit_host->text().toStdString();
         if(!this->init(master,host)){
-            connectStatus=false;
+            connect_status=false;
         }else{
             ui->connectButton->setEnabled(false);
             ui->line_edit_master->setReadOnly(true);
             ui->line_edit_host->setReadOnly(true);
-            connectStatus=true;
+            connect_status=true;
         }
     }
    Q_EMIT connectionEstablish();
@@ -93,12 +93,12 @@ bool Connection::initInCommon(){
     std::cout << "Namespace con ros::this_node::getNamespace(): " << ros::this_node::getNamespace() << std::endl;
 
 
-    // Start query threads
-    telemetryReceiver->openSubscriptions(n, rosnamespace);
-    odometryReceiver->openSubscriptions(n, rosnamespace);
-    imgReceiver->openSubscriptions(n, rosnamespace);
-    graphReceiver->openSubscriptions(n, rosnamespace);
-    // Start command threads
+    // Start query
+    telemetry_receiver->openSubscriptions(n, rosnamespace);
+    odometry_receiver->openSubscriptions(n, rosnamespace);
+    img_receiver->openSubscriptions(n, rosnamespace);
+    graph_receiver->openSubscriptions(n, rosnamespace);
+    // Start command
     usercommander->openPublications(n, rosnamespace);
 
 
@@ -131,7 +131,7 @@ bool Connection::init(const std::string &master_url, const std::string &host_url
 }
 
 bool Connection::readyForConnect(){
-    if(!telemetryReceiver->ready() || !odometryReceiver->ready() || !imgReceiver->ready() || !graphReceiver->ready() || !usercommander->ready())
+    if(!telemetry_receiver->ready() || !odometry_receiver->ready() || !img_receiver->ready() || !graph_receiver->ready() || !usercommander->ready())
         return false;
     return true;
 }

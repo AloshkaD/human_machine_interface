@@ -27,7 +27,7 @@ public Q_SLOTS:
 
 private:
     Ui::CameraGridOption *ui;
-    ImagesReceiver* imageReceiver;
+    ImagesReceiver* image_receiver;
     QPixmap pix;
 };
 

@@ -18,7 +18,7 @@ class ParameterTemporalSeries : public QWidget
 {
     Q_OBJECT
 
-    void initTree(QMap<QString, QStringList> topicList, QTreeWidget *tree);
+    void initTree(QMap<QString, QStringList> topic_list, QTreeWidget *tree);
     void initParameterList(QStringList list, QTreeWidget *tree);
     void addRootTree(QString name, QStringList list, QTreeWidget *tree);
     void addChildTree(QTreeWidgetItem *parent, QStringList list, QString description);
@@ -44,8 +44,8 @@ private:
     Ui::parameterTemporalSeries *ui;
     DataPlot *plot;
     QStringList paramsTelemetry;
-    TelemetryStateReceiver* telemReceiver;
-    OdometryStateReceiver* odomReceiver;
+    TelemetryStateReceiver* telem_receiver;
+    OdometryStateReceiver* odometry;
     QMap<QString,QStringList> parameters;
 };
 
