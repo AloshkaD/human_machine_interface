@@ -80,7 +80,7 @@ public:
 
         void clearCmd();
 
-        void publish_takeoff();
+        void publish_takeoff(std::vector<std::string> modules_takeoff);
         void publish_land();
         void publish_hover();
         void publish_yaw_zero();

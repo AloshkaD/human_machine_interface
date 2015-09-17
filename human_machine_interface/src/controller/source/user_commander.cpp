@@ -208,9 +208,13 @@ void UserCommander::sendYawCommandInPositionControlMode(double controller_step_c
 }
 
 
-void  UserCommander::publish_takeoff()
+void  UserCommander::publish_takeoff(std::vector<std::string> modules_takeoff)
 {
     std::cout<<"Command takeoff sent"<<std::endl;
+    for(std::vector<std::string>::const_iterator i = modules_takeoff.begin(); i != modules_takeoff.end(); ++i) {
+        modules_names.push_back(*i);
+        std::cout << *i << std::endl;
+    }
     clearCmd();//clear command
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF;
 

@@ -69,10 +69,12 @@ public:
     bool is_initial_controlmode;
     QTimer *flight_timer;
     static bool uniqueApplication();
+    QList<QAction*> menu_takeoff_actions;
 
     bool setLaptopDesign();
     int current_control_mode;
     char* getProcessName(const char* process_name_temp);
+    std::vector<std::string> checkListToTakeOff();
     droneMsgsROS::ProcessDescriptor node_container;
 
 
@@ -104,7 +106,7 @@ public Q_SLOTS:
     void displayFourGridCamera();
     void setTimerInterval(double ms);
     void on_actionOpen_perception_configuration_triggered();
-    void onStartButton();
+    void onTakeOffButton();
     void onYawZeroButton();
     void onLandButton();
     void onResetCommandButton();

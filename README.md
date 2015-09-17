@@ -32,6 +32,8 @@ The Human Machine Interface depends on ROS, Qt and OpenSceneGraph.
 Installation tutorial in Ubuntu 14.04: 
 <https://bhattigurjot.wordpress.com/2013/12/27/openscenegraph-on-linux/>
 
+http://trac.openscenegraph.org/downloads/developer_releases/OpenSceneGraph-3.2.2.zip
+
 You should add this line at the end of your ~/.bashrc or write it each time that you want to use the HMI:
 export OSG_DIR="/home/<my_account>/<my_OpenSceneGraph_Dir>/"
 

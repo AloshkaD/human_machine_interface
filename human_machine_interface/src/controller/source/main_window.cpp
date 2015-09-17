@@ -23,6 +23,9 @@
 #include <qt4/Qt/qdesktopwidget.h>
 #include <qt4/Qt/qwidgetaction.h>
 #include <qt4/Qt/qmenu.h>
+#include <qt4/Qt/qlist.h>
+#include <qt4/Qt/qstring.h>
+#include <qt4/QtCore/QObject>
 
 
 //Define step commands
@@ -43,37 +46,36 @@ using namespace std;
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
-class showed_menu : public QMenu
-    {
-      Q_OBJECT
-    public:
-      showed_menu (QWidget *parent = 0) : QMenu (parent) { is_ignore_hide = false; }
-      showed_menu (const QString &title, QWidget *parent = 0) : QMenu (title, parent) { is_ignore_hide = false; }
-      void add_action_with_showed_menu (const QAction *action) { actions_with_showed_menu.insert (action); }
+class MyContextMenu : public QMenu
+{
+public:
+    MyContextMenu (QWidget *parent = 0) : QMenu (parent) { is_ignore_hide = false; }
+    MyContextMenu (const QString &title, QWidget *parent = 0) : QMenu (title, parent) { is_ignore_hide = false; }
+    void add_action_with_showed_menu (const QAction *action) { actions_with_showed_menu.insert (action); }
 
-      virtual void setVisible (bool visible)
-      {
+    virtual void setVisible (bool visible)
+    {
         if (is_ignore_hide)
-          {
+        {
             is_ignore_hide = false;
             return;
-          }
+        }
         QMenu::setVisible (visible);
-      }
+    }
 
-      virtual void mouseReleaseEvent (QMouseEvent *e)
-      {
+    virtual void mouseReleaseEvent (QMouseEvent *e)
+    {
         const QAction *action = actionAt (e->pos ());
         if (action)
-          if (actions_with_showed_menu.contains (action))
-            is_ignore_hide = true;
+            if (actions_with_showed_menu.contains (action))
+                is_ignore_hide = true;
         QMenu::mouseReleaseEvent (e);
-      }
-    private:
-      // clicking on this actions don't close menu
-      QSet <const QAction *> actions_with_showed_menu;
-      bool is_ignore_hide;
-    };
+    }
+private:
+    // clicking on this actions don't close menu
+    QSet <const QAction *> actions_with_showed_menu;
+    bool is_ignore_hide;
+};
 
 
 MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
@@ -129,23 +131,36 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     is_init_takeoff_context_menu=false;
 }
 
+std::vector<std::string> MainWindow::checkListToTakeOff()
+{
+   std::vector<std::string> modules_to_takeoff;
+   for(int i=0;i<menu_takeoff_actions.size();i++)
+   {
+     if(menu_takeoff_actions.at(i)->isChecked()){
+     modules_to_takeoff.push_back(menu_takeoff_actions.at(i)->text().toStdString());
+     }
+   }
+  return modules_to_takeoff;
+}
+
 void MainWindow::initContextMenuTakeOff()
 {
     if(!is_init_takeoff_context_menu){
-        showed_menu *menu = new showed_menu();
+        MyContextMenu* take_off_contextmenu = new MyContextMenu();
         QAction* action;
         for(unsigned int i = 0; i < connection->graph_receiver->list_process_state.process_list.size(); i++)
         {
             node_container= connection->graph_receiver->list_process_state.process_list.at(i);
             char* process_name = getProcessName(node_container.name.c_str());
-            /*action = new QAction(process_name, this);
+            action = new QAction(process_name, this);
             action->setCheckable(true);
             //action->setCheckable(inx == 0);
-            menu->addAction(action);*/
-            //QAction *action = new QAction (process_name,menu);
-            //menu->add_action_with_showed_menu (action);
+            take_off_contextmenu->addAction(action);
+            take_off_contextmenu->add_action_with_showed_menu(action);
         }
-        ui->take_off_button->setMenu(menu);
+       ui->take_off_button->setMenu(take_off_contextmenu);
+       menu_takeoff_actions=take_off_contextmenu->actions();
+
     }
     is_init_takeoff_context_menu=true;
     disconnect(connection->graph_receiver, SIGNAL(supervisorStateReceived()), this, SLOT(initContextMenuTakeOff( )));
@@ -208,8 +223,8 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 void MainWindow::updateDynamicView()
 {
     // Get the frame and visualize with a pixmap in a QLabel.
-    ui->sphere_scene->setPixmap(osg_sphere->renderPixmap(0,0,true));
-    ui->vehicle_scene->setPixmap(osg_uav->renderPixmap(0,0,true));
+    ui->sphere_scene->setPixmap(osg_sphere->renderPixmap(0,0,false));
+    ui->vehicle_scene->setPixmap(osg_uav->renderPixmap(0,0,false));
 
 }
 
@@ -239,7 +254,7 @@ void MainWindow::setSignalHandlers()
     connect(connection->graph_receiver, SIGNAL(supervisorStateReceived()), this, SLOT(initContextMenuTakeOff( )));
     //connect(connection->telemetryReceiver, SIGNAL( parameterReceived( )), this, SLOT(show_frame()));
     connect(ui->land_button,SIGNAL(clicked()),this, SLOT(onLandButton()));
-    connect(ui->take_off_button,SIGNAL(clicked()),this, SLOT(onStartButton()));
+    connect(ui->take_off_button,SIGNAL(clicked()),this, SLOT(onTakeOffButton()));
     connect(ui->yaw_zero_button,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
     //connect(ui->reset_button,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
     connect(ui->hover_button,SIGNAL(clicked()),this, SLOT(onHoverButton()));
@@ -623,14 +638,14 @@ void MainWindow::onControlModeChange(int key){
     }
 }
 
-void MainWindow::onStartButton()
+void MainWindow::onTakeOffButton()
 {
     std::cout<<"Take Off pressed buttom"<<std::endl;
-
     if (connection->connect_status){
         if(connection->mission_planner_receiver->is_autonomous_mode_active)
             connection->mission_planner_receiver->deActivateAutonomousMode();
-        connection->usercommander->publish_takeoff();
+        std::vector<std::string> modules_takeoff=checkListToTakeOff();
+        connection->usercommander->publish_takeoff(modules_takeoff);
     }
 }
 

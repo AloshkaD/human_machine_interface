@@ -221,7 +221,7 @@ file(GLOB QT_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/view/resources/*
 file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS  src/controller/include/*.h)
 
 QT4_ADD_RESOURCES(QT_RESOURCES_CPP ${QT_RESOURCES})
-QT4_WRAP_UI(QT_FORMS_HPP ${QT_FORMS})
+#QT4_WRAP_UI(QT_FORMS_HPP ${QT_FORMS})
 QT4_WRAP_CPP(QT_MOC_HPP ${QT_MOC})
 
 ##############################################################################
@@ -237,6 +237,6 @@ file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINK
 
 
 MESSAGE(STATUS "Found Qt:  ${QT_LIBRARIES} ")
-add_executable(human_machine_interface ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_FORMS_HPP} ${QT_MOC_HPP} )
+add_executable(human_machine_interface ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_MOC_HPP} )
 target_link_libraries(human_machine_interface ${OPENSCENEGRAPH_LIBRARIES}   ${QWT_LIBRARY} ${QT_LIBRARIES} ${catkin_LIBRARIES}  )
 install(TARGETS human_machine_interface RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
