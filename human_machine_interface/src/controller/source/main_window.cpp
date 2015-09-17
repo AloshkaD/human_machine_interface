@@ -21,6 +21,9 @@
 #include <qt4/Qt/qsize.h>
 #include <qt4/Qt/qapplication.h>
 #include <qt4/Qt/qdesktopwidget.h>
+#include <qt4/Qt/qwidgetaction.h>
+#include <qt4/Qt/qmenu.h>
+
 
 //Define step commands
 #define CTE_COMMAND_YAW    0.40
@@ -40,6 +43,38 @@ using namespace std;
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
+class showed_menu : public QMenu
+    {
+      Q_OBJECT
+    public:
+      showed_menu (QWidget *parent = 0) : QMenu (parent) { is_ignore_hide = false; }
+      showed_menu (const QString &title, QWidget *parent = 0) : QMenu (title, parent) { is_ignore_hide = false; }
+      void add_action_with_showed_menu (const QAction *action) { actions_with_showed_menu.insert (action); }
+
+      virtual void setVisible (bool visible)
+      {
+        if (is_ignore_hide)
+          {
+            is_ignore_hide = false;
+            return;
+          }
+        QMenu::setVisible (visible);
+      }
+
+      virtual void mouseReleaseEvent (QMouseEvent *e)
+      {
+        const QAction *action = actionAt (e->pos ());
+        if (action)
+          if (actions_with_showed_menu.contains (action))
+            is_ignore_hide = true;
+        QMenu::mouseReleaseEvent (e);
+      }
+    private:
+      // clicking on this actions don't close menu
+      QSet <const QAction *> actions_with_showed_menu;
+      bool is_ignore_hide;
+    };
+
 
 MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     QMainWindow(parent),
@@ -91,6 +126,39 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     flight_timer->start(1000);
 
     old_height=this->height();
+    is_init_takeoff_context_menu=false;
+}
+
+void MainWindow::initContextMenuTakeOff()
+{
+    if(!is_init_takeoff_context_menu){
+        showed_menu *menu = new showed_menu();
+        QAction* action;
+        for(unsigned int i = 0; i < connection->graph_receiver->list_process_state.process_list.size(); i++)
+        {
+            node_container= connection->graph_receiver->list_process_state.process_list.at(i);
+            char* process_name = getProcessName(node_container.name.c_str());
+            /*action = new QAction(process_name, this);
+            action->setCheckable(true);
+            //action->setCheckable(inx == 0);
+            menu->addAction(action);*/
+            //QAction *action = new QAction (process_name,menu);
+            //menu->add_action_with_showed_menu (action);
+        }
+        ui->take_off_button->setMenu(menu);
+    }
+    is_init_takeoff_context_menu=true;
+    disconnect(connection->graph_receiver, SIGNAL(supervisorStateReceived()), this, SLOT(initContextMenuTakeOff( )));
+}
+
+char* MainWindow::getProcessName(const char* process_name_temp)//TODO::Comprobar si existe namespace.
+{
+    char output[10012];
+    strncpy(output, process_name_temp, sizeof(output));
+    output[sizeof(output) - 1] = 0;
+    char* process_name = strtok(output, "/");
+    process_name = strtok(NULL, "/");
+    return process_name;
 }
 
 bool MainWindow::setLaptopDesign()
@@ -168,11 +236,12 @@ void MainWindow::setSignalHandlers()
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateDynamicsPanel( )));
     connect(connection->usercommander, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
+    connect(connection->graph_receiver, SIGNAL(supervisorStateReceived()), this, SLOT(initContextMenuTakeOff( )));
     //connect(connection->telemetryReceiver, SIGNAL( parameterReceived( )), this, SLOT(show_frame()));
-    connect(ui->take_off_button,SIGNAL(clicked()),this, SLOT(onStartButton()));
     connect(ui->land_button,SIGNAL(clicked()),this, SLOT(onLandButton()));
+    connect(ui->take_off_button,SIGNAL(clicked()),this, SLOT(onStartButton()));
     connect(ui->yaw_zero_button,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
-    connect(ui->reset_button,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
+    //connect(ui->reset_button,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
     connect(ui->hover_button,SIGNAL(clicked()),this, SLOT(onHoverButton()));
     //connect(ui->emergencyStop_Button,SIGNAL(clicked()),this, SLOT(onEmergencyStopButton()));
     connect(ui->one_camera_button, SIGNAL(clicked()), this, SLOT(displayOneCamera()));
@@ -183,10 +252,28 @@ void MainWindow::setSignalHandlers()
     connect(connection->graph_receiver, SIGNAL( errorInformerReceived( )), this, SLOT( incrementErrorsCounter( )));
     connect(connection->usercommander, SIGNAL( managerStatusReceived( )), this, SLOT( setInitialControlMode( )));
     //connect(ui->tabManager, SIGNAL(clicked()), this, SLOT(openTab()));
+     connect(ui->take_off_button,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(onCustomContextMenuRequested(const QPoint&)));
 
     disconnect(ui->main_camera_button, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
     disconnect(ui->four_camera_button, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
+
 }
+
+void MainWindow::slotTest() {
+
+    QToolButton *tbtn = qobject_cast<QToolButton*>(sender());
+    QAction *act = qobject_cast<QAction*>(sender());
+    if(tbtn)
+    {
+        qDebug() << "event raised by QToolButton: " << tbtn->objectName();
+    }
+    if(act)
+    {
+        qDebug() << "event raised by QAction: " << act->objectName();
+    }
+}
+
+
 
 void MainWindow::disconnectDynamicsView(){
     disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));

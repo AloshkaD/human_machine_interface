@@ -60,7 +60,7 @@ private:
     QStringList listProcess;
 
 
-    RosGraphReceiver* node;
+    RosGraphReceiver* supervisor_receiver;
 };
 
 #endif // PROCESSMONITOR_H

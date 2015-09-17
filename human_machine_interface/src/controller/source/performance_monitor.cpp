@@ -22,12 +22,12 @@ PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collec
     ui->table_process_viewer->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     ui->table_widget->setColumnWidth(0,640);
 
-    node=collector;
+    supervisor_receiver=collector;
     error_counter=0;
     is_display_stopped=false;
 
-    connect( node, SIGNAL( supervisorStateReceived( )), this, SLOT( updateProcessViewerTable( )));
-    connect( node, SIGNAL( errorInformerReceived( )), this, SLOT( onSupervisorStateReceived( )));
+    connect( supervisor_receiver, SIGNAL( supervisorStateReceived( )), this, SLOT( updateProcessViewerTable( )));
+    connect( supervisor_receiver, SIGNAL( errorInformerReceived( )), this, SLOT( onSupervisorStateReceived( )));
     connect( ui->line_edit, SIGNAL(textChanged(QString)), this, SLOT( onTextFilterChange(const QString )));
     connect(ui->table_process_viewer,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(onCustomContextMenuRequested(const QPoint&)));
     connect(ui->stop_display_button,SIGNAL(clicked()),this,SLOT(onStopClicked()));
@@ -47,9 +47,9 @@ void PerformanceMonitor::updateProcessViewerTable()
     int row_process_viewer=0;
 
     // Loop the list to create the items in the table
-    for(unsigned int i = 0; i < node->list_process_state.process_list.size(); i++)
+    for(unsigned int i = 0; i < supervisor_receiver->list_process_state.process_list.size(); i++)
     {
-        node_container= node->list_process_state.process_list.at(i);
+        node_container= supervisor_receiver->list_process_state.process_list.at(i);
 
         if(!initialized_table){
             if (ui->table_process_viewer->rowCount() < row_process_viewer)
@@ -149,10 +149,10 @@ void PerformanceMonitor::onSupervisorStateReceived()
             ui->table_widget->setRowCount(row);
 
         ui->table_widget->insertRow(row);
-        QTableWidgetItem *itemMessage = new QTableWidgetItem(node->description);
-        QTableWidgetItem *itemProcess = new QTableWidgetItem(node->node_name);
-        QTableWidgetItem *itemHostname = new QTableWidgetItem(node->hostname);
-        QTableWidgetItem *itemErrorType = new QTableWidgetItem(node->error_type);
+        QTableWidgetItem *itemMessage = new QTableWidgetItem(supervisor_receiver->description);
+        QTableWidgetItem *itemProcess = new QTableWidgetItem(supervisor_receiver->node_name);
+        QTableWidgetItem *itemHostname = new QTableWidgetItem(supervisor_receiver->hostname);
+        QTableWidgetItem *itemErrorType = new QTableWidgetItem(supervisor_receiver->error_type);
 
         ui->table_widget->setItem(row,0,itemMessage);
         ui->table_widget->setItem(row,1,itemErrorType);

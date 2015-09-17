@@ -6,6 +6,9 @@
 #include <qt4/QtGui/QMainWindow>
 #include <qt4/QtCore/QTime>
 #include <qt4/QtCore/QTimer>
+#include <qt4/Qt/qtoolbutton.h>
+#include <QWidget>
+#include <QAction>
 
 #include <iostream>
 #include <stdio.h>
@@ -60,13 +63,18 @@ public:
     int camera_view_manager;
     bool is_open_main_camera_view;
     bool is_open_one_camera_view;
+    bool is_init_takeoff_context_menu;
     bool is_open_four_camera_view;
     bool is_laptop_design;
     bool is_initial_controlmode;
     QTimer *flight_timer;
     static bool uniqueApplication();
+
     bool setLaptopDesign();
     int current_control_mode;
+    char* getProcessName(const char* process_name_temp);
+    droneMsgsROS::ProcessDescriptor node_container;
+
 
     enum control_modes{
         autonomous,
@@ -114,6 +122,10 @@ public Q_SLOTS:
     void setInitialControlMode();
     void disconnectDynamicsView();
     void connectDynamicsView();
+    //void showContextMenu(const QPoint& globalPos);
+        void initContextMenuTakeOff();
+    void slotTest();
+
 
 
 
