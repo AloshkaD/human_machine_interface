@@ -35,7 +35,7 @@ set(HUMANMACHINEINTERFACE_HEADER_FILES
 
 
 
-find_package(catkin REQUIRED COMPONENTS rviz roscpp image_transport  cv_bridge std_msgs geometry_msgs)
+find_package(catkin REQUIRED COMPONENTS droneMsgsROS rviz roscpp image_transport  cv_bridge std_msgs geometry_msgs)
 catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_INCLUDE_DIR} ${HUMANMACHINEINTERFACE_INCLUDE_DIR} CATKIN_DEPENDS)
 
 include_directories(${HUMANMACHINEINTERFACE_INCLUDE_DIR})

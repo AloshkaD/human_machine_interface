@@ -42,7 +42,7 @@ VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryRecei
 
     viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
 
-    if(loaded_model.get()==NULL){
+    if(loaded_model.get()!=NULL){
         // Set the 3D mode as child of the transformation.
         aux_transformation->addChild(loaded_model.get());
         aux_transformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
