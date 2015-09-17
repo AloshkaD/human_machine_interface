@@ -36,9 +36,13 @@ void RosGraphReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string
     if (!nodeHandle.getParam("processes_performance", supervisor_processes_performance))
          supervisor_processes_performance = "processes_performance";
 
+    if (!nodeHandle.getParam("wifiIsOk", wifi_connection_topic))
+         wifi_connection_topic = "wifiIsOk";
+
     //supervisor
     error_informer_subs=nodeHandle.subscribe(rosnamespace + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
     watchdog_subs=nodeHandle.subscribe(rosnamespace + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
+    wificonnection_subs=nodeHandle.subscribe(rosnamespace + "/"  + wifi_connection_topic, 1, &RosGraphReceiver::wifiConnectionCheckCallback,this);
 
 
     subscriptions_complete=true;
@@ -54,9 +58,11 @@ bool RosGraphReceiver::ready() {
     return true; //Used this way instead of "return subscriptions_complete" due to preserve add more conditions
 }
 
-// TODO:: Check wifi connection topic callback
-//................
 
+void RosGraphReceiver::wifiConnectionCheckCallback(const std_msgs::Bool::ConstPtr& msg)
+{
+   is_wifi_connected=msg->data;
+}
 
 void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg)
 {

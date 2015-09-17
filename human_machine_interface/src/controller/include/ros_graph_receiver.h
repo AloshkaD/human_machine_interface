@@ -39,6 +39,7 @@
 //Altitude
 #include "droneMsgsROS/droneAltitude.h"
 
+#include "std_msgs/Bool.h"
 #include "droneMsgsROS/dronePose.h"
 
 //Ground Speed
@@ -75,6 +76,7 @@ public:
         droneMsgsROS::ProcessDescriptor node_container;
         droneMsgsROS::droneStatus droneStatusMsgs;
         double supervisor_state_time;
+        bool is_wifi_connected;
 
 
 	enum LogLevel {
@@ -104,11 +106,14 @@ private:
 
         ros::Subscriber watchdog_subs;
         void processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg);
+        ros::Subscriber wificonnection_subs;
+        void wifiConnectionCheckCallback(const std_msgs::Bool::ConstPtr& msg);
         ros::Subscriber error_informer_subs;
         void errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg);
 
         std::string supervisor_process_error_unified_notification;
         std::string supervisor_processes_performance;
+        std::string wifi_connection_topic;
 
         QStringListModel logging_model;
 };

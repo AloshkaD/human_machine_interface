@@ -386,6 +386,11 @@ void MainWindow::updateStatusBar()
             ui->value_battery->setPalette(*palette);
         }
         ui->value_battery->setText(QString::number(connection->telemetry_receiver->battery_msgs.batteryPercent) +  "%");
+
+        if(connection->graph_receiver->is_wifi_connected)
+         ui->value_wifi->setText("Connected");
+        else
+         ui->value_wifi->setText("Disconnected");
     }
 }
 
