@@ -1,4 +1,4 @@
-<!-- Launches: ardrone_autonomy driver; front and bottom camera rectification and visualization; -->
+<!-- Launches: human_machine_interface;-->
 <launch>
     <!-- master tag is only obeyed in the top-level file (not in includes) 
     <master>
@@ -41,7 +41,7 @@
                 <param name="pitchroll_topic " value="command/pitch_roll" />
                 <param name="daltitude_topic " value="command/dAltitude" />
                 <param name="dyawcmd_topic " value="command/dYaw" />
-                <param name="command_publish_topic " value="command/high_level" />
+                <param name="command_publish_topic " value="droneMissionPlannerCommand" />
                 <param name="drone_position_refs " value="dronePositionRefs" />
                 <param name="drone_controller_yaw_ref_command " value="droneControllerYawRefCommand" />
                 <param name="drone_speed_reference_topic" value="droneSpeedsRefs" />
