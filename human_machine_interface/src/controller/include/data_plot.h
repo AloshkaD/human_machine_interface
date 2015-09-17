@@ -66,6 +66,10 @@ public Q_SLOTS:
     void onParameterReceived();
   //  void onParameterReceived(QTimerEvent *e);
 
+Q_SIGNALS:
+    void disconnectUpdateDynamicsView();
+    void connectUpdateDynamicsView();
+
 protected:
     virtual void timerEvent(QTimerEvent *e);
 

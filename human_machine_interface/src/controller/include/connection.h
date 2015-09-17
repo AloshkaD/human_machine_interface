@@ -6,6 +6,7 @@
 #include "odometry_state_receiver.h"
 #include "images_receiver.h"
 #include "user_commander.h"
+#include "mission_state_receiver.h"
 #include "sphere_view.h"
 #include "ros_graph_receiver.h"
 
@@ -38,6 +39,7 @@ public:
         ImagesReceiver* img_receiver;
         RosGraphReceiver* graph_receiver;
         UserCommander* usercommander;
+        MissionStateReceiver* mission_planner_receiver;
 
         QString settings_file;
 

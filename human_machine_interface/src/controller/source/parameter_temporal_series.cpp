@@ -224,7 +224,7 @@ void ParameterTemporalSeries::updateParametersValue(){
     telemetryItem->child(10)->setText(1,QString::number(((double)((int)(telem_receiver->imu_msgs.orientation.y*100)))/100) + "  deg");//IMU pitch
     telemetryItem->child(11)->setText(1,QString::number(((double)((int)(telem_receiver->imu_msgs.orientation.z*100)))/100) + "  deg");//IMU yaw
     telemetryItem->child(12)->setText(1,QString::number(((double)((int)(telem_receiver->imu_msgs.orientation.w*100)))/100) + "  deg");//IMU yawPitch
-    telemetryItem->child(13)->setText(1,QString::number(((double)((int)(telem_receiver->altitude_msgs.altitude*100)))/100) + "  m");//altitude
+    telemetryItem->child(13)->setText(1,QString::number(((double)((int)((-1)*telem_receiver->altitude_msgs.altitude*100)))/100) + "  m");//altitude
     telemetryItem->child(14)->setText(1,QString::number(((double)((int)(telem_receiver->altitude_msgs.altitude_speed*100)))/100) + "  m/s");//altitudeSpeed
     telemetryItem->child(15)->setText(1,QString::number(((double)((int)(telem_receiver->magnetometer_msgs.vector.x*100)))/100));//mag.X
     telemetryItem->child(16)->setText(1,QString::number(((double)((int)(telem_receiver->magnetometer_msgs.vector.y*100)))/100));//mag.Y

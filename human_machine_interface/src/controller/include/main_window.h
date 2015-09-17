@@ -112,6 +112,9 @@ public Q_SLOTS:
     void keyPressEvent(QKeyEvent *e);
     void updateDynamicsPanel();
     void setInitialControlMode();
+    void disconnectDynamicsView();
+    void connectDynamicsView();
+
 
 
 

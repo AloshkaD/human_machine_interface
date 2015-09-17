@@ -27,11 +27,13 @@ MissionStateReceiver::MissionStateReceiver(){
 }
 
 
-void MissionStateReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
+void MissionStateReceiver::openSubscriptions(ros::NodeHandle n, std::string rosnamespace){
     // Topic communications
 
-      //start();
      subscriptions_complete = true;
+     is_autonomous_mode_active=false;
+     mission_planner_srv_start=n.serviceClient<std_srvs::Empty>("droneMissionPlannerInterfaceROSModule/start");
+     mission_planner_srv_stop=n.serviceClient<std_srvs::Empty>("droneMissionPlannerInterfaceROSModule/stop");
 //    real_time=ros;
 }
 
@@ -45,33 +47,50 @@ bool MissionStateReceiver::ready() {
 
 MissionStateReceiver::~MissionStateReceiver() {}
 
+void MissionStateReceiver::activateAutonomousMode(){
+     if(!is_autonomous_mode_active){
+     std_srvs::Empty emptySrvMsg;
+     mission_planner_srv_start.call(emptySrvMsg);
+     is_autonomous_mode_active=true;
+     }
+ }
+
+void MissionStateReceiver::deActivateAutonomousMode(){
+     if(!is_autonomous_mode_active){
+     std_srvs::Empty emptySrvMsg;
+     mission_planner_srv_stop.call(emptySrvMsg);
+     is_autonomous_mode_active=true;
+     }
+ }
 
 std::string MissionStateReceiver::droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg)
 {
-    std::stringstream result_ss;
+    if(is_autonomous_mode_active){
+        std::stringstream result_ss;
 
-    result_ss<< "durationMission:"<<msg->durationMission.toSec();
-    result_ss<<" durationSubmission:"<<msg->durationSubmission.toSec();
-    result_ss<<" idSubmission:"<<msg->idSubmission;
-    result_ss<<" loopSubmision:"<<static_cast<int>(msg->loopSubmission);
-    result_ss<<" durationTask:"<<msg->durationTask.toSec();
-    result_ss<<" idTask:"<<msg->idTask;
-    result_ss<<" taskType:"<<msg->taskType;
-    result_ss<<" taskState:";
-    switch(msg->taskState)
-    {
-    case droneMsgsROS::droneMissionInfo::WAITING_BRAIN:
-        result_ss<<"WAITING_BRAIN";
-        break;
-    case droneMsgsROS::droneMissionInfo::TASK_RUNNING:
-        result_ss<<"TASK_RUNNING";
-        break;
-    default:
-        result_ss<<"UNKNOWN";
-        break;
+        result_ss<< "durationMission:"<<msg->durationMission.toSec();
+        result_ss<<" durationSubmission:"<<msg->durationSubmission.toSec();
+        result_ss<<" idSubmission:"<<msg->idSubmission;
+        result_ss<<" loopSubmision:"<<static_cast<int>(msg->loopSubmission);
+        result_ss<<" durationTask:"<<msg->durationTask.toSec();
+        result_ss<<" idTask:"<<msg->idTask;
+        result_ss<<" taskType:"<<msg->taskType;
+        result_ss<<" taskState:";
+        switch(msg->taskState)
+        {
+        case droneMsgsROS::droneMissionInfo::WAITING_BRAIN:
+            result_ss<<"WAITING_BRAIN";
+            break;
+        case droneMsgsROS::droneMissionInfo::TASK_RUNNING:
+            result_ss<<"TASK_RUNNING";
+            break;
+        default:
+            result_ss<<"UNKNOWN";
+            break;
+        }
+
+        return result_ss.str();
     }
-
-    return result_ss.str();
 }
 
 

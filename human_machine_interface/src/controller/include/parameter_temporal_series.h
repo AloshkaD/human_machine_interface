@@ -33,6 +33,7 @@ public:
     QStringList ekf;
     QStringList controller;
     QStringList arucoSlam;
+    DataPlot *plot;
 
 public Q_SLOTS:
     void onTextFilterChange(const QString &arg1);
@@ -42,7 +43,6 @@ public Q_SLOTS:
 
 private:
     Ui::parameterTemporalSeries *ui;
-    DataPlot *plot;
     QStringList paramsTelemetry;
     TelemetryStateReceiver* telem_receiver;
     OdometryStateReceiver* odometry;

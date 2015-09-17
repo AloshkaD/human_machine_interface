@@ -140,8 +140,8 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 void MainWindow::updateDynamicView()
 {
     // Get the frame and visualize with a pixmap in a QLabel.
-   ui->sphere_scene->setPixmap(osg_sphere->renderPixmap(0,0,true));
-   ui->vehicle_scene->setPixmap(osg_uav->renderPixmap(0,0,true));
+    ui->sphere_scene->setPixmap(osg_sphere->renderPixmap(0,0,true));
+    ui->vehicle_scene->setPixmap(osg_uav->renderPixmap(0,0,true));
 
 }
 
@@ -163,6 +163,8 @@ void MainWindow::setSignalHandlers()
 {
     connect(connection, SIGNAL(rosShutdown()), this, SLOT(close())); //Close the app.
     connect(connection,SIGNAL(connectionEstablish( )),this, SLOT(testConnection()));
+    connect(param_plot->plot,SIGNAL(disconnectUpdateDynamicsView()),this, SLOT(disconnectDynamicsView()));
+    connect(param_plot->plot,SIGNAL(connectUpdateDynamicsView()),this, SLOT(connectDynamicsView()));
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateDynamicsPanel( )));
     connect(connection->usercommander, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
@@ -179,12 +181,20 @@ void MainWindow::setSignalHandlers()
     connect(ui->save_image_button, SIGNAL(clicked()), this, SLOT(saveCurrentCameraView()));
     connect(ui->selection_mode, SIGNAL(currentIndexChanged(int)), this, SLOT(onControlModeChange(int)));
     connect(connection->graph_receiver, SIGNAL( errorInformerReceived( )), this, SLOT( incrementErrorsCounter( )));
+    connect(connection->usercommander, SIGNAL( managerStatusReceived( )), this, SLOT( setInitialControlMode( )));
     //connect(ui->tabManager, SIGNAL(clicked()), this, SLOT(openTab()));
 
     disconnect(ui->main_camera_button, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
     disconnect(ui->four_camera_button, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
 }
 
+void MainWindow::disconnectDynamicsView(){
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
+}
+
+void MainWindow::connectDynamicsView(){
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
+}
 void MainWindow::saveCurrentCameraView()
 {
     disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
@@ -290,27 +300,27 @@ void MainWindow::updateDynamicsPanel()
 
 void MainWindow::setInitialControlMode()
 {
-        switch(connection->usercommander->lastDroneManagerStatusMsg.status)
-        {
-        case(droneMsgsROS::droneManagerStatus::MOVING_POSITION):
-            if(current_control_mode!=control_modes::position){
-                ui->selection_mode->setCurrentIndex(1);
-                current_control_mode =control_modes::position;
-            }
-            break;
-        case(droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD):
-            if(current_control_mode!=control_modes::altitude){
-                ui->selection_mode->setCurrentIndex(2);
-                current_control_mode =control_modes::altitude;
-            }
-            break;
-        case(droneMsgsROS::droneManagerStatus::MOVING_SPEED):
-            if(current_control_mode!=control_modes::speed){
-                ui->selection_mode->setCurrentIndex(3);
-                current_control_mode =control_modes::speed;
-            }
-            break;
+    switch(connection->usercommander->lastDroneManagerStatusMsg.status)
+    {
+    case(droneMsgsROS::droneManagerStatus::MOVING_POSITION):
+        if(current_control_mode!=control_modes::position){
+            ui->selection_mode->setCurrentIndex(1);
+            current_control_mode =control_modes::position;
         }
+        break;
+    case(droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD):
+        if(current_control_mode!=control_modes::altitude){
+            ui->selection_mode->setCurrentIndex(2);
+            current_control_mode =control_modes::altitude;
+        }
+        break;
+    case(droneMsgsROS::droneManagerStatus::MOVING_SPEED):
+        if(current_control_mode!=control_modes::speed){
+            ui->selection_mode->setCurrentIndex(3);
+            current_control_mode =control_modes::speed;
+        }
+        break;
+    }
     is_initial_controlmode=true;
 }
 
@@ -318,9 +328,6 @@ void MainWindow::updateStatusBar()
 {
 
     if (connection->connect_status){
-
-        if(!is_initial_controlmode)
-            setInitialControlMode();
 
         switch(connection->usercommander->lastDroneManagerStatusMsg.status)
         {
@@ -388,9 +395,9 @@ void MainWindow::updateStatusBar()
         ui->value_battery->setText(QString::number(connection->telemetry_receiver->battery_msgs.batteryPercent) +  "%");
 
         if(connection->graph_receiver->is_wifi_connected)
-         ui->value_wifi->setText("Connected");
+            ui->value_wifi->setText("Connected");
         else
-         ui->value_wifi->setText("Disconnected");
+            ui->value_wifi->setText("Disconnected");
     }
 }
 
@@ -487,26 +494,40 @@ void MainWindow::onControlModeChange(int key){
     if (connection->connect_status){
         switch(key)
         {
+        case(0):
+            std::cout<<"Changing to Autonomous Mode"<<std::endl;
+            connection->mission_planner_receiver->activateAutonomousMode();
+            current_control_mode=control_modes::autonomous;
+            ui->selection_mode->setCurrentIndex(0);
+            break;
         case(1):
             std::cout<<"Changing to Control Mode Position"<<std::endl;
+            if(connection->mission_planner_receiver->is_autonomous_mode_active)
+                connection->mission_planner_receiver->deActivateAutonomousMode();
             connection->usercommander->sendCommandInPositionControlMode(0.0, 0.0, 0.0);
             current_control_mode=control_modes::position;
             ui->selection_mode->setCurrentIndex(1);
             break;
         case(2):
             std::cout<<"Changing to Control Mode Altitude"<<std::endl;
+            if(connection->mission_planner_receiver->is_autonomous_mode_active)
+                connection->mission_planner_receiver->deActivateAutonomousMode();
             connection->usercommander->sendCommandInMovingManualAltitudMode(0.0,0.0,0.0,0.0);
             current_control_mode=control_modes::altitude;
             ui->selection_mode->setCurrentIndex(2);
             break;
         case(3):
             std::cout<<"Changing to Control Mode Speed"<<std::endl;
+            if(connection->mission_planner_receiver->is_autonomous_mode_active)
+                connection->mission_planner_receiver->deActivateAutonomousMode();
             connection->usercommander->sendCommandInSpeedControlMode(0.0, 0.0);
             current_control_mode=control_modes::speed;
             ui->selection_mode->setCurrentIndex(3);
             break;
         case(4):
             std::cout<<"Changing to Control Mode Visual Servoing"<<std::endl;
+            if(connection->mission_planner_receiver->is_autonomous_mode_active)
+                connection->mission_planner_receiver->deActivateAutonomousMode();
             connection->usercommander->sendCommandInVisualServoingMode();
             current_control_mode=control_modes::visual_servoing;
             ui->selection_mode->setCurrentIndex(4);
@@ -518,31 +539,42 @@ void MainWindow::onControlModeChange(int key){
 void MainWindow::onStartButton()
 {
     std::cout<<"Take Off pressed buttom"<<std::endl;
-    if (connection->connect_status)
-        connection->usercommander->publish_takeoff();
 
+    if (connection->connect_status){
+        if(connection->mission_planner_receiver->is_autonomous_mode_active)
+            connection->mission_planner_receiver->deActivateAutonomousMode();
+        connection->usercommander->publish_takeoff();
+    }
 }
 
 void MainWindow::onLandButton()
 {
     std::cout<<"Land pressed buttom"<<std::endl;
-    if (connection->connect_status)
+    if (connection->connect_status){
+        if(connection->mission_planner_receiver->is_autonomous_mode_active)
+            connection->mission_planner_receiver->deActivateAutonomousMode();
         connection->usercommander->publish_land();
-
+    }
 }
 
 void MainWindow::onHoverButton()
 {
     std::cout<<"Hover pressed buttom"<<std::endl;
-    if (connection->connect_status)
+    if (connection->connect_status){
+        if(connection->mission_planner_receiver->is_autonomous_mode_active)
+            connection->mission_planner_receiver->deActivateAutonomousMode();
         connection->usercommander->publish_hover();
+    }
 }
 
 void MainWindow::onYawZeroButton()
 {
     std::cout<<"Yaw zero pressed buttom"<<std::endl;
-    if (connection->connect_status)
+    if (connection->connect_status){
+        if(connection->mission_planner_receiver->is_autonomous_mode_active)
+            connection->mission_planner_receiver->deActivateAutonomousMode();
         connection->usercommander->publish_yaw_zero();
+    }
 }
 
 void MainWindow::onResetCommandButton()
@@ -555,6 +587,9 @@ void MainWindow::onResetCommandButton()
 
 void MainWindow::keyPressEvent(QKeyEvent *e){
     std::stringstream key;
+    if(connection->mission_planner_receiver->is_autonomous_mode_active)
+        connection->mission_planner_receiver->deActivateAutonomousMode();
+
     if (connection->connect_status){
         switch(e->key())
         {
@@ -629,6 +664,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 }
             }
             break;
+
         case Qt::Key_1:
             std::cout<<"1 looping  pressed buttom"<<std::endl;
             connection->usercommander->sendCommandForLooping();
@@ -638,7 +674,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
             std::cout<<"Up x speed  pressed buttom"<<std::endl;
             connection->usercommander->sendCommandInSpeedControlMode(CONTROLLER_CTE_COMMAND_SPEED, 0.0);
             if(current_control_mode!=control_modes::speed){
-                    ui->selection_mode->setCurrentIndex(3);
+                ui->selection_mode->setCurrentIndex(3);
                 current_control_mode =control_modes::speed;
             }
             break;
@@ -647,7 +683,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
             std::cout<<"Down x speed  pressed buttom"<<std::endl;
             connection->usercommander->sendCommandInSpeedControlMode(-CONTROLLER_CTE_COMMAND_SPEED, 0.0);
             if(current_control_mode!=control_modes::speed){
-                    ui->selection_mode->setCurrentIndex(3);
+                ui->selection_mode->setCurrentIndex(3);
                 current_control_mode =control_modes::speed;
             }
             break;
@@ -656,7 +692,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
             std::cout<<"Up y speed  pressed buttom"<<std::endl;
             connection->usercommander->sendCommandInSpeedControlMode(0.0, -CONTROLLER_CTE_COMMAND_SPEED);
             if(current_control_mode!=control_modes::speed){
-                    ui->selection_mode->setCurrentIndex(3);
+                ui->selection_mode->setCurrentIndex(3);
                 current_control_mode =control_modes::speed;
             }
             break;
@@ -665,7 +701,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
             std::cout<<"Up y speed  pressed buttom"<<std::endl;
             connection->usercommander->sendCommandInSpeedControlMode(0.0, CONTROLLER_CTE_COMMAND_SPEED);
             if(current_control_mode!=control_modes::speed){
-                    ui->selection_mode->setCurrentIndex(3);
+                ui->selection_mode->setCurrentIndex(3);
                 current_control_mode =control_modes::speed;
             }
             break;
@@ -683,7 +719,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
             else{
                 connection->usercommander->sendCommandInPositionControlMode(0.0, 0.0, CONTROLLER_STEP_COMMAND_ALTITUDE);
                 if(current_control_mode!=control_modes::altitude){
-                      ui->selection_mode->setCurrentIndex(2);
+                    ui->selection_mode->setCurrentIndex(2);
                     current_control_mode =control_modes::altitude;
                 }
             }

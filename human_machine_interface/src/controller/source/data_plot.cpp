@@ -441,7 +441,7 @@ void DataPlot::timerEvent(QTimerEvent *e)
       this->setDataCurve(param33,parameters_list.at(32).c_str(),node->imu_msgs.orientation.y);
       this->setDataCurve(param34,parameters_list.at(33).c_str(),node->imu_msgs.orientation.z);
       this->setDataCurve(param35,parameters_list.at(34).c_str(),node->imu_msgs.orientation.w);
-      this->setDataCurve(param36,parameters_list.at(35).c_str(),node->altitude_msgs.altitude);
+      this->setDataCurve(param36,parameters_list.at(35).c_str(),(-1)*node->altitude_msgs.altitude);
       this->setDataCurve(param37,parameters_list.at(36).c_str(),node->altitude_msgs.altitude_speed);
       this->setDataCurve(param38,parameters_list.at(37).c_str(),node->magnetometer_msgs.vector.x);
       this->setDataCurve(param39,parameters_list.at(38).c_str(),node->magnetometer_msgs.vector.y);
@@ -498,7 +498,7 @@ void DataPlot::resizeAxisYMaxLimit(int ms)
 // Get canvas and print in the output file
 void DataPlot::saveAsSVG()
 {
-
+    Q_EMIT disconnectUpdateDynamicsView();
 #if 1
     QPrinter printer;
 #else
@@ -516,4 +516,5 @@ void DataPlot::saveAsSVG()
 
         renderer.renderTo(this, printer);
     }
+    Q_EMIT connectUpdateDynamicsView();
 }

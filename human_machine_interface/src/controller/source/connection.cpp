@@ -28,6 +28,7 @@ Connection::Connection(QWidget *parent,int argc, char** argv):
     img_receiver = new ImagesReceiver();
     usercommander= new UserCommander();
     graph_receiver= new RosGraphReceiver();
+    mission_planner_receiver= new MissionStateReceiver();
    
     connect_status=false;
     ReadSettings();
