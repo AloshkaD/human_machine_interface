@@ -41,7 +41,7 @@ export OSG_DIR="/home/<my_account>/<my_OpenSceneGraph_Dir>/"
 ```
 cd ~/worskspace
 git clone https://bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git ./hmi_cvg_stack/src
-cd /hmi_cvg_stack/src
+cd hmi_cvg_stack/src
 catkin_init_workspace
 ./installation/set_environmental_variables.sh
 cd ..
@@ -120,7 +120,3 @@ This IDE presents more functionalities for software development and project orga
 
 For more information:
 <http://wiki.ros.org/IDEs>
-
-
-
-
