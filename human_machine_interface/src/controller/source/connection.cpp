@@ -113,7 +113,7 @@ bool Connection::initInCommon(){
 
 bool Connection::init()
 {
-    ros::init(init_argc,init_argv,"human_machine_interface");// ros node started.
+   //ros::init(argc,argv,"human_machine_interface");// ros node started
 
     return Connection::initInCommon();
 }
@@ -151,9 +151,10 @@ void Connection::spinnerThread()
 
 void Connection::ReadSettings()
 {
-    QSettings settings("Human Machine Interface - QSettings", node_name.c_str());
-    QString master_url = settings.value("master_url",QString("http://192.168.1.2:11311/")).toString();
-    QString host_url = settings.value("host_url", QString("192.168.1.3")).toString();
+    settings_file = QApplication::applicationDirPath().left(1) + ":/" + node_name.c_str() + "settings.ini";
+    QSettings settings(settings_file, QSettings::NativeFormat);
+    QString master_url = settings.value("master_url",QString("")).toString();
+    QString host_url = settings.value("host_url", QString("")).toString();
     ui->line_edit_master->setText(master_url);
     ui->line_edit_host->setText(host_url);
     bool remember = settings.value("remember_settings", false).toBool();
@@ -168,7 +169,7 @@ void Connection::ReadSettings()
 
 void Connection::WriteSettings()
 {
-    QSettings settings("Human Machine Interface - QSettings", node_name.c_str());
+    QSettings settings(settings_file,  QSettings::NativeFormat);
     settings.setValue("master_url",ui->line_edit_master->text());
     settings.setValue("host_url",ui->line_edit_host->text());
     settings.setValue("use_environment_variables",QVariant(ui->checkbox_use_environment->isChecked()));

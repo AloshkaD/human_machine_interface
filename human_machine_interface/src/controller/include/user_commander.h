@@ -75,6 +75,8 @@ public:
         void sendYawCommandInPositionControlMode(double controller_step_command_yaw);
         void sendCommandInMovingManualAltitudMode(double cte_command_pitch, double cte_command_roll, double cte_command_height, double cte_command_yaw);
         void sendCommandInSpeedControlMode(double vxfi, double vyfi);
+        void sendCommandInVisualServoingMode();
+        void sendCommandForLooping();
 
         void clearCmd();
 

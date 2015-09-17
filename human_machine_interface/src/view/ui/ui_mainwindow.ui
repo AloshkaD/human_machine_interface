@@ -1291,39 +1291,12 @@
                 <string>Manual Speed</string>
                </property>
               </item>
+              <item>
+               <property name="text">
+                <string>Visual Servoing</string>
+               </property>
+              </item>
              </widget>
-            </item>
-            <item row="6" column="2">
-             <spacer name="horizontal_spacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>15</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="7" column="2">
-             <spacer name="horizontal_spacer_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Maximum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>15</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
            <zorder>label_wifi</zorder>
@@ -1348,8 +1321,6 @@
            <zorder>hover_button</zorder>
            <zorder>reset_button</zorder>
            <zorder>emergency_stop_button</zorder>
-           <zorder>horizontal_spacer_2</zorder>
-           <zorder>horizontal_spacer_3</zorder>
           </widget>
          </widget>
         </item>

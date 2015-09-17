@@ -39,6 +39,8 @@ public:
         RosGraphReceiver* graph_receiver;
         UserCommander* usercommander;
 
+        QString settings_file;
+
         void spinnerThread();
 
 public Q_SLOTS:

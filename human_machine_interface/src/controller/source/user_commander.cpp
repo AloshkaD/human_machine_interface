@@ -76,10 +76,35 @@ bool UserCommander::ready() {
 UserCommander::~ UserCommander() {}
 
 
+void UserCommander::sendCommandInVisualServoingMode()
+{
+    std::cout<<"comand move() IN VISUAL SERVOING sent"<<std::endl;
+    droneCommandMsgs.mpCommand =droneMsgsROS::droneMissionPlannerCommand::MOVE_VISUAL_SERVOING;
+    droneCommandMsgs.drone_modules_names.clear();
+    std::vector<std::string> modules_names;
+    modules_names.push_back("droneOdometryStateEstimator");
+    droneCommandMsgs.drone_modules_names = modules_names;
+    droneCommandPubl.publish(droneCommandMsgs);
+    ros::spinOnce();
+}
+
+void UserCommander::sendCommandForLooping()
+{
+    std::cout<<"Command loop() sent"<<std::endl;
+    clearCmd();
+    droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_FLIP_FRONT;
+//    msg.drone_modules_names.clear();
+//    std::vector<std::string> modules_names;
+//    modules_names.push_back(MODULE_NAME_ODOMETRY_STATE_ESTIMATOR);
+//    msg.drone_modules_names = modules_names;
+    droneCommandPubl.publish(droneCommandMsgs);
+}
+
 void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)
 {
     std::cout<<"comand move() IN SPEED sent"<<std::endl;
     droneCommandMsgs.mpCommand =droneMsgsROS::droneMissionPlannerCommand::MOVE_SPEED;
+    droneCommandMsgs.drone_modules_names.clear();
     droneCommandPubl.publish(droneCommandMsgs);
 
     if(vxfi !=0 || vyfi != 0)
@@ -142,7 +167,9 @@ void UserCommander::sendCommandInPositionControlMode(double controller_step_comm
     std::cout<<"comand move() IN POSITION sent"<<std::endl;
 
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
+    droneCommandMsgs.drone_modules_names.clear();
     droneCommandPubl.publish(droneCommandMsgs);
+
 
     if(controller_step_command_x !=0 || controller_step_command_y != 0 || controller_step_command_z != 0)
     {
@@ -167,6 +194,7 @@ void UserCommander::sendYawCommandInPositionControlMode(double controller_step_c
 {
     std::cout<<"comand move() IN POSITION sent"<<std::endl;
     droneCommandMsgs.mpCommand =  droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
+    droneCommandMsgs.drone_modules_names.clear();
     droneCommandPubl.publish(droneCommandMsgs);
 
 
@@ -210,8 +238,11 @@ void  UserCommander::publish_hover()
     std::cout<<"Command hover() sent"<<std::endl;
     clearCmd();//clear command
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
+    droneCommandMsgs.drone_modules_names.clear();
+    std::vector<std::string> modules_names;
+    modules_names.push_back("droneOdometryStateEstimator");
+    droneCommandMsgs.drone_modules_names = modules_names;
     droneCommandPubl.publish(droneCommandMsgs);
-    log(Info,std::string("Human Machine Interface sent: ")+"hover");
 
 }
 

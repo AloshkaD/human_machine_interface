@@ -62,10 +62,19 @@ public:
     bool is_open_one_camera_view;
     bool is_open_four_camera_view;
     bool is_laptop_design;
+    bool is_initial_controlmode;
     QTimer *flight_timer;
     static bool uniqueApplication();
     bool setLaptopDesign();
+    int current_control_mode;
 
+    enum control_modes{
+        autonomous,
+        position,
+        altitude,
+        speed,
+        visual_servoing
+    };
 
 private Q_SLOTS:
    void updateDynamicView();
@@ -102,6 +111,7 @@ public Q_SLOTS:
     void onControlModeChange(int key);
     void keyPressEvent(QKeyEvent *e);
     void updateDynamicsPanel();
+    void setInitialControlMode();
 
 
 

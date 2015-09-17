@@ -226,7 +226,7 @@ MACRO (QT4_WRAP_UI_OWN outfiles )
   FOREACH (it ${ui_files})
     GET_FILENAME_COMPONENT(outfile ${it} NAME_WE)
     GET_FILENAME_COMPONENT(infile ${it} ABSOLUTE)
-    SET(outfile ${QT4_WRAP_UI_DIR}/ui_${outfile}.h) # Here we set output
+    SET(outfile ${QT4_WRAP_UI_DIR}/${outfile}.h) # Here we set output
     ADD_CUSTOM_COMMAND(OUTPUT ${outfile}
       COMMAND ${QT_UIC_EXECUTABLE}
       ARGS ${ui_options} -o ${outfile} ${infile}
