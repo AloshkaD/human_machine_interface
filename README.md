@@ -12,13 +12,13 @@ The Human Machine Interface allows operators or users of the system to bi-direct
 
 ## User's Guide
 
-This user guide covers a general description of the application. This user guide could be found in: ```./Documentation/UserGuide```
+This user guide covers a general description of the application. This user guide could be found in: ```OpenAirs UserGuide```
 
 ## Developer’s Guide
 
 ###Obtaining source code and libraries
 * Source code project:
-git clone <https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/groundcontrolsystem.git>
+git clone <https://yolanda_de_la_hoz_simon@bitbucket.org/yolanda_de_la_hoz_simon/hmi_cvg_stack.git>
 
 The Human Machine Interface depends on ROS, Qt and OpenSceneGraph.
 
