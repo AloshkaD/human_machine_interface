@@ -2,7 +2,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/performance_monitor.h"
-#include "../../view/ui/ui_performancemonitor.h"
+#include "ui_performancemonitor.h"
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qscrollbar.h>
 #include <string>

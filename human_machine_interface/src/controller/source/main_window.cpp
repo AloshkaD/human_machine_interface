@@ -10,7 +10,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/main_window.h"
-#include "../../view/ui/ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include "qt4/QtGui/qwidget.h"
 #include "qt4/QtGui/qevent.h"
 #include <qt4/Qt/qpointer.h>
@@ -988,18 +988,20 @@ bool MainWindow::uniqueApplication()
         chars_array = strtok(NULL, " ");
     }
 
-    //Redirect the standard error temporally
-    freopen( "standard_error.txt", "w", stderr );
-    //freopen( "standard_output.txt", "w", stdout );
 
     if (instances > 1)
     {
         // Temporaly redirect to cout but it has to be launched in cerr!!! Until fix the opengl bug
-        std::cout << "It is NOT ALLOWED to use more than one instance." << std::endl;
-        std::cout << "The main instance PID is: " << process_pids[instances-1];
-        std::cout << "Ending this instance with PID: " << mypid << std::endl;
+        std::cerr << "It is NOT ALLOWED to use more than one instance." << std::endl;
+        std::cerr << "The main instance PID is: " << process_pids[instances-1];
+        std::cerr << "Ending this instance with PID: " << mypid << std::endl;
         return false;
     }
     else
+    {
+        //Redirect the standard error temporally
+        freopen( "standard_error.txt", "w", stderr );
+        //freopen( "standard_output.txt", "w", stdout );
         return true;
+    }
 }

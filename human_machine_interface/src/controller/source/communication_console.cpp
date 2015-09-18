@@ -9,7 +9,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/communication_console.h"
-#include "../../view/ui/ui_communicationconsole.h"
+#include "ui_communicationconsole.h"
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
