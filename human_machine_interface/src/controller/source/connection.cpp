@@ -87,7 +87,7 @@ bool Connection::initInCommon(){
     ros::NodeHandle n;
 
     if(ros::this_node::getNamespace().compare(" /"))
-        rosnamespace.append("/drone1");//default namespace
+        rosnamespace.append("/drone2");//default namespace
     else
         rosnamespace.append(ros::this_node::getNamespace());
 
@@ -99,6 +99,7 @@ bool Connection::initInCommon(){
     odometry_receiver->openSubscriptions(n, rosnamespace);
     img_receiver->openSubscriptions(n, rosnamespace);
     graph_receiver->openSubscriptions(n, rosnamespace);
+    mission_planner_receiver->openSubscriptions(n, rosnamespace);
     // Start command
     usercommander->openPublications(n, rosnamespace);
 

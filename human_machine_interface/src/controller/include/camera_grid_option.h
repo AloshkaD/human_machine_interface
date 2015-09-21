@@ -1,3 +1,11 @@
+/*!*******************************************************************************************
+ *  \file       camera_grid_option.h
+ *  \brief      CameraGridOption definition file.
+ *  \details    This file includes the CameraGridOption class declaration. To obtain more
+ *              information about it's definition consult the camera_display_option.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 #ifndef CAMERAGRIDOPTION_H
 #define CAMERAGRIDOPTION_H
 

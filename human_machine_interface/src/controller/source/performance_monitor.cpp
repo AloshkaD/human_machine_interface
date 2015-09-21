@@ -14,7 +14,7 @@
 ** Implementation
 *****************************************************************************/
 
-PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collector) :
+PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collector, UserCommander *usercommander) :
     QWidget(parent),
     ui(new Ui::PerformanceMonitor)
 {
@@ -23,6 +23,7 @@ PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collec
     ui->table_widget->setColumnWidth(0,640);
 
     supervisor_receiver=collector;
+    user_command=usercommander;
     error_counter=0;
     is_display_stopped=false;
 
@@ -197,12 +198,38 @@ void PerformanceMonitor::onCustomContextMenuRequested(const QPoint& pos) {
     }
 }
 
-void PerformanceMonitor::showContextMenu(QTableWidgetItem* item, const QPoint& globalPos) {
+void PerformanceMonitor::showContextMenu(QTableWidgetItem* item, const QPoint& globalPos){
     QMenu menu;
     menu.addAction("Stop");
     menu.addAction("Start");
-    menu.addAction("Record");
+    menu.addAction("Reset");
+    menu.addAction("Record(Not implemented)");
+    connect(&menu, SIGNAL(triggered(QAction*)), this, SLOT(menuSelection(QAction*)));
     menu.exec(globalPos);
+}
+
+void PerformanceMonitor::menuSelection(QAction* action){
+    std::cout<<"Action clicked:" + action->text().toStdString() <<std::endl;
+
+    QModelIndexList selection = ui->table_process_viewer->selectionModel()->selectedRows();
+
+    // Multiple rows can be selected
+    for(int i=0; i< selection.count(); i++)
+    {
+        QModelIndex index = selection.at(i);
+        QTableWidgetItem *item = ui->table_process_viewer->item( index.row(), 0 );
+        std::cout<< item->text().toStdString() <<std::endl;
+        if(action->text().toStdString().compare("Stop")==0)
+         user_command->processMonitorCommander(item->text().toStdString(),processMonitorStates::Stop);
+        if(action->text().toStdString().compare("Start")==0)
+         user_command->processMonitorCommander(item->text().toStdString(),processMonitorStates::Start);
+        if(action->text().toStdString().compare("Reset")==0)
+         user_command->processMonitorCommander(item->text().toStdString(),processMonitorStates::Reset);
+    }
+}
+
+void PerformanceMonitor::onStartModuleClicked(){
+    std::cout<<"Start module clicked"<<std::endl;
 }
 
 void PerformanceMonitor::onStopClicked(){

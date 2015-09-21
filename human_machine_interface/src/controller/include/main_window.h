@@ -75,6 +75,7 @@ public:
     int current_control_mode;
     char* getProcessName(const char* process_name_temp);
     std::vector<std::string> checkListToTakeOff();
+    bool isInAutonomousMode();
     droneMsgsROS::ProcessDescriptor node_container;
 
 
@@ -111,7 +112,7 @@ public Q_SLOTS:
     void onLandButton();
     void onResetCommandButton();
     void onHoverButton();
-   // void onEmergencyStopButton();
+    void onEmergencyStopButton();
    // void keyPressEvent(QKeyEvent *e);
     void initializeCameraView();
     void closeEvent(QCloseEvent *event);

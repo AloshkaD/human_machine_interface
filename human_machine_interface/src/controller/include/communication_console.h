@@ -1,3 +1,11 @@
+/*!*******************************************************************************************
+ *  \file       communication_console.h
+ *  \brief      CommunicationConsole definition file.
+ *  \details    This file includes the CommunicationConsole class declaration. To obtain more
+ *              information about it's definition consult the communication_console.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 #ifndef COMMUNICATIONCONSOLE_H
 #define COMMUNICATIONCONSOLE_H
 

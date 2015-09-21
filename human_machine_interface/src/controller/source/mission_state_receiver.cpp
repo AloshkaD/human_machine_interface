@@ -30,10 +30,15 @@ MissionStateReceiver::MissionStateReceiver(){
 void MissionStateReceiver::openSubscriptions(ros::NodeHandle n, std::string rosnamespace){
     // Topic communications
 
+    if (!n.getParam("mission_info_topic", mission_info_topic))
+        mission_info_topic = "droneMissionInfo";
+
+     mission_info_subs=n.subscribe(rosnamespace + "/" + mission_info_topic, 1, &MissionStateReceiver::droneMissionInfoCallback, this);
+
      subscriptions_complete = true;
      is_autonomous_mode_active=false;
-     mission_planner_srv_start=n.serviceClient<std_srvs::Empty>("droneMissionPlannerInterfaceROSModule/start");
-     mission_planner_srv_stop=n.serviceClient<std_srvs::Empty>("droneMissionPlannerInterfaceROSModule/stop");
+     mission_planner_srv_start=n.serviceClient<std_srvs::Empty>("/" + rosnamespace +  "/" + "droneMissionScheduleProcessor/start");
+     mission_planner_srv_stop=n.serviceClient<std_srvs::Empty>("/" + rosnamespace +  "/" + "droneMissionScheduleProcessor/stop");
 //    real_time=ros;
 }
 
@@ -49,48 +54,34 @@ MissionStateReceiver::~MissionStateReceiver() {}
 
 void MissionStateReceiver::activateAutonomousMode(){
      if(!is_autonomous_mode_active){
+     std::cout<<"Starting Mission Planner...."<<std::endl;
      std_srvs::Empty emptySrvMsg;
      mission_planner_srv_start.call(emptySrvMsg);
      is_autonomous_mode_active=true;
      }
- }
+}
 
-void MissionStateReceiver::deActivateAutonomousMode(){
-     if(!is_autonomous_mode_active){
+void MissionStateReceiver::deactivateAutonomousMode(){
+     if(is_autonomous_mode_active){
      std_srvs::Empty emptySrvMsg;
      mission_planner_srv_stop.call(emptySrvMsg);
-     is_autonomous_mode_active=true;
+     is_autonomous_mode_active=false;
      }
  }
 
-std::string MissionStateReceiver::droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg)
+void MissionStateReceiver::droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg)
 {
     if(is_autonomous_mode_active){
-        std::stringstream result_ss;
+        std::cout << msg->durationMission.toSec() << std::endl;
+        std::cout << msg->durationSubmission.toSec() << std::endl;
+        std::cout << msg->idSubmission << std::endl;
 
-        result_ss<< "durationMission:"<<msg->durationMission.toSec();
-        result_ss<<" durationSubmission:"<<msg->durationSubmission.toSec();
-        result_ss<<" idSubmission:"<<msg->idSubmission;
-        result_ss<<" loopSubmision:"<<static_cast<int>(msg->loopSubmission);
-        result_ss<<" durationTask:"<<msg->durationTask.toSec();
-        result_ss<<" idTask:"<<msg->idTask;
-        result_ss<<" taskType:"<<msg->taskType;
-        result_ss<<" taskState:";
-        switch(msg->taskState)
-        {
-        case droneMsgsROS::droneMissionInfo::WAITING_BRAIN:
-            result_ss<<"WAITING_BRAIN";
-            break;
-        case droneMsgsROS::droneMissionInfo::TASK_RUNNING:
-            result_ss<<"TASK_RUNNING";
-            break;
-        default:
-            result_ss<<"UNKNOWN";
-            break;
-        }
+        std::cout << msg->durationTask.toSec() << std::endl;
+        std::cout << msg->idTask << std::endl;
 
-        return result_ss.str();
+        mission_info=*msg;
     }
+
 }
 
 

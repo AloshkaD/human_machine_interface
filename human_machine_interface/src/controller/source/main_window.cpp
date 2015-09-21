@@ -99,7 +99,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
 
     //Initialize views
     connection = new Connection(this,argc,argv);
-    process_view = new PerformanceMonitor(this,connection->graph_receiver);
+    process_view = new PerformanceMonitor(this,connection->graph_receiver,connection->usercommander);
     ui->grid_performance->addWidget(process_view,0,0);
     param_plot = new ParameterTemporalSeries(this,connection->telemetry_receiver,connection->odometry_receiver);
     ui->grid_parameters->addWidget(param_plot,0,0);
@@ -249,8 +249,8 @@ void MainWindow::setSignalHandlers()
     connect(param_plot->plot,SIGNAL(disconnectUpdateDynamicsView()),this, SLOT(disconnectDynamicsView()));
     connect(param_plot->plot,SIGNAL(connectUpdateDynamicsView()),this, SLOT(connectDynamicsView()));
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
+    connect(connection->usercommander, SIGNAL( managerStatusReceived( )), this, SLOT( updateStatusBar( )));
     connect(connection->telemetry_receiver, SIGNAL(parameterReceived()), this, SLOT(updateDynamicsPanel( )));
-    connect(connection->usercommander, SIGNAL(parameterReceived()), this, SLOT(updateStatusBar( )));
     connect(connection->graph_receiver, SIGNAL(supervisorStateReceived()), this, SLOT(initContextMenuTakeOff( )));
     //connect(connection->telemetryReceiver, SIGNAL( parameterReceived( )), this, SLOT(show_frame()));
     connect(ui->land_button,SIGNAL(clicked()),this, SLOT(onLandButton()));
@@ -258,7 +258,7 @@ void MainWindow::setSignalHandlers()
     connect(ui->yaw_zero_button,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
     //connect(ui->reset_button,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
     connect(ui->hover_button,SIGNAL(clicked()),this, SLOT(onHoverButton()));
-    //connect(ui->emergencyStop_Button,SIGNAL(clicked()),this, SLOT(onEmergencyStopButton()));
+    connect(ui->emergency_stop_button,SIGNAL(clicked()),this, SLOT(onEmergencyStopButton()));
     connect(ui->one_camera_button, SIGNAL(clicked()), this, SLOT(displayOneCamera()));
     connect(ui->main_camera_button, SIGNAL(clicked()), this, SLOT(displayMainGridCamera()));
     connect(ui->four_camera_button, SIGNAL(clicked()), this, SLOT(displayFourGridCamera()));
@@ -400,30 +400,51 @@ void MainWindow::updateDynamicsPanel()
     }
 }
 
+bool MainWindow::isInAutonomousMode()
+{
+    for(unsigned int i = 0; i < connection->graph_receiver->list_process_state.process_list.size(); i++)
+    {
+        node_container= connection->graph_receiver->list_process_state.process_list.at(i);
+        char* process_name = getProcessName(node_container.name.c_str());
+        if((strcmp(process_name, "droneMissionScheduleProcessor") == 0)&&node_container.is_alive&&node_container.current_state.state!=droneMsgsROS::ProcessState::NotStarted)
+        return true;
+    }
+  return false;
+}
+
 void MainWindow::setInitialControlMode()
 {
-    switch(connection->usercommander->lastDroneManagerStatusMsg.status)
-    {
-    case(droneMsgsROS::droneManagerStatus::MOVING_POSITION):
-        if(current_control_mode!=control_modes::position){
-            ui->selection_mode->setCurrentIndex(1);
-            current_control_mode =control_modes::position;
+    if(!isInAutonomousMode()){
+        switch(connection->usercommander->getDroneManagerStatus().status)
+        {
+        case(droneMsgsROS::droneManagerStatus::MOVING_POSITION):
+            if(current_control_mode!=control_modes::position){
+                ui->selection_mode->setCurrentIndex(1);
+                current_control_mode =control_modes::position;
+            }
+            break;
+        case(droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD):
+            if(current_control_mode!=control_modes::altitude){
+                ui->selection_mode->setCurrentIndex(2);
+                current_control_mode =control_modes::altitude;
+            }
+            break;
+        case(droneMsgsROS::droneManagerStatus::MOVING_SPEED):
+            if(current_control_mode!=control_modes::speed){
+                ui->selection_mode->setCurrentIndex(3);
+                current_control_mode =control_modes::speed;
+            }
+            break;
+        case(droneMsgsROS::droneManagerStatus::MOVING_VISUAL_SERVOING):
+            if(current_control_mode!=control_modes::visual_servoing){
+                ui->selection_mode->setCurrentIndex(4);
+                current_control_mode =control_modes::visual_servoing;
+            }
+            break;
         }
-        break;
-    case(droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD):
-        if(current_control_mode!=control_modes::altitude){
-            ui->selection_mode->setCurrentIndex(2);
-            current_control_mode =control_modes::altitude;
-        }
-        break;
-    case(droneMsgsROS::droneManagerStatus::MOVING_SPEED):
-        if(current_control_mode!=control_modes::speed){
-            ui->selection_mode->setCurrentIndex(3);
-            current_control_mode =control_modes::speed;
-        }
-        break;
-    }
-    is_initial_controlmode=true;
+    }else
+        ui->selection_mode->setCurrentIndex(0);
+    disconnect(connection->usercommander, SIGNAL( managerStatusReceived( )), this, SLOT( setInitialControlMode( )));
 }
 
 void MainWindow::updateStatusBar()
@@ -431,34 +452,13 @@ void MainWindow::updateStatusBar()
 
     if (connection->connect_status){
 
-        switch(connection->usercommander->lastDroneManagerStatusMsg.status)
+        switch(connection->usercommander->getDroneManagerStatus().status)
         {
         case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD:
             ui->value_currentGoal->setText("Moving Manual Altitud");
             break;
-        case droneMsgsROS::droneManagerStatus::EMERGENCY:
-            ui->value_currentGoal->setText("Emergency");
-            break;
-        case droneMsgsROS::droneManagerStatus::HOVERING:
-            ui->value_currentGoal->setText("Hovering");
-            break;
-        case droneMsgsROS::droneManagerStatus::HOVERING_VISUAL_SERVOING:
-            ui->value_currentGoal->setText("Hovering Visual Servoing");
-            break;
-        case droneMsgsROS::droneManagerStatus::LANDED:
-            ui->value_currentGoal->setText("Landed");
-            break;
-        case droneMsgsROS::droneManagerStatus::LANDING:
-            ui->value_currentGoal->setText("Landing");
-            break;
-        case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_THRUST:
-            ui->value_currentGoal->setText("Moving Manual Thrust");
-            break;
-        case droneMsgsROS::droneManagerStatus::MOVING_POSITION:
-            ui->value_currentGoal->setText("Moving Position");
-            break;
-        case droneMsgsROS::droneManagerStatus::MOVING_SPEED:
-            ui->value_currentGoal->setText("Moving Speed");
+        case droneMsgsROS::droneManagerStatus::MOVING_EMERGENCY:
+            ui->value_currentGoal->setText("Moving Emergency");
             break;
         case droneMsgsROS::droneManagerStatus::MOVING_TRAJECTORY:
             ui->value_currentGoal->setText("Moving Trajectory");
@@ -477,6 +477,30 @@ void MainWindow::updateStatusBar()
             break;
         case droneMsgsROS::droneManagerStatus::MOVING_FLIP_RIGHT:
             ui->value_currentGoal->setText("Moving Flip Right");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_THRUST:
+            ui->value_currentGoal->setText("Moving Manual Thrust");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_POSITION:
+            ui->value_currentGoal->setText("Moving Position");
+            break;
+        case droneMsgsROS::droneManagerStatus::MOVING_SPEED:
+            ui->value_currentGoal->setText("Moving Speed");
+            break;
+        case droneMsgsROS::droneManagerStatus::EMERGENCY:
+            ui->value_currentGoal->setText("Emergency");
+            break;
+        case droneMsgsROS::droneManagerStatus::HOVERING:
+            ui->value_currentGoal->setText("Hovering");
+            break;
+        case droneMsgsROS::droneManagerStatus::HOVERING_VISUAL_SERVOING:
+            ui->value_currentGoal->setText("Hovering Visual Servoing");
+            break;
+        case droneMsgsROS::droneManagerStatus::LANDED:
+            ui->value_currentGoal->setText("Landed");
+            break;
+        case droneMsgsROS::droneManagerStatus::LANDING:
+            ui->value_currentGoal->setText("Landing");
             break;
         case droneMsgsROS::droneManagerStatus::UNKNOWN:
             ui->value_currentGoal->setText("Unknow");
@@ -500,6 +524,9 @@ void MainWindow::updateStatusBar()
             ui->value_wifi->setText("Connected");
         else
             ui->value_wifi->setText("Disconnected");
+
+        ui->value_task->setText(QString::number(connection->mission_planner_receiver->mission_info.idTask));
+        ui->value_mission->setText(QString::number(connection->mission_planner_receiver->mission_info.idSubmission));
     }
 }
 
@@ -605,7 +632,7 @@ void MainWindow::onControlModeChange(int key){
         case(1):
             std::cout<<"Changing to Control Mode Position"<<std::endl;
             if(connection->mission_planner_receiver->is_autonomous_mode_active)
-                connection->mission_planner_receiver->deActivateAutonomousMode();
+                connection->mission_planner_receiver->deactivateAutonomousMode();
             connection->usercommander->sendCommandInPositionControlMode(0.0, 0.0, 0.0);
             current_control_mode=control_modes::position;
             ui->selection_mode->setCurrentIndex(1);
@@ -613,7 +640,7 @@ void MainWindow::onControlModeChange(int key){
         case(2):
             std::cout<<"Changing to Control Mode Altitude"<<std::endl;
             if(connection->mission_planner_receiver->is_autonomous_mode_active)
-                connection->mission_planner_receiver->deActivateAutonomousMode();
+                connection->mission_planner_receiver->deactivateAutonomousMode();
             connection->usercommander->sendCommandInMovingManualAltitudMode(0.0,0.0,0.0,0.0);
             current_control_mode=control_modes::altitude;
             ui->selection_mode->setCurrentIndex(2);
@@ -621,7 +648,7 @@ void MainWindow::onControlModeChange(int key){
         case(3):
             std::cout<<"Changing to Control Mode Speed"<<std::endl;
             if(connection->mission_planner_receiver->is_autonomous_mode_active)
-                connection->mission_planner_receiver->deActivateAutonomousMode();
+                connection->mission_planner_receiver->deactivateAutonomousMode();
             connection->usercommander->sendCommandInSpeedControlMode(0.0, 0.0);
             current_control_mode=control_modes::speed;
             ui->selection_mode->setCurrentIndex(3);
@@ -629,7 +656,7 @@ void MainWindow::onControlModeChange(int key){
         case(4):
             std::cout<<"Changing to Control Mode Visual Servoing"<<std::endl;
             if(connection->mission_planner_receiver->is_autonomous_mode_active)
-                connection->mission_planner_receiver->deActivateAutonomousMode();
+                connection->mission_planner_receiver->deactivateAutonomousMode();
             connection->usercommander->sendCommandInVisualServoingMode();
             current_control_mode=control_modes::visual_servoing;
             ui->selection_mode->setCurrentIndex(4);
@@ -643,7 +670,7 @@ void MainWindow::onTakeOffButton()
     std::cout<<"Take Off pressed buttom"<<std::endl;
     if (connection->connect_status){
         if(connection->mission_planner_receiver->is_autonomous_mode_active)
-            connection->mission_planner_receiver->deActivateAutonomousMode();
+            connection->mission_planner_receiver->deactivateAutonomousMode();
         std::vector<std::string> modules_takeoff=checkListToTakeOff();
         connection->usercommander->publish_takeoff(modules_takeoff);
     }
@@ -654,7 +681,7 @@ void MainWindow::onLandButton()
     std::cout<<"Land pressed buttom"<<std::endl;
     if (connection->connect_status){
         if(connection->mission_planner_receiver->is_autonomous_mode_active)
-            connection->mission_planner_receiver->deActivateAutonomousMode();
+            connection->mission_planner_receiver->deactivateAutonomousMode();
         connection->usercommander->publish_land();
     }
 }
@@ -664,7 +691,7 @@ void MainWindow::onHoverButton()
     std::cout<<"Hover pressed buttom"<<std::endl;
     if (connection->connect_status){
         if(connection->mission_planner_receiver->is_autonomous_mode_active)
-            connection->mission_planner_receiver->deActivateAutonomousMode();
+            connection->mission_planner_receiver->deactivateAutonomousMode();
         connection->usercommander->publish_hover();
     }
 }
@@ -674,8 +701,18 @@ void MainWindow::onYawZeroButton()
     std::cout<<"Yaw zero pressed buttom"<<std::endl;
     if (connection->connect_status){
         if(connection->mission_planner_receiver->is_autonomous_mode_active)
-            connection->mission_planner_receiver->deActivateAutonomousMode();
+            connection->mission_planner_receiver->deactivateAutonomousMode();
         connection->usercommander->publish_yaw_zero();
+    }
+}
+
+void MainWindow::onEmergencyStopButton()
+{
+    std::cout<<"Emergency pressed buttom"<<std::endl;
+    if (connection->connect_status){
+        if(connection->mission_planner_receiver->is_autonomous_mode_active)
+            connection->mission_planner_receiver->deactivateAutonomousMode();
+        connection->usercommander->publish_emergency();
     }
 }
 
@@ -690,7 +727,7 @@ void MainWindow::onResetCommandButton()
 void MainWindow::keyPressEvent(QKeyEvent *e){
     std::stringstream key;
     if(connection->mission_planner_receiver->is_autonomous_mode_active)
-        connection->mission_planner_receiver->deActivateAutonomousMode();
+        connection->mission_planner_receiver->deactivateAutonomousMode();
 
     if (connection->connect_status){
         switch(e->key())

@@ -1,3 +1,11 @@
+/*!*******************************************************************************************
+ *  \file       camera_main_option.h
+ *  \brief      CameraMainOption definition file.
+ *  \details    This file includes the CameraMainOption class declaration. To obtain more
+ *              information about it's definition consult the camera_main_option.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 #ifndef CAMERAMAINOPTION_H
 #define CAMERAMAINOPTION_H
 

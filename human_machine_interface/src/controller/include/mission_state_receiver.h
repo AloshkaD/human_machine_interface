@@ -57,7 +57,11 @@ public:
         void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
         bool is_autonomous_mode_active;
         void activateAutonomousMode();
-        void deActivateAutonomousMode();
+        void isInAutonomousMode();
+        void deactivateAutonomousMode();
+
+        droneMsgsROS::droneMissionInfo mission_info;
+
 
 
 Q_SIGNALS:
@@ -65,6 +69,8 @@ Q_SIGNALS:
         void rosShutdown();
 
 private:
+        std::string mission_info_topic;
+
 
 	int init_argc;
         int real_time;
@@ -72,7 +78,8 @@ private:
         bool subscriptions_complete;
         ros::ServiceClient mission_planner_srv_start;
         ros::ServiceClient mission_planner_srv_stop;
-        std::string droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg);
+        ros::Subscriber mission_info_subs;
+        void droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg);
         QStringListModel logging_model;
 };
 
