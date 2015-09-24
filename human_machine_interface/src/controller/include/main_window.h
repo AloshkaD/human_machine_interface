@@ -84,7 +84,7 @@ public Q_SLOTS:
     void onResetCommandButton();
     void onHoverButton();
     void onEmergencyStopButton();
-    // void keyPressEvent(QKeyEvent *e);
+   // void keyPressEvent(QKeyEvent *e);
     void initializeCameraView();
     void closeEvent(QCloseEvent *event);
     void flightTime();

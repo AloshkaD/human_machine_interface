@@ -158,6 +158,7 @@ void UserCommander::sendCommandInMovingManualAltitudMode(double cte_command_pitc
 {
     std::cout<<"Command move() sent"<<std::endl;
 
+
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_MANUAL_ALTITUD;
     drone_command_publisher.publish(droneCommandMsgs);
 

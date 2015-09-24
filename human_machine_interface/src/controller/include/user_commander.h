@@ -13,7 +13,9 @@
 #include <ros/ros.h>
 #include <string>
 #include <std_msgs/String.h>
+
 #include "droneMsgsROS/droneMissionPlannerCommand.h"
+
 #include <droneMsgsROS/dronePitchRollCmd.h>
 #include <droneMsgsROS/droneDYawCmd.h>
 #include "droneMsgsROS/droneManagerStatus.h"
