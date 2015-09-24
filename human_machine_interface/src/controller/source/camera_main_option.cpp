@@ -150,7 +150,7 @@ void CameraMainOption::updateImage(const QPixmap* image,int id_camera)
     if(!image->isNull()){
         ui->main_image->setPixmap(pix);
         ui->main_image->setScaledContents( true );
-        std::cout << "The camera 1 is activated" << std::endl;
+        //std::cout << "The camera 1 is activated" << std::endl;
     }else
         std::cout << "The camera 1 is disactivated" << std::endl;
 }

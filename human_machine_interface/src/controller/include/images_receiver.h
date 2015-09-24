@@ -1,3 +1,12 @@
+/*!*******************************************************************************************
+ *  \file       images_receiver.h
+ *  \brief      ImagesReceiver definition file.
+ *  \details    This file includes the ImagesReceiver class declaration. To obtain more
+ *              information about it's definition consult the images_receiver.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
+
 #ifndef IMAGESRECEIVER_H
 #define IMAGESRECEIVER_H
 

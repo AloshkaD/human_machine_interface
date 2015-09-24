@@ -99,6 +99,7 @@ bool Connection::initInCommon(){
     odometry_receiver->openSubscriptions(n, rosnamespace);
     img_receiver->openSubscriptions(n, rosnamespace);
     graph_receiver->openSubscriptions(n, rosnamespace);
+    mission_planner_receiver->openSubscriptions(n, rosnamespace);
     // Start command
     usercommander->openPublications(n, rosnamespace);
 

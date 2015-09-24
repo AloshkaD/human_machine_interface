@@ -1,3 +1,12 @@
+/*!*******************************************************************************************
+ *  \file       main_window.h
+ *  \brief      MainWindow definition file.
+ *  \details    This file includes the MainWindow class declaration. To obtain more
+ *              information about it's definition consult the main_window.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -15,6 +24,10 @@
 #include <stdlib.h> // For exit
 #include <unistd.h>
 #include <cstring>
+#include <string>
+
+#include <droneMsgsROS/droneManagerStatus.h>
+#include <droneMsgsROS/droneStatus.h>
 
 #include "connection.h"
 #include "communication_console.h"
@@ -28,10 +41,6 @@
 #include "camera_grid_option.h"
 #include "sphere_view.h"
 #include "vehicle_view.h"
-#include "string"
-#include "droneMsgsROS/droneManagerStatus.h"
-#include "droneMsgsROS/droneStatus.h"
-
 
 
 namespace Ui {
@@ -47,47 +56,10 @@ public:
     explicit MainWindow(int argc, char** argv,QWidget *parent = 0);
     ~MainWindow();
 
-    SphereView *osg_sphere;
-    VehicleView *osg_uav;
-    QTimer *timer;
-    QTime *current_time;
-    int error_counter;
-
-
-    QString file_name;
-    int ignore_resize;
-    int max_osg_frame;
-    int num_of_auto_ops;
-    int old_height;
-    int resize;
-    int camera_view_manager;
-    bool is_open_main_camera_view;
-    bool is_open_one_camera_view;
-    bool is_init_takeoff_context_menu;
-    bool is_open_four_camera_view;
-    bool is_laptop_design;
-    bool is_initial_controlmode;
-    QTimer *flight_timer;
     static bool uniqueApplication();
-    QList<QAction*> menu_takeoff_actions;
-
-    bool setLaptopDesign();
-    int current_control_mode;
-    char* getProcessName(const char* process_name_temp);
-    std::vector<std::string> checkListToTakeOff();
-    droneMsgsROS::ProcessDescriptor node_container;
-
-
-    enum control_modes{
-        autonomous,
-        position,
-        altitude,
-        speed,
-        visual_servoing
-    };
 
 private Q_SLOTS:
-   void updateDynamicView();
+    void updateDynamicView();
 
 public Q_SLOTS:
     void on_actionNew_connection_triggered();
@@ -111,8 +83,8 @@ public Q_SLOTS:
     void onLandButton();
     void onResetCommandButton();
     void onHoverButton();
-   // void onEmergencyStopButton();
-   // void keyPressEvent(QKeyEvent *e);
+    void onEmergencyStopButton();
+    // void keyPressEvent(QKeyEvent *e);
     void initializeCameraView();
     void closeEvent(QCloseEvent *event);
     void flightTime();
@@ -125,28 +97,62 @@ public Q_SLOTS:
     void disconnectDynamicsView();
     void connectDynamicsView();
     //void showContextMenu(const QPoint& globalPos);
-        void initContextMenuTakeOff();
+    void initContextMenuTakeOff();
     void slotTest();
-
-
-
-
-
     void close();
 
-
-
 Q_SIGNALS:
-        void loggingUpdated();
-        void rosShutdown();
-        void parameterReceived();
-        void updateStatus();
-        void saveImage(const int);
+    void loggingUpdated();
+    void rosShutdown();
+    void parameterReceived();
+    void updateStatus();
+    void saveImage(const int);
 
 protected:
     void resizeEventDynamicView(QResizeEvent* event);
 
 private:
+
+    bool setLaptopDesign();
+    int current_control_mode;
+    char* getProcessName(const char* process_name_temp);
+    std::vector<std::string> checkListToTakeOff();
+    bool isInAutonomousMode();
+
+    enum control_modes{
+        autonomous,
+        position,
+        altitude,
+        speed,
+        visual_servoing
+    };
+
+    bool is_open_main_camera_view;
+    bool is_open_one_camera_view;
+    bool is_init_takeoff_context_menu;
+    bool is_open_four_camera_view;
+    bool is_laptop_design;
+    bool is_initial_controlmode;
+
+    QString file_name;
+    int ignore_resize;
+    int max_osg_frame;
+    int num_of_auto_ops;
+    int old_height;
+    int resize;
+    int camera_view_manager;
+
+    QTimer *flight_timer;
+
+    QList<QAction*> menu_takeoff_actions;
+    droneMsgsROS::ProcessDescriptor node_container;
+
+    SphereView *osg_sphere;
+    VehicleView *osg_uav;
+    QTimer *timer;
+    QTime *current_time;
+    int error_counter;
+
     Ui::MainWindow *ui;
     Connection *connection;
     CameraDisplayOption *mainoption;

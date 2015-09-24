@@ -1,23 +1,11 @@
-/*
- * OpenSceneGraph + Qt + Offscreen rendering example.
- * Copyright (C) 2011  Gonzalo Exequiel Pedone
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with This program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Email   : hipersayan DOT x AT gmail DOT com
- * Web-Site: http://hipersayanx.blogspot.com/
- */
+/*!*******************************************************************************************
+ *  \file       vehicle_view.h
+ *  \brief      VehicleView definition file.
+ *  \details    This file includes the VehicleView class declaration. To obtain more
+ *              information about it's definition consult the vehicle_view.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 
 #ifndef VEHICLEVIEW_H
 #define VEHICLEVIEW_H
@@ -51,8 +39,6 @@ class VehicleView: public QGLWidget
         float yaw;
         float roll;
         TelemetryStateReceiver* telemReceiver;
-
-
         osg::ref_ptr<osgViewer::Viewer> viewer;
         osg::observer_ptr<osgViewer::GraphicsWindowEmbedded> window;
         osg::ref_ptr<osg::Node> loaded_model;

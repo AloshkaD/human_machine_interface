@@ -3,7 +3,7 @@
     <!-- master tag is only obeyed in the top-level file (not in includes) 
     <master>
     </master>-->
-    <arg name="drone_id_namespace" default="drone0" />
+    <arg name="drone_id_namespace" default="drone1" />
     <group ns="$(arg drone_id_namespace)">
         <!-- Ardrone driver node -->
         <node name="human_machine_interface" pkg="human_machine_interface" type="human_machine_interface" output="screen"/>

@@ -1,20 +1,14 @@
-/**
- * @file /include/GroundControlSystem/collector.hpp
- *
- * @brief ROS node thread to subscribe topics.
- *
- * @date March 2015
- **/
-/*****************************************************************************
-** Ifdefs
-*****************************************************************************/
+/*!*******************************************************************************************
+ *  \file       mission_state_receiver.h
+ *  \brief      MissionStateReceiver definition file.
+ *  \details    This file includes the MissionStateReceiver class declaration. To obtain more
+ *              information about it's definition consult the mission_state_receiver.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 
 #ifndef HumanMachineInterface_MISSIONSTATERECEIVER_H_
 #define HumanMachineInterface_MISSIONSTATERECEIVER_H_
-
-/*****************************************************************************
-** Includes
-*****************************************************************************/
 
 #include <ros/ros.h>
 #include <string>
@@ -25,11 +19,6 @@
 #include <qt4/Qt/qthread.h>
 #include <qt4/QtCore/QtDebug>
 #include <qt4/Qt/qstringlistmodel.h>
-
-
-/*****************************************************************************
-** Class
-*****************************************************************************/
 
 class MissionStateReceiver: public QObject {
     Q_OBJECT
@@ -57,7 +46,11 @@ public:
         void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
         bool is_autonomous_mode_active;
         void activateAutonomousMode();
-        void deActivateAutonomousMode();
+        void isInAutonomousMode();
+        void deactivateAutonomousMode();
+
+        droneMsgsROS::droneMissionInfo mission_info;
+
 
 
 Q_SIGNALS:
@@ -65,6 +58,8 @@ Q_SIGNALS:
         void rosShutdown();
 
 private:
+        std::string mission_info_topic;
+
 
 	int init_argc;
         int real_time;
@@ -72,7 +67,8 @@ private:
         bool subscriptions_complete;
         ros::ServiceClient mission_planner_srv_start;
         ros::ServiceClient mission_planner_srv_stop;
-        std::string droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg);
+        ros::Subscriber mission_info_subs;
+        void droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg);
         QStringListModel logging_model;
 };
 

@@ -1,20 +1,14 @@
-/**
- * @file /include/GroundControlSystem/collector.hpp
- *
- * @brief ROS node thread to subscribe topics.
- *
- * @date March 2015
- **/
-/*****************************************************************************
-** Ifdefs
-*****************************************************************************/
+/*!*******************************************************************************************
+ *  \file       ros_graph_receiver.h
+ *  \brief      RosGraphReceiver definition file.
+ *  \details    This file includes the VehicleView class declaration. To obtain more
+ *              information about it's definition consult the ros_graph_receiver.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 
 #ifndef HumanMachineInterface_ROSGRAPHRECEIVER_H
 #define HumanMachineInterface_ROSGRAPHRECEIVER_H
-
-/*****************************************************************************
-** Includes
-*****************************************************************************/
 
 #include <ros/ros.h>
 #include <string>

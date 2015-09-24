@@ -1,3 +1,11 @@
+/*!*******************************************************************************************
+ *  \file       connection.h
+ *  \brief      Connection definition file.
+ *  \details    This file includes the Connection class declaration. To obtain more
+ *              information about it's definition consult the connection.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
@@ -46,9 +54,6 @@ public:
         void spinnerThread();
 
 public Q_SLOTS:
-	/******************************************
-	** Auto-connections (connectSlotsByName())
-	*******************************************/
         void onButton_connect_clicked(bool check);
         void on_checkbox_use_environment_stateChanged(int state);
         bool init();

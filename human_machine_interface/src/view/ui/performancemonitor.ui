@@ -326,10 +326,19 @@
    <item row="1" column="0">
     <widget class="QTableWidget" name="table_process_viewer">
      <property name="focusPolicy">
-      <enum>Qt::WheelFocus</enum>
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="textElideMode">
+      <enum>Qt::ElideNone</enum>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>600</number>

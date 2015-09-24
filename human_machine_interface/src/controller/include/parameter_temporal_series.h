@@ -1,3 +1,11 @@
+/*!*******************************************************************************************
+ *  \file       parameter_temporal_series.h
+ *  \brief      ParameterTemporalSeries definition file.
+ *  \details    This file includes the ParameterTemporalSeries class declaration. To obtain more
+ *              information about it's definition consult the parameter_temporal_series.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 #ifndef PARAMETERTEMPORALSERIES_H
 #define PARAMETERTEMPORALSERIES_H
 

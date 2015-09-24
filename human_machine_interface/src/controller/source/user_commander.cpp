@@ -27,6 +27,30 @@ UserCommander:: UserCommander(){
 
 void UserCommander::openPublications(ros::NodeHandle n, std::string rosnamespace){
 
+    readParams(n);
+    nodeHandle=n;
+    drone=rosnamespace;
+    // Topic communications
+    drone_pitch_roll_cmd_publ=n.advertise<droneMsgsROS::dronePitchRollCmd>(rosnamespace + "/" + pitchroll_topic ,1, true);
+    drone_daltitude_cmd_publisher=n.advertise<droneMsgsROS::droneDAltitudeCmd>(rosnamespace + "/" + daltitude_topic,1, true);
+    drone_dyaw_cmd_publisher=n.advertise<droneMsgsROS::droneDYawCmd>(rosnamespace + "/" + dyawcmd_topic,1, true);
+    drone_command_publisher=n.advertise<droneMsgsROS::droneMissionPlannerCommand>(rosnamespace + "/" + command_publish_topic,1, true);
+
+    drone_position_reference_publisher = n.advertise<droneMsgsROS::dronePositionRefCommandStamped>(rosnamespace + "/" + drone_position_refs, 1);
+    drone_yaw_reference_publisher = n.advertise<droneMsgsROS::droneYawRefCommand>(rosnamespace + "/" + drone_controller_yaw_ref_command, 1);
+    drone_speeds_reference_publisher= n.advertise<droneMsgsROS::droneSpeeds>(rosnamespace + "/" + drone_speed_refs_topic, 1);
+
+    drone_manager_status_subs  = n.subscribe(rosnamespace + "/" + drone_manager_status, 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
+    drone_pos_reference_subs = n.subscribe(rosnamespace + "/" + drone_pos_rebroadcast_topic, 1, &UserCommander::droneCurrentPositionRefsSubCallback,this);
+    drone_speed_reference_subscriber = n.subscribe(rosnamespace + "/" + drone_speed_refs_topic, 1, &UserCommander::droneCurrentSpeedsRefsSubCallback, this);
+    drone_hl_comm_ack_subs = n.subscribe(rosnamespace + "/" + drone_hl_comm_ack_topic,1,&UserCommander::managerAckCallback,this);
+
+    subscriptions_complete = true;
+
+}
+
+void UserCommander::readParams(ros::NodeHandle n)
+{
     //Set params
     if (!n.getParam("pitchroll_topic", pitchroll_topic))
         pitchroll_topic = "command/pitch_roll";
@@ -52,18 +76,14 @@ void UserCommander::openPublications(ros::NodeHandle n, std::string rosnamespace
     if (!n.getParam("drone_manager_status", drone_manager_status))
         drone_manager_status = "droneManagerStatus";
 
-    // Topic communications
-    dronePitchRollCmdPubl=n.advertise<droneMsgsROS::dronePitchRollCmd>(rosnamespace + "/" + pitchroll_topic ,1, true);
-    droneDAltitudeCmdPubl=n.advertise<droneMsgsROS::droneDAltitudeCmd>(rosnamespace + "/" + daltitude_topic,1, true);
-    droneDYawCmdPubl=n.advertise<droneMsgsROS::droneDYawCmd>(rosnamespace + "/" + dyawcmd_topic,1, true);
-    droneCommandPubl=n.advertise<droneMsgsROS::droneMissionPlannerCommand>(rosnamespace + "/" + command_publish_topic,1, true);
+    if (!n.getParam("drone_position_rebroadcast", drone_pos_rebroadcast_topic))
+        drone_pos_rebroadcast_topic = "trajectoryControllerPositionReferencesRebroadcast";
 
-    dronePositionReferencePublisher = n.advertise<droneMsgsROS::dronePositionRefCommandStamped>(rosnamespace + "/" + drone_position_refs, 1);
-    droneYawReferencePublisher = n.advertise<droneMsgsROS::droneYawRefCommand>(rosnamespace + "/" + drone_controller_yaw_ref_command, 1);
-    drone_speeds_reference_publisher     = n.advertise<droneMsgsROS::droneSpeeds>(rosnamespace + "/" + drone_speed_refs_topic, 1);
+    if (!n.getParam("drone_speed_rebroadcast", drone_speed_rebroadcast_topic))
+        drone_speed_rebroadcast_topic = "trajectoryControllerSpeedReferencesRebroadcast";
 
-    droneManagerStatusSubs  = n.subscribe(rosnamespace + "/" + drone_manager_status, 1, &UserCommander::droneCurrentManagerStatusSubCallback,this);
-    subscriptions_complete = true;
+    if (!n.getParam("drone_hl_comm_ack_topic", drone_hl_comm_ack_topic))
+        drone_hl_comm_ack_topic = "droneMissionHLCommandAck";
 
 }
 
@@ -85,7 +105,7 @@ void UserCommander::sendCommandInVisualServoingMode()
     std::vector<std::string> modules_names;
     modules_names.push_back("droneOdometryStateEstimator");
     droneCommandMsgs.drone_modules_names = modules_names;
-    droneCommandPubl.publish(droneCommandMsgs);
+    drone_command_publisher.publish(droneCommandMsgs);
     ros::spinOnce();
 }
 
@@ -98,7 +118,7 @@ void UserCommander::sendCommandForLooping()
 //    std::vector<std::string> modules_names;
 //    modules_names.push_back(MODULE_NAME_ODOMETRY_STATE_ESTIMATOR);
 //    msg.drone_modules_names = modules_names;
-    droneCommandPubl.publish(droneCommandMsgs);
+    drone_command_publisher.publish(droneCommandMsgs);
 }
 
 void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)
@@ -106,13 +126,16 @@ void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)
     std::cout<<"comand move() IN SPEED sent"<<std::endl;
     droneCommandMsgs.mpCommand =droneMsgsROS::droneMissionPlannerCommand::MOVE_SPEED;
     droneCommandMsgs.drone_modules_names.clear();
-    droneCommandPubl.publish(droneCommandMsgs);
+    drone_command_publisher.publish(droneCommandMsgs);
 
     if(vxfi !=0 || vyfi != 0)
     {
         double current_vxfi, current_vyfi;
         current_vxfi = current_drone_speed_reference.dx;
         current_vyfi = current_drone_speed_reference.dy;
+
+        std::cout<<"Speed reference: " <<std::endl;
+        std::cout<<"current speed x: "+ boost::lexical_cast<std::string>(current_drone_speed_reference.dx) + " current speed y: "+ boost::lexical_cast<std::string>(current_drone_speed_reference.dy) <<std::endl;
 
         if(vxfi == 0.0)
             vxfi = current_vxfi;
@@ -135,30 +158,30 @@ void UserCommander::sendCommandInMovingManualAltitudMode(double cte_command_pitc
 {
     std::cout<<"Command move() sent"<<std::endl;
 
-    droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
-    droneCommandPubl.publish(droneCommandMsgs);
+    droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_MANUAL_ALTITUD;
+    drone_command_publisher.publish(droneCommandMsgs);
 
     if(cte_command_pitch != 0.0)
     {
         dronePitchRollCmdMsgs.pitchCmd = cte_command_pitch;
-        dronePitchRollCmdPubl.publish(dronePitchRollCmdMsgs);
+        drone_pitch_roll_cmd_publ.publish(dronePitchRollCmdMsgs);
     }
 
     if(cte_command_roll != 0.0)
     {
         dronePitchRollCmdMsgs.rollCmd = cte_command_roll;
-        dronePitchRollCmdPubl.publish(dronePitchRollCmdMsgs);
+        drone_pitch_roll_cmd_publ.publish(dronePitchRollCmdMsgs);
     }
 
     if(cte_command_height != 0.0)
     {
         droneDAltitudeCmdMsgs.dAltitudeCmd = cte_command_height;
-        droneDAltitudeCmdPubl.publish(droneDAltitudeCmdMsgs);
+        drone_daltitude_cmd_publisher.publish(droneDAltitudeCmdMsgs);
     }
     if(cte_command_yaw != 0.0)
     {
         droneDYawCmdMsgs.dYawCmd = cte_command_yaw;
-        droneDYawCmdPubl.publish(droneDYawCmdMsgs);
+        drone_dyaw_cmd_publisher.publish(droneDYawCmdMsgs);
     }
 
 }
@@ -169,7 +192,7 @@ void UserCommander::sendCommandInPositionControlMode(double controller_step_comm
 
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
     droneCommandMsgs.drone_modules_names.clear();
-    droneCommandPubl.publish(droneCommandMsgs);
+    drone_command_publisher.publish(droneCommandMsgs);
 
 
     if(controller_step_command_x !=0 || controller_step_command_y != 0 || controller_step_command_z != 0)
@@ -178,6 +201,8 @@ void UserCommander::sendCommandInPositionControlMode(double controller_step_comm
         current_xs = current_drone_position_reference.x;
         current_ys = current_drone_position_reference.y;
         current_zs = current_drone_position_reference.z;
+        std::cout<<"Position reference: " <<std::endl;
+        std::cout<<"current pos.x: "+ boost::lexical_cast<std::string>(current_drone_position_reference.x) + " current pos.y: " + boost::lexical_cast<std::string>(current_drone_position_reference.y) + " current pos.z: "+ boost::lexical_cast<std::string>(current_drone_position_reference.z)  <<std::endl;
 
 
         dronePositionReference.header.stamp  = ros::Time::now();
@@ -186,7 +211,7 @@ void UserCommander::sendCommandInPositionControlMode(double controller_step_comm
         dronePositionReference.position_command.z = current_zs + controller_step_command_z;
 
 
-        dronePositionReferencePublisher.publish(dronePositionReference);
+        drone_position_reference_publisher.publish(dronePositionReference);
         log(Info,std::string("Human Machine Interface sent: ")+"position command");
     }
 }
@@ -196,14 +221,16 @@ void UserCommander::sendYawCommandInPositionControlMode(double controller_step_c
     std::cout<<"comand move() IN POSITION sent"<<std::endl;
     droneCommandMsgs.mpCommand =  droneMsgsROS::droneMissionPlannerCommand::MOVE_POSITION;
     droneCommandMsgs.drone_modules_names.clear();
-    droneCommandPubl.publish(droneCommandMsgs);
+    drone_command_publisher.publish(droneCommandMsgs);
 
 
     double current_yaws = current_drone_position_reference.yaw;
     droneYawReference.header.stamp = ros::Time::now();
     droneYawReference.yaw = current_yaws + controller_step_command_yaw;
+    std::cout<<"Yaw reference: " <<std::endl;
+    std::cout<<"current yaw: "+ boost::lexical_cast<std::string>(droneYawReference.yaw) <<std::endl;
 
-    droneYawReferencePublisher.publish(droneYawReference);
+    drone_yaw_reference_publisher.publish(droneYawReference);
     log(Info,std::string("Human Machine Interface sent: ")+"dyawcommand");
 }
 
@@ -219,12 +246,9 @@ void  UserCommander::publish_takeoff(std::vector<std::string> modules_takeoff)
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::TAKE_OFF;
 
     modules_names.push_back("droneOdometryStateEstimator");
-    modules_names.push_back("droneTrajectoryController");
-    modules_names.push_back("droneArucoEyeROSModule");
-    modules_names.push_back("droneLocalizer");
 
     droneCommandMsgs.drone_modules_names = modules_names;
-    droneCommandPubl.publish(droneCommandMsgs);
+    drone_command_publisher.publish(droneCommandMsgs);
     log(Info,std::string("Human Machine Interface sent: ")+"take_off");
 
 }
@@ -234,7 +258,7 @@ void  UserCommander::publish_land()
     std::cout<<"Command land() sent"<<std::endl;
     clearCmd(); //clear command
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::LAND;
-    droneCommandPubl.publish(droneCommandMsgs);
+    drone_command_publisher.publish(droneCommandMsgs);
     log(Info,std::string("Human Machine Interface sent: ")+"land");
 }
 
@@ -244,10 +268,10 @@ void  UserCommander::publish_hover()
     clearCmd();//clear command
     droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::HOVER;
     droneCommandMsgs.drone_modules_names.clear();
-    std::vector<std::string> modules_names;
-    modules_names.push_back("droneOdometryStateEstimator");
-    droneCommandMsgs.drone_modules_names = modules_names;
-    droneCommandPubl.publish(droneCommandMsgs);
+   // std::vector<std::string> modules_names;
+    //modules_names.push_back("droneOdometryStateEstimator");
+   // droneCommandMsgs.drone_modules_names = modules_names;
+    drone_command_publisher.publish(droneCommandMsgs);
 
 }
 
@@ -255,8 +279,17 @@ void  UserCommander::publish_yaw_zero()
 {
     std::cout<<"Command yaw zero sent"<<std::endl;
     droneDYawCmdMsgs.dYawCmd = 0.0;
-    droneDYawCmdPubl.publish(droneDYawCmdMsgs);
+    drone_dyaw_cmd_publisher.publish(droneDYawCmdMsgs);
     log(Info,std::string("Human Machine Interface sent: ")+"yaw zero");
+}
+
+void  UserCommander::publish_emergency()
+{
+    std::cout<<"Command emergency() sent"<<std::endl;
+    clearCmd(); //clear command
+    droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::EMERGENCY;
+    drone_command_publisher.publish(droneCommandMsgs);
+    log(Info,std::string("Human Machine Interface sent: ")+"emergency");
 }
 
 void UserCommander::clearCmd()
@@ -307,6 +340,55 @@ void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::dr
                 break;
         }
      Q_EMIT managerStatusReceived();
+}
+
+void UserCommander::managerAckCallback(const droneMsgsROS::droneHLCommandAck::ConstPtr& msg)
+{
+    std::cout<<"Human Machine Interface: Received manager confirmation:"<<std::endl;
+    droneHLCommAckMsg.time = msg->time;
+    droneHLCommAckMsg.ack = msg->ack;
+
+    if(droneHLCommAckMsg.ack)
+        std::cout<<"Manager ack TRUE"<<std::endl;
+    else if(!droneHLCommAckMsg.ack)
+        std::cout<<"Manager ack FALSE"<<std::endl;
+
+    return;
+}
+
+void UserCommander::droneCurrentPositionRefsSubCallback(const droneMsgsROS::dronePose::ConstPtr &msg)
+{
+    current_drone_position_reference = (*msg);
+}
+
+void UserCommander::droneCurrentSpeedsRefsSubCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg)
+{
+    current_drone_speed_reference = (*msg);
+}
+
+
+/* Stop/Start/Reset Modules*/
+
+void UserCommander::processMonitorCommander(std::string moduleName,int command)
+{
+    std_srvs::Empty emptySrvMsg;
+    switch(command){
+    case processMonitorStates::Start:
+        std::cout<<"Start module: " + moduleName <<std::endl;
+        modules_srv_stop=nodeHandle.serviceClient<std_srvs::Empty>("/" + drone +  "/" + moduleName + "/start");
+        modules_srv_stop.call(emptySrvMsg);
+        break;
+    case processMonitorStates::Stop:
+        std::cout<<"Stop module: " + moduleName <<std::endl;
+        modules_srv_start=nodeHandle.serviceClient<std_srvs::Empty>("/" + drone +  "/" + moduleName + "/stop");
+        modules_srv_start.call(emptySrvMsg);
+        break;
+    case processMonitorStates::Reset:
+        std::cout<<"Reset module: " + moduleName <<std::endl;
+        modules_srv_reset=nodeHandle.serviceClient<std_srvs::Empty>("/" + drone +  "/" + moduleName + "/reset");
+        modules_srv_reset.call(emptySrvMsg);
+        break;
+    }
 }
 
 

@@ -1,3 +1,11 @@
+/*!*******************************************************************************************
+ *  \file       data_plot.h
+ *  \brief      DataPlot definition file.
+ *  \details    This file includes the DataPlot class declaration. To obtain more
+ *              information about it's definition consult the data_plot.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 #ifndef _DATA_PLOT_H
 #define _DATA_PLOT_H 1
 

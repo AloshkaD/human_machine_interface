@@ -1,20 +1,13 @@
-/**
- * @file /include/GroundControlSystem/collector.hpp
- *
- * @brief ROS node thread to subscribe topics.
- *
- * @date March 2015
- **/
-/*****************************************************************************
-** Ifdefs
-*****************************************************************************/
-
+/*!*******************************************************************************************
+ *  \file       telemetry_state_receiver.h
+ *  \brief      UserCommander definition file.
+ *  \details    This file includes the TelemetryStateReceiver class declaration. To obtain more
+ *              information about it's definition consult the telemetry_state_receiver.cpp file.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
 #ifndef HumanMachineInterface_TELEMETRY_H_
 #define HumanMachineInterface_TELEMETRY_H_
-
-/*****************************************************************************
-** Includes
-*****************************************************************************/
 
 #include <ros/ros.h>
 #include <string>

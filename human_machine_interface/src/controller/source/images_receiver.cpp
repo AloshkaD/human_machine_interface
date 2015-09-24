@@ -87,7 +87,7 @@ void ImagesReceiver::imagesBottomReceptionCallback(const sensor_msgs::ImageConst
 
 
 
-        log(Info,std::string("Received bottom camera images"));
+       // log(Info,std::string("Received bottom camera images"));
         Q_EMIT Update_Image(&px,2);
 }
 
@@ -106,7 +106,7 @@ void ImagesReceiver::imagesFrontReceptionCallback(const sensor_msgs::ImageConstP
             }
             px = QPixmap::fromImage(cvtCvMat2QImage(cv_front_image->image));
 
-        log(Info,std::string("Received front camera images"));
+        //log(Info,std::string("Received front camera images"));
         Q_EMIT Update_Image(&px,1);
 }
 
