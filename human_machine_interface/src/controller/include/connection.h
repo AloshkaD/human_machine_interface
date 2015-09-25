@@ -38,6 +38,7 @@ public:
         void close();
         bool connect_status;
         bool readyForConnect();
+        void shutdownThread();
         std::string rosnamespace;
         std::string node_name;
 
@@ -74,6 +75,7 @@ private:
     Ui::connection *ui;
     int init_argc;
     char** init_argv;
+
 
 };
 

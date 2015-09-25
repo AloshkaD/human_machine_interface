@@ -36,6 +36,9 @@ ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryState
     telem_receiver=telemetry_receiver;
     odometry=odometry_receiver;
 
+    ui->spin_box_max_axis->setReadOnly(false);
+    ui->spin_box_min_axis->setReadOnly(false);
+
     // ESTRUCTURA DE VISUALIZACIÓN
     telemetry << "yaw" << "pitch" << "roll"  << "IMU.angular.vel.x"  << "IMU.angular.vel.y"  << "IMU.angular.vel.z"  << "IMU.accel.x"  << "IMU.accel.y"   << "IMU.accel.z" << "IMU.roll" << "IMU.pitch" << "IMU.yaw" << "IMU.yawPitch" << "altitude" << "altitudeSpeed" <<  "mag.X"<< "mag.Y"<< "mag.Z" << "groundSpeed.X"<< "groundSpeed.Y"<<"temperature"<<"pressure";
     controller << "xci" << "yci" << "zci" << "yawci" << "pitchci" << "rollci" << "vxfi" << "vyfi"<< "vzfi" << "dyawfi";

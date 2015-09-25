@@ -86,7 +86,7 @@ bool Connection::initInCommon(){
     ros::start(); // explicitly call to ros start
     ros::NodeHandle n;
 
-    if(ros::this_node::getNamespace().compare(" /"))
+    if(ros::this_node::getNamespace().compare(" /")==0)
         rosnamespace.append("/drone2");//default namespace
     else
         rosnamespace.append(ros::this_node::getNamespace());
@@ -142,13 +142,21 @@ bool Connection::readyForConnect()
 void Connection::spinnerThread()
 {
     ros::spin();
+    //shutdownThread();
+   // Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
+
+}
+
+void Connection::shutdownThread()
+{
+    if(Connection::readyForConnect())
+        connection_admin_thread.detach();
     if(ros::isStarted()) {
       ros::shutdown(); // Kill all open subscriptions, publications, service calls, and service servers.
       ros::waitForShutdown();
     }
+    wait();
     std::cout << "Ros shutdown, proceeding to close the gui." << std::endl;
-    Q_EMIT rosShutdown(); // used to signal the gui for a shutdown
-
 }
 
 void Connection::ReadSettings()

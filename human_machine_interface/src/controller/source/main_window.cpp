@@ -837,19 +837,17 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
 
 void MainWindow::close()
 {
-    delete connection->graph_receiver;
-    delete connection->odometry_receiver;
-    delete connection->telemetry_receiver;
-    connection->WriteSettings();
-    //QMainWindow::closeEvent(event);
     this->~MainWindow();
 }
 
 
 MainWindow::~MainWindow()
 {
+    connection->WriteSettings();
+    connection->shutdownThread();
+    //QMainWindow::closeEvent(event);
+    //this->~MainWindow();
     delete ui;
-
 }
 
 bool MainWindow::uniqueApplication()
