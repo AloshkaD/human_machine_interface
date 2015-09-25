@@ -119,6 +119,7 @@ void UserCommander::sendCommandForLooping()
 //    modules_names.push_back(MODULE_NAME_ODOMETRY_STATE_ESTIMATOR);
 //    msg.drone_modules_names = modules_names;
     drone_command_publisher.publish(droneCommandMsgs);
+    log(Info,std::string("Human Machine Interface sent: ")+"looping");
 }
 
 void UserCommander::sendCommandInSpeedControlMode(double vxfi, double vyfi)

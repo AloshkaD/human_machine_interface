@@ -255,8 +255,9 @@ void MainWindow::setSignalHandlers()
     //connect(connection->telemetryReceiver, SIGNAL( parameterReceived( )), this, SLOT(show_frame()));
     connect(ui->land_button,SIGNAL(clicked()),this, SLOT(onLandButton()));
     connect(ui->take_off_button,SIGNAL(clicked()),this, SLOT(onTakeOffButton()));
-    connect(ui->yaw_zero_button,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
-    //connect(ui->reset_button,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
+    //connect(ui->yaw_zero_button,SIGNAL(clicked()),this, SLOT(onYawZeroButton()));
+    connect(ui->reset_button,SIGNAL(clicked()),this, SLOT(onResetCommandButton()));
+    connect(ui->loop_button,SIGNAL(clicked()),this, SLOT(onLoopButton()));
     connect(ui->hover_button,SIGNAL(clicked()),this, SLOT(onHoverButton()));
     connect(ui->emergency_stop_button,SIGNAL(clicked()),this, SLOT(onEmergencyStopButton()));
     connect(ui->one_camera_button, SIGNAL(clicked()), this, SLOT(displayOneCamera()));
@@ -716,9 +717,25 @@ void MainWindow::onEmergencyStopButton()
     }
 }
 
+void MainWindow::onLoopButton()
+{
+    std::cout<<"looping pressed buttom"<<std::endl;
+    if (connection->connect_status){
+        if(connection->mission_planner_receiver->is_autonomous_mode_active)
+            connection->mission_planner_receiver->deactivateAutonomousMode();
+        connection->usercommander->sendCommandForLooping();
+    }
+}
+
 void MainWindow::onResetCommandButton()
 {
     std::cout<<"Reset pressed buttom: Not implemented yet!"<<std::endl;
+   /* std::cout<<"looping pressed buttom"<<std::endl;
+    if (connection->connect_status){
+        if(connection->mission_planner_receiver->is_autonomous_mode_active)
+            connection->mission_planner_receiver->deactivateAutonomousMode();
+        connection->usercommander->sendCommandForLooping();
+    }*/
 }
 
 // User commands in Keyboard///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

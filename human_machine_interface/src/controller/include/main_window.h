@@ -84,6 +84,7 @@ public Q_SLOTS:
     void onResetCommandButton();
     void onHoverButton();
     void onEmergencyStopButton();
+    void onLoopButton();
    // void keyPressEvent(QKeyEvent *e);
     void initializeCameraView();
     void closeEvent(QCloseEvent *event);
@@ -100,6 +101,7 @@ public Q_SLOTS:
     void initContextMenuTakeOff();
     void slotTest();
     void close();
+
 
 Q_SIGNALS:
     void loggingUpdated();

@@ -45,7 +45,7 @@ ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryState
     ekf << "pos.x" << "pos.y" << "pos.z" << "yaw" << "pitch" << "roll" << "dx" << "dy" << "dz" << "dyaw" << "dpitch" << "droll";
 
     parameters.insert("Telemetry",telemetry);//pos1
-    parameters.insert("Ext.Kallman Filter",ekf);//pos3
+    parameters.insert("Ext.Kalman Filter",ekf);//pos3
     parameters.insert("Controller",controller);//pos2
 
     plot = new DataPlot(ui->plot_widget,telem_receiver,odometry,&parameters);
