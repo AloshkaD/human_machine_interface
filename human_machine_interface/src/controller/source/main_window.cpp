@@ -568,7 +568,7 @@ void MainWindow::on_actionContents_triggered()
 
 void MainWindow::on_actionUser_Commands_Manual_triggered()
 {
-    QMessageBox::about(this, tr("Manual Control Guided ..."),tr("<h2>Human Machine Interface</h2><p>Keyboard Bindings List</p><p>TAKE_OFF = t</p><p>LAND = y</p><p>EMERGENCY_STOP = space</p><p>HOVER = h</p><p>MOVE = m</p><p>RESET_COMMANDS= s</p><p>MOVE_UPWARDS = q</p><p>MOVE_DOWNWARDS = a</p><p>TURN_COUNTER_CLOCKWISE = z</p><p>TURN_CLOCKWISE = x</p><p>SET_YAW_REFERENCE_TO_0 = backslash</p><p>MOVE_FORWARD = up </p><p>MOVE_BACK = down</p><p>MOVE_RIGHT = right</p><p>MOVE_LEFT = left</p>"));
+    QMessageBox::about(this, tr("Manual Control Guided ..."),tr("<h2>Human Machine Interface</h2><p>Keyboard Bindings List</p><p>TAKE_OFF = t</p><p>LAND = y</p><p>EMERGENCY_STOP = space</p><p>HOVER = h</p><p>MOVE = m</p><p>RESET_COMMANDS= s</p><p>MOVE_UPWARDS = q</p><p>MOVE_DOWNWARDS = a</p><p>TURN_COUNTER_CLOCKWISE = z</p><p>TURN_CLOCKWISE = x</p><p>SET_YAW_REFERENCE_TO_0 = backslash</p><p>MOVE_FORWARD = up </p><p>MOVE_BACK = down</p><p>MOVE_RIGHT = right</p><p>MOVE_LEFT = left</p><p>UP_SPEED X = J</p><p>DOWN_SPEED X = N</p><p>DOWN_SPEED Y = B</p><p>UP_SPEED Y = M</p>"));
 }
 
 
@@ -729,13 +729,12 @@ void MainWindow::onLoopButton()
 
 void MainWindow::onResetCommandButton()
 {
-    std::cout<<"Reset pressed buttom: Not implemented yet!"<<std::endl;
-   /* std::cout<<"looping pressed buttom"<<std::endl;
+    std::cout<<"Reset pressed buttom"<<std::endl;
     if (connection->connect_status){
         if(connection->mission_planner_receiver->is_autonomous_mode_active)
             connection->mission_planner_receiver->deactivateAutonomousMode();
-        connection->usercommander->sendCommandForLooping();
-    }*/
+        connection->usercommander->publish_reset();
+    }
 }
 
 // User commands in Keyboard///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -749,6 +748,21 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
     if (connection->connect_status){
         switch(e->key())
         {
+        case Qt::Key_T:
+            std::cout<<"Take off pressed buttom"<<std::endl;
+            onTakeOffButton();
+            break;
+
+        case Qt::Key_Y:
+            std::cout<<"Land pressed buttom"<<std::endl;
+            onLandButton();
+            break;
+
+        case Qt::Key_H:
+            std::cout<<"Hover pressed buttom"<<std::endl;
+            onHoverButton();
+            break;
+
         case Qt::Key_Right:
             std::cout<<"Right pressed buttom"<<std::endl;
             if(  connection->usercommander->getDroneManagerStatus().status ==  droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD)
@@ -799,7 +813,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
             break;
 
         case Qt::Key_B:
-            std::cout<<"Up y speed  pressed buttom"<<std::endl;
+            std::cout<<"Down y speed  pressed buttom"<<std::endl;
             connection->usercommander->sendCommandInSpeedControlMode(0.0, -CONTROLLER_CTE_COMMAND_SPEED);
 
             break;
@@ -845,6 +859,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e){
                 connection->usercommander->sendYawCommandInPositionControlMode(CONTROLLER_STEP_COMMAND_YAW);
             break;
 
+        case Qt::Key_Space:
+            std::cout<<"Space pressed buttom"<<std::endl;
+            onEmergencyStopButton();
         }
     }
 }

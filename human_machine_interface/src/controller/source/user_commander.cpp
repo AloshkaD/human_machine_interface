@@ -277,6 +277,15 @@ void  UserCommander::publish_hover()
 
 }
 
+void  UserCommander::publish_reset()
+{
+    std::cout<<"Reset commands sent"<<std::endl;
+    if(lastDroneManagerStatusMsg.status ==  droneMsgsROS::droneManagerStatus::MOVING_SPEED)
+        sendCommandInSpeedControlMode(0.0, 0.0);
+    if(lastDroneManagerStatusMsg.status ==  droneMsgsROS::droneManagerStatus::MOVING_POSITION)
+        sendCommandInPositionControlMode(0, 0.0, 0.0);
+}
+
 void  UserCommander::publish_yaw_zero()
 {
     std::cout<<"Command yaw zero sent"<<std::endl;

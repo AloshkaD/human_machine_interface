@@ -59,6 +59,7 @@ public:
     void publish_land();
     void publish_hover();
     void publish_yaw_zero();
+    void publish_reset();
     void publish_emergency();
 
 
