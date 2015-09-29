@@ -46,6 +46,10 @@ using namespace std;
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
+
+
+
+
 class MyContextMenu : public QMenu
 {
 public:
@@ -76,6 +80,11 @@ private:
     QSet <const QAction *> actions_with_showed_menu;
     bool is_ignore_hide;
 };
+
+
+
+
+
 
 
 MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :

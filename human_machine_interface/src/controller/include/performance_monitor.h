@@ -68,6 +68,7 @@ public Q_SLOTS:
     void showContextMenu(QTableWidgetItem *item, const QPoint& globalPos);
     void onStopClicked();
     void menuSelection(QAction* action);
+    void clearFocus();
 
 
 private:

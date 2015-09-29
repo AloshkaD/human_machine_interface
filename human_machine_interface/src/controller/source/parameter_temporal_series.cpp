@@ -28,6 +28,7 @@
 #include <qt4/Qt/qtreewidget.h>  //QTreeWidget>
 
 
+
 ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryStateReceiver* telemetry_receiver,OdometryStateReceiver* odometry_receiver):
     QWidget(parent),
     ui(new Ui::parameterTemporalSeries)
@@ -63,6 +64,13 @@ ParameterTemporalSeries::ParameterTemporalSeries(QWidget *parent, TelemetryState
     updateParametersValue();
 
 }
+void ParameterTemporalSeries::clearFocus()
+{
+    std::cout<<"Editing line finished" <<std::endl;
+    ui->spin_box_min_axis->clearFocus();
+    ui->spin_box_max_axis->clearFocus();
+}
+
 
 void ParameterTemporalSeries::setSignalHandlers()
 {
@@ -75,6 +83,8 @@ void ParameterTemporalSeries::setSignalHandlers()
     //         this, SLOT(onTextFilterChange(QString)));
     //connect(ui->checkBox_4,SIGNAL(clicked(bool)),this, SLOT(onShowUnits(bool)));
     connect(ui->stop_button,SIGNAL(clicked()),this, SLOT(onStopButton()));
+    connect(ui->spin_box_min_axis, SIGNAL(editingFinished()),this, SLOT(clearFocus()) );
+    connect(ui->spin_box_max_axis, SIGNAL(editingFinished()),this, SLOT(clearFocus()) );
 }
 
 void ParameterTemporalSeries::resizeEvent(QResizeEvent * event)

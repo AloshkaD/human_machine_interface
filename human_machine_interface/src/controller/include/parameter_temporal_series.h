@@ -48,6 +48,7 @@ public Q_SLOTS:
     void onShowUnits(bool click);
     void onStopButton();
     void updateParametersValue();
+    void clearFocus();
 
 private:
     Ui::parameterTemporalSeries *ui;

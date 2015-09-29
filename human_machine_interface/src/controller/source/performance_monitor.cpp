@@ -32,6 +32,7 @@ PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collec
     connect( ui->line_edit, SIGNAL(textChanged(QString)), this, SLOT( onTextFilterChange(const QString )));
     connect(ui->table_process_viewer,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(onCustomContextMenuRequested(const QPoint&)));
     connect(ui->stop_display_button,SIGNAL(clicked()),this,SLOT(onStopClicked()));
+    connect(ui->line_edit, SIGNAL( editingFinished( )), this, SLOT( clearFocus( )));
 
     QTableWidgetItem *qtablewidgetitem8 = new QTableWidgetItem();
     ui->table_widget->setItem(0, 2, qtablewidgetitem8);
@@ -41,6 +42,11 @@ PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collec
     initialized_table=false;
     row=0;
 
+}
+void PerformanceMonitor::clearFocus()
+{
+    std::cout<<"Editing line finished" <<std::endl;
+    ui->line_edit->clearFocus();
 }
 
 void PerformanceMonitor::updateProcessViewerTable()
