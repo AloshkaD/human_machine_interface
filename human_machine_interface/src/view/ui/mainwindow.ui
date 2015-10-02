@@ -781,6 +781,31 @@
                 <string>UAV_1</string>
                </property>
               </item>
+              <item>
+               <property name="text">
+                <string>UAV_2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>UAV_3</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>UAV_4</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>UAV_5</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>UAV_6</string>
+               </property>
+              </item>
              </widget>
             </item>
             <item row="3" column="0" colspan="2">
@@ -870,14 +895,14 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>62</width>
+                <width>65</width>
                 <height>40</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>60</width>
-                <height>70</height>
+                <height>45</height>
                </size>
               </property>
               <property name="font">
@@ -1060,7 +1085,7 @@
               <property name="maximumSize">
                <size>
                 <width>60</width>
-                <height>16777215</height>
+                <height>45</height>
                </size>
               </property>
               <property name="font">
@@ -1103,7 +1128,7 @@
               <property name="maximumSize">
                <size>
                 <width>60</width>
-                <height>16777215</height>
+                <height>45</height>
                </size>
               </property>
               <property name="font">
@@ -1143,7 +1168,7 @@
               <property name="maximumSize">
                <size>
                 <width>60</width>
-                <height>16777215</height>
+                <height>45</height>
                </size>
               </property>
               <property name="font">
@@ -1183,7 +1208,7 @@
               <property name="maximumSize">
                <size>
                 <width>60</width>
-                <height>16777215</height>
+                <height>45</height>
                </size>
               </property>
               <property name="font">
@@ -1231,6 +1256,12 @@
                <size>
                 <width>230</width>
                 <height>40</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>230</width>
+                <height>45</height>
                </size>
               </property>
               <property name="focusPolicy">

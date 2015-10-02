@@ -66,7 +66,7 @@ SphereView::SphereView(QWidget *parent, TelemetryStateReceiver *telemetryReceive
     root->addChild(faxisXtrans);
     root->addChild(mainXtrans);
 
-   // root->addChild(labelXtrans);
+     root->addChild(labelXtrans);
 }
 
 void SphereView::initializeGL()
@@ -107,7 +107,7 @@ void SphereView::paintGL()
     osg::Matrix rollMatrix = osg::Matrix::rotate( rollAngle, 0, 1, 0 );
 
     mainXtrans->setMatrix(pitchMatrix*yawMatrix*rollMatrix);
-   // labelXtrans->setMatrix(rollMatrix);
+    labelXtrans->setMatrix(rollMatrix);
 
     viewer->setSceneData(root);
     // Increase the rotation angle
@@ -175,8 +175,8 @@ void SphereView::shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransf
     xconeXForm->setPosition(osg::Vec3(5.0f,0,0));
     xconeXForm->setAttitude(osg::Quat(osg::DegreesToRadians(90.0), osg::Vec3(0,1,0) ) );
 
-    //xlabelXForm->setPosition(osg::Vec3(5.0f,0,0));
-    //xlabelXForm->setAttitude(osg::Quat(osg::DegreesToRadians(90.0), osg::Vec3(0,1,0) ) );
+   // xlabelXForm->setPosition(osg::Vec3(5.0f,0,0));
+   // xlabelXForm->setAttitude(osg::Quat(osg::DegreesToRadians(90.0), osg::Vec3(0,1,0) ) );
 
 
     xconeXForm->setPosition(osg::Vec3(5.0f,0,0));
@@ -195,10 +195,10 @@ void SphereView::shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransf
 
 
     coneXGeode->addDrawable( coneX );
-    //XtextGeode->addDrawable( xLabel );
+   // XtextGeode->addDrawable( xLabel );
 
     // Set up the parameters for the text we'll add to the X axis:
-   /*  xLabel->setCharacterSize(0.3);
+    /* xLabel->setCharacterSize(0.3);
      xLabel->setFont("");
      xLabel->setText("ROLL");
      xLabel->setAxisAlignment(osgText::Text::SCREEN);
@@ -215,7 +215,7 @@ void SphereView::shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransf
     yconeXForm->addChild(coneYGeode);
     zconeXForm->addChild(coneZGeode);
 
-//    labelXtrans->addChild(XtextGeode);
+    labelXtrans->addChild(XtextGeode);
 
     faxisXtrans->addChild(fixedAxisGeode);
 

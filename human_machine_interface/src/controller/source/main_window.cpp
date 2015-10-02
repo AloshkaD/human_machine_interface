@@ -453,7 +453,8 @@ void MainWindow::setInitialControlMode()
             break;
         }
     }else
-        ui->selection_mode->setCurrentIndex(0);
+
+      ui->selection_mode->setCurrentIndex(0);
     disconnect(connection->usercommander, SIGNAL( managerStatusReceived( )), this, SLOT( setInitialControlMode( )));
 }
 
@@ -540,6 +541,18 @@ void MainWindow::updateStatusBar()
     }
 }
 
+void MainWindow::setCurrentUAV()
+{
+    if(connection->rosnamespace.compare("/")!=0){
+        char output[10012];
+        strncpy(output, connection->rosnamespace.c_str(), sizeof(output));
+        output[sizeof(output) - 1] = 0;
+        char* process_name = strtok(output, "/drone");
+        int drone_id = atoi( process_name );
+        ui->selection_vehicle->setCurrentIndex(drone_id-1);
+    }
+}
+
 void MainWindow::testConnection()
 {
     if (!connection->connect_status){
@@ -548,7 +561,7 @@ void MainWindow::testConnection()
     }else{
         showConnectionEstablished();
         ui->value_wifi->setText("Connected");
-
+        setCurrentUAV();
         connect(flight_timer, SIGNAL(timeout()), this, SLOT(flightTime()));
     }
 }

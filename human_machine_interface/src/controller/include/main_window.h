@@ -120,6 +120,7 @@ private:
     char* getProcessName(const char* process_name_temp);
     std::vector<std::string> checkListToTakeOff();
     bool isInAutonomousMode();
+    void setCurrentUAV();
 
     enum control_modes{
         autonomous,
