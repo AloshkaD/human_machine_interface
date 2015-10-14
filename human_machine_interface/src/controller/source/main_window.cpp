@@ -112,10 +112,22 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     ui->grid_performance->addWidget(process_view,0,0);
     param_plot = new ParameterTemporalSeries(this,connection->telemetry_receiver,connection->odometry_receiver);
     ui->grid_parameters->addWidget(param_plot,0,0);
-    osg_sphere= new SphereView(ui->sphere_scene->buddy(),connection->telemetry_receiver);
+    /*osg_sphere= new SphereView(ui->sphere_scene->buddy(),connection->telemetry_receiver);
     osg_sphere->resize(320, 350);    // Resize the QOSGWidget to the size of frames to render
     osg_uav= new VehicleView(ui->vehicle_scene->buddy(),connection->telemetry_receiver);
-    osg_uav->resize(320, 350);
+    osg_uav->resize(320, 350);*/
+
+    osgViewer::ViewerBase::ThreadingModel threadingModel =osgViewer::ViewerBase::ThreadPerContext;
+
+    // Required for multithreaded QGLWidget on Linux/X11, see http://blog.qt.io/blog/2011/06/03/threaded-opengl-in-4-8/
+         QApplication::setAttribute(Qt::AA_X11InitThreads);
+
+    PerceptionScene* viewWidget = new PerceptionScene(this,threadingModel);
+    QWidget* widget1 = viewWidget->addViewWidget( viewWidget->createGraphicsWindow(0,0,100,100));
+    ui->grid_perception->addWidget(widget1,0,0);
+
+
+   // viewWidget->setGeometry( 100, 100, 1800, 600 );
 
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
@@ -196,8 +208,8 @@ bool MainWindow::setLaptopDesign()
 
     if(desktop_height<=1024)
     {
-        osg_uav->resize(320, 300);
-        osg_sphere->resize(320, 250);
+        //osg_uav->resize(320, 300);
+        //osg_sphere->resize(320, 250);
         ui->tab_dynamic_view->setMaximumSize(QSize(350, 280));
         delete ui->panel_vehicle; // destroy the default panels
         delete ui->panel_sphere;
@@ -232,8 +244,8 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 void MainWindow::updateDynamicView()
 {
     // Get the frame and visualize with a pixmap in a QLabel.
-    ui->sphere_scene->setPixmap(osg_sphere->renderPixmap(0,0,false));
-    ui->vehicle_scene->setPixmap(osg_uav->renderPixmap(0,0,false));
+    //ui->sphere_scene->setPixmap(osg_sphere->renderPixmap(0,0,false));
+    //ui->vehicle_scene->setPixmap(osg_uav->renderPixmap(0,0,false));
 
 }
 

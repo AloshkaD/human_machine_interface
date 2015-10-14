@@ -151,7 +151,7 @@ FIND_OSG_LIBRARY(OSGMANIPULATOR_LIBRARY osgManipulator)
 FIND_OSG_LIBRARY(OSGPARTICLE_LIBRARY osgParticle)
 FIND_OSG_LIBRARY(OSGSHADOW_LIBRARY osgShadow)
 FIND_OSG_LIBRARY(OSGSIM_LIBRARY osgSim)
-
+FIND_OSG_LIBRARY(OSGQT_LIBRARY osgQt)
 
 # check required dependencies
 find_package(Boost REQUIRED)
@@ -159,7 +159,7 @@ find_package(ZLIB REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 
-find_package(OpenSceneGraph 3.2.2 REQUIRED osg osgAnimation osgDB osgFX osgGA osgManipulator osgParticle osgShadow osgSim osgTerrain osgText osgUtil osgViewer osgVolume osgWidget)
+find_package(OpenSceneGraph 3.2.2 REQUIRED osg osgQt osgAnimation osgDB osgFX osgGA osgManipulator osgParticle osgShadow osgSim osgTerrain osgText osgUtil osgViewer osgVolume osgWidget)
 
 include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
 

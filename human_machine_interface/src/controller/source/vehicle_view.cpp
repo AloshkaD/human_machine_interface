@@ -31,7 +31,7 @@ VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryRecei
 
     
     // Load the 3D model, Geodo
-    loaded_model = osgDB::readNodeFile("pelican2.3ds");
+    loaded_model = osgDB::readNodeFile("model.dae");
 
 
     // Set camera

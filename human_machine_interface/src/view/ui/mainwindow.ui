@@ -1509,6 +1509,16 @@
        <property name="documentMode">
         <bool>false</bool>
        </property>
+       <widget class="QWidget" name="tab_perception">
+        <attribute name="title">
+         <string>Perception View</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="grid_perception"/>
+         </item>
+        </layout>
+       </widget>
        <widget class="QWidget" name="tab_parameters">
         <attribute name="title">
          <string>Parameters</string>
@@ -1703,7 +1713,7 @@
      <x>0</x>
      <y>0</y>
      <width>1382</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
    <property name="defaultUp">

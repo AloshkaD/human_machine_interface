@@ -37,6 +37,7 @@
 #include "performance_monitor.h"
 #include "sphere_view.h"
 #include "camera_display_option.h"
+#include "perception_scene.h"
 #include "camera_main_option.h"
 #include "camera_grid_option.h"
 #include "sphere_view.h"
