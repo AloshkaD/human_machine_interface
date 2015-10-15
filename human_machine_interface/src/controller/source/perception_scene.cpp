@@ -1,6 +1,49 @@
 #include "../include/perception_scene.h"
 
 
+class TrailerCallback : public osg::NodeCallback
+{
+public:
+    TrailerCallback( osg::Geometry* ribbon ) : _ribbon(ribbon) {}
+
+    virtual void operator()( osg::Node* node, osg::NodeVisitor* nv )
+    {
+        osg::MatrixTransform* trans = static_cast<osg::MatrixTransform*>(node);
+        if ( trans && _ribbon.valid() )
+        {
+            osg::Matrix matrix = trans->getMatrix();
+            osg::Vec3Array* vertices = static_cast<osg::Vec3Array*>( _ribbon->getVertexArray() );
+            osg::Vec3Array* normals = static_cast<osg::Vec3Array*>( _ribbon->getNormalArray() );
+
+            for ( unsigned int i=0; i<g_numPoints-3; i+=2 )
+            {
+                (*vertices)[i] = (*vertices)[i+2];
+                (*vertices)[i+1] = (*vertices)[i+3];
+                (*normals)[i] = (*normals)[i+2];
+                (*normals)[i+1] = (*normals)[i+3];
+            }
+
+            (*vertices)[g_numPoints-2] = osg::Vec3(0.0f,-g_halfWidth, 0.0f) * matrix;
+            (*vertices)[g_numPoints-1] = osg::Vec3(0.0f, g_halfWidth, 0.0f) * matrix;
+            vertices->dirty();
+
+            osg::Vec3 normal = osg::Vec3(0.0f, 0.0f, 1.0f) * matrix;
+            normal.normalize();
+            (*normals)[g_numPoints-2] = normal;
+            (*normals)[g_numPoints-1] = normal;
+            normals->dirty();
+
+            _ribbon->dirtyBound();
+        }
+        traverse( node, nv );
+    }
+
+protected:
+    osg::observer_ptr<osg::Geometry> _ribbon;
+};
+
+
+
 PerceptionScene::PerceptionScene(QWidget* parent,osgViewer::ViewerBase::ThreadingModel threadingModel) :
     QWidget(parent)
 {
@@ -12,47 +55,82 @@ PerceptionScene::PerceptionScene(QWidget* parent,osgViewer::ViewerBase::Threadin
 
 }
 
-void PerceptionScene::paintEvent( QPaintEvent* event ){
+void PerceptionScene::paintEvent( QPaintEvent* event )
+{
     frame();
 }
 
-osg::Geode* PerceptionScene::createNodeWithMyImageOnIt(const std::string& filename)
+
+osg::Geometry* PerceptionScene::drawPath( const osg::Vec3& colorRGB )
 {
-    osg::Geode* geode = new osg::Geode;
-    osg::Geometry* geometry = osg::createTexturedQuadGeometry(osg::Vec3(0,0.5,0),osg::Vec3(1,0,0),osg::Vec3(0,0,1),0, 0, 1, 1);
-    geode->addDrawable(geometry);
-    osg::Texture2D* texture = new osg::Texture2D(osgDB::readImageFile(filename));
-    geode->getOrCreateStateSet()->setTextureAttributeAndModes(0,texture, osg::StateAttribute::ON);
-    geode->getOrCreateStateSet()->setTextureMode(0, GL_TEXTURE_2D,osg::StateAttribute::ON);
-    //geode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    return geode;
+    osg::ref_ptr<osg::Vec3Array> vertices =new osg::Vec3Array(g_numPoints);
+    osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array(g_numPoints);
+    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array(g_numPoints);
+    osg::Vec3 origin = osg::Vec3(0.0f, 0.0f, 0.0f);
+    osg::Vec3 normal = osg::Vec3(0.0f, 0.0f, 1.0f);
+
+    for ( unsigned int i=0; i<g_numPoints-1; i+=2 )
+    {
+        (*vertices)[i] = origin; (*vertices)[i+1] = origin;
+        (*normals)[i] = normal; (*normals)[i+1] = normal;
+        float alpha = sinf(osg::PI * (float)i / (float)g_numPoints);
+        (*colors)[i] = osg::Vec4(colorRGB, alpha);
+        (*colors)[i+1] = osg::Vec4(colorRGB, alpha);
+    }
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
+    geom->setDataVariance( osg::Object::DYNAMIC );
+    geom->setUseDisplayList( false );
+    geom->setUseVertexBufferObjects( true );
+
+    geom->setVertexArray( vertices.get() );
+    geom->setNormalArray( normals.get() );
+    geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
+    geom->setColorArray( colors.get() );
+    geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+    geom->addPrimitiveSet( new osg::DrawArrays(GL_QUAD_STRIP, 0, g_numPoints) );
+    return geom.release();
+}
+
+osg::Geometry* PerceptionScene::createPath(osg::ref_ptr<osg::Group> root)
+{
+   osg::Geometry* geometry = drawPath( osg::Vec3(1.0f, 0.0f, 1.0f) );
+   osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+   geode->addDrawable( geometry );
+   geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+   geode->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
+   geode->getOrCreateStateSet()->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+   return geometry;
 }
 
 
 QWidget* PerceptionScene::addViewWidget(osgQt::GraphicsWindowQt* gw)
 {
-
     osg::ref_ptr<osg::Group> root = new osg::Group;
-
-    bool overlay = true;
-    osgSim::OverlayNode::OverlayTechnique technique = osgSim::OverlayNode::OBJECT_DEPENDENT_WITH_ORTHOGRAPHIC_OVERLAY;
-    // load the nodes from the commandline arguments.
-    osg::Node* model = createModel(overlay, technique);
 
     // run optimization over the scene graph
     osgUtil::Optimizer optimzer;
     optimzer.optimize(root);
 
-    osg::Projection* Proj = new osg::Projection;
-    Proj->setMatrix(osg::Matrix::ortho2D(0,1,0,1));
-    osg::Geode* backgroundImage = createNodeWithMyImageOnIt("Metal_Corrogated_Shiny.jpg");
-    Proj->addChild(backgroundImage);
+    // create the scene graph
+
+    osg::Geometry* geometry = drawPath( osg::Vec3(1.0f, 0.0f, 1.0f) );
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    geode->addDrawable( geometry );
+    geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+    geode->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
+    geode->getOrCreateStateSet()->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+
+    bool overlay = true;
+    osgSim::OverlayNode::OverlayTechnique technique = osgSim::OverlayNode::OBJECT_DEPENDENT_WITH_ORTHOGRAPHIC_OVERLAY;
+    // load the nodes from the commandline arguments.
+    osg::Node* model = createModel(overlay, technique, geometry);
 
 
     createMap(root);
     createPoles(root);
+    root->addChild( geode.get() );
     root->addChild(model);
-        root->addChild(Proj);
+
 
     osgViewer::View* view = new osgViewer::View;
     addView( view );
@@ -62,10 +140,10 @@ QWidget* PerceptionScene::addViewWidget(osgQt::GraphicsWindowQt* gw)
 
     const osg::GraphicsContext::Traits* traits = gw->getTraits();
 
-    // camera->setClearColor( osg::Vec4(0.106078,  0.6, 0.6, 1.0) );
+    camera->setClearColor( osg::Vec4(0.106078,  0.6, 0.6, 1.0) );
     camera->setViewport( new osg::Viewport(0, 0, traits->width, traits->height) );
     camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(traits->width)/static_cast<double>(traits->height), 1.0f, 10000.0f );
-
+    osg::DisplaySettings::instance()->setNumMultiSamples( 88 );
     view->setSceneData(root);
     view->addEventHandler( new osgViewer::StatsHandler );
     view->setCameraManipulator( new osgGA::TrackballManipulator );
@@ -92,7 +170,8 @@ osgQt::GraphicsWindowQt*  PerceptionScene::createGraphicsWindow( int x, int y, i
     return new osgQt::GraphicsWindowQt(traits.get());
 }
 
-void PerceptionScene::createPoles(osg::ref_ptr<osg::Group> root){
+void PerceptionScene::createPoles(osg::ref_ptr<osg::Group> root)
+{
     osg::Geode* obstacleGeode = new osg::Geode();
 
     osg::ShapeDrawable* pole;
@@ -109,8 +188,8 @@ void PerceptionScene::createPoles(osg::ref_ptr<osg::Group> root){
     root->addChild(obstacleGeode);
 }
 
-
-void PerceptionScene::auxiliarLine(osg::Geometry* line){
+void PerceptionScene::lines(osg::Geometry* line)
+{
     osg::Vec3Array* coords = new osg::Vec3Array(76);
     osg::Vec4Array* color = new osg::Vec4Array(76);
 
@@ -142,25 +221,28 @@ void PerceptionScene::auxiliarLine(osg::Geometry* line){
     linewidth->setWidth(2.0f);
     stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
     stateset->setMode(GL_LIGHTING,osg::StateAttribute::ON);
+    stateset->setMode( GL_LINE_SMOOTH, osg::StateAttribute::ON );
+    stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
     line->setStateSet(stateset);
 }
 
 
 
-void PerceptionScene::createMap(osg::ref_ptr<osg::Group>  root){
+void PerceptionScene::createMap(osg::ref_ptr<osg::Group>  root)
+{
     osg::ShapeDrawable* map = new osg::ShapeDrawable;
 
-    osg::Geometry* auxLines = new osg::Geometry;
+    osg::Geometry* gridLines = new osg::Geometry;
 
     osg::Geode* mapGeode = new osg::Geode();
 
 
     map->setShape( new osg::Box(osg::Vec3(10.0f, 10.0f, 0.0f), 20.0f, 20.0f, 0.0001f));
     map->setColor( osg::Vec4(0.8f, 0.8f, 0.8f, 1.0f));
-    auxiliarLine(auxLines);
+    lines(gridLines);
 
     mapGeode->addDrawable( map );
-    mapGeode->addDrawable(auxLines);
+    mapGeode->addDrawable(gridLines);
 
     root->addChild(mapGeode);
 }
@@ -192,7 +274,7 @@ osg::AnimationPath* PerceptionScene::createAnimationPath(const osg::Vec3& center
     return animationPath;
 }
 
-osg::Node* PerceptionScene::createMovingModel(const osg::Vec3& center, float radius)
+osg::Node* PerceptionScene::createMovingModel(const osg::Vec3& center, float radius, osg::Geometry* geometry)
 {
     float animationLength = 10.0f;
 
@@ -217,6 +299,7 @@ osg::Node* PerceptionScene::createMovingModel(const osg::Vec3& center, float rad
 
         osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;
         xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0,1.0));
+        xform->addUpdateCallback( new TrailerCallback(geometry) );
         xform->addChild(positioned);
 
 
@@ -225,7 +308,7 @@ osg::Node* PerceptionScene::createMovingModel(const osg::Vec3& center, float rad
     return model;
 }
 
-osg::Node* PerceptionScene::createModel(bool overlay, osgSim::OverlayNode::OverlayTechnique technique)
+osg::Node* PerceptionScene::createModel(bool overlay, osgSim::OverlayNode::OverlayTechnique technique, osg::Geometry* geometryPath)
 {
     osg::Vec3 center(10.0f,10.0f,2.0f);
     float radius =4.0f;
@@ -234,7 +317,7 @@ osg::Node* PerceptionScene::createModel(bool overlay, osgSim::OverlayNode::Overl
 
     float baseHeight = center.z()-radius;
     //osg::Node* baseModel = createBase(osg::Vec3(center.x(), center.y(), baseHeight),radius);
-    osg::Node* movingModel = createMovingModel(center,radius*0.8f);
+    osg::Node* movingModel = createMovingModel(center,radius*0.8f,geometryPath);
 
     if (overlay)
     {

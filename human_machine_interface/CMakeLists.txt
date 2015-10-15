@@ -241,5 +241,6 @@ file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINK
 
 MESSAGE(STATUS "Found Qt:  ${QT_LIBRARIES} ")
 add_executable(human_machine_interface ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_MOC_HPP} ${QT_FORMS_HPP})
-target_link_libraries(human_machine_interface ${OPENSCENEGRAPH_LIBRARIES}  ${QWT_LIBRARY} ${QT_LIBRARIES} ${catkin_LIBRARIES} )
+add_dependencies(human_machine_interface ${catkin_EXPORTED_TARGETS})
+target_link_libraries(human_machine_interface ${OPENSCENEGRAPH_LIBRARIES} ${QWT_LIBRARY} ${QT_LIBRARIES} ${catkin_LIBRARIES} )
 install(TARGETS human_machine_interface RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

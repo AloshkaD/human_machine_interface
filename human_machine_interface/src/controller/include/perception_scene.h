@@ -41,6 +41,7 @@
 #include <iostream>
 #include <osgSim/OverlayNode>
 #include <osg/Plane>
+#include <osg/Material>
 
 #include <osg/LineWidth>
 
@@ -48,6 +49,9 @@
 #include <QWidget>
 
 #include <iostream>
+
+const unsigned int g_numPoints = 400;
+const float g_halfWidth = 4.0f;
 
 class PerceptionScene : public QWidget, public osgViewer::CompositeViewer
 {
@@ -58,13 +62,15 @@ public:
     QWidget* addViewWidget(osgQt::GraphicsWindowQt *gw);
     osgQt::GraphicsWindowQt *createGraphicsWindow( int x, int y, int w, int h, const std::string& name="", bool windowDecoration=false );
 
-    void auxiliarLine(osg::Geometry* line);
+    void lines(osg::Geometry* line);
     void createPoles(osg::ref_ptr<osg::Group> root);
     void createMap(osg::ref_ptr<osg::Group> root);
-    osg::Geode* createNodeWithMyImageOnIt(const std::string& filename);
-    osg::Node* createMovingModel(const osg::Vec3& center, float radius);
+
+    osg::Node* createMovingModel(const osg::Vec3& center, float radius, osg::Geometry *geometry);
+    osg::Geometry* createPath(osg::ref_ptr<osg::Group> root);
     osg::AnimationPath* createAnimationPath(const osg::Vec3& center,float radius,double looptime);
-    osg::Node* createModel(bool overlay, osgSim::OverlayNode::OverlayTechnique technique);
+    osg::Node* createModel(bool overlay, osgSim::OverlayNode::OverlayTechnique technique, osg::Geometry *geometryPath);
+    osg::Geometry* drawPath( const osg::Vec3& colorRGB );
 
 protected:
     virtual void paintEvent( QPaintEvent* event );
