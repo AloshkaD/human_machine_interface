@@ -17,81 +17,85 @@
 ** Implementation
 *****************************************************************************/
 
-VehicleView::VehicleView(QWidget *parent, TelemetryStateReceiver *telemetryReceiver): QGLWidget(parent)
+VehicleView::VehicleView(QWidget* parent,osgViewer::ViewerBase::ThreadingModel threadingModel, TelemetryStateReceiver *telemetryReceiver) :
+    QWidget(parent)
 {
     telemReceiver=telemetryReceiver;
+    setThreadingModel(threadingModel);
+    // disable the default setting of viewer.done() by pressing Escape.
+    setKeyEventSetsDone(0);
+    connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
+    _timer.start( 10 );
+
+}
+
+void VehicleView::paintEvent( QPaintEvent* event )
+{
+    frame();
+}
+
+osgQt::GraphicsWindowQt*  VehicleView::createGraphicsWindow( int x, int y, int w, int h, const std::string& name, bool windowDecoration)
+{
+    osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
+    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
+    traits->windowName = name;
+    traits->windowDecoration = windowDecoration;
+    traits->x = x;
+    traits->y = y;
+    traits->width = w;
+    traits->height = h;
+    traits->doubleBuffer = true;
+    traits->alpha = ds->getMinimumNumAlphaBits();
+    traits->stencil = ds->getMinimumNumStencilBits();
+    traits->sampleBuffers = ds->getMultiSamples();
+    traits->samples = ds->getNumMultiSamples();
+
+    return new osgQt::GraphicsWindowQt(traits.get());
+}
+
+QWidget* VehicleView::addViewWidget(osgQt::GraphicsWindowQt* gw)
+{
     // Create a view to show the scene with OSG.
-    viewer = new osgViewer::Viewer;
+    osgViewer::View* view = new osgViewer::View;
+    addView( view );
+    view->getCamera()->setGraphicsContext( gw );
+    const osg::GraphicsContext::Traits* traits = gw->getTraits();
 
     // Create the transformation matrix to show the 3D model, this is the root node.
+    root = new osg::MatrixTransform;
     transformation = new osg::MatrixTransform;
     aux_transformation = new osg::MatrixTransform;
 
-    viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.3f));
-
-    
     // Load the 3D model, Geodo
-    loaded_model = osgDB::readNodeFile("model.dae");
-
+    loaded_model = osgDB::readNodeFile("model2.osg");
 
     // Set camera
-    osg::Vec3d eye( 20.0, -20.0, 20.0 );
-    osg::Vec3d center( 0.0, 0.0, 0.0 );
-    osg::Vec3d up( 0.0, 0.0, 1.0 );
+      osg::Vec3d eye( 15.0, -15.0, 15.0 );
+      osg::Vec3d center( 0.0, 0.0, 0.0 );
+      osg::Vec3d up( 0.0, 0.0, 1.0 );
+
+    view->getCamera()->setViewport( new osg::Viewport(0, 0, traits->width, traits->height) );
+    view->getCamera()->setViewMatrixAsLookAt( eye, center, up );
+    view->getCamera()->setClearColor( osg::Vec4(0.106078,  0.6, 0.6, 1.0) );
 
 
-    viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
+
 
     if(loaded_model.get()!=NULL){
         // Set the 3D mode as child of the transformation.
         aux_transformation->addChild(loaded_model.get());
-        aux_transformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
+        //aux_transformation->setMatrix(osg::Matrix::rotate( osg::DegreesToRadians(90.0), 1, 0, 0 ));
         transformation->addChild(aux_transformation);
     }else
         std::cout<<"the model is not loaded"<<std::endl;
 
+    view->setSceneData(transformation.get());
+    view->addEventHandler( new osgViewer::StatsHandler );
+    view->setCameraManipulator( new osgGA::TrackballManipulator );
+    return gw->getGLWidget();
 }
 
-void VehicleView::initializeGL()
+
+VehicleView::~VehicleView()
 {
-    // Use the context of OpenGL created by QGLWidget to OSG.
-    // configure the viewport
-    window = viewer->setUpViewerAsEmbeddedInWindow(0, 0, width(), height());
-
-    // Set the object type to manipulate the camera
-    viewer->setCameraManipulator(new osgGA::TrackballManipulator);
 }
-
-
-void VehicleView::resizeGL(int width, int height)
-{
-    if (window.valid())
-    {
-        // Adjust the dimensions of the OSG if the widgets change the size
-        window->resized(window->getTraits()->x, window->getTraits()->y, width, height);
-        window->getEventQueue()->windowResize(window->getTraits()->x, window->getTraits()->y, width, height);
-    }
-
-}
-
-
-void VehicleView::paintGL()
-{
-
-    // Set a rotation matrix transforamtion to turn the model
-    float pitchAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.y);
-    float rollAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.x);
-
-    osg::Matrix pitchMatrix = osg::Matrix::rotate( pitchAngle, 1, 0, 0 );
-    osg::Matrix rollMatrix = osg::Matrix::rotate( rollAngle, 0, 1, 0 );
-
-    transformation->setMatrix(pitchMatrix*rollMatrix);
-
-    // Set the root node inside the scene
-    viewer->setSceneData(transformation.get());
-
-    // Render the frame
-    if (viewer.valid())
-        viewer->frame();
-}
-

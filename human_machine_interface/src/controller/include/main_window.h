@@ -35,12 +35,11 @@
 #include "user_commander.h"
 #include "parameter_temporal_series.h"
 #include "performance_monitor.h"
-#include "sphere_view.h"
 #include "camera_display_option.h"
 #include "perception_scene.h"
 #include "camera_main_option.h"
 #include "camera_grid_option.h"
-#include "sphere_view.h"
+#include "sphere_scene.h"
 #include "vehicle_view.h"
 
 
@@ -111,8 +110,6 @@ Q_SIGNALS:
     void updateStatus();
     void saveImage(const int);
 
-protected:
-    void resizeEventDynamicView(QResizeEvent* event);
 
 private:
 
@@ -151,7 +148,6 @@ private:
     QList<QAction*> menu_takeoff_actions;
     droneMsgsROS::ProcessDescriptor node_container;
 
-    SphereView *osg_sphere;
     VehicleView *osg_uav;
     QTimer *timer;
     QTime *current_time;

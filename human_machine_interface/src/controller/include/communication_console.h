@@ -15,7 +15,6 @@
 #include "odometry_state_receiver.h"
 #include "images_receiver.h"
 #include "ros_graph_receiver.h"
-#include "sphere_view.h"
 
 namespace Ui {
 class CommunicationConsole;

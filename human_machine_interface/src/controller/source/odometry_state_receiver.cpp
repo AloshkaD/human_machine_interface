@@ -251,6 +251,7 @@ void OdometryStateReceiver::droneSpeedsCallback(const droneMsgsROS::droneSpeeds:
      //printDroneSpeedsCallback(msg);
      return;
 }
+
 void OdometryStateReceiver::printDroneSpeedsCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg)
 {
     log(Info,std::string("Received dx from Controller:  ")+ boost::lexical_cast<std::string>(msg->dx) );
@@ -260,6 +261,7 @@ void OdometryStateReceiver::printDroneSpeedsCallback(const droneMsgsROS::droneSp
     log(Info,std::string("Received dpitch from Controller: ")+ boost::lexical_cast<std::string>(msg->dpitch) );
     log(Info,std::string("Received droll from Controller: ")+ boost::lexical_cast<std::string>(msg->droll) );
 }
+
 void OdometryStateReceiver::droneArucoEyeObservationCallback(const droneMsgsROS::obsVector::ConstPtr &msg)
 {
 

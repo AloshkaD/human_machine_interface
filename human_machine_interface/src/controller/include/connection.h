@@ -15,7 +15,7 @@
 #include "images_receiver.h"
 #include "user_commander.h"
 #include "mission_state_receiver.h"
-#include "sphere_view.h"
+#include "sphere_scene.h"
 #include "ros_graph_receiver.h"
 
 #include <qt4/Qt/qdialog.h>

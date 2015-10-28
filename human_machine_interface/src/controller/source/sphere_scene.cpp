@@ -9,7 +9,7 @@
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
-#include "../include/sphere_view.h"
+#include "../include/sphere_scene.h"
 #include "qt4/QtCore/QDebug"
 #include "osgDB/ReadFile"
 #include <osg/Node>
@@ -37,13 +37,50 @@
 ** Implementation
 *****************************************************************************/
 
-SphereView::SphereView(QWidget *parent, TelemetryStateReceiver *telemetryReceiver): QGLWidget(parent)
+SphereScene::SphereScene(QWidget* parent,osgViewer::ViewerBase::ThreadingModel threadingModel, TelemetryStateReceiver *telemetryReceiver) :
+    QWidget(parent)
+{
+    telemReceiver=telemetryReceiver;
+    setThreadingModel(threadingModel);
+    // disable the default setting of viewer.done() by pressing Escape.
+    setKeyEventSetsDone(0);
+    connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
+    _timer.start( 10 );
+
+}
+
+void SphereScene::paintEvent( QPaintEvent* event )
+{
+    frame();
+}
+
+osgQt::GraphicsWindowQt*  SphereScene::createGraphicsWindow( int x, int y, int w, int h, const std::string& name, bool windowDecoration)
+{
+    osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
+    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
+    traits->windowName = name;
+    traits->windowDecoration = windowDecoration;
+    traits->x = x;
+    traits->y = y;
+    traits->width = w;
+    traits->height = h;
+    traits->doubleBuffer = true;
+    traits->alpha = ds->getMinimumNumAlphaBits();
+    traits->stencil = ds->getMinimumNumStencilBits();
+    traits->sampleBuffers = ds->getMultiSamples();
+    traits->samples = ds->getNumMultiSamples();
+
+    return new osgQt::GraphicsWindowQt(traits.get());
+}
+
+QWidget* SphereScene::addViewWidget(osgQt::GraphicsWindowQt* gw)
 {
 
-
-    telemReceiver=telemetryReceiver;
     // Create a view to show the scene with OSG.
-    viewer = new osgViewer::Viewer;
+    osgViewer::View* view = new osgViewer::View;
+    addView( view );
+    view->getCamera()->setGraphicsContext( gw );
+        const osg::GraphicsContext::Traits* traits = gw->getTraits();
 
     // Create the transformation matrix to show the 3D model, this is the root node.
     root = new osg::MatrixTransform;
@@ -59,68 +96,26 @@ SphereView::SphereView(QWidget *parent, TelemetryStateReceiver *telemetryReceive
     osg::Vec3d up( 0.0, 0.0, 1.0 );
 
 
-    viewer->getCamera()->setViewMatrixAsLookAt( eye, center, up );
+    view->getCamera()->setViewport( new osg::Viewport(0, 0, traits->width, traits->height) );
+    view->getCamera()->setViewMatrixAsLookAt( eye, center, up );
 
-    viewer->getCamera()->setClearColor(osg::Vec4(0.2f,0.2f,0.2f,0.15f));
+    view->getCamera()->setClearColor( osg::Vec4(0.106078,  0.6, 0.6, 1.0) );
 
     root->addChild(faxisXtrans);
     root->addChild(mainXtrans);
 
      root->addChild(labelXtrans);
+     view->setSceneData(root);
+     view->addEventHandler( new osgViewer::StatsHandler );
+     view->setCameraManipulator( new osgGA::TrackballManipulator );
+
+
+
+
+    return gw->getGLWidget();
 }
 
-void SphereView::initializeGL()
-{
-    // Use the context of OpenGL created by QGLWidget to OSG.
-    // configure the viewport
-    window = viewer->setUpViewerAsEmbeddedInWindow(0, 0, width(), height());
-
-    // Set the object type to manipulate the camera
-    //viewer->setCameraManipulator(new osgGA::TrackballManipulator);
-}
-
-void SphereView::resizeGL(int width, int height)
-{
-    if (window.valid())
-    {
-        // Adjust the dimensions of the OSG if the widgets change the size
-        // send a signal to resize the widget to call this function.
-        window->resized(window->getTraits()->x, window->getTraits()->y, width, height);
-        window->getEventQueue()->windowResize(window->getTraits()->x, window->getTraits()->y, width, height);
-
-    }
-}
-
-
-
-void SphereView::paintGL()
-{
-
-
-    float pitchAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.y);
-    float yawAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.z);
-    float rollAngle=osg::DegreesToRadians(telemReceiver->rotation_angles_msgs.vector.x);
-
-
-    osg::Matrix pitchMatrix = osg::Matrix::rotate( pitchAngle, 1, 0, 0 );
-    osg::Matrix yawMatrix = osg::Matrix::rotate( yawAngle, 0, 0, 1 );
-    osg::Matrix rollMatrix = osg::Matrix::rotate( rollAngle, 0, 1, 0 );
-
-    mainXtrans->setMatrix(pitchMatrix*yawMatrix*rollMatrix);
-    labelXtrans->setMatrix(rollMatrix);
-
-    viewer->setSceneData(root);
-    // Increase the rotation angle
-
-
-    // Render the frame
-    if (viewer.valid())
-        viewer->frame();
-}
-
-
-
-void SphereView::shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransform* faxisXtrans){
+void SphereScene::shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransform* faxisXtrans){
 
     // Shapes
     osg::ref_ptr<osg::ShapeDrawable> sphere = new osg::ShapeDrawable;
@@ -231,7 +226,7 @@ void SphereView::shapeDrawer(osg::MatrixTransform* mainXtrans, osg::MatrixTransf
 
 }
 
-void SphereView::axisGenerator(osg::Geometry* axis, bool fixed){
+void SphereScene::axisGenerator(osg::Geometry* axis, bool fixed){
     osg::Vec3Array* coords = new osg::Vec3Array(6);
     (*coords)[0] = osg::Vec3(-5.0f, 0.0f, 0.0f); // X
     (*coords)[1] = osg::Vec3(5.0f, 0.0f, 0.0f);
@@ -274,4 +269,8 @@ void SphereView::axisGenerator(osg::Geometry* axis, bool fixed){
     stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
     stateset->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
     axis->setStateSet(stateset);
+}
+
+SphereScene::~SphereScene()
+{
 }

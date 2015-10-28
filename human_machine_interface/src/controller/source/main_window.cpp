@@ -117,7 +117,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     osg_uav= new VehicleView(ui->vehicle_scene->buddy(),connection->telemetry_receiver);
     osg_uav->resize(320, 350);*/
 
-    osgViewer::ViewerBase::ThreadingModel threadingModel =osgViewer::ViewerBase::ThreadPerContext;
+     osgViewer::ViewerBase::ThreadingModel threadingModel =osgViewer::ViewerBase::ThreadPerContext;
 
     // Required for multithreaded QGLWidget on Linux/X11, see http://blog.qt.io/blog/2011/06/03/threaded-opengl-in-4-8/
          QApplication::setAttribute(Qt::AA_X11InitThreads);
@@ -126,8 +126,17 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     QWidget* widget1 = viewWidget->addViewWidget( viewWidget->createGraphicsWindow(0,0,100,100));
     ui->grid_perception->addWidget(widget1,0,0);
 
+    SphereScene* sphereScene= new SphereScene(this,threadingModel,connection->telemetry_receiver);
+    QWidget* sphereWidget = sphereScene->addViewWidget( sphereScene->createGraphicsWindow(0,0,100,100));
+    ui->grid_sphere_scene->addWidget(sphereWidget,0,0);
 
-   // viewWidget->setGeometry( 100, 100, 1800, 600 );
+
+    VehicleView* vehicleScene= new VehicleView(this,threadingModel,connection->telemetry_receiver);
+    QWidget* vehicleWidget = vehicleScene->addViewWidget( vehicleScene->createGraphicsWindow(0,0,100,100));
+    ui->grid_vehicle_scene->addWidget(vehicleWidget,0,0);
+
+
+   //viewWidget->setGeometry( 100, 100, 1800, 600 );
 
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);
@@ -151,6 +160,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     old_height=this->height();
     is_init_takeoff_context_menu=false;
 }
+
 
 std::vector<std::string> MainWindow::checkListToTakeOff()
 {
@@ -218,28 +228,6 @@ bool MainWindow::setLaptopDesign()
     return false;
 }
 
-void MainWindow::resizeEventDynamicView(QResizeEvent* event)
-{
-    QMainWindow::resizeEvent(event);
-    if((ignore_resize % num_of_auto_ops) == 0&&old_height!=this->height()){
-        if(ui->sphere_scene->size().height()>=ui->vehicle_scene->size().height()){
-            osg_uav->resize(ui->sphere_scene->size());
-            osg_sphere->resize(ui->sphere_scene->size());
-        }
-        if(ui->sphere_scene->size().height()<=ui->vehicle_scene->size().height()){
-            osg_sphere->resize(ui->vehicle_scene->size());
-            osg_sphere->resize(320, (int)(ui->sphere_scene->size().height()-resize));
-            osg_uav->resize(320,(int)(ui->sphere_scene->size().height()-resize));
-            osg_uav->resize(ui->vehicle_scene->size());
-        }
-        ignore_resize = 0;
-    }
-    if(old_height>this->height())
-        resize++;
-
-    ignore_resize++;
-    old_height=this->height();
-}
 
 void MainWindow::updateDynamicView()
 {

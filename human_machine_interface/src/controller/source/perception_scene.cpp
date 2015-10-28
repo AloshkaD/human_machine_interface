@@ -91,16 +91,7 @@ osg::Geometry* PerceptionScene::drawPath( const osg::Vec3& colorRGB )
     return geom.release();
 }
 
-osg::Geometry* PerceptionScene::createPath(osg::ref_ptr<osg::Group> root)
-{
-   osg::Geometry* geometry = drawPath( osg::Vec3(1.0f, 0.0f, 1.0f) );
-   osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-   geode->addDrawable( geometry );
-   geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
-   geode->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
-   geode->getOrCreateStateSet()->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-   return geometry;
-}
+
 
 
 QWidget* PerceptionScene::addViewWidget(osgQt::GraphicsWindowQt* gw)
@@ -112,7 +103,6 @@ QWidget* PerceptionScene::addViewWidget(osgQt::GraphicsWindowQt* gw)
     optimzer.optimize(root);
 
     // create the scene graph
-
     osg::Geometry* geometry = drawPath( osg::Vec3(1.0f, 0.0f, 1.0f) );
     osg::ref_ptr<osg::Geode> geode = new osg::Geode;
     geode->addDrawable( geometry );

@@ -50,8 +50,8 @@
 
 #include <iostream>
 
-const unsigned int g_numPoints = 400;
-const float g_halfWidth = 4.0f;
+const unsigned int g_numPoints = 40000;
+const float g_halfWidth = 0.05f;
 
 class PerceptionScene : public QWidget, public osgViewer::CompositeViewer
 {
@@ -67,7 +67,7 @@ public:
     void createMap(osg::ref_ptr<osg::Group> root);
 
     osg::Node* createMovingModel(const osg::Vec3& center, float radius, osg::Geometry *geometry);
-    osg::Geometry* createPath(osg::ref_ptr<osg::Group> root);
+    osg::Geometry* createPath();
     osg::AnimationPath* createAnimationPath(const osg::Vec3& center,float radius,double looptime);
     osg::Node* createModel(bool overlay, osgSim::OverlayNode::OverlayTechnique technique, osg::Geometry *geometryPath);
     osg::Geometry* drawPath( const osg::Vec3& colorRGB );
