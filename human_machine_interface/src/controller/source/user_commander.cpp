@@ -160,7 +160,7 @@ void UserCommander::sendCommandInMovingManualAltitudMode(double cte_command_pitc
     std::cout<<"Command move() sent"<<std::endl;
 
 
-    droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_MANUAL_ALTITUDE;
+    droneCommandMsgs.mpCommand = droneMsgsROS::droneMissionPlannerCommand::MOVE_MANUAL_ALTITUD;
     drone_command_publisher.publish(droneCommandMsgs);
 
     if(cte_command_pitch != 0.0)
@@ -334,8 +334,8 @@ void  UserCommander::droneCurrentManagerStatusSubCallback(const droneMsgsROS::dr
                 std::cout<<"Manager Status: TAKINGOFF"<<std::endl;
                 break;
 
-            case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUDE:
-                std::cout<<"Manager Status: MOVING MANUAL ALTITUDE"<<std::endl;
+            case droneMsgsROS::droneManagerStatus::MOVING_MANUAL_ALTITUD:
+                std::cout<<"Manager Status: MOVING MANUAL ALTITUD"<<std::endl;
                 break;
 
             case droneMsgsROS::droneManagerStatus::MOVING_POSITION:
