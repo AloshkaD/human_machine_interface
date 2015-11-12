@@ -99,7 +99,6 @@ public Q_SLOTS:
     void connectDynamicsView();
     //void showContextMenu(const QPoint& globalPos);
     void initContextMenuTakeOff();
-    void slotTest();
     void close();
 
 

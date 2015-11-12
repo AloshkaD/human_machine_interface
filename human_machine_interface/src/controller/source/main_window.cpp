@@ -284,20 +284,6 @@ void MainWindow::setSignalHandlers()
 
 }
 
-void MainWindow::slotTest() {
-
-    QToolButton *tbtn = qobject_cast<QToolButton*>(sender());
-    QAction *act = qobject_cast<QAction*>(sender());
-    if(tbtn)
-    {
-        qDebug() << "event raised by QToolButton: " << tbtn->objectName();
-    }
-    if(act)
-    {
-        qDebug() << "event raised by QAction: " << act->objectName();
-    }
-}
-
 
 
 void MainWindow::disconnectDynamicsView(){
