@@ -41,7 +41,7 @@
 #include "camera_grid_option.h"
 #include "sphere_view.h"
 #include "vehicle_view.h"
-
+#include "control_panel.h"
 
 namespace Ui {
 class MainWindow;
@@ -68,37 +68,21 @@ public Q_SLOTS:
     void on_actionContents_triggered();
     void on_actionCommunication_Console_triggered();
     void on_actionUser_Commands_Manual_triggered();
-    void showNoMasterMessage();
-    void showConnectionEstablished();
     void setSignalHandlers();
-    void updateStatusBar();
-    void testConnection();
     void displayOneCamera();
     void displayMainGridCamera();
     void displayFourGridCamera();
     void setTimerInterval(double ms);
     void on_actionOpen_perception_configuration_triggered();
-    void onTakeOffButton();
-    void onYawZeroButton();
-    void onLandButton();
-    void onResetCommandButton();
-    void onHoverButton();
-    void onEmergencyStopButton();
-    void onLoopButton();
    // void keyPressEvent(QKeyEvent *e);
     void initializeCameraView();
     void closeEvent(QCloseEvent *event);
-    void flightTime();
-    void incrementErrorsCounter();
     void saveCurrentCameraView();
-    void onControlModeChange(int key);
     void keyPressEvent(QKeyEvent *e);
     void updateDynamicsPanel();
-    void setInitialControlMode();
     void disconnectDynamicsView();
     void connectDynamicsView();
     //void showContextMenu(const QPoint& globalPos);
-    void initContextMenuTakeOff();
     void close();
 
 
@@ -163,8 +147,14 @@ private:
     PerformanceMonitor *process_view;
     ParameterTemporalSeries *param_plot;
     CommunicationConsole *consoleView;
+    ControlPanel *controlpanel;
+
     int d_interval; // timer in ms
     int d_timerId;
+
+
+
+
 };
 
 #endif // MAINWINDOW_H

@@ -702,7 +702,11 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QWidget" name="controlpanel" native="true"/>
+         <layout class="QGridLayout" name="grid_controlpanel">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+         </layout>
         </item>
        </layout>
       </widget>
