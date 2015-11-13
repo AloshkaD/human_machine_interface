@@ -47,6 +47,12 @@ namespace Ui {
 class MainWindow;
 }
 
+/*!********************************************************************************************************************
+ *  \class      MainWindow
+ *  \brief      This is the class that allows having the main window of the HMI.
+ *  \details    Here is the declaration of every class that will be used in the .cpp file
+ *
+ *********************************************************************************************************************/
 
 class MainWindow : public QMainWindow
 {

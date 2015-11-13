@@ -87,7 +87,7 @@ bool Connection::initInCommon(){
     ros::NodeHandle n;
 
     if(ros::this_node::getNamespace().compare("/")==0)
-        rosnamespace.append("/drone0");//default namespace
+        rosnamespace.append("/drone1");//default namespace
     else
         rosnamespace.append(ros::this_node::getNamespace());
 

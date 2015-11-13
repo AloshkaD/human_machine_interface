@@ -1,7 +1,7 @@
 /*
   Control_panel
   Control_panel template and pop-up windows signals handlers.
-  @author  Yolanda de la Hoz Simón
+  @author  Yolanda de la Hoz Simón, Laura García García
   @date    03-2015
   @version 1.0
 */
@@ -43,11 +43,17 @@
 
 
 using namespace std;
+
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
 
-
+/*!********************************************************************************************************************
+ *  \class      MyContextMenu
+ *  \brief      This is the class that sets the grid for the control panel.
+ *  \details    In this class, main elements of the main window of the control panel are set.
+ *
+ *********************************************************************************************************************/
 
 
 class MyContextMenu : public QMenu
@@ -81,6 +87,14 @@ private:
     bool is_ignore_hide;
 };
 
+
+
+/*!********************************************************************************************************************
+ *  \class      ControlPanel
+ *  \brief      This is the main class of the control panel.
+ *  \details    This class initializes all of the components of the control panel.
+ *
+ *********************************************************************************************************************/
 
 
 ControlPanel::ControlPanel(QWidget *parent,Connection* connection) :
@@ -150,6 +164,12 @@ void ControlPanel::initContextMenuTakeOff()
     disconnect(connect->graph_receiver, SIGNAL(supervisorStateReceived()), this, SLOT(initContextMenuTakeOff( )));
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method initializes the timer that informs about the time the drone has been flying.
+ *
+ *********************************************************************************************************************/
+
+
 void ControlPanel::setTimerInterval(double ms)
 {
     d_interval = qRound(ms);
@@ -162,6 +182,12 @@ void ControlPanel::setTimerInterval(double ms)
     if (d_interval >= 0 )
         d_timerId = startTimer(d_interval);
 }
+
+/*!********************************************************************************************************************
+ *  \brief      This method is the responsible for handling all the interruption signals.
+ *  \details    The signals handled are the user signals present in the control panel.
+ *
+ *********************************************************************************************************************/
 
 
 void ControlPanel::setSignalHandlers()
@@ -187,6 +213,13 @@ void ControlPanel::setSignalHandlers()
     QObject::connect(ui->take_off_button,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(onCustomContextMenuRequested(const QPoint&)));
 
 }
+
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when an error on roscore ocurs.
+ *  \details    Shows a message in a pop-up window.
+ *
+ *********************************************************************************************************************/
+
 void ControlPanel::showNoMasterMessage()
 {
     QMessageBox msgBox;
@@ -194,12 +227,23 @@ void ControlPanel::showNoMasterMessage()
     msgBox.exec();
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method informs when connection has been established correctly.
+ *  \details    Shows a message in a pop-up window.
+ *
+ *********************************************************************************************************************/
 void ControlPanel::showConnectionEstablished()
 {
     QMessageBox msgBox;
     msgBox.setText("The connection has been established succesfully.");
     msgBox.exec();
 }
+
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when an error on roscore ocurs.
+ *  \details    Shows a message in a pop-up window.
+ *
+ *********************************************************************************************************************/
 
 void ControlPanel::testConnection()
 {
@@ -214,6 +258,11 @@ void ControlPanel::testConnection()
     }
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method informs about the time the drone has been flying.
+ *
+ *********************************************************************************************************************/
+
 void ControlPanel::flightTime()
 {
     this->current_time->setHMS(this->current_time->addSecs(+1).hour(),this->current_time->addSecs(+1).minute(),this->current_time->addSecs(+1).second());
@@ -221,6 +270,10 @@ void ControlPanel::flightTime()
     ui->value_fligth_time->setText(text);
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method informs about the number of errors that have ocurred since the drone began to fly.
+ *
+ *********************************************************************************************************************/
 
 void ControlPanel::incrementErrorsCounter()
 {
@@ -230,6 +283,10 @@ void ControlPanel::incrementErrorsCounter()
     }
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method sets the autonomous flying mode of the drone.
+ *
+ *********************************************************************************************************************/
 
 bool ControlPanel::isInAutonomousMode()
 {
@@ -242,6 +299,11 @@ bool ControlPanel::isInAutonomousMode()
     }
   return false;
 }
+
+/*!********************************************************************************************************************
+ *  \brief      This method initilizes the control mode.
+ *
+ *********************************************************************************************************************/
 
 void ControlPanel::setInitialControlMode()
 {
@@ -279,7 +341,12 @@ void ControlPanel::setInitialControlMode()
     disconnect(connect->usercommander, SIGNAL( managerStatusReceived( )), this, SLOT( setInitialControlMode( )));
 }
 
-void ControlPanel::updateStatusPanel() //TODO cambiar nombre a updateStatusPanel
+/*!********************************************************************************************************************
+ *  \brief      This method updates the status panel.
+ *
+ *********************************************************************************************************************/
+
+void ControlPanel::updateStatusPanel()
 {
 
     if (connect->connect_status){
@@ -362,6 +429,12 @@ void ControlPanel::updateStatusPanel() //TODO cambiar nombre a updateStatusPanel
     }
 }
 
+
+/*!********************************************************************************************************************
+ *  \brief      This method allows to select a determined drone.
+ *
+ *********************************************************************************************************************/
+
 void ControlPanel::setCurrentUAV()
 {
     if(connect->rosnamespace.compare("/")!=0){
@@ -376,9 +449,6 @@ void ControlPanel::setCurrentUAV()
 }
 
 
-// User commands in GUI//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Control Mode
 void ControlPanel::onControlModeChange(int key){
     std::cout<<key<<std::endl;
     if (connect->connect_status){
@@ -426,6 +496,11 @@ void ControlPanel::onControlModeChange(int key){
     }
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when the user wants to make the drone to take off.
+ *
+ *********************************************************************************************************************/
+
 void ControlPanel::onTakeOffButton()
 {
     std::cout<<"Take Off pressed buttom"<<std::endl;
@@ -437,6 +512,11 @@ void ControlPanel::onTakeOffButton()
     }
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when the user wants to make the drone to land.
+ *
+ *********************************************************************************************************************/
+
 void ControlPanel::onLandButton()
 {
     std::cout<<"Land pressed buttom"<<std::endl;
@@ -446,6 +526,12 @@ void ControlPanel::onLandButton()
         connect->usercommander->publish_land();
     }
 }
+
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when the user wants to make the drone to hover.
+ *
+ *********************************************************************************************************************/
+
 
 void ControlPanel::onHoverButton()
 {
@@ -457,6 +543,11 @@ void ControlPanel::onHoverButton()
     }
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when the user wants to restart the yaw value.
+ *
+ *********************************************************************************************************************/
+
 void ControlPanel::onYawZeroButton()
 {
     std::cout<<"Yaw zero pressed buttom"<<std::endl;
@@ -466,6 +557,11 @@ void ControlPanel::onYawZeroButton()
         connect->usercommander->publish_yaw_zero();
     }
 }
+
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when the user wants to make the drone to emergency stop.
+ *
+ *********************************************************************************************************************/
 
 void ControlPanel::onEmergencyStopButton()
 {
@@ -477,6 +573,12 @@ void ControlPanel::onEmergencyStopButton()
     }
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when the user wants to make the drone to loop.
+ *
+ *********************************************************************************************************************/
+
+
 void ControlPanel::onLoopButton()
 {
     std::cout<<"looping pressed buttom"<<std::endl;
@@ -486,6 +588,12 @@ void ControlPanel::onLoopButton()
         connect->usercommander->sendCommandForLooping();
     }
 }
+
+/*!********************************************************************************************************************
+ *  \brief      This method takes action when the user wants to reset the drone.
+ *
+ *********************************************************************************************************************/
+
 
 void ControlPanel::onResetCommandButton()
 {
