@@ -44,6 +44,8 @@
 
 using namespace std;
 
+
+
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
@@ -81,6 +83,7 @@ public:
                 is_ignore_hide = true;
         QMenu::mouseReleaseEvent (e);
     }
+
 private:
     // clicking on this actions don't close menu
     QSet <const QAction *> actions_with_showed_menu;
@@ -103,6 +106,7 @@ ControlPanel::ControlPanel(QWidget *parent,Connection* connection) :
 {
     ui->setupUi(this);// connects all ui's triggers
 
+    is_takenOff = false;
     connect=connection;
     timer = new QTimer(this); // Shows new frames rate -> 1 ms.
     timer->start(1);
@@ -117,6 +121,8 @@ ControlPanel::ControlPanel(QWidget *parent,Connection* connection) :
 
     //old_height=this->height();
     is_init_takeoff_context_menu=false;
+
+    //land = false;
 }
 char* ControlPanel::getProcessName(const char* process_name_temp)//TODO::Comprobar si existe namespace.
 {
@@ -265,9 +271,11 @@ void ControlPanel::testConnection()
 
 void ControlPanel::flightTime()
 {
-    this->current_time->setHMS(this->current_time->addSecs(+1).hour(),this->current_time->addSecs(+1).minute(),this->current_time->addSecs(+1).second());
-    QString text = this->current_time->toString();
-    ui->value_fligth_time->setText(text);
+    if (is_takenOff){
+        this->current_time->setHMS(this->current_time->addSecs(+1).hour(),this->current_time->addSecs(+1).minute(),this->current_time->addSecs(+1).second());
+        QString text = this->current_time->toString();
+        ui->value_fligth_time->setText(text);
+    }
 }
 
 /*!********************************************************************************************************************
@@ -504,6 +512,7 @@ void ControlPanel::onControlModeChange(int key){
 void ControlPanel::onTakeOffButton()
 {
     std::cout<<"Take Off pressed buttom"<<std::endl;
+    is_takenOff = true;
     if (connect->connect_status){
         if(connect->mission_planner_receiver->is_autonomous_mode_active)
             connect->mission_planner_receiver->deactivateAutonomousMode();
@@ -520,6 +529,7 @@ void ControlPanel::onTakeOffButton()
 void ControlPanel::onLandButton()
 {
     std::cout<<"Land pressed buttom"<<std::endl;
+    is_takenOff = false;
     if (connect->connect_status){
         if(connect->mission_planner_receiver->is_autonomous_mode_active)
             connect->mission_planner_receiver->deactivateAutonomousMode();

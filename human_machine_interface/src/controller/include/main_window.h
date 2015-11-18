@@ -62,6 +62,7 @@ public:
     explicit MainWindow(int argc, char** argv,QWidget *parent = 0);
     ~MainWindow();
 
+
     static bool uniqueApplication();
 
 private Q_SLOTS:
