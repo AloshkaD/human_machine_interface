@@ -1,13 +1,32 @@
+/*!*******************************************************************************************
+ *  \file       mockROSnode.cpp
+ *  \brief      mockROSnode definition file.
+ *  \details    This file includes an example of a class that simulates the behavior of the supervisor node. 
+ *              This class should be used as template to test the communication between some HMI components.
+ *  \author     Yolanda de la Hoz Simon
+ *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
+ ********************************************************************************************/
+
 #include "../include/human_machine_interface/supervisor.h"
 #include <stdlib.h>
 
-
-mockROSmessages::mockROSmessages(QObject *parent)
+/*!********************************************************************************************************************
+ *  \class      mockROSnode
+ *  \brief      This is the class that simulates the behavior of the supervisor node.
+ *  \details    Here is the declaration of every class that will be used in the .cpp file
+ *
+ *********************************************************************************************************************/
+mockROSnode::mockROSnode(QObject *parent)
 {
     setTimerInterval(10000);// 1 second = 1000
 
 }
-void mockROSmessages::setTimerInterval(double ms)
+
+/*!********************************************************************************************************************
+ *  \brief      This method is in charge for the timer interval: initializes and maintains/updates.
+ *
+ *********************************************************************************************************************/
+void mockROSnode::setTimerInterval(double ms)
 {
     d_interval = qRound(ms);
 
@@ -20,7 +39,11 @@ void mockROSmessages::setTimerInterval(double ms)
         d_timerId = startTimer(d_interval);
 }
 
-void mockROSmessages::timerEvent(QTimerEvent *e){
+/*!********************************************************************************************************************
+ *  \brief      This method is in charge of send random messages that simulates the behaviour of the supervisor node
+ *
+ *********************************************************************************************************************/
+void mockROSnode::timerEvent(QTimerEvent *e){
     int error = rand()%25;
     switch(error)
     {
