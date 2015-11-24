@@ -4,7 +4,6 @@
 
 cmake_minimum_required(VERSION 2.8.3)
 set(PROJECT_NAME human_machine_interface)
-project(${PROJECT_NAME} C CXX)
 
 add_definitions(-std=c++11)
 ##############################################################################
@@ -35,12 +34,12 @@ set(HUMANMACHINEINTERFACE_HEADER_FILES
 
 
 
-find_package(catkin REQUIRED COMPONENTS droneMsgsROS rviz roscpp image_transport  cv_bridge std_msgs geometry_msgs)
-catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_INCLUDE_DIR} ${HUMANMACHINEINTERFACE_INCLUDE_DIR} CATKIN_DEPENDS)
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs droneMsgsROS image_transport cv_bridge)
+catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_CONTROLLER_INCLUDE_DIR} ${HUMANMACHINEINTERFACE_VIEW_INCLUDE_DIR}  LIBRARIES ${PROJECT_NAME} CATKIN_DEPENDS roscpp std_msgs geometry_msgs droneMsgsROS image_transport cv_bridge)
 
-include_directories(${HUMANMACHINEINTERFACE_INCLUDE_DIR})
 include_directories(${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
+
 ##############################################################################
 # OpenSceneGraph
 ##############################################################################
@@ -75,6 +74,7 @@ FIND_LIBRARY("${MYLIBRARY}_DEBUG"
            $ENV{OSG_ROOT}/lib64
            NO_DEFAULT_PATH
            )
+
 FIND_LIBRARY("${MYLIBRARY}_DEBUG"
            NAMES "${MYLIBRARYNAME}${CMAKE_DEBUG_POSTFIX}"
            PATHS
@@ -91,6 +91,7 @@ FIND_LIBRARY("${MYLIBRARY}_DEBUG"
            [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/lib
            /usr/freeware/lib64
            )
+
 FIND_LIBRARY(${MYLIBRARY}
            NAMES ${MYLIBRARYNAME}
            PATHS
