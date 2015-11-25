@@ -29,10 +29,6 @@ public:
         void run();
         bool ready();
 
-
-	/*********************
-	** Logging
-	**********************/
 	enum LogLevel {
 	         Debug,
 	         Info,
@@ -43,23 +39,19 @@ public:
 
 	QStringListModel* loggingModel() { return &logging_model; }
 	void log( const LogLevel &level, const std::string &msg);
-        void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
-        bool is_autonomous_mode_active;
-        void activateAutonomousMode();
-        void isInAutonomousMode();
-        void deactivateAutonomousMode();
+    void openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace);
+    bool is_autonomous_mode_active;
+    void activateAutonomousMode();
+    void isInAutonomousMode();
+    void deactivateAutonomousMode();
 
-        droneMsgsROS::droneMissionInfo mission_info;
-
-
+    droneMsgsROS::droneMissionInfo mission_info;
 
 Q_SIGNALS:
 	void loggingUpdated();
         void rosShutdown();
-
 private:
         std::string mission_info_topic;
-
 
 	int init_argc;
         int real_time;
@@ -71,6 +63,4 @@ private:
         void droneMissionInfoCallback(const droneMsgsROS::droneMissionInfo::ConstPtr &msg);
         QStringListModel logging_model;
 };
-
-
 #endif /* HumanMachineInterface_mission_state_receiver_h_ */

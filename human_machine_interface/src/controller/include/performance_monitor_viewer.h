@@ -6,7 +6,7 @@
  *  \author     Yolanda de la Hoz Simon
  *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
  ********************************************************************************************/
-#ifndef PROCESSMONITOR_H
+#ifndef PERFORMANCEMONITORVIEWER_H
 #define PERFORMANCEMONITORVIEWER_H
 
 #include <QWidget>
@@ -36,11 +36,6 @@ class PerformanceMonitorViewer : public QWidget
 
 public:
     explicit PerformanceMonitorViewer(QWidget *parent = 0, RosGraphReceiver *collector=0,UserCommander *usercommander=0);
-    /*void updateTableInfo();
-    void initTree(QMap<QString, QStringList> algorithmsList, QTreeWidget *tree);
-    void initParameterList(QStringList list, QTreeWidget *tree);
-    void addRootTree(QString name, QStringList list, QTreeWidget *tree);
-    void addChildTree(QTreeWidgetItem *parent, QStringList list, QString description);*/
     void setSignalHandlers();
     char* getProcessName(const char* process_name);
     void updateProcessState(droneMsgsROS::ProcessDescriptor node_container, int rowProcessViewer);
@@ -54,8 +49,6 @@ public:
     };
 
     ~PerformanceMonitorViewer();
-
-
 
 public Q_SLOTS:
     /*
@@ -79,5 +72,5 @@ private:
     RosGraphReceiver* supervisor_receiver;
 };
 
-#endif // PROCESSMONITOR_H
+#endif // PERFORMANCEMONITORVIEWER_H
 

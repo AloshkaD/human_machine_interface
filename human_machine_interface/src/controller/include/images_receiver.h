@@ -26,7 +26,6 @@
 #include <qt4/Qt/qthread.h>
 #include <qt4/Qt/qstring.h>
 #include <qt4/Qt/qstringlistmodel.h>
-
 class ImagesReceiver : public QObject{
     Q_OBJECT
 

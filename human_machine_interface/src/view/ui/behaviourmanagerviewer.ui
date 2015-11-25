@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PerformanceMonitor</class>
- <widget class="QWidget" name="PerformanceMonitor">
+ <class>BehaviourManagerViewer</class>
+ <widget class="QWidget" name="BehaviourManagerViewer">
   <property name="geometry">
    <rect>
     <x>0</x>

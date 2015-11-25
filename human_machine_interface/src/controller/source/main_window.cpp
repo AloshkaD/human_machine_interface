@@ -125,7 +125,6 @@ char* MainWindow::getProcessName(const char* process_name_temp)//TODO::Comprobar
 
 /*!********************************************************************************************************************
  *  \brief      This method detects whether the HMI is running on a laptop or in a computer.
- *
  *********************************************************************************************************************/
 bool MainWindow::setLaptopDesign()
 {
@@ -151,7 +150,6 @@ bool MainWindow::setLaptopDesign()
 
 /*!********************************************************************************************************************
  *  \brief      This method is in charge for the resizig of the event dynamic panel.
- *
  *********************************************************************************************************************/
 void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 {
@@ -179,7 +177,6 @@ void MainWindow::resizeEventDynamicView(QResizeEvent* event)
 
 /*!********************************************************************************************************************
  *  \brief      This method is in charge for the update of the event dynamic panel.
- *
  *********************************************************************************************************************/
 void MainWindow::updateDynamicView()
 {
@@ -192,9 +189,7 @@ void MainWindow::updateDynamicView()
 
 /*!********************************************************************************************************************
  *  \brief      This method is in charge for the timer interval: initializes and maintains/updates.
- *
  *********************************************************************************************************************/
-
 void MainWindow::setTimerInterval(double ms)
 {
     d_interval = qRound(ms);
@@ -210,10 +205,7 @@ void MainWindow::setTimerInterval(double ms)
 
 /*!********************************************************************************************************************
  *  \brief      This method is where all the signals interruptions are handled.
- *
  *********************************************************************************************************************/
-
-
 void MainWindow::setSignalHandlers()
 {
     connect(connection, SIGNAL(rosShutdown()), this, SLOT(close())); //Close the app.
@@ -240,10 +232,7 @@ void MainWindow::setSignalHandlers()
 
 /*!********************************************************************************************************************
  *  \brief      This method is where the dynamics view panel disconnects.
- *
  *********************************************************************************************************************/
-
-
 void MainWindow::disconnectDynamicsView(){
     disconnect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
 }
@@ -252,13 +241,12 @@ void MainWindow::disconnectDynamicsView(){
  *  \brief      This method is where the dynamics view panel connects.
  *
  *********************************************************************************************************************/
-
 void MainWindow::connectDynamicsView(){
     connect(timer, SIGNAL(timeout()), this, SLOT(updateDynamicView()));
 }
+
 /*!********************************************************************************************************************
  *  \brief      This method is where the camera view is saved.
- *
  *********************************************************************************************************************/
 void MainWindow::saveCurrentCameraView()
 {
@@ -269,7 +257,6 @@ void MainWindow::saveCurrentCameraView()
 
 /*!********************************************************************************************************************
  *  \brief      This method is where the camera view is initialized.
- *
  *********************************************************************************************************************/
 void MainWindow::initializeCameraView()
 {
@@ -283,11 +270,10 @@ void MainWindow::initializeCameraView()
     ui->grid_camera->addWidget(one_option,0,0);
 
 }
+
 /*!********************************************************************************************************************
  *  \brief      This method is where one camera is displayed.
- *
  *********************************************************************************************************************/
-
 void MainWindow::displayOneCamera()
 {
     camera_view_manager=0;
@@ -303,7 +289,6 @@ void MainWindow::displayOneCamera()
 
 /*!********************************************************************************************************************
  *  \brief      This method is where the main camera grid is displayed.
- *
  *********************************************************************************************************************/
 void MainWindow::displayMainGridCamera()
 {
@@ -320,9 +305,7 @@ void MainWindow::displayMainGridCamera()
 
 /*!********************************************************************************************************************
  *  \brief      This method is where four cameras are displayed.
- *
  *********************************************************************************************************************/
-
 void MainWindow::displayFourGridCamera()
 {
     if(!is_open_four_camera_view){

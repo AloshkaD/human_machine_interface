@@ -29,12 +29,13 @@
 #include <droneMsgsROS/droneManagerStatus.h>
 #include <droneMsgsROS/droneStatus.h>
 
+// HMI views
 #include "connection.h"
 #include "communication_console.h"
 #include "odometry_state_receiver.h"
 #include "user_commander.h"
 #include "parameter_temporal_series.h"
-#include "performance_monitor.h"
+#include "performance_monitor_viewer.h"
 #include "sphere_view.h"
 #include "camera_display_option.h"
 #include "camera_main_option.h"
@@ -151,17 +152,13 @@ private:
     CameraDisplayOption *mainoption;
     CameraMainOption *one_option;
     CameraGridOption *fourCamera;
-    PerformanceMonitor *process_view;
+    PerformanceMonitorViewer *process_view;
     ParameterTemporalSeries *param_plot;
     CommunicationConsole *consoleView;
     ControlPanel *controlpanel;
 
     int d_interval; // timer in ms
     int d_timerId;
-
-
-
-
 };
 
 #endif // MAINWINDOW_H

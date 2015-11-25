@@ -1,12 +1,12 @@
 /*!*******************************************************************************************
  *  \file       behaviour_manager_viewer.h
- *  \brief      UserCommander definition file.
+ *  \brief      BehaviourManagerViewer definition file.
  *  \details    This file includes the BehaviourManagerViewer class declaration. To obtain more
  *              information about it's definition consult the performance_monitor.cpp file.
  *  \author     Yolanda de la Hoz Simon
  *  \copyright  Copyright 2015 UPM. All right reserved. Released under license BSD-3.
  ********************************************************************************************/
-#ifndef PROCESSMONITOR_H
+#ifndef BEHAVIOURMANAGERVIEWER_H
 #define BEHAVIOURMANAGERVIEWER_H
 
 #include <QWidget>
@@ -37,17 +37,16 @@ class BehaviourManagerViewer : public QWidget
 public:
     explicit BehaviourManagerViewer(QWidget *parent = 0, RosGraphReceiver *collector=0,UserCommander *usercommander=0);
     void setSignalHandlers();
-    void updateBehaviourState(droneMsgsROS::ProcessDescriptor node_container, int rowProcessViewer);
+    void updateBehaviourState();
 
     ~BehaviourManagerViewer();
 
 public Q_SLOTS:
-    void onBehaviourManagerStateReceived();
+    void onBehaviourStateReceived();
     void updateBehaviourViewerTable();
     void onTextFilterChange(const QString &arg1);
     void onCustomContextMenuRequested(const QPoint &pos);
     void showContextMenu(QTableWidgetItem *item, const QPoint& globalPos);
-    void onStopClicked();
     void menuSelection(QAction* action);
     void clearFocus();
 
@@ -56,5 +55,5 @@ private:
 
 };
 
-#endif // PROCESSMONITOR_H
+#endif // BEHAVIOURMANAGERVIEWER
 

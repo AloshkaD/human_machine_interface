@@ -2,7 +2,7 @@
 ** Includes
 *****************************************************************************/
 #include "../include/behaviour_manager_viewer.h"
-#include "ui_pbehaviourmanager.h"
+#include "ui_behaviourmanagerviewer.h"
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qscrollbar.h>
 #include <string>
