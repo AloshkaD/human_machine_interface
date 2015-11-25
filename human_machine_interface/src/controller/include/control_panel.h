@@ -86,6 +86,7 @@ private:
     bool isInAutonomousMode();
     bool is_takenOff;
     bool land;
+    bool is_autonomous;
 
     void setCurrentUAV();
 

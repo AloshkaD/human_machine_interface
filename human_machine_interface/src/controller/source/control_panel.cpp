@@ -107,6 +107,7 @@ ControlPanel::ControlPanel(QWidget *parent,Connection* connection) :
     ui->setupUi(this);// connects all ui's triggers
 
     is_takenOff = false;
+    is_autonomous = false;
     connect=connection;
     timer = new QTimer(this); // Shows new frames rate -> 1 ms.
     timer->start(1);
@@ -298,6 +299,7 @@ void ControlPanel::incrementErrorsCounter()
 
 bool ControlPanel::isInAutonomousMode()
 {
+    is_autonomous = true;
     for(unsigned int i = 0; i < connect->graph_receiver->list_process_state.process_list.size(); i++)
     {
         node_container= connect->graph_receiver->list_process_state.process_list.at(i);
@@ -456,6 +458,10 @@ void ControlPanel::setCurrentUAV()
     }
 }
 
+/*!********************************************************************************************************************
+ *  \brief      This method allows to change the control mode of the control panel.
+ *
+ *********************************************************************************************************************/
 
 void ControlPanel::onControlModeChange(int key){
     std::cout<<key<<std::endl;

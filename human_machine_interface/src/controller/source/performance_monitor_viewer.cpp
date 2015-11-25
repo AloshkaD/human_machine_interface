@@ -1,8 +1,8 @@
 /*****************************************************************************
 ** Includes
 *****************************************************************************/
-#include "../include/performance_monitor.h"
-#include "ui_performancemonitor.h"
+#include "../include/performance_monitor_viewer.h"
+#include "ui_performancemonitorviewer.h"
 #include <qt4/Qt/qdebug.h>
 #include <qt4/Qt/qscrollbar.h>
 #include <string>
@@ -14,9 +14,9 @@
 ** Implementation
 *****************************************************************************/
 
-PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collector, UserCommander *usercommander) :
+PerformanceMonitorViewer::PerformanceMonitorViewer(QWidget *parent, RosGraphReceiver *collector, UserCommander *usercommander) :
     QWidget(parent),
-    ui(new Ui::PerformanceMonitor)
+    ui(new Ui::PerformanceMonitorViewer)
 {
     ui->setupUi(this);
     ui->table_process_viewer->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
@@ -43,13 +43,13 @@ PerformanceMonitor::PerformanceMonitor(QWidget *parent, RosGraphReceiver *collec
     row=0;
 
 }
-void PerformanceMonitor::clearFocus()
+void PerformanceMonitorViewer::clearFocus()
 {
     std::cout<<"Editing line finished" <<std::endl;
     ui->line_edit->clearFocus();
 }
 
-void PerformanceMonitor::updateProcessViewerTable()
+void PerformanceMonitorViewer::updateProcessViewerTable()
 {
     int row_process_viewer=0;
 
@@ -73,7 +73,7 @@ void PerformanceMonitor::updateProcessViewerTable()
     initialized_table=true;
 }
 
-void PerformanceMonitor::updateProcessState(droneMsgsROS::ProcessDescriptor node_container, int row_process_viewer)
+void PerformanceMonitorViewer::updateProcessState(droneMsgsROS::ProcessDescriptor node_container, int row_process_viewer)
 {
     switch(node_container.current_state.state)
     {
@@ -137,7 +137,7 @@ void PerformanceMonitor::updateProcessState(droneMsgsROS::ProcessDescriptor node
     }*/
 }
 
-char* PerformanceMonitor::getProcessName(const char* process_name_temp)//TODO::Comprobar si existe namespace.
+char* PerformanceMonitorViewer::getProcessName(const char* process_name_temp)//TODO::Comprobar si existe namespace.
 {
     char output[10012];
     strncpy(output, process_name_temp, sizeof(output));
@@ -147,7 +147,7 @@ char* PerformanceMonitor::getProcessName(const char* process_name_temp)//TODO::C
     return process_name;
 }
 
-void PerformanceMonitor::onSupervisorStateReceived()
+void PerformanceMonitorViewer::onSupervisorStateReceived()
 {
     if(initialized_table&&!is_display_stopped){
         ui->table_widget->verticalScrollBar()->setSliderPosition( ui->table_widget->verticalScrollBar()->maximum());
@@ -171,7 +171,7 @@ void PerformanceMonitor::onSupervisorStateReceived()
     }
 }
 
-void PerformanceMonitor::onTextFilterChange(const QString &arg1)
+void PerformanceMonitorViewer::onTextFilterChange(const QString &arg1)
 {
     if(initialized_table){
         QString filter = arg1;
@@ -192,7 +192,7 @@ void PerformanceMonitor::onTextFilterChange(const QString &arg1)
     }
 }
 
-void PerformanceMonitor::onCustomContextMenuRequested(const QPoint& pos) {
+void PerformanceMonitorViewer::onCustomContextMenuRequested(const QPoint& pos) {
     if(initialized_table){
         QTableWidgetItem* item = ui->table_process_viewer->itemAt(pos);
         if(ui->table_process_viewer->column(item)==0){
@@ -204,7 +204,7 @@ void PerformanceMonitor::onCustomContextMenuRequested(const QPoint& pos) {
     }
 }
 
-void PerformanceMonitor::showContextMenu(QTableWidgetItem* item, const QPoint& globalPos){
+void PerformanceMonitorViewer::showContextMenu(QTableWidgetItem* item, const QPoint& globalPos){
     QMenu menu;
     menu.addAction("Stop");
     menu.addAction("Start");
@@ -214,7 +214,7 @@ void PerformanceMonitor::showContextMenu(QTableWidgetItem* item, const QPoint& g
     menu.exec(globalPos);
 }
 
-void PerformanceMonitor::menuSelection(QAction* action){
+void PerformanceMonitorViewer::menuSelection(QAction* action){
     std::cout<<"Action clicked:" + action->text().toStdString() <<std::endl;
 
     QModelIndexList selection = ui->table_process_viewer->selectionModel()->selectedRows();
@@ -234,14 +234,14 @@ void PerformanceMonitor::menuSelection(QAction* action){
     }
 }
 
-void PerformanceMonitor::onStartModuleClicked(){
+void PerformanceMonitorViewer::onStartModuleClicked(){
     std::cout<<"Start module clicked"<<std::endl;
 }
 
-void PerformanceMonitor::onStopClicked(){
+void PerformanceMonitorViewer::onStopClicked(){
     is_display_stopped = true;
 }
-PerformanceMonitor::~PerformanceMonitor()
+PerformanceMonitorViewer::~PerformanceMonitorViewer()
 {
     delete ui;
 }

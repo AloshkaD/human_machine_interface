@@ -77,7 +77,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
 
     //Initialize views
     connection = new Connection(this,argc,argv);
-    process_view = new PerformanceMonitor(this,connection->graph_receiver,connection->usercommander);
+    process_view = new PerformanceMonitorViewer(this,connection->graph_receiver,connection->usercommander);
     ui->grid_performance->addWidget(process_view,0,0);
     param_plot = new ParameterTemporalSeries(this,connection->telemetry_receiver,connection->odometry_receiver);
     ui->grid_parameters->addWidget(param_plot,0,0);
@@ -87,7 +87,8 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     osg_uav->resize(320, 350);
     controlpanel = new ControlPanel(this, connection);
     ui->grid_controlpanel->addWidget(controlpanel,0,0);
-    
+
+
 
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);

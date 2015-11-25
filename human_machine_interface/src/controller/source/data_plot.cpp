@@ -41,7 +41,7 @@ public:
     MyZoomer(QwtPlotCanvas *canvas):
         QwtPlotZoomer(canvas)
     {
-        setTrackerMode(AlwaysOn);
+        setTrackerMode(AlwaysOff);
     }
 };
 
@@ -90,29 +90,15 @@ DataPlot::DataPlot(QWidget *parent, TelemetryStateReceiver* collector, OdometryS
     current_max_limit=0;
 
 
-    // LeftButton for the zooming
-    // MidButton for the panning
-    // RightButton: zoom out by 1
-    // Ctrl+RighButton: zoom out to full size
-
     QwtPlotZoomer* zoomer = new MyZoomer(canvas());
-#if QT_VERSION < 0x040000
-    zoomer->setMousePattern(QwtEventPattern::MouseSelect2,
-                            Qt::RightButton, Qt::ControlButton);
-#else
-    zoomer->setMousePattern(QwtEventPattern::MouseSelect2,
-                            Qt::RightButton, Qt::ControlModifier);
-#endif
-    zoomer->setMousePattern(QwtEventPattern::MouseSelect3,
-                            Qt::RightButton);
+
 
     QwtPlotPanner *panner = new QwtPlotPanner(canvas());
-    panner->setAxisEnabled(QwtPlot::yRight, false);
+    panner->setAxisEnabled(QwtPlot::yRight, true);
     panner->setMouseButton(Qt::MidButton);
 
     // Avoid jumping when labels with more/less digits
     // appear/disappear when scrolling vertically
-
     const QFontMetrics fm(axisWidget(QwtPlot::yLeft)->font());
     QwtScaleDraw *sd = axisScaleDraw(QwtPlot::yLeft);
     sd->setMinimumExtent( fm.width("100.00") );
