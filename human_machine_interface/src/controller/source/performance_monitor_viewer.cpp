@@ -27,9 +27,9 @@ PerformanceMonitorViewer::PerformanceMonitorViewer(QWidget *parent, RosGraphRece
     error_counter=0;
     is_display_stopped=false;
 
-    connect( supervisor_receiver, SIGNAL( supervisorStateReceived( )), this, SLOT( updateProcessViewerTable( )));
-    connect( supervisor_receiver, SIGNAL( errorInformerReceived( )), this, SLOT( onSupervisorStateReceived( )));
-    connect( ui->line_edit, SIGNAL(textChanged(QString)), this, SLOT( onTextFilterChange(const QString )));
+    connect(supervisor_receiver, SIGNAL( supervisorStateReceived( )), this, SLOT( updateProcessViewerTable( )));
+    connect(supervisor_receiver, SIGNAL( errorInformerReceived( )), this, SLOT( onSupervisorStateReceived( )));
+    connect(ui->line_edit, SIGNAL(textChanged(QString)), this, SLOT( onTextFilterChange(const QString )));
     connect(ui->table_process_viewer,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(onCustomContextMenuRequested(const QPoint&)));
     connect(ui->stop_display_button,SIGNAL(clicked()),this,SLOT(onStopClicked()));
     connect(ui->line_edit, SIGNAL( editingFinished( )), this, SLOT( clearFocus( )));
