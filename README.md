@@ -12,7 +12,7 @@ The Human Machine Interface allows operators or users of the system to bi-direct
 
 ## User's Guide
 
-This user guide covers a general description of the application. This user guide could be found in: ```OpenAirs UserGuide```
+This user guide covers a general description of the application. This user guide could be found in: ```Aerostack UserGuide```
 
 ## Developer’s Guide
 
