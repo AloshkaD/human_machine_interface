@@ -206,7 +206,7 @@ void PerformanceMonitorViewer::onCustomContextMenuRequested(const QPoint& pos) {
 
 void PerformanceMonitorViewer::showContextMenu(QTableWidgetItem* item, const QPoint& globalPos){
     QMenu menu;
-    menu.addAction("Stop");
+    menu.addAction("    ");
     menu.addAction("Start");
     menu.addAction("Reset");
     menu.addAction("Record(Not implemented)");

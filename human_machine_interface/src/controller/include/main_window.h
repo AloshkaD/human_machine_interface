@@ -30,6 +30,7 @@
 #include <droneMsgsROS/droneStatus.h>
 
 // HMI views
+#include "behaviour_viewer.h"
 #include "connection.h"
 #include "communication_console.h"
 #include "odometry_state_receiver.h"
@@ -156,6 +157,7 @@ private:
     ParameterTemporalSeries *param_plot;
     CommunicationConsole *consoleView;
     ControlPanel *controlpanel;
+    BehaviourViewer *behaviourviewer;
 
     int d_interval; // timer in ms
     int d_timerId;

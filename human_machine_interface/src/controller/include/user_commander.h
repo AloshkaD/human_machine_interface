@@ -22,6 +22,7 @@
 #include <droneMsgsROS/droneDAltitudeCmd.h>
 #include <droneMsgsROS/dronePose.h>
 #include "droneMsgsROS/droneStatus.h"
+#include "droneMsgsROS/behaviorRequest.h"
 #include <droneMsgsROS/dronePositionRefCommandStamped.h>
 #include <droneMsgsROS/droneYawRefCommand.h>
 #include <droneMsgsROS/dronePitchRollCmd.h>
@@ -30,11 +31,15 @@
 #include <droneMsgsROS/droneHLCommandAck.h>
 #include "std_msgs/String.h"
 #include "std_srvs/Empty.h"
+//#include "../include/behaviour_viewer.h"
+//#include "behaviour_viewer.h"
+
 
 #include <qt4/Qt/qstring.h>
 #include <qt4/Qt/qthread.h>
 #include <qt4/QtCore/QtDebug>
 #include <qt4/Qt/qstringlistmodel.h>
+
 
 
 class UserCommander : public QObject {
@@ -156,11 +161,13 @@ private:
     ros::ServiceClient modules_srv_start;
     ros::ServiceClient modules_srv_stop;
     ros::ServiceClient modules_srv_reset;
+    ros::ServiceClient request_srv_behavior;
 
     void droneCurrentManagerStatusSubCallback(const droneMsgsROS::droneManagerStatus::ConstPtr &msg);
     void droneCurrentSpeedsRefsSubCallback(const droneMsgsROS::droneSpeeds::ConstPtr &msg);
     void droneCurrentPositionRefsSubCallback(const droneMsgsROS::dronePose::ConstPtr &msg);
     void managerAckCallback(const droneMsgsROS::droneHLCommandAck::ConstPtr &msg);
+    void request_behavior(std::string current_behavior_name,bool status);
 
     QStringListModel logging_model;
 };

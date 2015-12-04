@@ -26,6 +26,51 @@
    <property name="topMargin">
     <number>5</number>
    </property>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="horizontal_layout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Message Viewer</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0">
+    <layout class="QHBoxLayout" name="horizontal_layout_4">
+     <item>
+      <widget class="QPushButton" name="stop_display_button">
+       <property name="text">
+        <string>Stop Message Display</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/images.qrc">
+         <normaloff>:/images/images/ic_pause_24px.svg</normaloff>
+         <normalon>:/images/images/ic_play_arrow_24px.svg</normalon>
+         <activeon>:/images/images/ic_play_arrow_24px.svg</activeon>
+         <selectedon>:/images/images/ic_play_arrow_24px.svg</selectedon>:/images/images/ic_pause_24px.svg</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontal_spacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontal_layout">
      <item>
@@ -79,51 +124,6 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
-    <layout class="QHBoxLayout" name="horizontal_layout_2">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Message Viewer</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="5" column="0">
-    <layout class="QHBoxLayout" name="horizontal_layout_4">
-     <item>
-      <widget class="QPushButton" name="stop_display_button">
-       <property name="text">
-        <string>Stop Message Display</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../resources/images.qrc">
-         <normaloff>:/images/images/ic_pause_24px.svg</normaloff>
-         <normalon>:/images/images/ic_play_arrow_24px.svg</normalon>
-         <activeon>:/images/images/ic_play_arrow_24px.svg</activeon>
-         <selectedon>:/images/images/ic_play_arrow_24px.svg</selectedon>:/images/images/ic_pause_24px.svg</iconset>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontal_spacer_5">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
    <item row="2" column="0">
     <layout class="QHBoxLayout" name="horizontal_layout_3"/>
    </item>
@@ -163,6 +163,12 @@
    </item>
    <item row="1" column="0">
     <widget class="QTableWidget" name="table_process_viewer">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
@@ -186,7 +192,12 @@
      </attribute>
      <column>
       <property name="text">
-       <string>Requested behaviours</string>
+       <string>Behaviours</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Requested</string>
       </property>
      </column>
     </widget>

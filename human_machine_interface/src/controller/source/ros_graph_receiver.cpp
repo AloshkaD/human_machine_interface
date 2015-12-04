@@ -27,23 +27,26 @@ RosGraphReceiver::RosGraphReceiver(){
 }
 
 
-void RosGraphReceiver::openSubscriptions(ros::NodeHandle nodeHandle, std::string rosnamespace){
+void RosGraphReceiver::openSubscriptions(ros::NodeHandle n, std::string rosnamespace){
     // Topic communications
 
-    if (!nodeHandle.getParam("process_error_unified_notification", supervisor_process_error_unified_notification))
+    if (!n.getParam("process_error_unified_notification", supervisor_process_error_unified_notification))
          supervisor_process_error_unified_notification = "process_error_unified_notification";
 
-    if (!nodeHandle.getParam("processes_performance", supervisor_processes_performance))
+    if (!n.getParam("processes_performance", supervisor_processes_performance))
          supervisor_processes_performance = "processes_performance";
 
-    if (!nodeHandle.getParam("wifiIsOk", wifi_connection_topic))
+    if (!n.getParam("wifiIsOk", wifi_connection_topic))
          wifi_connection_topic = "wifiIsOk";
 
-    //supervisor
-    error_informer_subs=nodeHandle.subscribe(rosnamespace + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
-    watchdog_subs=nodeHandle.subscribe(rosnamespace + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
-    wificonnection_subs=nodeHandle.subscribe(rosnamespace + "/"  + wifi_connection_topic, 1, &RosGraphReceiver::wifiConnectionCheckCallback,this);
+    if (!n.getParam("behavior_list", behavior_state_topic)) // FALTA METER EN ROSLAUNCH
+         behavior_state_topic = "behavior_list";
 
+    //supervisor
+    error_informer_subs=n.subscribe(rosnamespace + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
+    watchdog_subs=n.subscribe(rosnamespace + "/"  + supervisor_processes_performance, 1, &RosGraphReceiver::processPerformanceListCallback,this);
+    wificonnection_subs=n.subscribe(rosnamespace + "/"  + wifi_connection_topic, 1, &RosGraphReceiver::wifiConnectionCheckCallback,this);
+    behavior_state_subs=n.subscribe(rosnamespace + "/"  + behavior_state_topic, 1, &RosGraphReceiver::behaviorStateCallback,this);
 
     subscriptions_complete=true;
 //    real_time=ros;
@@ -63,6 +66,14 @@ void RosGraphReceiver::wifiConnectionCheckCallback(const std_msgs::Bool::ConstPt
 {
    is_wifi_connected=msg->data;
 }
+
+void RosGraphReceiver::behaviorStateCallback(const droneMsgsROS::BehaviorsList::ConstPtr& msg)
+{
+   droneMsgsROS::BehaviorsList behavior_list = *msg;
+   std::cout << "behavior list received" << std::endl;
+   Q_EMIT stateBehaviorReceived(&behavior_list);
+}
+
 
 void RosGraphReceiver::errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg)
 {

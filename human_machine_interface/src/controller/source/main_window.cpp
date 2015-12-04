@@ -73,7 +73,7 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     is_laptop_design=false;
     is_initial_controlmode=false;
 
-    ui->tab_manager->setCurrentIndex(0); // ensure the first tab is showing
+    //ui->tab_manager->setCurrentIndex(0); // ensure the first tab is showing
 
     //Initialize views
     connection = new Connection(this,argc,argv);
@@ -87,7 +87,8 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     osg_uav->resize(320, 350);
     controlpanel = new ControlPanel(this, connection);
     ui->grid_controlpanel->addWidget(controlpanel,0,0);
-
+    behaviourviewer = new BehaviourViewer(this, connection->graph_receiver, connection->usercommander);
+    ui->grid_behavior->addWidget(behaviourviewer,0,0);
 
 
     QWidget* widget = new QWidget();

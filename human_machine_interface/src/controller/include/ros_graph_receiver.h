@@ -23,6 +23,7 @@
 #include "droneMsgsROS/ProcessError.h"
 #include "droneMsgsROS/ProcessDescriptorList.h"
 #include "sensor_msgs/Imu.h"
+#include "droneMsgsROS/BehaviorsList.h"
 
 //Magnetometer and RotationAngles
 #include "geometry_msgs/Vector3Stamped.h"
@@ -69,6 +70,7 @@ public:
         droneMsgsROS::ProcessDescriptorList list_process_state;
         droneMsgsROS::ProcessDescriptor node_container;
         droneMsgsROS::droneStatus droneStatusMsgs;
+
         double supervisor_state_time;
         bool is_wifi_connected;
 
@@ -93,10 +95,16 @@ Q_SIGNALS:
         void updateStatus();
         void supervisorStateReceived( );
         void errorInformerReceived();
+        void stateBehaviorReceived(const droneMsgsROS::BehaviorsList* list_behavior_state);
 
 
 private:
         bool subscriptions_complete;
+
+        std::string supervisor_process_error_unified_notification;
+        std::string supervisor_processes_performance;
+        std::string wifi_connection_topic;
+        std::string behavior_state_topic;
 
         ros::Subscriber watchdog_subs;
         void processPerformanceListCallback(const droneMsgsROS::ProcessDescriptorList::ConstPtr& msg);
@@ -104,10 +112,9 @@ private:
         void wifiConnectionCheckCallback(const std_msgs::Bool::ConstPtr& msg);
         ros::Subscriber error_informer_subs;
         void errorInformerCallback(const droneMsgsROS::ProcessError::ConstPtr& msg);
+        ros::Subscriber behavior_state_subs;
+        void behaviorStateCallback(const droneMsgsROS::BehaviorsList::ConstPtr& msg);
 
-        std::string supervisor_process_error_unified_notification;
-        std::string supervisor_processes_performance;
-        std::string wifi_connection_topic;
 
         QStringListModel logging_model;
 };

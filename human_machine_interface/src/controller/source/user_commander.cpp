@@ -28,7 +28,6 @@ UserCommander:: UserCommander(){
 void UserCommander::openPublications(ros::NodeHandle n, std::string rosnamespace){
 
     readParams(n);
-    nodeHandle=n;
     drone=rosnamespace;
     // Topic communications
     drone_pitch_roll_cmd_publ=n.advertise<droneMsgsROS::dronePitchRollCmd>(rosnamespace + "/" + pitchroll_topic ,1, true);
@@ -44,6 +43,11 @@ void UserCommander::openPublications(ros::NodeHandle n, std::string rosnamespace
     drone_pos_reference_subs = n.subscribe(rosnamespace + "/" + drone_pos_rebroadcast_topic, 1, &UserCommander::droneCurrentPositionRefsSubCallback,this);
     drone_speed_reference_subscriber = n.subscribe(rosnamespace + "/" + drone_speed_refs_topic, 1, &UserCommander::droneCurrentSpeedsRefsSubCallback, this);
     drone_hl_comm_ack_subs = n.subscribe(rosnamespace + "/" + drone_hl_comm_ack_topic,1,&UserCommander::managerAckCallback,this);
+
+    request_srv_behavior=n.serviceClient<droneMsgsROS::behaviorRequest>("request_behavior");
+
+    // call request_behavior service
+
 
     subscriptions_complete = true;
 
@@ -385,6 +389,7 @@ void UserCommander::processMonitorCommander(std::string moduleName,int command)
     std_srvs::Empty emptySrvMsg;
     switch(command){
     case processMonitorStates::Start:
+
         std::cout<<"Start module: " + moduleName <<std::endl;
         modules_srv_stop=nodeHandle.serviceClient<std_srvs::Empty>("/" + drone +  "/" + moduleName + "/start");
         modules_srv_stop.call(emptySrvMsg);
@@ -402,6 +407,14 @@ void UserCommander::processMonitorCommander(std::string moduleName,int command)
     }
 }
 
+void UserCommander::request_behavior(std::string current_behavior_name,bool status)
+{
+    //current_behavior_name=arucovision;
+    droneMsgsROS::behaviorRequest srv_request;
+    srv_request.request.activate= status;
+    srv_request.request.behavior_name = current_behavior_name;
+    request_srv_behavior.call(srv_request);
+}
 
 
 /*

@@ -710,7 +710,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QTabWidget" name="tab_manager">
+      <widget class="QTabWidget" name="RequestedBehaviours">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -754,7 +754,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideNone</enum>
@@ -945,6 +945,16 @@
          </property>
          <item row="0" column="0">
           <layout class="QGridLayout" name="grid_performance"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Requested Behaviours</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="grid_behavior"/>
          </item>
         </layout>
        </widget>
