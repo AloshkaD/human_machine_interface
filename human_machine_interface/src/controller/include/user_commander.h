@@ -44,7 +44,7 @@ public:
     virtual ~UserCommander();
 
     bool ready();
-    void openPublications(ros::NodeHandle nodeHandle, std::string rosnamespace);
+    void open(ros::NodeHandle nodeHandle, std::string rosnamespace);
 
     void sendCommandInPositionControlMode(double controller_step_command_x, double controller_step_command_y, double controller_step_command_z);
     void sendYawCommandInPositionControlMode(double controller_step_command_yaw);
@@ -139,18 +139,18 @@ private:
     std::string drone_hl_comm_ack_topic;
 
     ros::Publisher drone_pitch_roll_cmd_publ;
-    ros::Publisher drone_daltitude_cmd_publisher;
-    ros::Publisher drone_dyaw_cmd_publisher;
-    ros::Publisher drone_command_publisher;
-    ros::Publisher drone_position_reference_publisher;
-    ros::Publisher drone_yaw_reference_publisher;
-    ros::Publisher drone_speeds_reference_publisher;
+    ros::Publisher drone_daltitude_cmd_publ;
+    ros::Publisher drone_dyaw_cmd_publ;
+    ros::Publisher drone_command_publ;
+    ros::Publisher drone_position_reference_publ;
+    ros::Publisher drone_yaw_reference_publ;
+    ros::Publisher drone_speeds_reference_publ;
     ros::Publisher drone_rel_trajectory_reference_publisher;
 
     ros::Subscriber drone_manager_status_subs;
     ros::Subscriber drone_pos_reference_subs;
     ros::Subscriber drone_estimated_pose_subs;
-    ros::Subscriber drone_speed_reference_subscriber;
+    ros::Subscriber drone_speed_reference_subs;
     ros::Subscriber drone_hl_comm_ack_subs;
 
     ros::ServiceClient modules_srv_start;

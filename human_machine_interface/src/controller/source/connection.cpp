@@ -101,7 +101,7 @@ bool Connection::initInCommon(){
     graph_receiver->openSubscriptions(n, rosnamespace);
     mission_planner_receiver->openSubscriptions(n, rosnamespace);
     // Start command
-    usercommander->openPublications(n, rosnamespace);
+    usercommander->open(n, rosnamespace);
 
 
     if(!Connection::readyForConnect())

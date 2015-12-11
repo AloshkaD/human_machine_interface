@@ -4,6 +4,7 @@
 
 cmake_minimum_required(VERSION 2.8.3)
 set(PROJECT_NAME human_machine_interface)
+project(${PROJECT_NAME} C CXX)
 
 add_definitions(-std=c++11)
 ##############################################################################
@@ -34,12 +35,12 @@ set(HUMANMACHINEINTERFACE_HEADER_FILES
 
 
 
-find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs droneMsgsROS image_transport cv_bridge)
-catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_CONTROLLER_INCLUDE_DIR} ${HUMANMACHINEINTERFACE_VIEW_INCLUDE_DIR}  LIBRARIES ${PROJECT_NAME} CATKIN_DEPENDS roscpp std_msgs geometry_msgs droneMsgsROS image_transport cv_bridge)
+find_package(catkin REQUIRED COMPONENTS droneMsgsROS rviz roscpp image_transport  cv_bridge std_msgs geometry_msgs)
+catkin_package(INCLUDE_DIRS ${HUMANMACHINEINTERFACE_INCLUDE_DIR} ${HUMANMACHINEINTERFACE_INCLUDE_DIR} CATKIN_DEPENDS)
 
+include_directories(${HUMANMACHINEINTERFACE_INCLUDE_DIR})
 include_directories(${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
-
 ##############################################################################
 # OpenSceneGraph
 ##############################################################################
@@ -74,7 +75,6 @@ FIND_LIBRARY("${MYLIBRARY}_DEBUG"
            $ENV{OSG_ROOT}/lib64
            NO_DEFAULT_PATH
            )
-
 FIND_LIBRARY("${MYLIBRARY}_DEBUG"
            NAMES "${MYLIBRARYNAME}${CMAKE_DEBUG_POSTFIX}"
            PATHS
@@ -91,7 +91,6 @@ FIND_LIBRARY("${MYLIBRARY}_DEBUG"
            [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/lib
            /usr/freeware/lib64
            )
-
 FIND_LIBRARY(${MYLIBRARY}
            NAMES ${MYLIBRARYNAME}
            PATHS
@@ -152,7 +151,7 @@ FIND_OSG_LIBRARY(OSGMANIPULATOR_LIBRARY osgManipulator)
 FIND_OSG_LIBRARY(OSGPARTICLE_LIBRARY osgParticle)
 FIND_OSG_LIBRARY(OSGSHADOW_LIBRARY osgShadow)
 FIND_OSG_LIBRARY(OSGSIM_LIBRARY osgSim)
-
+FIND_OSG_LIBRARY(OSGQT_LIBRARY osgQt)
 
 # check required dependencies
 find_package(Boost REQUIRED)
@@ -160,7 +159,7 @@ find_package(ZLIB REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 
-find_package(OpenSceneGraph 3.2.2 REQUIRED osg osgAnimation osgDB osgFX osgGA osgManipulator osgParticle osgShadow osgSim osgTerrain osgText osgUtil osgViewer osgVolume osgWidget)
+find_package(OpenSceneGraph 3.2.2 REQUIRED osg osgQt osgAnimation osgDB osgFX osgGA osgManipulator osgParticle osgShadow osgSim osgTerrain osgText osgUtil osgViewer osgVolume osgWidget)
 
 include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
 
@@ -242,5 +241,6 @@ file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINK
 
 MESSAGE(STATUS "Found Qt:  ${QT_LIBRARIES} ")
 add_executable(human_machine_interface ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_MOC_HPP} ${QT_FORMS_HPP})
-target_link_libraries(human_machine_interface ${OPENSCENEGRAPH_LIBRARIES}  ${QWT_LIBRARY} ${QT_LIBRARIES} ${catkin_LIBRARIES} )
+add_dependencies(human_machine_interface ${catkin_EXPORTED_TARGETS})
+target_link_libraries(human_machine_interface ${OPENSCENEGRAPH_LIBRARIES} ${QWT_LIBRARY} ${QT_LIBRARIES} ${catkin_LIBRARIES} )
 install(TARGETS human_machine_interface RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
