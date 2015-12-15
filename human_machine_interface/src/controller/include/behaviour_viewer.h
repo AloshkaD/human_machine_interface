@@ -42,6 +42,7 @@ public:
     explicit BehaviourViewer(QWidget *parent = 0, RosGraphReceiver *collector=0,UserCommander *usercommander=0);
     void setSignalHandlers();
     void updateBehaviourState();
+    droneMsgsROS::BehaviorsList behavior_list;
 
     ~BehaviourViewer();
     droneMsgsROS::BehaviorDescriptor behavior_containter;
@@ -54,7 +55,7 @@ struct behaviour_t {
 
 
 public Q_SLOTS:
-    void onBehaviourStateReceived(droneMsgsROS::BehaviorsList* list_behavior_state);
+    void onBehaviourStateReceived();
     void updateBehaviourState(const droneMsgsROS::BehaviorDescriptor *behavior_container, int row_behavior_viewer);
     void initializeBehaviourViewerTable();
     void onTextFilterChange(const QString &arg1);
@@ -66,6 +67,7 @@ public Q_SLOTS:
 
 private:
     Ui::BehaviourViewer *ui;
+    RosGraphReceiver* behavior_receiver;
 
 };
 

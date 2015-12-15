@@ -22,8 +22,7 @@
 
 int main(int argc, char *argv[])
 {
-    if (MainWindow::uniqueApplication()==false)
-       return 1;
+
 
     ros::init(argc,argv,"human_machine_interface");// ros node started.
     QApplication app(argc, argv);

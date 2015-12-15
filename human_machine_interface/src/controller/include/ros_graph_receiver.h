@@ -70,6 +70,7 @@ public:
         droneMsgsROS::ProcessDescriptorList list_process_state;
         droneMsgsROS::ProcessDescriptor node_container;
         droneMsgsROS::droneStatus droneStatusMsgs;
+         droneMsgsROS::BehaviorsList behavior_list;
 
         double supervisor_state_time;
         bool is_wifi_connected;
@@ -95,6 +96,7 @@ Q_SIGNALS:
         void updateStatus();
         void supervisorStateReceived( );
         void errorInformerReceived();
+        void stateBehavior();
         void stateBehaviorReceived(const droneMsgsROS::BehaviorsList* list_behavior_state);
 
 

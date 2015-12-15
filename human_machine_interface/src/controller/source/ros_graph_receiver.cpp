@@ -39,8 +39,8 @@ void RosGraphReceiver::openSubscriptions(ros::NodeHandle n, std::string rosnames
     if (!n.getParam("wifiIsOk", wifi_connection_topic))
          wifi_connection_topic = "wifiIsOk";
 
-    if (!n.getParam("behavior_list", behavior_state_topic)) // FALTA METER EN ROSLAUNCH
-         behavior_state_topic = "behavior_list";
+    if (!n.getParam("behaviors_list", behavior_state_topic)) // FALTA METER EN ROSLAUNCH
+         behavior_state_topic = "behaviors_list";
 
     //supervisor
     error_informer_subs=n.subscribe(rosnamespace + "/" + supervisor_process_error_unified_notification, 1, &RosGraphReceiver::errorInformerCallback,this);
@@ -69,9 +69,12 @@ void RosGraphReceiver::wifiConnectionCheckCallback(const std_msgs::Bool::ConstPt
 
 void RosGraphReceiver::behaviorStateCallback(const droneMsgsROS::BehaviorsList::ConstPtr& msg)
 {
-   droneMsgsROS::BehaviorsList behavior_list = *msg;
+   behavior_list = *msg;
+
    std::cout << "behavior list received" << std::endl;
    Q_EMIT stateBehaviorReceived(&behavior_list);
+    Q_EMIT  stateBehavior();
+
 }
 
 

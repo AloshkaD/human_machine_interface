@@ -23,8 +23,10 @@ BehaviourViewer::BehaviourViewer(QWidget *parent, RosGraphReceiver *collector, U
     ui(new Ui::BehaviourViewer)
 {
     ui->setupUi(this);
-    initializeBehaviourViewerTable();
-    connect(collector,SIGNAL(stateBehaviorReceived(droneMsgsROS::BehaviorsList* list_behavior_state)),this,SLOT(onBehaviourStateReceived(droneMsgsROS::BehaviorsList *list_behavior_state)));
+    behavior_receiver=collector;
+  //  connect(behavior_receiver,SIGNAL(stateBehaviorReceived(droneMsgsROS::behaviorsList* list_behavior_state)),this,SLOT(onBehaviourStateReceived(droneMsgsROS::BehaviorsList *list_behavior_state)));
+    connect(behavior_receiver,SIGNAL(stateBehavior()),this,SLOT(onBehaviourStateReceived()));
+
 
 }
 
@@ -43,7 +45,7 @@ void BehaviourViewer::initializeBehaviourViewerTable(){ //int num_behaviours com
 	behaviour_vector[1].started = false;
 	behaviour_vector[2].behaviour = "avoidingObstacles";
 	behaviour_vector[2].started = false;
-	behaviour_vector[3].behaviour = "droneObstacleProcessor";
+    behaviour_vector[3].behaviour = "droneObstacleProcessor";
 	behaviour_vector[3].started = false;
 	behaviour_vector[4].behaviour = "droneObstacleDistanceCalculator";
 	behaviour_vector[4].started = false;
@@ -125,14 +127,13 @@ void BehaviourViewer::updateBehaviourState(const droneMsgsROS::BehaviorDescripto
      }
 }
 
-void BehaviourViewer::onBehaviourStateReceived(droneMsgsROS::BehaviorsList *list_behavior_state)
+void BehaviourViewer::onBehaviourStateReceived()
 {
   int row_behavior_viewer=0;
-
   std::cout << "Loop the list to create the items in the table"   << std::endl;
-  for(unsigned int i = 0; i < list_behavior_state->behavior_list.size(); i++)
+  for(unsigned int i = 0; i < behavior_receiver->behavior_list->behavior_list.size(); i++)
   {
-      behavior_containter= list_behavior_state->behavior_list.at(i);
+      behavior_containter= behavior_receiver->behavior_list.behavior_list.at(i);
 
       if(!initialized_table){
           if (ui->table_process_viewer->rowCount() < row_behavior_viewer)
