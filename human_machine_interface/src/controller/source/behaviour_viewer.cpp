@@ -23,8 +23,10 @@ BehaviourViewer::BehaviourViewer(QWidget *parent, RosGraphReceiver *collector, U
     ui(new Ui::BehaviourViewer)
 {
     ui->setupUi(this);
+    ui->table_process_viewer->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    ui->table_widget->setColumnWidth(0,640);
     behavior_receiver=collector;
-  //  connect(behavior_receiver,SIGNAL(stateBehaviorReceived(droneMsgsROS::behaviorsList* list_behavior_state)),this,SLOT(onBehaviourStateReceived(droneMsgsROS::BehaviorsList *list_behavior_state)));
+    //connect(behavior_receiver,SIGNAL(stateBehaviorReceived(droneMsgsROS::behaviorsList* list_behavior_state)),this,SLOT(onBehaviourStateReceived(droneMsgsROS::BehaviorsList *list_behavior_state)));
     connect(behavior_receiver,SIGNAL(stateBehavior()),this,SLOT(onBehaviourStateReceived()));
 
 
@@ -115,16 +117,19 @@ behaviour_vector.push_back(behaviour_t new_beh);
 
 void BehaviourViewer::updateBehaviourState(const droneMsgsROS::BehaviorDescriptor *behavior_container, int row_behavior_viewer)
 {
-    switch(behavior_container->current_state.state)
+    ui->table_process_viewer->setItem(row_behavior_viewer,1,new QTableWidgetItem("Not Requested"));
+    /*switch(behavior_container->current_state.state)
     {
     case droneMsgsROS::BehaviorState::not_requested:
+          std::cout << "SE METEEEEE b"   << std::endl;
         ui->table_process_viewer->setItem(row_behavior_viewer,1,new QTableWidgetItem("Not Requested"));
         break;
 
     case droneMsgsROS::BehaviorState::requested:
+          std::cout << "SE METEEEEE A" + behavior_container->current_state.state  << std::endl;
         ui->table_process_viewer->setItem(row_behavior_viewer,1,new QTableWidgetItem("Requested"));
         break;
-     }
+     }*/
 }
 
 void BehaviourViewer::onBehaviourStateReceived()

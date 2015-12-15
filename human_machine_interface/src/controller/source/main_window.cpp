@@ -80,7 +80,6 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     connection = new Connection(this,argc,argv);
     process_view = new PerformanceMonitorViewer(this,connection->graph_receiver,connection->usercommander);
 
-        std::cout << "laura2 " << std::endl;
     ui->grid_performance->addWidget(process_view,0,0);
     param_plot = new ParameterTemporalSeries(this,connection->telemetry_receiver,connection->odometry_receiver);
     ui->grid_parameters->addWidget(param_plot,0,0);
@@ -92,10 +91,6 @@ MainWindow::MainWindow(int argc, char** argv,QWidget *parent) :
     ui->grid_controlpanel->addWidget(controlpanel,0,0);
     behaviourviewer = new BehaviourViewer(this, connection->graph_receiver, connection->usercommander);
     ui->grid_behavior->addWidget(behaviourviewer,0,0);
-
-
-    std::cout << "laura2 " << std::endl;
-
 
     QWidget* widget = new QWidget();
     widget->setAutoFillBackground(false);

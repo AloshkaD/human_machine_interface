@@ -111,10 +111,7 @@ void RosGraphReceiver::processPerformanceListCallback(const droneMsgsROS::Proces
 {
     list_process_state=*msg;
     for(unsigned int i = 0; i < msg->process_list.size(); i = i + 1)
-    {
         node_container= msg->process_list.at(i);
-        node_container.name;
-    }
 
     Q_EMIT supervisorStateReceived();
 
