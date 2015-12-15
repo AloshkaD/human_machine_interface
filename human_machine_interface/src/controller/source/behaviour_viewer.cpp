@@ -131,7 +131,7 @@ void BehaviourViewer::onBehaviourStateReceived()
 {
   int row_behavior_viewer=0;
   std::cout << "Loop the list to create the items in the table"   << std::endl;
-  for(unsigned int i = 0; i < behavior_receiver->behavior_list->behavior_list.size(); i++)
+  for(unsigned int i = 0; i < behavior_receiver->behavior_list.behavior_list.size(); i++)
   {
       behavior_containter= behavior_receiver->behavior_list.behavior_list.at(i);
 
